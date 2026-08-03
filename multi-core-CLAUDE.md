@@ -1,6 +1,6 @@
 # CLAUDE.md — refueler-multi-core
-> **Version:** 1.1 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** AP-7 · 2 Aug 2026
-> Load alongside `SESSIONS.md` at the start of every session on this repo.
+> **Version:** 1.2 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Multi-4 · 3 Aug 2026
+> Load alongside `multi-core-SESSIONS.md` at the start of every session on this repo.
 > For platform-wide context, load `REFUELER-BRIDGE.md` which lives in this repo root.
 
 ---
@@ -58,9 +58,9 @@ Legend is the privacy interface built on top of it.
 - Licence stays MIT to match upstream — Apache 2.0 is for Share, not this repo
 - Do not start Legend build before Share Lightning node is live at B9
 
-**Query credit model (tied to Share):**
-- Free tier: 10 Legend queries per Share upload, 50/day cap standalone
-- Paid Share tiers: 50 queries per upload, uncapped daily
+**Query credit model (locked Multi-4):**
+- Free tier: unlimited queries at v1 launch. No account. No rate limit. No friction at distress moment.
+- Paid Share tiers: Share discovery drives Legend awareness — no query gate on Legend
 - Enterprise: unlimited, PIR-sharded, Tor-native
 
 ---
@@ -78,7 +78,7 @@ Legend is the privacy interface built on top of it.
 
 ## Session queue
 
-See `SESSIONS.md`.
+See `multi-core-SESSIONS.md`.
 
 ---
 

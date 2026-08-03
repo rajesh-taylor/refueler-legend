@@ -3,8 +3,65 @@
 
 ---
 
+## Session 4 — Multi-4 · 3 Aug 2026
+
+**Phase:** 0 — Foundation
+**Status:** Design specification — Legend UI/UX, funding model, session roadmap
+
+### Completed
+
+- `legend-design-spec.md` written and committed — full UI/UX specification for Legend
+- Page architecture confirmed: Eleventy static shell + vanilla JS SPA, no visible seam
+- Query flow specced: idle, focused, submitting, three result states, error states
+- Result anatomy locked: UTXO table, transaction history, consolidation advisor,
+  Silent Payments section, denomination toggle (sats/BTC/USD)
+- Breach scenario design complete: batch input modal, determinate progress,
+  batch results modal with `Intact` / `Activity detected` language (not `Compromised`)
+- Modal inventory complete: onboarding, credential status, batch input, batch results,
+  privacy explainer. No top-up modal — free tier is unlimited at v1 launch.
+- Cashu credential gate removed from free tier entirely. Distress moment is not
+  a monetisation moment. This is locked.
+- Funding model locked: Enterprise contracts (primary), merchant network pipeline,
+  self-hosting as distribution, Share as discovery. No voluntary tip jar.
+- Infrastructure cost established: ~€96/month for production Legend instance.
+  One Enterprise client covers years of infrastructure.
+- Design principles locked: calm register, information density as choice,
+  new entrants must not be put off, branding sessions are first-class.
+- All Refueler design tokens inherited. No Legend-specific tokens in v1.
+- Session roadmap confirmed: 430 sessions across 9 phases to a world-class explorer.
+  December target: ~session 21, end of Phase 1.
+- Vision confirmed: Legend is professional infrastructure for a world where Bitcoin
+  is global payments rail, second currency, preferred long-term savings account.
+  Accountants train on it. Insurers price against it. Banks check it. Solicitors use it.
+- London BitDevs identified as primary route to academic and peer reviewer relationships.
+  No cold university outreach needed — show up, build in public, relationships follow.
+
+### Key decisions locked (Multi-4)
+
+- Free tier: unlimited queries at v1 launch. No rate limit. No account. No friction.
+- Family office value proposition: institutional wrapper (contract, SLA, documentation,
+  support, accountability) — not the software, which is free and open source.
+- Open source strengthens Enterprise sale: "don't trust us, read the code" is a stronger
+  statement to a sophisticated buyer than terms of service.
+- Branding sessions added to every major phase. A tool people find beautiful is a tool
+  institutions eventually pay for.
+- Session roadmap: Phase 0 (6 sessions, complete), Phase 1–9 defined, ~430 total.
+  Phases calibrated as build progresses.
+- Share UI to be treated as diverged — Legend specced clean, not derived from Share.
+
+### Carry-forward to Multi-5
+
+- Multi-5: Legend product scope session — lock exactly which chains, protocols,
+  and professional use cases are in scope for which version. Produces a locked scope
+  document that every subsequent build session references.
+- legend-articles-list.md: no changes this session
+- notes-articles-list.md in refueler-share: no changes this session
+
+---
+
 ## Session 3 — Multi-3 · 3 Aug 2026
 
+**Phase:** 0 — Foundation
 **Status:** Strategic planning — Legend economics, cryptographic foundations, architecture
 
 ### Completed
@@ -31,169 +88,49 @@
 - Chaum blind signatures (1982): direct ancestor of Cashu NUT-00 and Legend query credentials
 - Pedersen commitments (1991): primitive for ZK balance proofs and UTXO set commitments
 - Camenisch-Lysyanskaya credentials (2001): long-term architecture for Enterprise credential attributes
-- Spiral PIR (MIT, 2022): single-server PIR for UTXO lookups — server returns answer without
-  learning the query. Mathematically provable, not architectural promises.
-- Path ORAM: access pattern hiding, v2 target, index structure should be ORAM-compatible from v1
-- ZK balance proofs: prove control of ≥ X BTC without revealing addresses. Lending and
-  compliance use case. Groth16/PLONK on bellman or arkworks.
-- Federated chain analytics: v3. Privacy-preserving UTXO clustering. No individual data exposed.
-- Silent Payments batch scanning optimisation: batch-verify outputs using EC point aggregation,
-  ~256x speedup over naive. Active research gap — Legend contribution to BIP-352 ecosystem.
+- Spiral PIR (MIT, 2022): single-server PIR for UTXO lookups
+- Path ORAM: access pattern hiding, v2 target
+- ZK balance proofs: Groth16/PLONK on bellman or arkworks
+- Federated chain analytics: v3
+- Silent Payments batch scanning optimisation: batch-verify via EC point aggregation, ~256x speedup
 
 ### Build sequence confirmed
 
 **v1 (post-B9):**
-- PIR-inspired sharding (3–5 Hetzner nodes)
-- Cashu query credentials (21 sats / 100 queries, bot deterrent not monetisation)
-- Ephemeral sessions, no cookies, no client correlation
-- Silent Payments native (BIP-352)
-- Tor API for Enterprise
-- Fee estimation (Mempool parity, required at launch)
-- UTXO consolidation advisor: qualitative privacy flag only ("merging reveals co-ownership,
-  permanent on-chain record") — no score, no heuristic. Honest and accurate.
-- Batch address monitoring (breach scenario — newline-separated input, single credential burn)
-- Carbon default option, Paper default on arrival from refueler.io, theme persists via cookie
-- Denomination toggle: sats / BTC / USD at time of transaction
+PIR-inspired sharding, Cashu query credentials, ephemeral sessions, Silent Payments (BIP-352),
+Tor API, fee estimation, UTXO consolidation qualitative flag, batch address monitoring,
+Paper/Carbon themes, denomination toggle
 
-**v2:**
-- Spiral PIR for UTXO lookups (genuine single-server PIR)
-- Path ORAM-compatible index layer
-- ZK balance proofs for compliance and lending
-- UTXO provenance scoring (privacy-aware, replaces qualitative flag)
-- Stablesats / DLC recognition (Blink, Wallet of Satoshi hedging fingerprints)
-- Homomorphic aggregate queries (batch balance without address disclosure)
+**v2:** Spiral PIR, Path ORAM index, ZK balance proofs, UTXO provenance scoring,
+stablesats/DLC recognition, homomorphic aggregate queries
 
-**v3:**
-- Federated chain analytics model
-- Silent Payments batch scanning contribution to BIP-352
-- CL credential architecture for Enterprise attribute proofs
+**v3:** Federated chain analytics, Silent Payments BIP-352 contribution,
+CL credential architecture
 
-### Mempool / Blockstream parity checklist (must match at v1 launch)
+### Carry-forward
 
-- Fee estimation with block targets (next block, 3 blocks, 1 hour, 1 day)
-- Mempool depth visualisation
-- RBF / CPFP tracking
-- Lightning network aggregate stats
-- Block visualisation (tx size and fee rate within block)
-- Full transaction history per address
-- UTXO set per address
-- Raw transaction broadcast
-- Electrum server compatibility (inherited from electrs lineage)
-
-### UI principles confirmed
-
-- Query input is the first element on the page. No hero above the fold on the explorer.
-- Three result states: funds intact (calm, precise), funds moved (immediate, timestamped),
-  address not found (explain why — may be Silent Payments requiring scan).
-- Determinate progress indicator for PIR reassembly: "Querying shard 1/3… 2/3… assembling"
-- No loading spinners implying uncertainty.
-- Tabs for navigation but not too many. No 3D visualisation. No garish colours.
-- Faster, cleaner, less cluttered than Mempool. Information density is a choice not a default.
-- Modals for: onboarding, credential status, batch query input/results, privacy explainers.
-
-### The Coldcard framing (broader than one breach)
-
-Legend is a long-term play. Coldcard is the origin story, not the product definition.
-The goal: defacto private Bitcoin query engine for plebs, Lightning node operators,
-Cashu wallet users, atomic swap participants, family offices, and Enterprise API clients.
-"Own bank now" — the pleb and the family office are the same person at different scales.
-
-**Wedge vs Mempool-over-Tor:** "Tor hides who you are. Legend hides what you asked.
-You need both — we give you the second one."
-
-### Article pipeline — legend-articles-list.md to be created in this repo
-
-Candidates from this session:
-1. Why Mempool over Tor isn't enough — query unlinkability gap, Spiral PIR
-2. What we're building and why — Legend origin, Coldcard firestorm, structural metadata leak
-3. Spiral PIR and Bitcoin privacy — single-server PIR, world first for production explorer
-4. The UTXO consolidation problem — privacy cost of merging, fee timing, privacy-aware advisor
-5. Silent Payments and why no explorer supports them correctly
-6. ZK balance proofs for Bitcoin holders — proving reserves without disclosure
-7. Article 15: From Chaum to Satoshi to Legend — the 44-year arc of financial privacy
-
-All articles build in refueler-io. This file tracks scope only.
-
-### Carry-forward to Multi-4
-
-- Multi-4: Legend UI/UX design spec — query flow, result states, breach scenario design
-- Multi-5: Cashu credential architecture — issuance, spend, top-up without accounts
-- Multi-6: Article 14 draft
-- legend-articles-list.md to be created in this repo (next session or dedicated pass)
-- notes-articles-list.md in refueler-share to be updated with Legend article candidates
-  (cross-reference only — built in refueler-io)
+- Multi-4: Legend UI/UX design spec ✓ (complete)
 
 ---
 
 ## Session 2 — AP-7 ad-hoc · 2 Aug 2026
 
+**Phase:** 0 — Foundation
 **Status:** Strategic planning — Legend scope defined
 
 ### Completed
 - Legend scope locked: privacy-first Bitcoin block explorer built on BLAKE3 Esplora foundation
-- Product name confirmed: **Legend** (not Blind, not BlindChain — wrong register)
-- URL confirmed: `refueler.io/legend` — not a separate domain
-- Licence confirmed: MIT stays (matches upstream, fork compatibility)
-- REFUELER-BRIDGE.md updated with full Legend section — placed in repo root
-- CLAUDE.md updated to v1.1 reflecting dual scope (ARM/BLAKE3 + Legend)
+- Product name confirmed: Legend
+- URL confirmed: `refueler.io/legend`
+- Licence confirmed: MIT
+- REFUELER-BRIDGE.md updated with full Legend section
+- CLAUDE.md updated to v1.1 reflecting dual scope
 - README.md extended with Legend privacy layer section
 
-### Key decisions locked (AP-7)
-
-**Architecture:**
-- PIR-inspired query sharding: 3–5 Hetzner nodes, fixed cost regardless of client count
-- Ephemeral query sessions — no cookies, no session tokens, no client correlation
-- Cashu blind-signature query credentials — same infrastructure as Share
-- Tor-native API for Enterprise
-- Silent Payments (BIP-352) native support — first explorer to do this correctly
-- Proof-of-query receipts — blind cryptographic proof per query
-
-**Query credit model:**
-- Free: 21 sats for 100 queries/day
-- Enterprise: unlimited, full PIR + Tor stack
-
-**Who Legend serves:**
-- Plebs first — free tier, no account, privacy as default not premium
-- Lightning/Cashu wallet users — private channel activity tracking
-- Family offices (UK + US) — private address monitoring, compliance reporting
-- Enterprise — full stack, self-hosting option
-
-**The Coldcard moment:** Coinkite breach (Aug 2026) exposed customer addresses.
-Checking swept addresses on public explorers compounds the breach. Legend is the
-correct tool — private address monitoring, no metadata leak. Article 14 timing
-is significant. Write now, publish when infrastructure is live.
-
-**Sparrow Wallet:** potential partnership post-B9. Already supports custom Esplora
-endpoints — Legend is API-compatible out of the box. Approach Craig Raw post-B9
-when Legend has something to show.
-
-### Prerequisites before any code
-- Share Lightning node live at B9 (non-negotiable)
-- B9-plan Legend planning session
-
 ### Carry-forward
-- No code written. Planning only.
-- Next session: Multi-4 — Legend UI/UX design spec
+- Multi-4: Legend UI/UX design spec ✓ (complete)
 
 ---
 
-## Session 1 — CC-64 · 8 July 2026
-
-**Status:** Initialisation
-
-### Completed
-- Repo created at `github.com/rajesh-taylor/refueler-multi-core`
-- README.md pushed (commit `f9c4aff`) — 147 lines
-- Ecosystem chart corrected: `refueler.io` = commerce platform, not brand funnel
-- `.gitignore` added (Rust/Cargo, build artefacts, env, secrets)
-- `LICENSE` added (MIT)
-- `CLAUDE.md` added
-- `SESSIONS.md` added (this file)
-
-### Carry-forward
-- No code written yet. README only.
-- Session 2 to scope BLAKE3 integration points and ARM build targets
-
----
-
-*Next session: Multi-4 — Legend UI/UX design spec*
+*Next session: Multi-5 — Legend product scope (Phase 0, session 5 of ~6)*
+*Produces: legend-scope.md — locked scope document for chains, protocols, and professional use cases by version*
