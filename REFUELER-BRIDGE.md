@@ -1,6 +1,6 @@
 # REFUELER-BRIDGE.md — Refueler cross-project context
 > **Version:** 1.2 | **Created:** 28 July 2026 | **Updated:** AP-7 ad-hoc · 2 Aug 2026
-> Lives in `refueler-share`, `refueler-io` (docs/), and `refueler-multi-core` repos. Committed to each.
+> Lives in `refueler-share`, `refueler-io` (docs/), and `refueler-legend` repos. Committed to each.
 > Updated at every block close. Attach to any Claude Project to establish shared context.
 > This file is the handshake between Projects — not a substitute for repo-specific context files.
 
@@ -15,7 +15,7 @@ Products in active development: **Refueler Share** (file transfer) and **Legend*
 **Local paths:**
 - Main site + POS: `/Users/rajeshtaylor/Documents/refueler.io/`
 - Share: `/Users/rajeshtaylor/Documents/refueler-share/`
-- Legend / multi-core: `/Users/rajeshtaylor/Documents/refueler-multi-core/`
+- Legend / multi-core: `/Users/rajeshtaylor/Documents/refueler-legend/`
 
 **GitHub:** `github.com/rajesh-taylor`
 
@@ -50,7 +50,7 @@ Refueler Share is the only architecture that solves both failures simultaneously
 
 ## What Legend is
 
-**Legend** is a privacy-first Bitcoin block explorer and chain analytics tool built on a fork of Esplora (Blockstream, MIT licensed). It lives in `refueler-multi-core`.
+**Legend** is a privacy-first Bitcoin block explorer and chain analytics tool built on a fork of Esplora (Blockstream, MIT licensed). It lives in `refueler-legend`.
 
 **The problem it solves:** Every query to a public block explorer (Mempool.space, Blockstream.info) tells that server exactly which addresses and transactions you're watching. This is a structural metadata leak that affects everyone from individual Bitcoiners to family offices managing significant holdings. No existing explorer is architected to prevent it.
 
@@ -204,7 +204,7 @@ Displayed only when `incident_active` KV = S1. Not sessionStorage-dismissible. P
 
 **`refueler-io`:** `/notes/` live. Article 1 published, iteration open from 5 Aug. Articles 2–14 planned.
 
-**`refueler-multi-core` (Legend):** Repo created. No code. Starts post-B9 node.
+**`refueler-legend` (Legend):** Repo created. No code. Starts post-B9 node.
 
 ---
 

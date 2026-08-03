@@ -1,7 +1,8 @@
-# refueler-legend
+# refueler-multi-core
 
-> A BLAKE3-accelerated fork of esplora-electrs — optimised for ARM hardware, high-throughput streaming data, and real-time Lightning payment indexing. The engine underpinning **Legend**, a privacy-first Bitcoin block explorer.
+> A BLAKE3-accelerated fork of esplora-electrs — optimised for ARM hardware, high-throughput streaming data, and real-time Lightning payment indexing. Also the engine underpinning **Legend**, a privacy-first Bitcoin block explorer.
 
+**Live at:** [multi-core.refueler.io](https://multi-core.refueler.io) *(coming soon)*
 **Legend at:** [refueler.io/legend](https://refueler.io/legend) *(post-B9)*
 **Upstream:** [blockstream/esplora-electrs](https://github.com/Blockstream/electrs)
 **Part of the [Refueler](https://refueler.io) ecosystem**
@@ -22,7 +23,7 @@ Standard `esplora-electrs` indexes blockchain data linearly on a single CPU core
 - **Initial sync takes 72+ hours** due to sequential read/hash/write cycles against RocksDB
 - **Mempool spikes above 300MB cause RAM exhaustion**, crashing background processes
 
-`refueler-legend` addresses both by replacing the internal RocksDB index lookup key hashing with BLAKE3, which is architecturally optimised for parallel execution across multiple cores using ARM SIMD/NEON instruction sets natively supported on Raspberry Pi hardware.
+`refueler-multi-core` addresses both by replacing the internal RocksDB index lookup key hashing with BLAKE3, which is architecturally optimised for parallel execution across multiple cores using ARM SIMD/NEON instruction sets natively supported on Raspberry Pi hardware.
 
 ### What Changes
 
@@ -42,8 +43,8 @@ BLAKE3 processes data as a binary Merkle tree, making it intrinsically paralleli
 
 ## Performance Targets
 
-| Metric | Standard esplora-electrs | refueler-legend |
-|--------|-------------------------|-----------------|
+| Metric | Standard esplora-electrs | refueler-multi-core |
+|--------|-------------------------|---------------------|
 | Initial sync (Raspberry Pi 4) | 72+ hours | Target: significantly reduced |
 | RAM under 300MB+ mempool | Crash risk | Stable |
 | CPU core utilisation | ~25% (1 of 4 cores) | ~90%+ across all cores |
@@ -99,44 +100,60 @@ For operators also running a Cashu mint alongside their indexer, the following C
 
 ### The problem
 
-Every query to a public block explorer tells that server exactly which addresses and transactions you're watching. Mempool.space and Blockstream.info build query logs by design — their business model depends on understanding user behaviour. For a family office monitoring a significant holding, a lawyer verifying a client's payment, or a Bitcoiner checking whether a suspected breach has swept their addresses, querying a public explorer compounds the very privacy risk they're trying to assess.
+Every query to a public block explorer tells that server exactly which addresses and
+transactions you're watching. Mempool.space and Blockstream.info build query logs by
+design — their business model depends on understanding user behaviour. For a family
+office monitoring a significant holding, a lawyer verifying a client's payment, or a
+Bitcoiner checking whether a suspected breach has swept their addresses, querying a
+public explorer compounds the very privacy risk they're trying to assess.
 
 No existing explorer is architected to prevent this. Legend is.
 
-*"Chainalysis works for the observer. Legend works for the owner."*
-
 ### What Legend adds
 
-**Cashu query credentials** — query budgets issued as Cashu blind-signature tokens (same infrastructure as Refueler Share). The server cannot reconstruct a client's query history across sessions. Structurally impossible, not a policy promise.
+**Cashu query credentials** — query budgets issued as Cashu blind-signature tokens
+(same infrastructure as Refueler Share). The server cannot reconstruct a client's
+query history across sessions. Structurally impossible, not a policy promise.
 
-**Ephemeral sessions** — no cookies, no session tokens, no client correlation across queries. Every request is unlinkable from the last.
+**Ephemeral sessions** — no cookies, no session tokens, no client correlation
+across queries. Every request is unlinkable from the last.
 
-**PIR-inspired sharding** — queries split across 3–5 nodes. No single node sees the complete query. The client reassembles locally. A world first for production Bitcoin chain data.
+**PIR-inspired sharding** — queries split across 3-5 nodes. No single node sees
+the complete query. The client reassembles locally. A world first for production
+Bitcoin chain data.
 
 **Tor-native API (Enterprise)** — client IP never reaches the server.
 
-**Silent Payments native (BIP-352)** — first explorer to display Silent Payments static addresses and their derived outputs correctly. Requires scanning every block; public explorers do not support this.
+**Silent Payments native (BIP-352)** — first explorer to display Silent Payments
+static addresses and their derived outputs correctly. Requires scanning every block;
+public explorers do not support this.
 
-**Proof-of-query receipts** — a blind cryptographic receipt per query. Clients can demonstrate their query behaviour is unloggable without revealing what they asked.
+**Proof-of-query receipts** — a blind cryptographic receipt per query. Clients can
+demonstrate their query behaviour is unloggable without revealing what they asked.
 
 ### Who Legend serves
 
-- **Plebs** — free tier, no account required, unlimited queries. Privacy as default, no friction at the distress moment.
-- **Lightning and Cashu wallet users** — private channel activity tracking without revealing your node footprint to Mempool.space. API-compatible with Sparrow Wallet's custom Esplora endpoint out of the box.
-- **Family offices** — private address monitoring, UTXO provenance scoring, compliance reporting. All queries private to the client.
-- **Enterprise** — unlimited, PIR-sharded, Tor-native, Silent Payments scanning, self-hosting option with support contract.
+- **Plebs** — free tier, no account required, 50 queries/day. Privacy as default.
+- **Lightning and Cashu wallet users** — private channel activity tracking without
+  revealing your node footprint to Mempool.space. API-compatible with Sparrow Wallet's
+  custom Esplora endpoint out of the box.
+- **Family offices** — private address monitoring, UTXO provenance scoring, compliance
+  reporting. All queries private to the client.
+- **Enterprise** — unlimited, PIR-sharded, Tor-native, Silent Payments scanning,
+  self-hosting option with support contract.
 
-### Business model
+### The query credit model
 
-Legend is free at point of use. No account. No rate limit. No friction at the distress moment — ever.
-
-Enterprise contracts are the revenue source: dedicated nodes, Tor API, Silent Payments scanning, compliance reporting, SLA, and quarterly security review. What Enterprise clients are buying is the institutional wrapper — the contract, the documentation, the support relationship, the accountability. The software is free and open source. One Enterprise client covers years of infrastructure.
-
-Infrastructure cost: ~€96/month (3–5 Hetzner nodes, indexed chain data, Silent Payments scanning).
+| Tier | Queries |
+|------|---------|
+| Free standalone | 50/day |
+| Free Share tier | 10 per upload |
+| Paid Share tiers | 50 per upload, uncapped daily |
+| Enterprise | Unlimited |
 
 ### Live at
 
-`refueler.io/legend` — post-B9. Active planning complete. Build begins post-B9.
+`refueler.io/legend` — post-B9. No code yet. Planning scope complete.
 
 ---
 
@@ -155,12 +172,17 @@ Installation and build instructions: *(coming soon — active development post-B
 
 ## Community & Open Source
 
-This repo is MIT licensed. The BLAKE3 optimisation is a contribution to the Bitcoin self-sovereignty stack. Better personal node performance means more people run nodes, which strengthens the network. Legend's open source licence means you can verify the privacy claims yourself — "don't trust us, read the code" is the only honest answer to a privacy claim.
+This fork is fully open source and MIT licensed. The BLAKE3 optimisation is a
+contribution to the Bitcoin self-sovereignty stack. Better personal node performance
+means more people run nodes, which strengthens the network. Legend's open source
+licence means you can verify the privacy claims yourself — "don't trust us, read
+the code" is the only honest answer to a privacy claim.
 
 Tag your issues and PRs with the relevant component:
 `rocksdb`, `blake3`, `arm`, `lightning`, `nostr-relay`, `legend`, `silent-payments`
 
-Repository topics: `bitcoin` `esplora` `electrum-server` `blake3` `rust` `umbrel` `startos` `raspberry-pi` `lightning` `silent-payments` `privacy` `cashu`
+Repository topics: `bitcoin` `esplora` `electrum-server` `blake3` `rust` `umbrel`
+`startos` `raspberry-pi` `lightning` `silent-payments` `privacy` `cashu`
 
 ---
 
@@ -182,7 +204,7 @@ privacy layer
 
 ## Status
 
-Pre-build. Architecture locked. Legend scope defined (Multi-5, Aug 2026).
+Pre-build. Architecture locked. Legend scope defined (AP-7, Aug 2026).
 Active development begins post-B9 (Share Lightning node prerequisite).
 
 Upstream tracking: [blockstream/esplora-electrs](https://github.com/Blockstream/electrs)
@@ -191,4 +213,4 @@ Upstream tracking: [blockstream/esplora-electrs](https://github.com/Blockstream/
 
 ## Licence
 
-MIT — matches upstream Esplora/electrs for clean fork compatibility.
+MIT -- matches upstream Esplora/electrs for clean fork compatibility.

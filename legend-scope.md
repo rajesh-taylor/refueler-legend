@@ -1,4 +1,4 @@
-# legend-scope.md — refueler-multi-core
+# legend-scope.md — refueler-legend
 > **Version:** 1.0 | **Created:** Multi-5 · 3 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,

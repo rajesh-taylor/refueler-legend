@@ -1,6 +1,6 @@
-# legend-articles-list.md — refueler-multi-core /notes/ pipeline
+# legend-articles-list.md — refueler-legend /notes/ pipeline
 > **Version:** 1.0 | **Created:** Multi-3 · 3 Aug 2026
-> Editorial planning document. Lives in `refueler-multi-core/` alongside CLAUDE.md and SESSIONS.md.
+> Editorial planning document. Lives in `refueler-legend/` alongside CLAUDE.md and SESSIONS.md.
 > Load when in an editorial planning or article build session. Not by default.
 > Publishing platform: `refueler.io/notes/` (main domain, not subdomain).
 > Built articles (HTML/NJK/styling) live in `refueler-io`. This file tracks scope only.

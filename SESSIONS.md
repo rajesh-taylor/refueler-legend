@@ -1,4 +1,4 @@
-# SESSIONS.md — refueler-multi-core
+# SESSIONS.md — refueler-legend
 *Rolling log — last 3–4 sessions only. Archive older entries.*
 
 ---

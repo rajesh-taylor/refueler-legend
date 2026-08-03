@@ -1,4 +1,4 @@
-# legend-design-spec.md — refueler-multi-core
+# legend-design-spec.md — refueler-legend
 > **Version:** 1.0 | **Created:** Multi-4 · 3 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.

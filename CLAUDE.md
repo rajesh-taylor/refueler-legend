@@ -1,13 +1,13 @@
-# CLAUDE.md — refueler-multi-core
-> **Version:** 1.3 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Multi-6 · 3 Aug 2026
-> Load alongside `multi-core-SESSIONS.md` at the start of every session on this repo.
+# CLAUDE.md — refueler-legend
+> **Version:** 1.4 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Ad-hoc rename · 3 Aug 2026
+> Load alongside `SESSIONS.md` at the start of every session on this repo.
 > For platform-wide context, load `REFUELER-BRIDGE.md` which lives in this repo root.
 
 ---
 
 ## What this repo is
 
-`refueler-multi-core` has two complementary scopes:
+`refueler-legend` has two complementary scopes:
 
 **1. BLAKE3-accelerated Esplora fork (original scope)**
 A fork of esplora-electrs optimised for ARM architecture and low-power hardware
@@ -24,8 +24,8 @@ and proof-of-query receipts. Lives at `refueler.io/legend` post-B9.
 The two scopes are not in conflict. The ARM performance work is the engine.
 Legend is the privacy interface built on top of it.
 
-**Local path:** `/Users/rajeshtaylor/Documents/refueler-multi-core/`
-**GitHub:** `rajesh-taylor/refueler-multi-core` (public)
+**Local path:** `/Users/rajeshtaylor/Documents/refueler-legend/`
+**GitHub:** `rajesh-taylor/refueler-legend` (public)
 **Licence:** MIT (matches upstream esplora/electrs — fork compatibility)
 
 ---
@@ -36,7 +36,7 @@ Legend is the privacy interface built on top of it.
 |---------|---------|------|
 | electrs | MIT | Electrum-compatible Bitcoin indexer |
 | esplora | MIT | Block explorer and API layer |
-| refueler-multi-core | MIT | BLAKE3-accelerated ARM fork + Legend privacy layer |
+| refueler-legend | MIT | BLAKE3-accelerated ARM fork + Legend privacy layer |
 
 ---
 
@@ -78,7 +78,7 @@ Legend is the privacy interface built on top of it.
 
 ## Session queue
 
-See `multi-core-SESSIONS.md`.
+See `SESSIONS.md`.
 
 ---
 
