@@ -2,6 +2,48 @@
 *Rolling log — last 3–4 sessions only. Archive older entries.*
 
 ---
+## Session 7 — Multi-7 · 3 Aug 2026
+
+**Phase:** 1 — Working explorer by December
+**Status:** Eleventy scaffold — Legend shell and SPA mount live in refueler-io
+
+### Completed
+
+- Architecture confirmed: Legend shell lives in `refueler-io`, not `refueler-legend`
+  `refueler-legend` is the Rust indexer only — no Eleventy, no HTML
+- Three files added to `refueler-io`:
+  - `src/legend/index.njk` — static shell, includes shared nav/footer, SPA mount div,
+    below-fold acquisition content (three columns: what it does, who it's for, free tier)
+  - `src/assets/css/legend.css` — Legend design tokens, layout, SPA chrome, responsive
+  - `src/assets/js/legend-spa.js` — SPA scaffold: mounts shell, input, batch icon,
+    credential dot, all interactive stubs ready for Multi-8 query logic
+- `src/_includes/nav.njk` updated: App → Legend, wordmark section variable
+  (`{{ wordmarkSection or "Legend" }}`), App link replaced with `/legend/`
+- `eleventy.config.js` updated: `addPassthroughCopy("src/assets")` added so
+  CSS and JS reach `_site/`
+- `REFUELER-BRIDGE.md` updated to v1.3: build status, cross-project actions section
+  added covering nav CSS extraction, theme bug fix, API key rotation, and Legend
+  sign-off checklist before Multi-8 opens
+- All commits pushed: `refueler-io` (`fe6b88a`), `refueler-legend` (`e51474c`),
+  `refueler-share` (BRIDGE only)
+
+### Known issues — blocked on refueler-io housekeeping session
+
+- Nav and footer render unstyled on Legend page — nav CSS is inline in `src/index.njk`
+  only, not in a shared stylesheet. Fix documented in REFUELER-BRIDGE cross-project actions.
+- Theme toggle non-functional on Legend page — same root cause.
+- `head.njk` and `src/index.njk` use `localStorage` / `classList.add('carbon-mode')`
+  in violation of locked spec. Fix documented in REFUELER-BRIDGE.
+
+### Carry-forward to Multi-8
+
+- Multi-8 does NOT open until refueler-io housekeeping session is complete and
+  Legend sign-off checklist in REFUELER-BRIDGE is confirmed green.
+- Multi-8: first query flow — address input → API call → result render (funds intact
+  and funds moved states). No batch, no modals yet.
+
+---
+
 ## Session 6 — Multi-6 · 3 Aug 2026
 
 **Phase:** 1 — Working explorer by December
@@ -26,7 +68,7 @@
 ### Carry-forward to Multi-7
 
 - Multi-7: Eleventy scaffold for refueler.io/legend static shell + vanilla JS SPA
-  mount point. No query logic yet — shell and mount only.
+  mount point. No query logic yet — shell and mount only. ✓ (complete)
 
 ## Session 4 — Multi-4 · 3 Aug 2026
 
@@ -157,5 +199,4 @@ CL credential architecture
 
 ---
 
-*Next session: Multi-5 — Legend product scope (Phase 0, session 5 of ~6)*
-*Produces: legend-scope.md — locked scope document for chains, protocols, and professional use cases by version*
+*Next session: Multi-8 — first query flow (address → result). Opens only after refueler-io housekeeping session confirms Legend sign-off checklist green.*
