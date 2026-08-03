@@ -2,6 +2,31 @@
 *Rolling log — last 3–4 sessions only. Archive older entries.*
 
 ---
+## Session 6 — Multi-6 · 3 Aug 2026
+
+**Phase:** 1 — Working explorer by December
+**Status:** Brand pass — Legend visual language confirmed
+
+### Completed
+
+- Phase 1 opens with brand pass per locked convention
+- Wordmark confirmed: Satoshi 700, 1.75rem, --text-primary, no special treatment
+- Query input confirmed: --surface bg, 0.5px --border, 8px radius, batch icon
+  on focus in --accent (#C8A96E), tagline in --text-tertiary below
+- Result typography hierarchy confirmed: five levels, UTXO table all --text-primary
+  at same weight (no secondary-text treatment on any column), Intact / Activity detected
+  in DM Sans 500 --text-primary with no colour differentiation
+- Credential icon confirmed: 10px filled circle, --accent gold only, no glow,
+  hover title, click opens modal
+- Design register confirmed: calm, legal-document precision, refined — distinct from
+  every existing explorer. Serves distressed Coldcard users and institutional clients
+  with the same interface.
+- No new design tokens. No new brand identity. Product surface under Refueler system.
+
+### Carry-forward to Multi-7
+
+- Multi-7: Eleventy scaffold for refueler.io/legend static shell + vanilla JS SPA
+  mount point. No query logic yet — shell and mount only.
 
 ## Session 4 — Multi-4 · 3 Aug 2026
 

@@ -1,5 +1,5 @@
 # CLAUDE.md — refueler-multi-core
-> **Version:** 1.2 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Multi-4 · 3 Aug 2026
+> **Version:** 1.3 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Multi-6 · 3 Aug 2026
 > Load alongside `multi-core-SESSIONS.md` at the start of every session on this repo.
 > For platform-wide context, load `REFUELER-BRIDGE.md` which lives in this repo root.
 
