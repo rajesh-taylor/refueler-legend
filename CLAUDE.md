@@ -30,6 +30,17 @@ Legend is the privacy interface built on top of it.
 
 ---
 
+**Nav architecture (locked AP-8):**
+- Legend page in `refueler-io` must pass `wordmarkSection: "Legend"` in frontmatter —
+  this is what triggers the `REFUELER / Legend` breadcrumb in `nav.njk`.
+  Pages that omit `wordmarkSection` show a clean `REFUELER` wordmark with no slash.
+  Do not hardcode a default breadcrumb value in `nav.njk` — AP-8 removed this.
+- Theme detection: `dataset.theme === 'carbon'` only. Never `classList.contains`.
+  Cookie `rs-theme` scoped to `.refueler.io` (30-day rolling, SameSite=Lax).
+  This applies to Legend's inline theme script and any Legend JS that reads theme state.
+
+  ---
+
 ## Upstream lineage
 
 | Project | Licence | Role |

@@ -2,6 +2,49 @@
 *Rolling log — last 3–4 sessions only. Archive older entries.*
 
 ---
+## Session AP-8 — Ad-hoc · 4 Aug 2026
+
+**Phase:** 1 — Working explorer by December
+**Status:** Nav, theme, and cross-project housekeeping — `refueler-io` and `refueler-share`
+
+### What landed in `refueler-legend`
+
+- `REFUELER-BRIDGE.md` updated to v1.4 and committed — commit `5099206`
+  Records: AP-8 nav rewrites, theme script fixes, nav architecture decision,
+  cross-project sign-off checklist for Legend before Multi-8 opens.
+  Bridge now lives in `refueler-legend` at v1.4. No other files changed in this repo.
+
+### What AP-8 did (other repos — recorded here for Legend context)
+
+**`refueler-io`:**
+- `src/_includes/nav.njk`: hardcoded `"Legend"` breadcrumb default removed.
+  `wordmarkSection` breadcrumb (`/ SECTION`) now only renders when a page passes
+  `wordmarkSection` in its frontmatter. Legend page already passes
+  `wordmarkSection: "Legend"` — unaffected. Homepage, support, privacy, editorial,
+  notes show clean `REFUELER` wordmark with no slash.
+- `src/support/index.njk`: `privacy@` → `support@` throughout; inset blockquote
+  and "What can I raise?" items genericised across all Refueler products;
+  inline theme script updated to `rs-theme` cookie + `dataset.theme` pattern.
+
+**`refueler-share`:**
+- `src/_includes/nav.njk`: App/Editorial/Privacy links removed; Notes and Support added.
+- `src/_includes/head.njk`: `localStorage`/`rfTheme` → `rs-theme` cookie scoped to
+  `.refueler.io`, `dataset.theme` attribute only. Cross-domain theme persistence
+  now confirmed working between `refueler.io` and `share.refueler.io`.
+
+### Nav architecture decision — locked AP-8
+
+- Main site (`refueler.io`): ecosystem nav — Legend, Editorial, Notes, Privacy, theme pill. No Upgrade link.
+- Share (`share.refueler.io`): product nav — Notes, Upgrade, Support, theme pill. No Editorial, no Privacy (footer only).
+
+### Carry-forward
+
+- Multi-8 prerequisite: refueler-io housekeeping session (nav CSS extraction, theme bug fix,
+  API key rotation) must confirm Legend sign-off checklist green before Multi-8 opens.
+  Sign-off checklist is in REFUELER-BRIDGE.md cross-project actions section.
+
+  ---
+
 ## Session 7 — Multi-7 · 3 Aug 2026
 
 **Phase:** 1 — Working explorer by December
