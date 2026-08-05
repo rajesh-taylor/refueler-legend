@@ -4,6 +4,108 @@
 
 ---
 
+## Session Legend-2 · 5 Aug 2026
+
+**Phase:** 1 pre-build harness — Enterprise packaging and commercial model
+**Status:** Complete. `legend-enterprise-pricing.md` v1.0 (completed) produced. Pre-build harness closed.
+
+### Completed
+
+**Family office tier locked:**
+- Pricing ladder, capability-defined: £1,500/month (v1) → £2,500/month (v2:
+  Tor API + Double Ratchet + ML-KEM-768) → £3,500/month (v2+: dedicated node
+  isolation). Only the v1 band is sold at v1 — upper bands quoted as scheduled
+  upgrades with version dependencies stated. Never charged before live.
+- Invite-only at v1, capped at **five clients**. Truthful solo-operator
+  constraint, stated plainly to prospects.
+- Named contact: Rajesh Taylor. No account team — the founder answers.
+- Contract: 3-month minimum, then monthly rolling, 60 days' notice either
+  side. Annual prepay at eleven months' price. Short structure deliberate —
+  signals confidence, respects key-person risk.
+- Compliance/PI pack defined: architecture summary (precise v1 claim language),
+  honest-scope statement, UK operator caveat in full, canary verification
+  procedure, incident commitments, open-source verification path, audit roadmap.
+- Onboarding: warm referral → architecture call (operator caveat raised by us,
+  unprompted) → compliance pack → contract + NUT-11-bound credentials →
+  quarterly reviews.
+
+**SLA locked — calibrated to actual topology:**
+- 99.0% monthly availability (available = ≥2 nodes, role-split intact).
+- Full-splitting mode ≥95% of month.
+- 4 UK business-hour support response, Mon–Fri 09:00–18:00 London.
+- Canary expiry notification automated within 12 hours.
+- Incident notice within 24h; written post-incident summary within 5 business days.
+- Service credit: 10% of monthly fee below 97%.
+- Explicitly not promised: 24/7, 99.9%, sub-hour response. One human in London.
+
+**Merchant/franchise tier locked:**
+- Always an add-on. Never bundled into the POS contract — bundling is the
+  cross-product seam the scope discipline forbids.
+- £250/month per business entity; £500/month franchise flat up to 25 locations
+  (custom above). Flat because the accountant is the user, not the till.
+- Sold only into the existing Refueler POS merchant base at v1. No cold sales.
+- Monthly rolling, 30 days' notice.
+- Feature set = free tier (data parity) + accountant onboarding + named support
+  + processable invoice. Sold as exactly that.
+- Below cost-recovery standalone (reaffirmed) — sustainable only under family
+  office cross-subsidy. Pipeline tier, never primary revenue.
+
+**Estate solicitor tier locked (designed now, sold v2/v3):**
+- £50 block-height balance statement (v2 — Merkle proof export dependency).
+- £150 full verified estate report: + ZK balance proof, multi-sig quorum in
+  plain language, methodology statement (v3 — /legend/verify dependency).
+- Two payment routes, both stated honestly: Lightning at point of purchase
+  (no account; pseudonymous, not anonymous — stated in flow) and invoiced
+  BACS for firms (identified relationship; procurement reality of regulated
+  firms, stated not hidden). Report content client-side generated either way.
+- PI insurer pack: methodology, proof-and-limitation statement, independent
+  third-party re-verification procedure, legal-acceptance caveat (admissibility
+  outside Legend's control).
+
+**Swan scenario assessed (INTERNAL — in pricing doc, marked for removal from
+any external share):**
+- MIT permits full closed fork with no contribution back. Plan on that basis.
+- Unforkable assets: canary uptime track record (time-based), audit report
+  (attaches to deployment, not source), FROST/rotation operational discipline,
+  the SLA relationship.
+- Fork calculation turns unfavourable at: audit published + /legend/verify
+  live + ≥12 months unbroken canary history + Enterprise credential
+  architecture in production.
+- Approach timing: after all of the above. Not before — earlier approach
+  advertises the code before the moat exists.
+- Contribution-back norm: publish via CONTRIBUTING.md at repo build-out.
+  No legal force; mechanism is reputational pricing established pre-fork.
+  **Queued for first build session.**
+
+**Open source and the Enterprise sale:**
+- "Read the code" framed as due-diligence enabler: every contract claim
+  independently verifiable against source + reproducible builds — a
+  verification path no closed competitor offers.
+- "Why pay?" answer locked per legend-economics.md §5: institutional wrapper
+  (FROST, canaries, jurisdictions, SLA, compliance pack, named contact).
+  Bloomberg-terminal analogy confirmed for sales conversation.
+
+### Files produced
+
+- `legend-enterprise-pricing.md` v1.0 — completed, replaces v0.1 stub
+
+### Carry-forward to Legend-3 (UX language and information hierarchy)
+
+- **Queued file edits still outstanding** (first session touching each file):
+  - `legend-scope.md`: SP tweak index as v1 build requirement; NUT-13/09
+    permanent-out; NUT-28 v2 note; NUT-24 v2+ note; plain-language script
+    rendering v2; Merkle proof scope v1/v2/v3.
+  - `legend-design-spec.md`: €96 → €360 correction.
+- **Custom FlokiNET quote required before provisioning node C** (still open).
+- **CONTRIBUTING.md contribution-back norm** — queue for first build session.
+- Legend-3 produces `legend-ux-language.md`: final below-the-fold free-tier
+  copy (draft in legend-economics.md §6), result-state language, privacy
+  explainer copy, honest-scope statements in user register.
+- **Pre-build harness complete.** Legend-0, 0a, 1, 2 all closed.
+  `legend-session-briefs.md` marked complete and ready for archive.
+
+---
+
 ## Session Legend-1 · 5 Aug 2026
 
 **Phase:** 1 pre-build harness — infrastructure costs and scaling economics
@@ -70,16 +172,6 @@
 - `legend-economics.md` v1.0 — new file
 - `legend-enterprise-pricing.md` v0.1 — first draft, cost basis only
 
-### Carry-forward to Legend-2
-
-- **Custom FlokiNET quote required before provisioning node C.**
-- **legend-scope.md queued edits:** SP tweak index as v1 build requirement;
-  NUT-13/09 permanent-out; NUT-28 v2 Enterprise note; NUT-24 v2+ note;
-  plain-language script rendering v2; Merkle proof scope v1/v2/v3.
-- **legend-design-spec.md queued edit:** €96 → €360 correction.
-- **Minimum Enterprise contract locked:** £310/month cost-recovery floor.
-- **Legend-2 opens with both new files committed.**
-
 ---
 
 ## Session Legend-0a · 5 Aug 2026
@@ -87,102 +179,23 @@
 **Phase:** 1 pre-build harness — additional architecture (pre-economics)
 **Status:** Complete. Discussion session. No output document. Locks recorded here.
 
-### Completed
+### Completed (abbreviated — full detail in archive)
 
-**NUT range — additional protocols reviewed:**
-
-- NUT-12 DLEQ proofs locked v1: browser-side verification, mandatory.
-  Detects mint tagging attacks (per-user key partitioning by a malicious or
-  compelled mint). Each credential issuance must include a DLEQ proof; browser
-  rejects credentials signed with a different key than the published keyset.
-  Critical under the compelled-operator threat model documented in legend-node-plan.md.
-- NUT-06 mint info locked v1: Legend mint advertises non-monetary status and
-  the structural absence of mint/melt endpoints. Machine-readable form of the
-  legal distinction in node-plan Section 4.
-- NUT-19 idempotent issuance locked v1: in-memory only, short TTL, blinded
-  content only. Gives retry safety for node failover without any session
-  persistence — consistent with the ephemeral-session constraint.
-- NUT-01/02 vocabulary adopted: each monthly FROST mint instance is one keyset,
-  documented in NUT-02 terms for Cashu library compatibility.
-- NUT-28 P2BK (Pay-to-Blinded-Key): noted for v2 Enterprise credential
-  hardening. ECDH-derived key blinding per credential means a leaked Enterprise
-  token cannot be linked to the client's long-lived public key by the mint.
-  NUT-11 P2PK is sufficient for v1; P2BK upgrades it at v2.
-- NUT-24 HTTP 402 Payment Required: noted for v2+ consideration. Cashu tokens
-  as in-band HTTP payment for API resources is a clean per-query payment
-  model requiring no account or session. No role at v1 — free unlimited tier
-  means nothing to gate. Re-evaluate if pricing model changes post-v1.
-- NUT-13 and NUT-09 permanently rejected: deterministic/restorable credentials
-  contradict the ephemeral-session architecture. Queue for legend-scope.md
-  permanent-out list.
-- NUT-17 WebSockets rejected v1. Re-evaluate for Enterprise monitoring sessions
-  in v2 where long-lived authenticated connections are already the model.
-- NUT-21 / NUT-22 reviewed and rejected: NUT-21 is OAuth 2.0 / OIDC clear
-  authentication — requires user registration and a JWT containing user identity.
-  NUT-22 issues blind tokens to that identified user. Blindness is within a
-  registered-user anonymity set only. Wrong architecture for Legend's anonymous
-  credential model. No alignment possible. Verification task from Legend-0a
-  pre-session is closed; do not revisit.
-- NUT-27 Nostr mint backup permanently rejected: deterministic key derivation
-  from a seed for mint restoration is the exact persistence model Legend's
-  rotating-instance architecture exists to prevent.
-- Monetary NUTs (04, 05, 08, 14, 15, 20, 23, 25, 29, 30) structurally absent.
-  Absence is load-bearing for the non-monetary legal claim. NUT-06 mint info
-  document advertises their absence explicitly.
-
-**Esplora filtered data — decisions locked:**
-
-- Raw block binary: filtered, all tiers.
-- Script assembly strings: restored v1.
-- Wallet-level metadata: permanently out.
-- Address history and spending history: full, paginated, cap stated in UI.
-- Prefix index (NO_ADDRESS_SEARCH): REQUIRED ON. Forbidden on all Legend nodes.
-  User-facing autocomplete stays OFF.
-- Data parity across tiers locked.
-
-**Merkle inclusion proofs — locked v1:**
-
-- Upstream endpoints restored. In-browser SPV verification.
-- Cross-node header fetch: proof from one node, header from another.
-- Result panel: one quiet line — "Inclusion verified against block header."
-- Proof export artefact: v2. Estate integration: v3.
-- Witness commitment verification: deferred indefinitely.
-
-### Carry-forward to Legend-1
-
-- €170–220/month opening figure: superseded by Legend-1 confirmed figure (€360).
-- Queue legend-scope.md edits at next scope session.
+- NUT-12 DLEQ locked v1 (browser-side, mandatory). NUT-06 mint info locked v1.
+  NUT-19 idempotency locked v1. NUT-01/02 vocabulary adopted.
+- NUT-28 P2BK noted v2. NUT-24 HTTP 402 noted v2+.
+- NUT-13/09 permanently rejected. NUT-17 rejected v1. NUT-21/22 rejected.
+  NUT-27 permanently rejected. Monetary NUTs structurally absent.
+- Esplora filtered data locked: raw block binary filtered; script assembly
+  restored v1; prefix index required on; data parity across tiers locked.
+- Merkle inclusion proofs locked v1: cross-node header fetch, in-browser SPV.
+  Proof export v2. Estate integration v3.
 
 ---
 
-## Session Legend-0 · 5 Aug 2026
-
-**Phase:** 1 pre-build harness — node infrastructure topology
-**Status:** Complete. `legend-node-plan.md` committed at `2de5a8a`.
-
-### Completed
-
-- Three nodes locked: Hetzner Falkenstein (DE), Hetzner Helsinki (FI),
-  FlokiNET Reykjavik (IS). Two providers, two legal jurisdictions.
-- Per-node spec locked: 8+ cores, 64 GB RAM, 2 TB NVMe dedicated.
-- Full index per node confirmed — roles are logical, not physical data partitions.
-- No gateway architecture. Browser talks to nodes directly. Locked permanently.
-- Role-split query topology locked. Signed node manifest locked.
-- NUT-00 nested blinding, NUT-07, NUT-11, NUT-29 confirmed.
-- Rotating mint instances, FROST 2-of-3, warrant canary architecture all locked.
-- UK operator caveat locked. Argon2id at rest. Double Ratchet v2. ML-KEM-768 v2.
-- Graceful degradation locked: N-1 documented, N-2 honest browser notice.
-- Enterprise isolation deferred to v2.
-- €96/month stale. Revised to €170–220 (Legend-0); superseded by €360 (Legend-1).
-
-### Files committed
-
-- `legend-node-plan.md` v1.0 — commit `2de5a8a`
-
----
-
-*Next session: Legend-2 — Enterprise packaging and commercial model*
-*Produces: legend-enterprise-pricing.md (completed)*
+*Next session: Legend-3 — UX language and information hierarchy*
+*Produces: legend-ux-language.md*
 *Load: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md, legend-design-spec.md,*
 *legend-scope.md, legend-node-plan.md, legend-economics.md,*
-*legend-enterprise-pricing.md (v0.1), legend-session-briefs.md*
+*legend-enterprise-pricing.md (v1.0), + apply queued edits to*
+*legend-scope.md and legend-design-spec.md at session open.*
