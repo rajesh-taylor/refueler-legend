@@ -4,6 +4,179 @@
 
 ---
 
+## Session Legend-0a · 5 Aug 2026
+
+**Phase:** 1 pre-build harness — additional architecture (pre-economics)
+**Status:** Complete. Discussion session. No output document. Locks recorded here.
+
+### Completed
+
+**NUT range — additional protocols reviewed:**
+
+- NUT-12 DLEQ proofs locked v1: browser-side verification, mandatory.
+  Detects mint tagging attacks (per-user key partitioning by a malicious or
+  compelled mint). Each credential issuance must include a DLEQ proof; browser
+  rejects credentials signed with a different key than the published keyset.
+  Critical under the compelled-operator threat model documented in legend-node-plan.md.
+- NUT-06 mint info locked v1: Legend mint advertises non-monetary status and
+  the structural absence of mint/melt endpoints. Machine-readable form of the
+  legal distinction in node-plan Section 4.
+- NUT-19 idempotent issuance locked v1: in-memory only, short TTL, blinded
+  content only. Gives retry safety for node failover without any session
+  persistence — consistent with the ephemeral-session constraint.
+- NUT-01/02 vocabulary adopted: each monthly FROST mint instance is one keyset,
+  documented in NUT-02 terms for Cashu library compatibility.
+- NUT-28 P2BK (Pay-to-Blinded-Key): noted for v2 Enterprise credential
+  hardening. ECDH-derived key blinding per credential means a leaked Enterprise
+  token cannot be linked to the client's long-lived public key by the mint.
+  NUT-11 P2PK is sufficient for v1; P2BK upgrades it at v2.
+- NUT-24 HTTP 402 Payment Required: noted for v2+ consideration. Cashu tokens
+  as in-band HTTP payment for API resources is a clean per-query payment
+  model requiring no account or session. No role at v1 — free unlimited tier
+  means nothing to gate. Re-evaluate if pricing model changes post-v1.
+- NUT-13 and NUT-09 permanently rejected: deterministic/restorable credentials
+  contradict the ephemeral-session architecture. Queue for legend-scope.md
+  permanent-out list.
+- NUT-17 WebSockets rejected v1. Re-evaluate for Enterprise monitoring sessions
+  in v2 where long-lived authenticated connections are already the model.
+- NUT-21 / NUT-22 reviewed and rejected: NUT-21 is OAuth 2.0 / OIDC clear
+  authentication — requires user registration and a JWT containing user identity.
+  NUT-22 issues blind tokens to that identified user. Blindness is within a
+  registered-user anonymity set only. Wrong architecture for Legend's anonymous
+  credential model. No alignment possible. Verification task from Legend-0a
+  pre-session is closed; do not revisit.
+- NUT-27 Nostr mint backup permanently rejected: deterministic key derivation
+  from a seed for mint restoration is the exact persistence model Legend's
+  rotating-instance architecture exists to prevent.
+- Monetary NUTs (04, 05, 08, 14, 15, 20, 23, 25, 29, 30) structurally absent.
+  Absence is load-bearing for the non-monetary legal claim. NUT-06 mint info
+  document advertises their absence explicitly.
+
+**Esplora filtered data — decisions locked:**
+
+- Raw block binary: filtered, all tiers. No user in Legend's audience needs
+  raw blocks from an explorer. Pure bandwidth cost with no privacy story.
+- Script assembly strings: restored v1. Cheap to serve (decoded at query time,
+  no index cost). On the critical path to v3 estate tooling — solicitor
+  verifying a Liana/Miniscript inheritance script needs the script rendered.
+  Plain-language script interpretation scoped v2.
+- Wallet-level metadata: permanently out. Scope doc already covers this;
+  no private key handling extends to no wallet metadata.
+- Address history and spending history: full, with honest documented caps,
+  paginated. Cap stated in UI rather than silently truncated. Enterprise raised
+  limits as a config value only — a load differentiator, not a data-access one.
+- Prefix index (NO_ADDRESS_SEARCH): REQUIRED ON. Stage-1 k-anonymity query
+  (script-hash prefix → candidate row IDs) depends on this index. Setting
+  NO_ADDRESS_SEARCH=1 is forbidden on Legend nodes. User-facing address
+  autocomplete stays OFF — autocomplete leaks partial queries keystroke by
+  keystroke. Index present; feature suppressed. Foot-gun note required in all
+  build sessions touching node or electrs configuration.
+- Data parity across tiers locked: free and Enterprise serve identical chain
+  data. Tiers differentiate on transport (Tor, Double Ratchet), load limits,
+  and wrapper — never on data access. Data-tiering converts "privacy is the
+  default" into "privacy is a product."
+
+**Merkle inclusion proofs — locked v1:**
+
+- Upstream Esplora endpoints restored (/tx/:txid/merkle-proof and merkleblock
+  variant). In-browser SPV verification: SHA-256d up the branch, compare to
+  block header merkle root. Small JS, no installed software required.
+- Cross-node header fetch: proof retrieved from one node, block header from
+  a different node. Role rotation means a single lying node is caught by
+  cross-node header mismatch. Forging a verified result requires the same
+  two-node collusion that already bounds the v1 threat model. The multi-node
+  architecture bought for query privacy doubles as response-integrity
+  verification at no additional cost.
+- Rationale: a compelled operator can be forced to log; he cannot forge a
+  Merkle branch. Addresses the honest limitation stated in node-plan Section 6
+  (UK operator / IPA 2016) — response verifiability is the mitigation where
+  query-log compulsion cannot be fully ruled out.
+- Result panel: one quiet line — "Inclusion verified against block header" —
+  in the calm register the design spec mandates.
+- Proof export artefact (txid, Merkle branch, header, verification
+  instructions): v2. Estate report integration (proof as court-admissible
+  evidence of holdings at block height): v3.
+- Witness commitment verification: deferred indefinitely. Protects against
+  malleability display bugs; no user in Legend's audience is threatened by them.
+
+### Carry-forward to Legend-1
+
+- Bandwidth model: +1–2 KB per verified result plus 80-byte cross-node header
+  fetch. Immaterial to totals; include as a line in bandwidth overhead
+  quantification.
+- No topology change. €170–220/month opening figure stands.
+- Storage: prefix/address index confirmed non-strippable. ~1 TB+ index
+  estimate in legend-node-plan.md already assumes it present.
+- Queue legend-scope.md edits at next scope session: NUT-13/09 permanent-out,
+  NUT-28 v2 Enterprise credential note, NUT-24 v2+ note, plain-language
+  script rendering v2, Merkle proof scope per version (v1/v2/v3).
+- Open Legend-1: economics session. Load standard six context files plus
+  legend-node-plan.md. Output: legend-economics.md (new file) +
+  legend-enterprise-pricing.md (first draft, cost basis only).
+  legend-node-plan.md is NOT appended — economics lives in its own file.
+
+---
+
+## Session Legend-0 · 5 Aug 2026
+
+**Phase:** 1 pre-build harness — node infrastructure topology
+**Status:** Complete. `legend-node-plan.md` committed at `2de5a8a`.
+
+### Completed
+
+- Three nodes locked: Hetzner Falkenstein (DE), Hetzner Helsinki (FI),
+  FlokiNET Reykjavik (IS). Two providers, two legal jurisdictions.
+- Per-node spec locked: 8+ cores, 64 GB RAM, 2 TB NVMe dedicated.
+  Hetzner AX-class for DE/FI, FlokiNET dedicated for IS.
+- Full index per node confirmed — roles are logical, not physical data partitions.
+- No gateway architecture. Browser talks to nodes directly. Locked permanently.
+- Role-split query topology locked: stage-1 (index node, script-hash prefix,
+  k-anonymity set) → stage-2 (data node, opaque row IDs). Browser randomises
+  node selection per query from signed manifest.
+- Signed node manifest architecture locked: expansion to four+ nodes is a
+  manifest update, not a code change.
+- NUT-00 nested blinding across both stages: blinding factors ephemeral,
+  client-side, discarded after query. Post-hoc node collusion cannot reconstruct.
+- NUT-07 token state check, NUT-11 P2PK Enterprise credentials,
+  NUT-29 batched minting — all confirmed for Legend mint.
+- Rotating mint instances locked: monthly cadence, independent FROST keypair
+  per window, key destruction at window close, blind exchange protocol for
+  credential migration.
+- Separate Legend Cashu mint confirmed: non-monetary, independent of
+  Share infrastructure.
+- FROST 2-of-3 threshold signatures locked: mint key management and canary
+  signing. Full key never assembled on any node. Single jurisdiction seizure
+  yields one unusable share.
+- Warrant canary: one per node, independently signed, daily publication,
+  72-hour expiry, block-hash freshness oracle, silence = death. Three
+  publication channels: node static file, GitHub mirror, per-node Nostr npub.
+- UK operator caveat locked: IPA 2016 scope stated plainly in privacy explainer,
+  Enterprise contract materials, and below-the-fold legend page copy.
+- Argon2id for all key material at rest on all three nodes.
+- Signal-style Double Ratchet (X3DH + ratchet per query) confirmed for
+  Enterprise transport, v2.
+- ML-KEM-768 hybrid with X25519 confirmed for Enterprise post-quantum transport,
+  v2. Credential layer post-quantum deferred as research problem.
+- BLAKE3 role on x86 nodes documented honestly: bulk parallelism benefit,
+  not per-lookup parity with SHA-NI. Consensus hashing untouched.
+- Graceful degradation locked: N-1 = reduced splitting (documented),
+  N-2 = single node with honest browser notice, never silent.
+- Enterprise isolation deferred to v2. Contract language designed in Legend-2.
+- €96/month figure in legend-design-spec.md confirmed stale.
+  Revised estimate: €170–220/month. Opens Legend-1.
+
+### Files committed
+
+- `legend-node-plan.md` v1.0 — commit `2de5a8a`
+
+### Carry-forward
+
+- Update `legend-session-briefs.md`: mark Legend-0 COMPLETE. ✓
+- Open Legend-0a before Legend-1: additional architecture questions. ✓ (complete)
+- Legend-1: economics session. legend-node-plan.md must be committed. ✓
+
+---
+
 ## Session Ad-hoc · 5 Aug 2026
 
 **Phase:** 0 — Foundation (pre-build harness)
@@ -49,160 +222,6 @@
 
 ---
 
-## Session 6 — Multi-6 · 3 Aug 2026
-
-**Phase:** 1 — Working explorer by December
-**Status:** Brand pass — Legend visual language confirmed
-
-### Completed
-
-- Phase 1 opens with brand pass per locked convention
-- Wordmark confirmed: Satoshi 700, 1.75rem, --text-primary, no special treatment
-- Query input confirmed: --surface bg, 0.5px --border, 8px radius, batch icon
-  on focus in --accent (#C8A96E), tagline in --text-tertiary below
-- Result typography hierarchy confirmed: five levels, UTXO table all --text-primary
-  at same weight (no secondary-text treatment on any column), Intact / Activity detected
-  in DM Sans 500 --text-primary with no colour differentiation
-- Credential icon confirmed: 10px filled circle, --accent gold only, no glow,
-  hover title, click opens modal
-- Design register confirmed: calm, legal-document precision, refined — distinct from
-  every existing explorer. Serves distressed Coldcard users and institutional clients
-  with the same interface.
-- No new design tokens. No new brand identity. Product surface under Refueler system.
-
-### Carry-forward to Multi-7
-
-- Multi-7: Eleventy scaffold for refueler.io/legend static shell + vanilla JS SPA
-  mount point. No query logic yet — shell and mount only.
-
-## Session 4 — Multi-4 · 3 Aug 2026
-
-**Phase:** 0 — Foundation
-**Status:** Design specification — Legend UI/UX, funding model, session roadmap
-
-### Completed
-
-- `legend-design-spec.md` written and committed — full UI/UX specification for Legend
-- Page architecture confirmed: Eleventy static shell + vanilla JS SPA, no visible seam
-- Query flow specced: idle, focused, submitting, three result states, error states
-- Result anatomy locked: UTXO table, transaction history, consolidation advisor,
-  Silent Payments section, denomination toggle (sats/BTC/USD)
-- Breach scenario design complete: batch input modal, determinate progress,
-  batch results modal with `Intact` / `Activity detected` language (not `Compromised`)
-- Modal inventory complete: onboarding, credential status, batch input, batch results,
-  privacy explainer. No top-up modal — free tier is unlimited at v1 launch.
-- Cashu credential gate removed from free tier entirely. Distress moment is not
-  a monetisation moment. This is locked.
-- Funding model locked: Enterprise contracts (primary), merchant network pipeline,
-  self-hosting as distribution, Share as discovery. No voluntary tip jar.
-- Infrastructure cost established: ~€96/month for production Legend instance.
-  One Enterprise client covers years of infrastructure.
-- Design principles locked: calm register, information density as choice,
-  new entrants must not be put off, branding sessions are first-class.
-- All Refueler design tokens inherited. No Legend-specific tokens in v1.
-- Session roadmap confirmed: 430 sessions across 9 phases to a world-class explorer.
-  December target: ~session 21, end of Phase 1.
-- Vision confirmed: Legend is professional infrastructure for a world where Bitcoin
-  is global payments rail, second currency, preferred long-term savings account.
-  Accountants train on it. Insurers price against it. Banks check it. Solicitors use it.
-- London BitDevs identified as primary route to academic and peer reviewer relationships.
-  No cold university outreach needed — show up, build in public, relationships follow.
-
-### Key decisions locked (Multi-4)
-
-- Free tier: unlimited queries at v1 launch. No rate limit. No account. No friction.
-- Family office value proposition: institutional wrapper (contract, SLA, documentation,
-  support, accountability) — not the software, which is free and open source.
-- Open source strengthens Enterprise sale: "don't trust us, read the code" is a stronger
-  statement to a sophisticated buyer than terms of service.
-- Branding sessions added to every major phase. A tool people find beautiful is a tool
-  institutions eventually pay for.
-- Session roadmap: Phase 0 (6 sessions, complete), Phase 1–9 defined, ~430 total.
-  Phases calibrated as build progresses.
-- Share UI to be treated as diverged — Legend specced clean, not derived from Share.
-
-### Carry-forward to Multi-5
-
-- Multi-5: Legend product scope session — lock exactly which chains, protocols,
-  and professional use cases are in scope for which version. Produces a locked scope
-  document that every subsequent build session references.
-- legend-articles-list.md: no changes this session
-- notes-articles-list.md in refueler-share: no changes this session
-
----
-
-## Session 3 — Multi-3 · 3 Aug 2026
-
-**Phase:** 0 — Foundation
-**Status:** Strategic planning — Legend economics, cryptographic foundations, architecture
-
-### Completed
-
-- Pleb tier query model resolved: 21 sats for 100 queries/day via Lightning (LNURL/Bolt12)
-- Share-upload-to-Legend-queries link removed — was cross-product friction, not a reward
-- Enterprise unlimited confirmed — PIR-sharded, Tor-native, Cashu credentialed
-- Licence question closed: MIT stays, upstream fork compatibility non-negotiable
-- Sparrow Wallet: custom Esplora endpoint, no plugin required, approach Craig Raw post-B9
-- Sat rewards (170–2000 sats) confirmed Lightning-only, no on-chain, no Legend integration needed
-- Blink/POS integration: not a Legend feature, clean separation confirmed
-- Article pipeline architecture resolved: legend-articles-list.md lives in multi-core,
-  built articles (HTML/NJK/styling) live in refueler-io — mirrors Share pattern
-- Eleventy: landing page at refueler.io/legend only. Explorer interface is vanilla JS SPA.
-  User sees no seam. Legend consumes existing Refueler nav and footer components.
-- Paper as default theme. Carbon toggle. rs-theme cookie persists across all Refueler surfaces.
-- Legend wordmark: product surface under Refueler design system, no separate identity yet.
-- Modals confirmed useful: onboarding, credential status, batch query results.
-
-### Cryptographic foundations locked
-
-**The lineage:** Chaum 1982 → DigiCash 1989 → Bitcoin 2009 → Cashu 2022 → Legend 2026
-
-- Chaum blind signatures (1982): direct ancestor of Cashu NUT-00 and Legend query credentials
-- Pedersen commitments (1991): primitive for ZK balance proofs and UTXO set commitments
-- Camenisch-Lysyanskaya credentials (2001): long-term architecture for Enterprise credential attributes
-- Spiral PIR (MIT, 2022): single-server PIR for UTXO lookups
-- Path ORAM: access pattern hiding, v2 target
-- ZK balance proofs: Groth16/PLONK on bellman or arkworks
-- Federated chain analytics: v3
-- Silent Payments batch scanning optimisation: batch-verify via EC point aggregation, ~256x speedup
-
-### Build sequence confirmed
-
-**v1 (post-B9):**
-PIR-inspired sharding, Cashu query credentials, ephemeral sessions, Silent Payments (BIP-352),
-Tor API, fee estimation, UTXO consolidation qualitative flag, batch address monitoring,
-Paper/Carbon themes, denomination toggle
-
-**v2:** Spiral PIR, Path ORAM index, ZK balance proofs, UTXO provenance scoring,
-stablesats/DLC recognition, homomorphic aggregate queries
-
-**v3:** Federated chain analytics, Silent Payments BIP-352 contribution,
-CL credential architecture
-
-### Carry-forward
-
-- Multi-4: Legend UI/UX design spec ✓ (complete)
-
----
-
-## Session 2 — AP-7 ad-hoc · 2 Aug 2026
-
-**Phase:** 0 — Foundation
-**Status:** Strategic planning — Legend scope defined
-
-### Completed
-- Legend scope locked: privacy-first Bitcoin block explorer built on BLAKE3 Esplora foundation
-- Product name confirmed: Legend
-- URL confirmed: `refueler.io/legend`
-- Licence confirmed: MIT
-- REFUELER-BRIDGE.md updated with full Legend section
-- CLAUDE.md updated to v1.1 reflecting dual scope
-- README.md extended with Legend privacy layer section
-
-### Carry-forward
-- Multi-4: Legend UI/UX design spec ✓ (complete)
-
----
-
-*Next session: Multi-5 — Legend product scope (Phase 0, session 5 of ~6)*
-*Produces: legend-scope.md — locked scope document for chains, protocols, and professional use cases by version*
+*Next session: Legend-1 — infrastructure costs and scaling economics*
+*Produces: legend-economics.md + legend-enterprise-pricing.md (first draft)*
+*Load: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md, legend-design-spec.md, legend-scope.md, legend-node-plan.md, legend-session-briefs.md*

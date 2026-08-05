@@ -1,6 +1,6 @@
 # legend-session-briefs.md — refueler-legend
-> **Version:** 1.0 | **Created:** Ad-hoc · 5 Aug 2026
-> Pre-build harness session briefs for Legend-0, Legend-1, and Legend-2.
+> **Version:** 1.1 | **Created:** Ad-hoc · 5 Aug 2026 | **Updated:** Legend-0a · 5 Aug 2026
+> Pre-build harness session briefs for Legend-0, Legend-0a, Legend-1, and Legend-2.
 > Load alongside the standard five context files when opening each session.
 > Mark each brief COMPLETE after the session closes and its output is committed.
 > Archive this file after Legend-2. Do not delete.
@@ -13,6 +13,10 @@
 Reason: PIR sharding architecture contains a genuine contradiction
 (browser SPA splitting queries without a gateway node becoming a surveillance
 point) that requires working through rather than papering over.
+
+**Legend-0a:** Opus. Extended thinking ON.
+Reason: NUT range review and Esplora filter decisions require working through
+architectural interactions before the economics session locks the cost model.
 
 **Legend-1:** Opus. Extended thinking ON.
 Reason: Scaling cost model involves compounding estimates. Wrong assumptions
@@ -28,115 +32,57 @@ Build sessions — code generation, file edits, terminal commands.
 ---
 
 ## Legend-0 — Node infrastructure topology
-**Status:** PENDING
+**Status:** COMPLETE — commit `2de5a8a` · 5 Aug 2026
 **Produces:** `legend-node-plan.md` (infrastructure section)
 **Prerequisite:** None. First session in the pre-build harness.
 
 ---
 
-Session: Legend-0
-Phase: 1 pre-build harness — node infrastructure topology
-Type: Planning and discussion only. No code. No terminal commands.
-Output: legend-node-plan.md (infrastructure section — topology, locations, specs,
-PIR sharding architecture, warrant canary design)
+## Legend-0a — Additional architecture session
+**Status:** COMPLETE · 5 Aug 2026
+**Produces:** No output document. Locks recorded in SESSIONS.md.
+**Prerequisite:** Legend-0 complete.
 
-Context files loaded: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md,
-legend-design-spec.md, legend-scope.md, legend-session-briefs.md
+### Locks carried forward to legend-scope.md (queue for next scope session)
 
----
+- NUT-13 and NUT-09: add to permanent-out list. Deterministic/restorable
+  credentials contradict ephemeral-session architecture.
+- NUT-28 P2BK: add v2 Enterprise credential hardening note.
+- NUT-24 HTTP 402: add v2+ per-query payment model note.
+- Plain-language script rendering: add as scoped v2 item.
+- Merkle proof scope: v1 (in-browser verification), v2 (proof export artefact),
+  v3 (estate report integration).
 
-WHAT THIS SESSION DECIDES:
+### Key decisions locked
 
-Legend's v1 privacy architecture depends on PIR-inspired query sharding across
-multiple Hetzner nodes. The design-spec says 3–5 nodes. The scope says the same.
-Neither document specifies locations, specs, topology, or how the sharding
-actually works at the network level. This session locks all of that.
-
-QUESTIONS TO WORK THROUGH:
-
-1. NODE COUNT AND LOCATIONS
-   - What is the minimum node count for PIR sharding to be meaningfully private
-     in v1 (before Spiral PIR in v2)?
-   - Which Hetzner datacentre locations make sense: Falkenstein (DE),
-     Helsinki (FI), Ashburn (US), Singapore?
-   - What does geographic distribution buy legally — which combinations place
-     nodes in different jurisdictions meaningfully for MLAT purposes?
-   - What is the right v1 count vs the right v2/v3 count, and can we add nodes
-     without architectural changes?
-
-2. NODE SPECS
-   - What does each node need to run: indexed Bitcoin chain data,
-     the query API, the sharding layer?
-   - What are the RAM, storage, and CPU requirements for a fully indexed
-     Bitcoin node running the Esplora API?
-   - Hetzner dedicated vs VPS — which is appropriate at v1 launch scale?
-   - Storage growth rate: Bitcoin chain is ~600GB now, growing ~60GB/year.
-     Does each node hold a full copy or do they shard the data itself?
-
-3. PIR SHARDING TOPOLOGY — HOW IT ACTUALLY WORKS IN v1
-   - In v1 we have PIR-inspired sharding, not full Spiral PIR (that is v2).
-   - The claim: no single node sees the complete query. The client reassembles.
-   - How does the API gateway split a query across nodes in practice?
-   - Does the client software do the splitting, or does a gateway node do it?
-   - If a gateway node does it, is that gateway a single point of failure
-     and a single point of surveillance?
-   - What does "client reassembles locally" mean for a browser-based SPA
-     with no installed software?
-   - Be honest about what v1 sharding actually achieves vs what Spiral PIR
-     achieves — these are different claims and the honest version matters.
-
-4. WARRANT CANARY ARCHITECTURE
-   - Each node publishes a signed statement every N blocks:
-     "I have not received a legal order compelling disclosure."
-   - What does this signed statement contain, who signs it,
-     and where is it published?
-   - What happens to the canary if a node goes offline —
-     does silence read as canary death?
-   - What is the correct canary update cadence: per block, daily, weekly?
-   - How does a user or Enterprise client verify the canary
-     without creating a query log at the canary verification endpoint?
-
-5. REDUNDANCY AND FAILOVER
-   - If one node goes offline during a query, what happens to the user's result?
-   - Does the sharding architecture degrade gracefully with N-1 nodes?
-   - What does the node status page (already specced in legend-design-spec.md)
-     need to show to be honest about node health?
-
-CONSTRAINTS THAT DO NOT CHANGE:
-- No server-side query logs. Ever. Not even for debugging.
-- Ephemeral sessions are non-negotiable. Failover cannot create session persistence.
-- Enterprise isolation (dedicated nodes for Enterprise clients) —
-  decide in this session whether that is v1 or v2.
-- Infrastructure must be honest about what v1 sharding actually achieves.
-  Do not overclaim. The honest version is stronger than the marketing version.
-
-OUTPUT THIS SESSION PRODUCES:
-A document: legend-node-plan.md
-Sections: node count and locations (locked), node specs (locked),
-PIR sharding topology (honest description of v1 vs v2),
-warrant canary design, redundancy model,
-Enterprise isolation decision (v1 or v2).
-Committed to refueler-legend alongside CLAUDE.md and SESSIONS.md.
-Referenced by every build session that touches infrastructure.
-
-Close session by updating SESSIONS.md with Legend-0 entry and carry-forward to Legend-1.
-Mark this brief COMPLETE in legend-session-briefs.md.
-
-"Nothing stops this train."
+- NUT-12 DLEQ: v1, mandatory, browser-side.
+- NUT-06 mint info: v1, non-monetary status advertised.
+- NUT-19 idempotency: v1, in-memory, short TTL, blinded content only.
+- NUT-21/22: rejected. OAuth/OIDC clear auth is wrong architecture for Legend.
+- NUT-28: v2 Enterprise credential hardening.
+- NUT-24: v2+ per-query payment model consideration.
+- NO_ADDRESS_SEARCH=1: forbidden on all Legend nodes permanently.
+- Data parity across tiers: locked. Data access never differentiates tiers.
+- Merkle inclusion proofs: v1, cross-node header fetch, in-browser SPV verify.
 
 ---
 
 ## Legend-1 — Infrastructure costs and scaling economics
 **Status:** PENDING
-**Produces:** `legend-node-plan.md` (economics section appended) + `legend-enterprise-pricing.md` (first draft)
-**Prerequisite:** Legend-0 complete. `legend-node-plan.md` committed.
+**Produces:** `legend-economics.md` (new file) + `legend-enterprise-pricing.md` (first draft, cost basis only)
+**Prerequisite:** Legend-0 complete. `legend-node-plan.md` committed. ✓
+
+**Note (updated Legend-0a):** Economics content lives in a new standalone file
+`legend-economics.md` — NOT appended to `legend-node-plan.md`. That file is
+already long and the infrastructure topology should remain clean and
+independently referenceable. Legend-1 output is two files.
 
 ---
 
 Session: Legend-1
 Phase: 1 pre-build harness — infrastructure costs and scaling economics
 Type: Planning and discussion only. No code. No terminal commands.
-Output: legend-node-plan.md (economics section appended) +
+Output: legend-economics.md (new file) +
 legend-enterprise-pricing.md (first draft, infrastructure cost basis only)
 
 Context files loaded: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md,
@@ -144,7 +90,7 @@ legend-design-spec.md, legend-scope.md, legend-node-plan.md,
 legend-session-briefs.md
 
 Legend-0 must be complete before this session opens.
-legend-node-plan.md must exist and be committed.
+legend-node-plan.md must exist and be committed. ✓
 
 ---
 
@@ -165,6 +111,8 @@ QUESTIONS TO WORK THROUGH:
    - What is the honest monthly total at v1 launch?
    - How does this compare to the ~€96/month figure in legend-design-spec.md —
      is that figure still accurate given the node topology locked in Legend-0?
+   - Legend-0 revised estimate: €170–220/month. Verify or refine against
+     current Hetzner AX-class and FlokiNET dedicated pricing.
 
 2. SCALING COST MODEL
    - At 100,000 MAU: what does the node infrastructure cost?
@@ -175,16 +123,20 @@ QUESTIONS TO WORK THROUGH:
    - Silent Payments scanning is computationally heavier than address lookups —
      model its cost separately. At what adoption rate does it require
      dedicated scanning nodes?
+   - Merkle proof overhead: +1–2 KB per verified result plus 80-byte cross-node
+     header fetch (locked Legend-0a). Include in bandwidth quantification.
 
 3. BANDWIDTH AND CHAIN DATA
-   - Bitcoin chain is ~600GB now, growing ~60GB/year.
-   - If each node holds a full indexed copy, storage cost compounds.
-   - If nodes shard the data (not just the queries), storage cost is shared
-     but the architecture is more complex.
-   - Which approach did Legend-0 lock? Price both if undecided.
-   - Bandwidth cost for PIR sharding: the client downloads more than it
-     strictly needs (by design). Quantify the bandwidth overhead vs a
-     standard Esplora query.
+   - Bitcoin chain is ~650 GB now (node-plan figure), growing ~60 GB/year.
+   - Every node holds a full indexed copy — storage cost compounds.
+     This is locked; full index per node is required by the privacy architecture.
+   - Prefix/address index is non-strippable (locked Legend-0a). The ~1 TB+
+     index estimate already assumes it present.
+   - Bandwidth cost for PIR role-split: the client makes two fetch() calls
+     (stage-1 and stage-2 to different nodes). Quantify the overhead vs a
+     standard single-node Esplora query.
+   - PIR sharding bandwidth: client downloads candidate row ID set from stage-1
+     (larger than a direct answer by design). Quantify this overhead.
 
 4. THE ONE ENTERPRISE CLIENT BREAK-EVEN
    - legend-design-spec.md states: "one Enterprise client covers years
@@ -201,6 +153,9 @@ QUESTIONS TO WORK THROUGH:
    - Does self-hosting undercut the Enterprise offer or strengthen it?
    - What does the AI-assisted setup guide need to cover for a non-technical
      self-hoster to get a working instance?
+   - Self-hosted instances use a simpler single-key rotating-key-set Cashu mint
+     rather than the FROST 2-of-3 multi-node ceremony (locked Legend-0).
+     Note this distinction in the economics document.
 
 6. INFRASTRUCTURE COST AS HONEST SIGNAL
    - The cost model should be published honestly — users should know
@@ -209,11 +164,11 @@ QUESTIONS TO WORK THROUGH:
      need updating after this session?
 
 OUTPUT THIS SESSION PRODUCES:
-- legend-node-plan.md: economics section appended.
-  Sections added: monthly cost at v1, scaling cost model, bandwidth overhead,
-  break-even analysis, self-hosting cost estimate.
-- legend-enterprise-pricing.md: first draft, infrastructure cost basis only.
-  Full pricing model completed in Legend-2.
+- legend-economics.md (new file):
+  Monthly cost at v1, scaling cost model, bandwidth overhead quantified,
+  break-even analysis, self-hosting cost estimate, honest signal framing.
+- legend-enterprise-pricing.md (first draft, infrastructure cost basis only):
+  Cost floor per tier established. Full pricing model completed in Legend-2.
 
 Close session by updating SESSIONS.md with Legend-1 entry and carry-forward to Legend-2.
 Mark this brief COMPLETE in legend-session-briefs.md.
@@ -225,7 +180,7 @@ Mark this brief COMPLETE in legend-session-briefs.md.
 ## Legend-2 — Enterprise packaging and commercial model
 **Status:** PENDING
 **Produces:** `legend-enterprise-pricing.md` (completed)
-**Prerequisite:** Legend-0 and Legend-1 complete. Both output documents committed.
+**Prerequisite:** Legend-0, Legend-0a, and Legend-1 complete. All output documents committed.
 
 ---
 
@@ -236,16 +191,16 @@ Output: legend-enterprise-pricing.md (completed)
 
 Context files loaded: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md,
 legend-design-spec.md, legend-scope.md, legend-node-plan.md,
-legend-enterprise-pricing.md (first draft from Legend-1),
+legend-economics.md, legend-enterprise-pricing.md (first draft from Legend-1),
 legend-session-briefs.md
 
-Legend-0 and Legend-1 must be complete before this session opens.
+Legend-0, Legend-0a, and Legend-1 must be complete before this session opens.
 
 ---
 
 WHAT THIS SESSION DECIDES:
 
-Infrastructure costs are modelled in legend-node-plan.md. This session
+Infrastructure costs are modelled in legend-economics.md. This session
 builds the full commercial model on top of that cost basis: what each
 tier costs, what it includes, how it is sold, and how the relationship
 is structured. Output is a complete legend-enterprise-pricing.md that
