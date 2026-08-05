@@ -103,7 +103,7 @@ Free at point of use. No account. No rate limit. No friction at the distress mom
 
 Enterprise contracts are the revenue source: dedicated nodes, Tor API, Silent Payments
 scanning, compliance reporting, SLA, quarterly security review. The software is free and
-open source. One Enterprise client covers years of infrastructure (~€96/month).
+open source. One Enterprise client covers years of infrastructure (~€360/month running cost).
 
 ---
 
@@ -118,7 +118,12 @@ open source. One Enterprise client covers years of infrastructure (~€96/month)
 | Product scope locked | ✓ Multi-5 |
 | Brand pass | ✓ Multi-6 |
 | Eleventy shell + SPA mount | ✓ Multi-7 |
-| First query flow | Multi-8 |
+| Node infrastructure topology | ✓ Legend-0 |
+| Additional architecture (NUTs, Esplora filters, Merkle) | ✓ Legend-0a |
+| Infrastructure costs and scaling economics | ✓ Legend-1 |
+| Enterprise packaging and commercial model | ✓ Legend-2 |
+| UX language and information hierarchy | Legend-3 |
+| First query flow | Legend-8+ |
 | Silent Payments scanner | Phase 1 |
 | Batch address flow | Phase 1 |
 | Article 14 | Phase 1 |
