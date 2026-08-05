@@ -1,5 +1,5 @@
 # legend-session-briefs.md — refueler-legend
-> **Version:** 1.1 | **Created:** Ad-hoc · 5 Aug 2026 | **Updated:** Legend-0a · 5 Aug 2026
+> **Version:** 1.2 | **Created:** Ad-hoc · 5 Aug 2026 | **Updated:** Legend-1 · 5 Aug 2026
 > Pre-build harness session briefs for Legend-0, Legend-0a, Legend-1, and Legend-2.
 > Load alongside the standard five context files when opening each session.
 > Mark each brief COMPLETE after the session closes and its output is committed.
@@ -68,8 +68,8 @@ Build sessions — code generation, file edits, terminal commands.
 ---
 
 ## Legend-1 — Infrastructure costs and scaling economics
-**Status:** PENDING
-**Produces:** `legend-economics.md` (new file) + `legend-enterprise-pricing.md` (first draft, cost basis only)
+**Status:** COMPLETE · 5 Aug 2026
+**Produces:** `legend-economics.md` (new file) + `legend-enterprise-pricing.md` (v0.1, cost basis only)
 **Prerequisite:** Legend-0 complete. `legend-node-plan.md` committed. ✓
 
 **Note (updated Legend-0a):** Economics content lives in a new standalone file
