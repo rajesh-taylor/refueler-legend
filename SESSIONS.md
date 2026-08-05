@@ -1,89 +1,51 @@
 # SESSIONS.md — refueler-legend
 *Rolling log — last 3–4 sessions only. Archive older entries.*
+*Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
-## Session AP-8 — Ad-hoc · 4 Aug 2026
 
-**Phase:** 1 — Working explorer by December
-**Status:** Nav, theme, and cross-project housekeeping — `refueler-io` and `refueler-share`
+## Session Ad-hoc · 5 Aug 2026
 
-### What landed in `refueler-legend`
-
-- `REFUELER-BRIDGE.md` updated to v1.4 and committed — commit `5099206`
-  Records: AP-8 nav rewrites, theme script fixes, nav architecture decision,
-  cross-project sign-off checklist for Legend before Multi-8 opens.
-  Bridge now lives in `refueler-legend` at v1.4. No other files changed in this repo.
-
-### What AP-8 did (other repos — recorded here for Legend context)
-
-**`refueler-io`:**
-- `src/_includes/nav.njk`: hardcoded `"Legend"` breadcrumb default removed.
-  `wordmarkSection` breadcrumb (`/ SECTION`) now only renders when a page passes
-  `wordmarkSection` in its frontmatter. Legend page already passes
-  `wordmarkSection: "Legend"` — unaffected. Homepage, support, privacy, editorial,
-  notes show clean `REFUELER` wordmark with no slash.
-- `src/support/index.njk`: `privacy@` → `support@` throughout; inset blockquote
-  and "What can I raise?" items genericised across all Refueler products;
-  inline theme script updated to `rs-theme` cookie + `dataset.theme` pattern.
-
-**`refueler-share`:**
-- `src/_includes/nav.njk`: App/Editorial/Privacy links removed; Notes and Support added.
-- `src/_includes/head.njk`: `localStorage`/`rfTheme` → `rs-theme` cookie scoped to
-  `.refueler.io`, `dataset.theme` attribute only. Cross-domain theme persistence
-  now confirmed working between `refueler.io` and `share.refueler.io`.
-
-### Nav architecture decision — locked AP-8
-
-- Main site (`refueler.io`): ecosystem nav — Legend, Editorial, Notes, Privacy, theme pill. No Upgrade link.
-- Share (`share.refueler.io`): product nav — Notes, Upgrade, Support, theme pill. No Editorial, no Privacy (footer only).
-
-### Carry-forward
-
-- Multi-8 prerequisite: refueler-io housekeeping session (nav CSS extraction, theme bug fix,
-  API key rotation) must confirm Legend sign-off checklist green before Multi-8 opens.
-  Sign-off checklist is in REFUELER-BRIDGE.md cross-project actions section.
-
-  ---
-
-## Session 7 — Multi-7 · 3 Aug 2026
-
-**Phase:** 1 — Working explorer by December
-**Status:** Eleventy scaffold — Legend shell and SPA mount live in refueler-io
+**Phase:** 0 — Foundation (pre-build harness)
+**Status:** Research, threat modelling, scope expansion
 
 ### Completed
 
-- Architecture confirmed: Legend shell lives in `refueler-io`, not `refueler-legend`
-  `refueler-legend` is the Rust indexer only — no Eleventy, no HTML
-- Three files added to `refueler-io`:
-  - `src/legend/index.njk` — static shell, includes shared nav/footer, SPA mount div,
-    below-fold acquisition content (three columns: what it does, who it's for, free tier)
-  - `src/assets/css/legend.css` — Legend design tokens, layout, SPA chrome, responsive
-  - `src/assets/js/legend-spa.js` — SPA scaffold: mounts shell, input, batch icon,
-    credential dot, all interactive stubs ready for Multi-8 query logic
-- `src/_includes/nav.njk` updated: App → Legend, wordmark section variable
-  (`{{ wordmarkSection or "Legend" }}`), App link replaced with `/legend/`
-- `eleventy.config.js` updated: `addPassthroughCopy("src/assets")` added so
-  CSS and JS reach `_site/`
-- `REFUELER-BRIDGE.md` updated to v1.3: build status, cross-project actions section
-  added covering nav CSS extraction, theme bug fix, API key rotation, and Legend
-  sign-off checklist before Multi-8 opens
-- All commits pushed: `refueler-io` (`fe6b88a`), `refueler-legend` (`e51474c`),
-  `refueler-share` (BRIDGE only)
+- Threat model expanded: Mempool/Blockstream reframed as data harvesters.
+  Documented: device correlation, wallet fingerprinting, geographic inference,
+  wealth correlation, state-level bulk collection, MLAT subpoena risk,
+  family office session-linking attack surface.
+- Jurisdiction mobility threat documented: Five Eyes MLAT reach to US/Canadian
+  infrastructure. Pre-departure query behaviour as legal evidence. → Article 22.
+- Family office attack surface documented: corporate IP, IT logging, client
+  session-linking via query sequence. → Article 21.
+- Estate planning confirmed as v3 professional use case. → Article 23.
+- /legend/verify confirmed as v2 placeholder: dedicated URL, ZK proof verification.
+- Cashu mint health confirmed as v2 feature: on-chain reserve check, mint blindness preserved.
+- Lightning node pubkey → private channel correlation confirmed as v2 feature.
+- Node count value documented: PIR privacy, geographic legal distribution,
+  Enterprise isolation, per-node warrant canary architecture.
+- Traffic projections: year 1–2 realistic 5,000–20,000 MAU. Year 3–7
+  10–50M queries/month if Silent Payments adoption follows SegWit curve.
+- Enterprise pricing model: family office £1,500–3,500/month, merchant/franchise
+  bundled with POS, estate solicitor per-report £50–150.
+- Swan Bitcoin assessment: most likely to fork. Approach only post-audit.
+- Mempool.space Enterprise ~$500–2,000/month. Blockstream no paid tier.
+- Pre-build harness plan locked: 6 sessions before Multi-8,
+  producing legend-node-plan.md, legend-enterprise-pricing.md, legend-ux-language.md.
+- Session naming convention confirmed: Multi-[n] through Multi-8,
+  then Legend-[n] from first build session onwards.
 
-### Known issues — blocked on refueler-io housekeeping session
+### Files updated
 
-- Nav and footer render unstyled on Legend page — nav CSS is inline in `src/index.njk`
-  only, not in a shared stylesheet. Fix documented in REFUELER-BRIDGE cross-project actions.
-- Theme toggle non-functional on Legend page — same root cause.
-- `head.njk` and `src/index.njk` use `localStorage` / `classList.add('carbon-mode')`
-  in violation of locked spec. Fix documented in REFUELER-BRIDGE.
+- `legend-articles-list.md` → v1.1: Articles 21, 22, 23 added.
+- `legend-scope.md` → v1.1: v2 and v3 expanded. Carry-forward updated.
+- `SESSIONS.md` → this entry.
 
-### Carry-forward to Multi-8
+### Carry-forward
 
-- Multi-8 does NOT open until refueler-io housekeeping session is complete and
-  Legend sign-off checklist in REFUELER-BRIDGE is confirmed green.
-- Multi-8: first query flow — address input → API call → result render (funds intact
-  and funds moved states). No batch, no modals yet.
+- Commit all three files from `/Users/rajeshtaylor/Documents/refueler-legend/`
+- Next session: node infrastructure costing. Produces `legend-node-plan.md`. No code.
 
 ---
 
@@ -111,7 +73,7 @@
 ### Carry-forward to Multi-7
 
 - Multi-7: Eleventy scaffold for refueler.io/legend static shell + vanilla JS SPA
-  mount point. No query logic yet — shell and mount only. ✓ (complete)
+  mount point. No query logic yet — shell and mount only.
 
 ## Session 4 — Multi-4 · 3 Aug 2026
 
@@ -242,4 +204,5 @@ CL credential architecture
 
 ---
 
-*Next session: Multi-8 — first query flow (address → result). Opens only after refueler-io housekeeping session confirms Legend sign-off checklist green.*
+*Next session: Multi-5 — Legend product scope (Phase 0, session 5 of ~6)*
+*Produces: legend-scope.md — locked scope document for chains, protocols, and professional use cases by version*

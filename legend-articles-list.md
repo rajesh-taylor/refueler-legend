@@ -1,6 +1,6 @@
-# legend-articles-list.md — refueler-legend /notes/ pipeline
-> **Version:** 1.0 | **Created:** Multi-3 · 3 Aug 2026
-> Editorial planning document. Lives in `refueler-legend/` alongside CLAUDE.md and SESSIONS.md.
+# legend-articles-list.md — refueler-multi-core /notes/ pipeline
+> **Version:** 1.1 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Ad-hoc · 5 Aug 2026
+> Editorial planning document. Lives in `refueler-multi-core/` alongside CLAUDE.md and SESSIONS.md.
 > Load when in an editorial planning or article build session. Not by default.
 > Publishing platform: `refueler.io/notes/` (main domain, not subdomain).
 > Built articles (HTML/NJK/styling) live in `refueler-io`. This file tracks scope only.
@@ -192,6 +192,74 @@ Private Information Retrieval is a branch of cryptography that asks: can a serve
 
 ---
 
+---
+
+### Article 21 — The family office problem
+
+**Slug:** `family-office-bitcoin-privacy`
+**Status:** Scoped. Not drafted. Unlocks post-B9.
+**Audience:** Family offices, private wealth managers, Bitcoin-holding HNWIs, compliance professionals at wealth management firms.
+**Dependency:** Legend explorer live.
+
+**The argument:**
+Your advisor's query behaviour is your attack surface. A family office checking client addresses from a corporate IP — logged into Chrome, on a monitored network, with IT security logging outbound traffic — has donated your holdings map to anyone who can reach Mempool's logs. The metadata leak isn't yours alone. It belongs to every professional who touches your addresses. Worse: family offices check multiple clients in sequence, which links those clients to each other in the explorer's session log. A data request naming that family office reconstructs every client's holdings they've ever checked. Legend is the correct Esplora endpoint for any professional handling client Bitcoin.
+
+**Beats:**
+- The corporate IP problem: your advisor's query logs are attached to a regulated entity
+- Sequence-of-queries: multiple clients checked in one session are linked in the log
+- What a data request to Mempool naming a specific firm would return
+- The compounding problem: IT security logging, browser history, compliance obligations
+- Legend as the professional endpoint: one Enterprise contract covers all client queries
+- The honest scope: Legend doesn't know who you're checking either
+
+**CTA:** Contact Refueler for Enterprise access.
+
+---
+
+### Article 22 — The jurisdiction problem
+
+**Slug:** `bitcoin-jurisdiction-mobility-explorer-logs`
+**Status:** Scoped. Not drafted. Unlocks post-B9.
+**Audience:** HNWIs relocating jurisdictions, lawyers advising on asset restructuring, privacy-conscious Bitcoiners in politically unstable environments.
+**Dependency:** Legend explorer live.
+
+**The argument:**
+If you're moving jurisdictions — relocating, restructuring, or leaving — your pre-departure query behaviour is a timestamped record of asset attention that Five Eyes-adjacent legal processes can reach. Mempool.space is US-incorporated. Blockstream is Canadian. Both are subpoenable under mutual legal assistance treaties. A British national checking addresses from a London IP the week before departure has handed a legal record of pre-departure asset attention to any jurisdiction that knows to ask. Legend retains nothing. Not a policy promise — the architecture doesn't permit retention. There is nothing to subpoena.
+
+**Beats:**
+- What MLAT requests can reach and how quickly
+- The timing problem: query logs are most dangerous at exactly the moment people use them
+- State-level monitoring: bulk collection doesn't discriminate — a Mempool query may be in an intelligence database not because you're a target but because everyone is
+- The Five Eyes legal chain: what a request to a US-incorporated entity returns
+- Legend's structural answer vs a policy promise
+- The honest scope: Legend protects query metadata, not on-chain history
+
+**CTA:** Use Legend. Link to Article 14.
+
+---
+
+### Article 23 — Bitcoin and your estate
+
+**Slug:** `bitcoin-estate-planning-privacy`
+**Status:** Scoped. Not drafted. Unlocks post-v2 (estate verification tooling live).
+**Audience:** Bitcoin holders with meaningful holdings, UK solicitors, estate planners, family members of Bitcoin holders.
+**Dependency:** Legend v2 live. /legend/verify endpoint live.
+
+**The argument:**
+Bitcoin is the only major asset class where the wealth permanently disappears if the owner dies without proper succession planning. Solicitors don't understand it. Banks won't custody it. The Solicitors Regulation Authority has mandated crypto asset accounting in estates and provided no tooling. Legend provides: time-locked balance verification at a specific block height for probate, inheritance script monitoring, multi-sig quorum verification in plain language, and ZK balance proof output a probate court can verify. Written entirely in language a solicitor — not a cryptographer — can act on.
+
+**Beats:**
+- The permanent loss problem: no recovery mechanism for lost keys
+- What the SRA actually requires and what tooling gap exists
+- What "holdings at date of death" means technically and how Legend proves it at a block height
+- Time-locked inheritance scripts: Liana wallet, Miniscript, what a solicitor needs to know
+- ZK balance proof as evidence: what it proves, what it doesn't, what a court sees
+- The honest scope: Legend provides the technical verification; legal acceptance depends on frameworks outside our control
+
+**CTA:** Contact Refueler for Estate Verification access. Link to /legend/verify.
+
+---
+
 ## Publishing sequence
 
 Articles publish in this order, each unlocking when its dependency is met:
@@ -205,10 +273,13 @@ Articles publish in this order, each unlocking when its dependency is met:
 | 18 | Silent Payments and why no explorer supports them | Legend SP scanning live |
 | 19 | ZK balance proofs for Bitcoin holders | Legend v2 live |
 | 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
+| 21 | The family office problem | Legend live |
+| 22 | The jurisdiction problem | Legend live |
+| 23 | Bitcoin and your estate | Legend v2 live, /legend/verify live |
 
-Articles 14, 15, and 16 can publish in close succession at Legend launch.
+Articles 14, 15, 16, 21, and 22 can publish in close succession at Legend launch.
 Articles 17 and 18 follow as features confirm stable.
-Articles 19 and 20 are v2 unlocks — no timeline pressure.
+Articles 19, 20, and 23 are v2 unlocks — no timeline pressure.
 
 ---
 

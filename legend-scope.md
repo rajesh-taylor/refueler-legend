@@ -1,5 +1,5 @@
-# legend-scope.md — refueler-legend
-> **Version:** 1.0 | **Created:** Multi-5 · 3 Aug 2026
+# legend-scope.md — refueler-multi-core
+> **Version:** 1.1 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Ad-hoc · 5 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -31,17 +31,14 @@ the same query interface, design tokens, and privacy guarantees.
 
 ## What Legend is (and is not)
 
-**Is:** A privacy-first Bitcoin mainchain block explorer with a progressively expanding
-privacy and professional analysis layer. Every query is private by default. The free
-tier is unlimited. The Enterprise tier is the institutional wrapper around open source.
+**Is:** A privacy-first Bitcoin mainchain block explorer with a progressively expanding privacy and professional analysis layer. Every query is private by default. The free tier is unlimited. The Enterprise tier is the institutional wrapper around open source.
 
 **Is not:**
 - A general-purpose multi-chain explorer (Ethereum, Solana, etc. — never in scope)
 - A surveillance tool or chain analytics service (UTXO provenance scoring is
   for the holder querying their own holdings, not for third-party analytics)
 - A custodian or wallet (no private key handling, no transaction signing)
-- A Nostr relay or social product (Nostr integration is ecosystem contribution only,
-  not a core Legend feature)
+- A Nostr relay or social product (Nostr integration is ecosystem contribution only, not a core Legend feature)
 - A clone of Mempool.space with a privacy badge — that is the starting point,
   not the destination
 
@@ -161,6 +158,8 @@ architecture-level. v2 makes them formally verifiable.
 | Stablesats / DLC recognition | **Yes** | Identify DLC-settled outputs and stablesats-related patterns on-chain. |
 | CoinJoin (extended) | **Yes** | Wasabi, JoinMarket, Whirlpool pattern recognition. No de-mixing. |
 | xpub / HD wallet scanning | **Evaluate** | Privacy complexity is significant. Evaluate during Phase 2 planning. |
+| Lightning node pubkey → channel correlation | **Yes** | Holder's own node only. Private. Nothing leaves the session. No other explorer supports this. |
+| Cashu mint health → reserve verification | **Yes** | On-chain Lightning liquidity footprint only. Mint blindness preserved. Mint does not know it was checked. |
 
 ### Professional use cases (v2)
 
@@ -178,6 +177,18 @@ to operator. Never used for third-party surveillance.
 **Lightning channel correlation:**
 Private correlation of on-chain channel opens/closes with own node's channel history.
 Requires the holder to provide their own node pubkey. Nothing leaves the session.
+
+**Lightning node pubkey — private channel correlation:**
+Holder provides own node pubkey. Legend correlates on-chain channel opens/closes
+with node footprint privately. Nothing leaves the session. No other explorer
+supports this at all, let alone privately.
+
+**Cashu mint health verification:**
+Private on-chain verification of a Cashu mint's Lightning liquidity footprint.
+Query input: mint public key + block height. Output: channel open/close history,
+reserve consistency check. Does not query token state — mint blindness is preserved.
+The mint does not know it was checked. Positioned alongside the Cashu ecosystem
+as a trust and health signal, not as surveillance.
 
 **Article pipeline unlocks at v2:**
 - Article 19: `zk-balance-proofs-bitcoin`
@@ -228,6 +239,17 @@ of holdings at a specific block height. ZK balance proof as court-admissible evi
 Depends on legal framework development outside Legend's control — scope is the
 technical tooling, not the legal acceptance.
 
+**Self-custody estate planning:**
+Time-locked balance verification at a specific block height for probate purposes.
+A solicitor needs to know what the deceased held at date of death — a specific block. Legend returns a ZK-backed statement of holdings at that block without revealing which addresses were checked. Inheritance script monitoring for Miniscript/Liana-style time-locks: holder or heir pastes the script, Legend watches privately. Multi-sig quorum verification in plain language for solicitors. Per-report pricing model — £50–150 per verified estate report. UK solicitors are the primary audience; the Solicitors Regulation Authority has mandated crypto asset accounting in estates with no tooling provided. Legend is that tooling.
+
+**/legend/verify endpoint:**
+Dedicated ZK balance proof verification flow. Separate URL, separate interaction —
+not a modification to the main explorer input. Input: proof + claimed amount.
+Output: verified or not verified against chain at specified block height.
+Used by lenders, solicitors, and counterparties to verify a holder's proof
+without seeing addresses. Article 23 CTA links here.
+
 **Bitcoin-backed lending (formal integrations):**
 Ledn, Unchained, Lava — ZK balance proof as collateral verification. No addresses
 exchanged with the lender. Lender verifies the proof against the chain.
@@ -265,12 +287,9 @@ These are never in scope. Not deferred. Not reconsidered without a full session.
 3. Does it require trusting a third party with query content?
 4. Does it introduce a cross-product dependency that creates friction?
 
-If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning session if it
-needs revisiting. Do not build first and rationalise second.
+If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning session if it needs revisiting. Do not build first and rationalise second.
 
-**The Share lesson:** The Share-upload-to-Legend-queries link was a good idea on paper
-and was dropped because it introduced cross-product friction. That is the correct outcome.
-Apply the same discipline here.
+**The Share lesson:** The Share-upload-to-Legend-queries link was a good idea on paper and was dropped because it introduced cross-product friction. That is the correct outcome. Apply the same discipline here.
 
 ---
 
@@ -292,17 +311,28 @@ Apply the same discipline here.
 | ZK balance proofs | — | Yes | Lending/estate integration |
 | Family office tooling | — | — | Full |
 | Academic contribution | — | Audit input | Co-authored paper |
+| Lightning node correlation | — | Own node, private | — |
+| Cashu mint health | — | Reserve check, blind | — |
+| Estate planning tooling | — | — | Probate verification, time-lock monitoring |
+| /legend/verify endpoint | — | ZK proof stub | Full verification flow |
 
 ---
 
-## Carry-forward to Multi-6
+## Carry-forward
 
-Multi-6: Phase 1 build opens. First session is a brand pass.
-Covers: Eleventy setup, SPA scaffold, first query flow (address → UTXOs), Paper/Carbon
-theme implementation, Legend wordmark placement. Article 14 draft begins in parallel.
-
-`legend-scope.md` is the authority document for every build session from this point.
+`legend-scope.md` is the authority document for every build session.
 If a feature is not listed here, it does not exist yet. Add it to a planning session first.
+
+**Pre-build harness sessions (before Multi-8 / Legend-0 build opens):**
+- Node infrastructure costing session — produces `legend-node-plan.md`
+- Enterprise pricing session — produces `legend-enterprise-pricing.md`
+- UX language and information hierarchy session — produces `legend-ux-language.md`
+- Node status page spec session — adds section to `legend-design-spec.md`
+- Silent Payments plain-language copy session — adds to `legend-ux-language.md`
+- Estate planning feature spec session — adds detail to v3 section above
+
+**Session naming:** Multi-[n] continues through Multi-8 (first query flow).
+From Legend-0 onwards, sessions are prefixed `Legend-[n]`.
 
 ---
 
