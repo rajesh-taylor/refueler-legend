@@ -4,6 +4,51 @@
 
 ---
 
+## Session Legend-5 · 6 Aug 2026
+
+**Phase:** 1 pre-build harness — MASTER.md compression
+**Status:** Complete. `MASTER.md` v1.0 produced and committed.
+
+### Completed
+
+- All nine harness files read in full: `CLAUDE.md` (v1.5), `SESSIONS.md`, `REFUELER-BRIDGE.md`,
+  `legend-design-spec.md` (v1.2), `legend-scope.md` (v1.2), `legend-node-plan.md` (v1.0),
+  `legend-ux-language.md` (v1.0), `legend-economics.md` (v1.0), `legend-enterprise-pricing.md` (v1.0).
+- `MASTER.md` v1.0 produced: 343 lines, nine sections covering node topology, economics,
+  enterprise commercial model, design system, copy register, scope by version, open items,
+  and file index. Decisions only; pointers to detail files throughout.
+- Standard session load from Legend-6 onwards: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md`
+  + one specific detail file (4 files, not 9).
+- Six CryptoRoadmap sessions scoped and queued: three Opus research sessions
+  (primitives audit, transport/scanning layer, ZK architecture) + three Sonnet
+  translation sessions. Timing: post-Phase-1 working explorer, before v2 build opens
+  (target window: January 2027). See session queue below.
+- Preliminary research note filed: Ristretto255 (Share Safari/WebCrypto performance,
+  Legend ZK/DLEQ cleanliness, Tor payload reduction), Checklist PIR (Henzinger et al.
+  2023) sublinear online phase, FMD (Beck et al. 2021) for Silent Payments scanning.
+  Unverified performance claims flagged for calibration in CryptoRoadmap-1.
+- Licence divergence noted: CLAUDE.md locks MIT; REFUELER-BRIDGE.md says Apache 2.0
+  for Legend. CLAUDE.md is authoritative. Correct BRIDGE at next update.
+- GBP denomination edit still open: locked in CLAUDE.md v1.5 but not applied to
+  `legend-ux-language.md` §4/§8. Apply at next session touching that file.
+
+### Files produced
+
+- `MASTER.md` v1.0 — new file, committed `be071f5`
+- `SESSIONS.md` — this entry, committed and pushed
+
+### Carry-forward
+
+- **CONTRIBUTING.md contribution-back norm** — queued for first build session.
+- **Custom FlokiNET quote** — open. Mandatory before provisioning node C.
+- **legend-incident-protocol.md** — two Opus sessions once infrastructure is live.
+- **GBP denomination edit** — apply to `legend-ux-language.md` §4/§8 next time that file is touched.
+- **Design-spec token block** — `legend-design-spec.md` Design tokens section carries
+  pre-CC-74 stale `--bg` values. Correct next time that file is edited.
+- **BRIDGE licence correction** — Apache 2.0 → MIT for Legend section. Next BRIDGE update.
+
+---
+
 ## Session Legend-4 · 6 Aug 2026
 
 **Phase:** 1 pre-build harness — node status page spec
@@ -11,33 +56,21 @@
 
 ### Completed
 
-- Status page section added to `legend-design-spec.md` covering: page purpose and scope,
-  three-section structure (privacy mode / node status / canary status), per-section layout
-  and typography spec, canary expired state (muted amber, typographic only, no icon),
-  two new CSS tokens (`--canary-expired`), explicit list of what the page does not show,
-  URL and navigation placement.
+- Status page section added to `legend-design-spec.md`: page purpose and scope,
+  three-section structure (privacy mode / node status / canary status), per-section
+  layout and typography spec, canary expired state (muted amber, typographic only,
+  no icon), two new CSS tokens (`--canary-expired`), explicit list of what the page
+  does not show, URL and navigation placement.
 - Privacy mode: four states locked. Full splitting / Reduced splitting / Single node /
-  Credential rotation in progress. Rotation state colour: `--text-tertiary` (routine ceremony,
-  not a user action required). Single node: `--text-secondary`. Full and reduced: `--text-primary`.
-- Canary section visually separated from operational section by full-width rule. Different
-  claims must not share visual language.
-- FROST integrity note added beneath canary blocks — one line, `--text-tertiary`, for
-  non-technical users reading an expired canary notice.
-- Token additions: `--canary-expired: #B8860B` (Paper) / `#C9A227` (Carbon). No other
-  status-page-specific tokens.
+  Credential rotation in progress.
+- Canary section visually separated from operational section by full-width rule.
+- FROST integrity note added beneath canary blocks — `--text-tertiary`.
+- Token additions: `--canary-expired: #B8860B` (Paper) / `#C9A227` (Carbon).
 
 ### Files changed
 
 - `legend-design-spec.md` v1.1 → v1.2
-- `SESSIONS.md` (this entry)
-
-### Carry-forward
-
-- **CONTRIBUTING.md contribution-back norm** — queued for first build session.
-- **Custom FlokiNET quote** — still open. Required before provisioning node C.
-- **legend-incident-protocol.md** — queued per `legend-node-plan.md` §9 carry-forward.
-  Node recovery, provider-switch protocol, FROST re-keying, attack vector simulations.
-  Two Opus sessions when infrastructure is live.
+- `SESSIONS.md`
 
 ---
 
@@ -46,106 +79,119 @@
 **Phase:** 1 pre-build harness — UX language and information hierarchy
 **Status:** Complete. `legend-ux-language.md` v1.0 produced.
 
-### Completed
+### Completed (abbreviated)
 
-**legend-ux-language.md v1.0 produced. Eight sections:**
-
-**Section 1 — Voice and register:**
-- Governing register defined: legal-document precision at reader-first readability.
-- Copy rules locked: precision over completeness, factual language over emotional language,
-  honest scope before the reader asks, one idea per element.
-- "Never" list: anonymous, military-grade, Swiss-grade, end-to-end (unless exact),
-  zero-knowledge as v1 headline, PIR without qualification, exclamation marks.
-- "Chainalysis works for the observer. Legend works for the owner." locked as article/presentation
-  use only — not UI copy.
-
-**Section 2 — Landing page hierarchy:**
-- Headline locked: `Bitcoin, privately.` (carried from CC-77)
-- Subhead: `The block explorer that cannot see what you searched.`
-- Query input placeholder: `Address, transaction ID, or block height`
-- Tertiary line: `Private query. No logs. No tracking.`
-- Below-fold section titles: `How your query stays private` / `Built for the moment it matters` /
-  `Free. No account. No catch.`
-- Below-fold free-tier copy finalised from legend-economics.md §6 draft into register.
-
-**Section 3 — Query flow copy:**
-- All states: idle, focused, submitting (three-step progress text), result (intact, funds moved,
-  not found standard, not found Silent Payments), error (generic, timeout, invalid input).
-- Progress text: `Querying node 1 of 2…` / `Querying node 2 of 2…` / `Assembling result.`
-- All strings exact.
-
-**Section 4 — Result anatomy copy:**
-- Status line format with middot separator. IBM Plex Mono / DM Sans split confirmed.
-- UTXO consolidation advisor string locked: `Consolidating these UTXOs will permanently record
-  co-ownership on-chain.` No further copy at result level.
-- Denomination toggle labels: `sats` · `BTC` · `USD at time of transaction` (exact, third label
-  is long form because historical fiat ≠ current fiat — accountant-legible).
-- Silent Payments section: `Derived outputs` header, body copy, empty state.
-- Batch result values `Intact` / `Activity detected` — explanation of why not Compromised or Swept
-  included in the document (cause vs fact; partial vs total).
-
-**Section 5 — Modal copy:**
-- Onboarding modal: title, three lines, GitHub link, `Start querying` CTA.
-- Credential status modal: free tier and Enterprise display strings. Footer architecture line
-  uses precise v1 claim language.
-- Batch input modal: title, placeholder, note, button labels, progress state.
-- Privacy explainer modal: three sections (no session/no log; split across two nodes;
-  IP and Tor), Article 16 link (hidden until published).
-
-**Section 6 — Honest-scope statements:**
-- Six canonical user-facing statements: ephemeral sessions, role-split querying (v1 precise
-  language — "collusion-resistant query splitting with blind credential unlinkability"),
-  Cashu credentials, no server-side logs, IP privacy, UK operator caveat.
-- All consistent with legend-enterprise-pricing.md and legend-node-plan.md §6.
-  User-facing versions are shorter; honesty is identical.
-
-**Section 7 — Degraded mode notices:**
-- N-1 banner and credential modal indicator. N-2 banner and credential modal indicator.
-- Neither suppressed. Neither uses "secure" or "insecure". N-2 offers Tor as mitigation.
-
-**Section 8 — Locked copy index:**
-- Single table of every finalised string with surface, element, and section reference.
-  50 entries. Build sessions pull from this table.
+- `legend-ux-language.md` v1.0: eight sections covering voice/register, landing hierarchy,
+  query flow copy, result anatomy, modal copy, honest-scope statements, degraded mode
+  notices, locked copy index (50 entries).
 
 ### Files produced
 
-- `legend-ux-language.md` v1.0 — new file
-
-### Carry-forward to Legend-4
-
-- **Legend-4 is the node status page spec session.**
-  Adds a node status page section to `legend-design-spec.md`.
-  Covers: per-node reachability, chain sync height, canary status display, privacy mode
-  indicator, what the status page does not show (no query volumes, no traffic graphs).
-  Source: `legend-node-plan.md` §9 (redundancy and failover) and §6 (canary architecture).
-
-- **CONTRIBUTING.md contribution-back norm** — still queued for first build session (Multi-8).
-
-- **Custom FlokiNET quote** — still open. Required before provisioning node C.
-
-- **Load for Legend-4:** `CLAUDE.md`, `SESSIONS.md`, `REFUELER-BRIDGE.md`,
-  `legend-design-spec.md` (v1.1), `legend-scope.md` (v1.2), `legend-node-plan.md`,
-  `legend-ux-language.md` (v1.0).
+- `legend-ux-language.md` v1.0
 
 ---
 
-## Session Legend-3A · 6 Aug 2026
-
-**Phase:** 1 pre-build harness — queued scope and spec edits
-**Status:** Complete. No new file produced.
-
-### Completed (abbreviated)
-
-- `legend-scope.md` v1.1 → v1.2: SP tweak index, Cashu NUT status table, Merkle proof scope table, plain-language script rendering (v2), version summary updated.
-- `legend-design-spec.md` v1.0 → v1.1: €96 → €360 infrastructure cost correction.
+*Legend-1 through Legend-3A archived. Decisions captured in `legend-economics.md` v1.0,
+`legend-enterprise-pricing.md` v1.0, `legend-scope.md` v1.2, `legend-design-spec.md` v1.1.*
 
 ---
 
-*Legend-1 and Legend-2 archived. Decisions captured in `legend-economics.md` v1.0 and `legend-enterprise-pricing.md` v1.0.*
+## Session queue
+
+### Immediate — B9 dependent
+
+**Legend-6** (first build session — gated on B9 Lightning node live)
+- If B9 live: Eleventy shell at `refueler.io/legend`, SPA mount point, Paper/Carbon
+  theme wired, query input idle state.
+- If B9 not yet live: `legend-incident-protocol.md` first draft (node recovery,
+  FROST re-keying, attack simulations).
+- Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-design-spec.md`.
+
+### Phase 1 build — Legend-6 through Legend-~15 (target: December 2026)
+
+Eleventy shell → SPA query flow → result states → batch query / breach scenario →
+Silent Payments display → Article 14 → `refueler.io/legend` live.
+Each session: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + one detail file.
+
+### CryptoRoadmap block — target: January 2027
+*Runs after Phase 1 working explorer is live. Before any v2 build session
+touches the PIR or ZK layers. Three Opus sessions + three Sonnet sessions.*
+
+**CryptoRoadmap-1 (Opus) — Primitives audit**
+Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-scope.md`
+Cover: Ristretto255 vs secp256k1 for Legend and Share (ecosystem compatibility cost,
+WebCrypto acceleration, Safari memory profile, honest performance figures — no
+speculative multipliers); FROST + blind signatures against Crites-Komlo-Maller 2023
+formalisation; threshold blind signatures as a combined primitive; Checklist PIR
+(Henzinger et al. 2023) vs Spiral PIR 2022 for Legend's UTXO query pattern —
+including the client hint payload size question which is the real adoption risk.
+Output: `legend-crypto-primitives.md`
+
+**CryptoRoadmap-2 (Opus) — Transport and scanning layer**
+Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-node-plan.md`
+Cover: Signal Sealed Sender as a query-sender-hiding model; ML-KEM-768 hybrid
+against NIST FIPS 203 final spec and `ml-kem` Rust crate maturity; Double Ratchet
+session initialisation latency on the Enterprise API; Fuzzy Message Detection
+(Beck et al. 2021) for Silent Payments block subscription without scan key
+revelation — false-positive rate at production block volume; post-quantum blind
+signatures honest timeline.
+Output: `legend-crypto-transport.md`
+
+**CryptoRoadmap-3 (Opus) — ZK architecture and estate/lending use case**
+Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-scope.md`,
+`legend-enterprise-pricing.md`
+Cover: Bulletproofs+ (Eagen et al. 2022) vs Groth16 vs PLONK for ZK balance proofs
+— proof size (solicitor emails a file), verification time (lender runs this), prover
+time (client-side generation); `bellman` vs `arkworks` Rust ecosystem maturity 2026;
+Camenisch-Lysyanskaya credentials for v3 Enterprise attributes; `/legend/verify`
+endpoint architecture for a non-cryptographer solicitor; academic contribution
+pathway and citation credibility requirements.
+Output: `legend-crypto-zk.md`
+
+**CryptoRoadmap-4 (Sonnet) — Primitives decisions**
+Translates `legend-crypto-primitives.md` into version assignments and build
+complexity estimates. Feeds back into `legend-scope.md` version tables.
+Output: version table amendments, queued edits to `legend-scope.md`.
+
+**CryptoRoadmap-5 (Sonnet) — Transport decisions**
+Translates `legend-crypto-transport.md` into version assignments.
+Output: queued edits to `legend-node-plan.md` transport section.
+
+**CryptoRoadmap-6 (Sonnet) — ZK decisions**
+Translates `legend-crypto-zk.md` into version assignments and the `/legend/verify`
+build spec stub.
+Output: `/legend/verify` spec stub, queued edits to `legend-scope.md`.
+
+### Preliminary research filed (Legend-5)
+
+The following claims from initial research are noted for CryptoRoadmap-1 calibration.
+Do not treat as confirmed until the Opus session produces honest figures:
+
+- Ristretto255 batch verification latency reduction: mechanism confirmed, multiplier
+  (3–5×) is speculative — calibrate in CryptoRoadmap-1.
+- Checklist PIR "controls 4 of 5 nodes" framing: overstates the guarantee for our
+  three-node topology. The two-server security model needs precise mapping to three
+  nodes before this claim appears anywhere.
+- "secp256k1 not a natural fit for ZK": overstated. Correct version: Ristretto255
+  eliminates cofactor edge cases, making ZK implementation harder to get wrong —
+  not that secp256k1 cannot do ZK.
+- Share/Safari performance claims (WebWorker throttling, memory footprint, hardware
+  acceleration): directionally correct, require browser benchmarks before being
+  stated as product claims.
+
+### Phase 2 and beyond — post CryptoRoadmap block
+
+v2 PIR architecture, Spiral or Checklist PIR (decided in CryptoRoadmap-4),
+ZK balance proofs, post-quantum transport hardening, `legend-incident-protocol.md`,
+Enterprise onboarding.
+
+### refueler-ecash-lab
+
+Internal research and test environment (NUT-12, NUT-14, NUT-18, NUT-20).
+Red folder — not a GitHub repo yet. Make it a repo when B9 is stable and
+Legend's mint design is locked enough to define what the lab needs to test.
+Do not conflate with production mint architecture. Findings feed `mintInterface.ts`.
 
 ---
 
-*Next session: Legend-5 — MASTER.md compression*
-*Produces: `MASTER.md` (~200-line summary of all harness documents with pointers to detail files)*
-*Load: all nine current harness files — last time this many load simultaneously*
-*After Legend-5: standard session load drops to `MASTER.md` + `SESSIONS.md` + one specific file (3 total)*
+*"Nothing stops this train."*
