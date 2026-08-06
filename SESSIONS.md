@@ -4,6 +4,94 @@
 
 ---
 
+## Session Legend-3B · 6 Aug 2026
+
+**Phase:** 1 pre-build harness — UX language and information hierarchy
+**Status:** Complete. `legend-ux-language.md` v1.0 produced.
+
+### Completed
+
+**legend-ux-language.md v1.0 produced. Eight sections:**
+
+**Section 1 — Voice and register:**
+- Governing register defined: legal-document precision at reader-first readability.
+- Copy rules locked: precision over completeness, factual language over emotional language,
+  honest scope before the reader asks, one idea per element.
+- "Never" list: anonymous, military-grade, Swiss-grade, end-to-end (unless exact),
+  zero-knowledge as v1 headline, PIR without qualification, exclamation marks.
+- "Chainalysis works for the observer. Legend works for the owner." locked as article/presentation
+  use only — not UI copy.
+
+**Section 2 — Landing page hierarchy:**
+- Headline locked: `Bitcoin, privately.` (carried from CC-77)
+- Subhead: `The block explorer that cannot see what you searched.`
+- Query input placeholder: `Address, transaction ID, or block height`
+- Tertiary line: `Private query. No logs. No tracking.`
+- Below-fold section titles: `How your query stays private` / `Built for the moment it matters` /
+  `Free. No account. No catch.`
+- Below-fold free-tier copy finalised from legend-economics.md §6 draft into register.
+
+**Section 3 — Query flow copy:**
+- All states: idle, focused, submitting (three-step progress text), result (intact, funds moved,
+  not found standard, not found Silent Payments), error (generic, timeout, invalid input).
+- Progress text: `Querying node 1 of 2…` / `Querying node 2 of 2…` / `Assembling result.`
+- All strings exact.
+
+**Section 4 — Result anatomy copy:**
+- Status line format with middot separator. IBM Plex Mono / DM Sans split confirmed.
+- UTXO consolidation advisor string locked: `Consolidating these UTXOs will permanently record
+  co-ownership on-chain.` No further copy at result level.
+- Denomination toggle labels: `sats` · `BTC` · `USD at time of transaction` (exact, third label
+  is long form because historical fiat ≠ current fiat — accountant-legible).
+- Silent Payments section: `Derived outputs` header, body copy, empty state.
+- Batch result values `Intact` / `Activity detected` — explanation of why not Compromised or Swept
+  included in the document (cause vs fact; partial vs total).
+
+**Section 5 — Modal copy:**
+- Onboarding modal: title, three lines, GitHub link, `Start querying` CTA.
+- Credential status modal: free tier and Enterprise display strings. Footer architecture line
+  uses precise v1 claim language.
+- Batch input modal: title, placeholder, note, button labels, progress state.
+- Privacy explainer modal: three sections (no session/no log; split across two nodes;
+  IP and Tor), Article 16 link (hidden until published).
+
+**Section 6 — Honest-scope statements:**
+- Six canonical user-facing statements: ephemeral sessions, role-split querying (v1 precise
+  language — "collusion-resistant query splitting with blind credential unlinkability"),
+  Cashu credentials, no server-side logs, IP privacy, UK operator caveat.
+- All consistent with legend-enterprise-pricing.md and legend-node-plan.md §6.
+  User-facing versions are shorter; honesty is identical.
+
+**Section 7 — Degraded mode notices:**
+- N-1 banner and credential modal indicator. N-2 banner and credential modal indicator.
+- Neither suppressed. Neither uses "secure" or "insecure". N-2 offers Tor as mitigation.
+
+**Section 8 — Locked copy index:**
+- Single table of every finalised string with surface, element, and section reference.
+  50 entries. Build sessions pull from this table.
+
+### Files produced
+
+- `legend-ux-language.md` v1.0 — new file
+
+### Carry-forward to Legend-4
+
+- **Legend-4 is the node status page spec session.**
+  Adds a node status page section to `legend-design-spec.md`.
+  Covers: per-node reachability, chain sync height, canary status display, privacy mode
+  indicator, what the status page does not show (no query volumes, no traffic graphs).
+  Source: `legend-node-plan.md` §9 (redundancy and failover) and §6 (canary architecture).
+
+- **CONTRIBUTING.md contribution-back norm** — still queued for first build session (Multi-8).
+
+- **Custom FlokiNET quote** — still open. Required before provisioning node C.
+
+- **Load for Legend-4:** `CLAUDE.md`, `SESSIONS.md`, `REFUELER-BRIDGE.md`,
+  `legend-design-spec.md` (v1.1), `legend-scope.md` (v1.2), `legend-node-plan.md`,
+  `legend-ux-language.md` (v1.0).
+
+---
+
 ## Session Legend-3A · 6 Aug 2026
 
 **Phase:** 1 pre-build harness — queued scope and spec edits
@@ -12,24 +100,15 @@
 ### Completed
 
 **legend-scope.md → v1.2:**
-- SP tweak index added as v1 build prerequisite under Silent Payments. Standalone subsection
-  below the chains table. Prerequisite status is explicit: without the tweak index, Silent
-  Payments scanning does not ship, full stop.
-- Cashu NUT status table added. Covers all NUTs considered across Legend-0a sessions.
-  NUT-13 and NUT-09 marked permanently rejected with reasons (deterministic secrets break
-  ephemerality; restore requires mint to hold issuance state, breaks forward secrecy).
+- SP tweak index added as v1 build prerequisite under Silent Payments.
+- Cashu NUT status table added. NUT-13 and NUT-09 permanently rejected with reasons.
   NUT-28 noted v2. NUT-24 noted v2+.
-- Merkle proof scope table added: v1 (cross-node header fetch, in-browser SPV), v2 (proof
-  export artefact — estate £50 statement dependency), v3 (estate PI methodology integration).
-- Plain-language script rendering added as v2 item. v1 shows type label only (P2WPKH,
-  P2WSH, P2TR, etc.) with raw script on expand. Plain-language quorum descriptions
-  for multisig and Miniscript ship at v2, timed with the professional market layer.
-- Version summary table updated with Merkle proof, script rendering, and SP tweak index rows.
+- Merkle proof scope table added: v1/v2/v3.
+- Plain-language script rendering added as v2 item.
+- Version summary table updated.
 
 **legend-design-spec.md → v1.1:**
-- €96 → €360 infrastructure cost correction applied. Confirmed stale figure was still present.
-  Replaced with: "~€360/month (two Hetzner AX52 nodes in Germany and Finland; one FlokiNET
-  dedicated node in Iceland). Figures verified August 2026."
+- €96 → €360 infrastructure cost correction applied.
 
 ### Files changed
 
@@ -37,116 +116,28 @@
 - `legend-design-spec.md` v1.0 → v1.1
 - `SESSIONS.md` (this entry)
 
-### Carry-forward to Legend-3B
-
-- Legend-3B is the UX language and information hierarchy session.
-- Produces: `legend-ux-language.md`
-- Load: `CLAUDE.md`, `SESSIONS.md`, `REFUELER-BRIDGE.md`, `legend-design-spec.md` (v1.1),
-  `legend-scope.md` (v1.2), `legend-node-plan.md`, `legend-economics.md`,
-  `legend-enterprise-pricing.md` (v1.0)
-- All queued edits from Legend-0a and Legend-1 are now cleared. Legend-3B opens clean.
-
 ---
 
 ## Session Legend-2 · 5 Aug 2026
 
 **Phase:** 1 pre-build harness — Enterprise packaging and commercial model
-**Status:** Complete. `legend-enterprise-pricing.md` v1.0 (completed) produced. Pre-build harness closed.
+**Status:** Complete. `legend-enterprise-pricing.md` v1.0 produced. Pre-build harness closed.
 
-### Completed
+### Completed (abbreviated)
 
-**Family office tier locked:**
-- Pricing ladder, capability-defined: £1,500/month (v1) → £2,500/month (v2:
-  Tor API + Double Ratchet + ML-KEM-768) → £3,500/month (v2+: dedicated node
-  isolation). Only the v1 band is sold at v1 — upper bands quoted as scheduled
-  upgrades with version dependencies stated. Never charged before live.
-- Invite-only at v1, capped at **five clients**. Truthful solo-operator
-  constraint, stated plainly to prospects.
-- Named contact: Rajesh Taylor. No account team — the founder answers.
-- Contract: 3-month minimum, then monthly rolling, 60 days' notice either
-  side. Annual prepay at eleven months' price. Short structure deliberate —
-  signals confidence, respects key-person risk.
-- Compliance/PI pack defined: architecture summary (precise v1 claim language),
-  honest-scope statement, UK operator caveat in full, canary verification
-  procedure, incident commitments, open-source verification path, audit roadmap.
-- Onboarding: warm referral → architecture call (operator caveat raised by us,
-  unprompted) → compliance pack → contract + NUT-11-bound credentials →
-  quarterly reviews.
-
-**SLA locked — calibrated to actual topology:**
-- 99.0% monthly availability (available = ≥2 nodes, role-split intact).
-- Full-splitting mode ≥95% of month.
-- 4 UK business-hour support response, Mon–Fri 09:00–18:00 London.
-- Canary expiry notification automated within 12 hours.
-- Incident notice within 24h; written post-incident summary within 5 business days.
-- Service credit: 10% of monthly fee below 97%.
-- Explicitly not promised: 24/7, 99.9%, sub-hour response. One human in London.
-
-**Merchant/franchise tier locked:**
-- Always an add-on. Never bundled into the POS contract — bundling is the
-  cross-product seam the scope discipline forbids.
-- £250/month per business entity; £500/month franchise flat up to 25 locations
-  (custom above). Flat because the accountant is the user, not the till.
-- Sold only into the existing Refueler POS merchant base at v1. No cold sales.
-- Monthly rolling, 30 days' notice.
-- Feature set = free tier (data parity) + accountant onboarding + named support
-  + processable invoice. Sold as exactly that.
-- Below cost-recovery standalone (reaffirmed) — sustainable only under family
-  office cross-subsidy. Pipeline tier, never primary revenue.
-
-**Estate solicitor tier locked (designed now, sold v2/v3):**
-- £50 block-height balance statement (v2 — Merkle proof export dependency).
-- £150 full verified estate report: + ZK balance proof, multi-sig quorum in
-  plain language, methodology statement (v3 — /legend/verify dependency).
-- Two payment routes, both stated honestly: Lightning at point of purchase
-  (no account; pseudonymous, not anonymous — stated in flow) and invoiced
-  BACS for firms (identified relationship; procurement reality of regulated
-  firms, stated not hidden). Report content client-side generated either way.
-- PI insurer pack: methodology, proof-and-limitation statement, independent
-  third-party re-verification procedure, legal-acceptance caveat (admissibility
-  outside Legend's control).
-
-**Swan scenario assessed (INTERNAL — in pricing doc, marked for removal from
-any external share):**
-- MIT permits full closed fork with no contribution back. Plan on that basis.
-- Unforkable assets: canary uptime track record (time-based), audit report
-  (attaches to deployment, not source), FROST/rotation operational discipline,
-  the SLA relationship.
-- Fork calculation turns unfavourable at: audit published + /legend/verify
-  live + ≥12 months unbroken canary history + Enterprise credential
-  architecture in production.
-- Approach timing: after all of the above. Not before — earlier approach
-  advertises the code before the moat exists.
-- Contribution-back norm: publish via CONTRIBUTING.md at repo build-out.
-  No legal force; mechanism is reputational pricing established pre-fork.
-  **Queued for first build session.**
-
-**Open source and the Enterprise sale:**
-- "Read the code" framed as due-diligence enabler: every contract claim
-  independently verifiable against source + reproducible builds — a
-  verification path no closed competitor offers.
-- "Why pay?" answer locked per legend-economics.md §5: institutional wrapper
-  (FROST, canaries, jurisdictions, SLA, compliance pack, named contact).
-  Bloomberg-terminal analogy confirmed for sales conversation.
+- Family office pricing ladder locked: £1,500 (v1) / £2,500 (v2) / £3,500 (v2+).
+- Five-client cap at v1. Invite-only.
+- Contract: 3-month minimum, monthly rolling, 60 days' notice. Annual prepay at eleven months.
+- SLA: 99.0% monthly / ≥95% full-splitting / 4 business-hour response /
+  12-hour canary alerting / 10% credit below 97%.
+- Merchant: £250 entity / £500 franchise flat (≤25 locations). Always add-on.
+- Estate reports: £50 statement (v2) / £150 full report (v3).
+- Swan approach timing: post-audit + post-/legend/verify + ≥12 months canary history.
+- Compliance pack and PI insurer pack contents defined per tier.
 
 ### Files produced
 
-- `legend-enterprise-pricing.md` v1.0 — completed, replaces v0.1 stub
-
-### Carry-forward to Legend-3 (UX language and information hierarchy)
-
-- **Queued file edits still outstanding** (first session touching each file):
-  - `legend-scope.md`: SP tweak index as v1 build requirement; NUT-13/09
-    permanent-out; NUT-28 v2 note; NUT-24 v2+ note; plain-language script
-    rendering v2; Merkle proof scope v1/v2/v3.
-  - `legend-design-spec.md`: €96 → €360 correction.
-- **Custom FlokiNET quote required before provisioning node C** (still open).
-- **CONTRIBUTING.md contribution-back norm** — queue for first build session.
-- Legend-3 produces `legend-ux-language.md`: final below-the-fold free-tier
-  copy (draft in legend-economics.md §6), result-state language, privacy
-  explainer copy, honest-scope statements in user register.
-- **Pre-build harness complete.** Legend-0, 0a, 1, 2 all closed.
-  `legend-session-briefs.md` marked complete and ready for archive.
+- `legend-enterprise-pricing.md` v1.0
 
 ---
 
@@ -155,91 +146,22 @@ any external share):**
 **Phase:** 1 pre-build harness — infrastructure costs and scaling economics
 **Status:** Complete. `legend-economics.md` and `legend-enterprise-pricing.md` (v0.1) produced.
 
-### Completed
+### Completed (abbreviated)
 
-**Pricing confirmed against live data (screenshots, 5 Aug 2026):**
-- Hetzner AX52: €59/month ex-VAT, unlimited traffic, €39 one-off setup.
-- FlokiNET dedicated (Iceland): €180–300/month, 32 TB/month bandwidth cap on 1 Gbit.
-  Custom quote required for exact NVMe match — budget to upper end of range.
-
-**V1 launch cost locked:**
-- Node A (Hetzner Falkenstein): €59/month
-- Node B (Hetzner Helsinki): €59/month
-- Node C (FlokiNET Reykjavik): ~€240/month midpoint
-- **Total: ~€360/month midpoint, range €340–420/month**
-- Year-one effective (setup fees amortised): ~€365/month
-- Previous estimates (€96, €170–220) are confirmed wrong. Do not use.
-
-**Scaling model confirmed:**
-- Architecture handles ~100M queries/month on current topology before load
-  forces node four. Traffic alone does not drive node four — Enterprise
-  isolation (v2) does.
-- Per-query egress: ~150 KB worst case (2–3× single-node Esplora by design).
-- FlokiNET 32 TB cap is not a constraint at any realistic v1–v2 scale.
-  Monitor from launch; review if node C egress approaches 5 TB/month.
-
-**Silent Payments tweak index locked as v1 build requirement:**
-- Precomputed per-block tweak index is the difference between shippable and not.
-  Without it, SP scanning is 1.5–3 core-hours per scan — not viable.
-  With it: ~8 minutes parallelised, 5–10 concurrent full-range scans per node.
-- Storage overhead: ~30–60 GB per node. Within spec.
-- Dedicated SP scanning nodes: v2/v3 line item, not a v1 cost.
-- Queue for legend-scope.md: add tweak index as v1 build requirement under
-  Silent Payments.
-
-**Storage confirmed:**
-- Per-node at v1: ~1.2–1.3 TB total (chain + index + tweak index).
-- Growth: ~90–100 GB/year per node.
-- Headroom to ~2029 on 2 TB spec confirmed.
-- Separate drives (chain/index split, no RAID): confirmed correct.
-
-**Enterprise break-even confirmed:**
-- Annual infrastructure: ~€4,320/year (~£3,700).
-- Cost-recovery contract floor: ~£310/month.
-- Family office at floor (£1,500/month) covers ~4.8 years of infrastructure.
-- "One Enterprise client covers years of infrastructure" confirmed and understated.
-
-**Self-hosting:**
-- Pi 5 route: ~£160–210 one-off, ~£10–15/year electricity.
-- Self-hosted mint: single-key rotating-key-set, not FROST 2-of-3. Stated plainly.
-- Self-hosting strengthens the Enterprise offer. Honest answer to "why pay?"
-  is the institutional wrapper: FROST, canaries, jurisdiction, SLA, named contact.
-
-**Copy consequence:**
-- legend-design-spec.md "~€96/month" must become "~€360/month".
-  Queue for next session touching that file — do not edit mid-harness.
-- Below-the-fold "how the free tier works" copy: draft produced in
-  legend-economics.md §6. Final copy in Legend-3 (UX language session).
+- V1 launch cost locked: ~€360/month midpoint, range €340–420/month.
+- Hetzner AX52 (×2) + FlokiNET dedicated (×1). Previous estimates confirmed wrong.
+- SP tweak index locked as v1 build requirement.
+- Storage headroom to 2029 confirmed on 2 TB spec.
+- Enterprise break-even: £1,500/month covers ~4.8 years of infrastructure.
 
 ### Files produced
 
-- `legend-economics.md` v1.0 — new file
-- `legend-enterprise-pricing.md` v0.1 — first draft, cost basis only
+- `legend-economics.md` v1.0
+- `legend-enterprise-pricing.md` v0.1
 
 ---
 
-## Session Legend-0a · 5 Aug 2026
-
-**Phase:** 1 pre-build harness — additional architecture (pre-economics)
-**Status:** Complete. Discussion session. No output document. Locks recorded here.
-
-### Completed (abbreviated — full detail in archive)
-
-- NUT-12 DLEQ locked v1 (browser-side, mandatory). NUT-06 mint info locked v1.
-  NUT-19 idempotency locked v1. NUT-01/02 vocabulary adopted.
-- NUT-28 P2BK noted v2. NUT-24 HTTP 402 noted v2+.
-- NUT-13/09 permanently rejected. NUT-17 rejected v1. NUT-21/22 rejected.
-  NUT-27 permanently rejected. Monetary NUTs structurally absent.
-- Esplora filtered data locked: raw block binary filtered; script assembly
-  restored v1; prefix index required on; data parity across tiers locked.
-- Merkle inclusion proofs locked v1: cross-node header fetch, in-browser SPV.
-  Proof export v2. Estate integration v3.
-
----
-
-*Next session: Legend-3 — UX language and information hierarchy*
-*Produces: legend-ux-language.md*
-*Load: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md, legend-design-spec.md,*
-*legend-scope.md, legend-node-plan.md, legend-economics.md,*
-*legend-enterprise-pricing.md (v1.0), + apply queued edits to*
-*legend-scope.md and legend-design-spec.md at session open.*
+*Next session: Legend-4 — node status page spec*
+*Adds section to: `legend-design-spec.md`*
+*Load: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md, legend-design-spec.md (v1.1),*
+*legend-scope.md (v1.2), legend-node-plan.md, legend-ux-language.md (v1.0)*
