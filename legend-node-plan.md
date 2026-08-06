@@ -11,9 +11,7 @@
 
 ### Three nodes. Locked.
 
-Two is the mathematical minimum for role-split query sharding but leaves zero redundancy
-margin. Three gives role rotation per query, N-1 graceful degradation, and three
-independent warrant canaries across two legal jurisdictions.
+Two is the mathematical minimum for role-split query sharding but leaves zero redundancy margin. Three gives role rotation per query, N-1 graceful degradation, and three independent warrant canaries across two legal jurisdictions.
 
 Five nodes is v2/v3 territory, added when Enterprise isolation requires dedicated
 hardware. The signed node manifest architecture (see Section 3) means adding a node
@@ -37,15 +35,7 @@ to EU-domiciled providers.
 
 **The honest caveat that must appear in all user-facing materials:**
 
-All three nodes are operated by one person in London. The UK Investigatory Powers Act
-2016 can compel disclosure and arguably compel continued canary publication against
-the operator regardless of where hardware is located. Per-node geographic distribution
-protects against orders served on the *hosting providers* more robustly than orders
-served on the operator personally. The canary architecture is strongest as a signal
-about hosting-provider orders; it is limited as a signal about operator-level compulsion.
-This distinction is stated plainly in the privacy explainer modal and in Enterprise
-contract materials. A product that overstates its legal protections is weaker than one
-that understates them.
+All three nodes are operated by one person in London. The UK Investigatory Powers Act 2016 can compel disclosure and arguably compel continued canary publication against the operator regardless of where hardware is located. Per-node geographic distribution protects against orders served on the *hosting providers* more robustly than orders served on the operator personally. The canary architecture is strongest as a signal about hosting-provider orders; it is limited as a signal about operator-level compulsion. This distinction is stated plainly in the privacy explainer modal and in Enterprise ontract materials. A product that overstates its legal protections is weaker than on that understates them.
 
 **The one-provider problem:**
 
@@ -70,18 +60,13 @@ stronger than the marketing version.
 | Network | 1 Gbps unmetered or high-bandwidth | PIR role-split sends more data to client than a standard Esplora query by design |
 | OS | Ubuntu 24.04 LTS | Long-term support, unattended-upgrades for security patches |
 
-**Dedicated, not VPS.** VPS instances share CPU and storage I/O. Initial electrs indexing
-and RocksDB compaction will saturate I/O in bursts that a shared environment cannot
-sustain. Hetzner AX-class dedicated (AX41 or AX51) is the appropriate tier for nodes
-A and B. FlokiNET dedicated for node C.
+**Dedicated, not VPS.** VPS instances share CPU and storage I/O. Initial electrs indexing and RocksDB compaction will saturate I/O in bursts that a shared environment cannot sustain. Hetzner AX-class dedicated (AX41 or AX51) is the appropriate tier for nodes A and B. FlokiNET dedicated for node C.
 
-**Storage growth rate:** Bitcoin chain grows approximately 60 GB/year. The Esplora index
-grows proportionally. 2 TB NVMe provides approximately four to five years of headroom
-before a storage upgrade cycle, assuming current chain growth rate.
+**Storage growth rate:** Bitcoin chain grows approximately 60 GB/year. The Esplora index grows proportionally. 2 TB NVMe provides approximately four to five years of headroom before a storage upgrade cycle, assuming current chain growth rate.
 
 ### What each node runs
 
-- Bitcoin Core (full node, ~650 GB chain data)
+- Bitcoin Knots full node (~650 GB chain data) — BIP110 policy enforcement enabled, RBF disabled. Knots chosen over Core for principled mempool policy: disabling RBF closes a known attack vector against multisig users with compromised seed phrases, consistent with Legend's position as infrastructure that works for the owner, not the observer. Release cadence monitored; node updates verified against the Knots release manifest before deployment.
 - BLAKE3-accelerated electrs fork in Esplora mode (query API)
 - Legend query API layer (role-split routing, Cashu credential verification)
 - Per-node Cashu mint participant (FROST key share — see Section 5)
@@ -101,21 +86,11 @@ consistent with the privacy architecture.
 ### BLAKE3 — role on these nodes
 
 These are x86_64 dedicated boxes, not ARM. BLAKE3's advantage over SHA-256 is
-narrower on x86 than on ARM because x86 has SHA-NI hardware acceleration for SHA-256.
-BLAKE3 still outperforms SHA-256 on x86 for bulk parallel operations — initial sync,
-RocksDB compaction, Silent Payments block scanning — because BLAKE3 parallelises
-across cores where SHA-256 is sequential per call.
+narrower on x86 than on ARM because x86 has SHA-NI hardware acceleration for SHA-256. BLAKE3 still outperforms SHA-256 on x86 for bulk parallel operations — initial sync, RocksDB compaction, Silent Payments block scanning — because BLAKE3 parallelises across cores where SHA-256 is sequential per call.
 
-BLAKE3 replaces SHA-256 for: RocksDB index lookup key generation, cache tag generation,
-and internal state hashing in the Silent Payments scanner. Bitcoin consensus hashing
-(SHA-256d on block headers and transaction IDs) is untouched. From a Sparrow Wallet
-or any Electrum-protocol client perspective, the indexer is indistinguishable from
-upstream electrs. BLAKE3 is entirely internal.
+BLAKE3 replaces SHA-256 for: RocksDB index lookup key generation, cache tag generation, and internal state hashing in the Silent Payments scanner. Bitcoin consensus hashing (SHA-256d on block headers and transaction IDs) is untouched. From a Sparrow Wallet or any Electrum-protocol client perspective, the indexer is indistinguishable from upstream electrs. BLAKE3 is entirely internal.
 
-The primary BLAKE3 benefit on ARM/Raspberry Pi (the self-hosting use case) is larger —
-4–8× faster than SHA-256 on ARM SIMD/NEON. The Hetzner/FlokiNET nodes benefit from
-BLAKE3 at scale and during initial indexing; the codebase consistency with the
-self-hosting target is a secondary benefit at no cost.
+The primary BLAKE3 benefit on ARM/Raspberry Pi (the self-hosting use case) is larger — 4–8× faster than SHA-256 on ARM SIMD/NEON. The Hetzner/FlokiNET nodes benefit from BLAKE3 at scale and during initial indexing; the codebase consistency with the self-hosting target is a secondary benefit at no cost.
 
 ---
 
@@ -123,16 +98,11 @@ self-hosting target is a secondary benefit at no cost.
 
 ### The gateway problem — resolved
 
-The original claim — "no single node sees the complete query, the client reassembles" —
-contains a structural contradiction when a gateway node does the splitting: the gateway
-sees everything and is a surveillance point with extra steps.
+The original claim — "no single node sees the complete query, the client reassembles" — contains a structural contradiction when a gateway node does the splitting: the gateway sees everything and is a surveillance point with extra steps.
 
-**No gateway. Ever.** The browser talks to nodes directly. This is the only topology
-consistent with the architecture's privacy claims.
+**No gateway. Ever.** The browser talks to nodes directly. This is the only topology consistent with the architecture's privacy claims.
 
-A Bitcoin address query is not naturally splittable — you cannot send half an address
-to node A and half to node B and get anything useful back. The solution is role-split
-querying, not data-split querying.
+A Bitcoin address query is not naturally splittable — you cannot send half an address to node A and half to node B and get anything useful back. The solution is role-split querying, not data-split querying.
 
 ### v1 — Role-split querying with nested NUT-00 blinding
 
@@ -140,37 +110,26 @@ The query proceeds in two stages, to two different nodes, chosen per query by th
 
 **Stage 1 — Index node (selected by browser for this query):**
 The browser sends a *script-hash prefix* — not the full address. The node returns a
-candidate set of opaque row identifiers. The index node knows only that a query arrived
-for one of approximately N addresses sharing that prefix — a k-anonymity set, tunable
-by prefix length. Longer prefix = smaller anonymity set = faster response. Default
-prefix length chosen to provide a meaningful anonymity set without degrading latency.
+candidate set of opaque row identifiers. The index node knows only that a query arrived for one of approximately N addresses sharing that prefix — a k-anonymity set, tunable by prefix length. Longer prefix = smaller anonymity set = faster response. Default prefix length chosen to provide a meaningful anonymity set without degrading latency.
 
 The browser blinds its query credential (NUT-00) before sending to the index node.
 The index node verifies the credential without learning which session produced it.
 
 **Stage 2 — Data node (a different node, selected by browser for this query):**
 The browser sends the opaque row IDs received from stage 1 to a *different* node.
-The data node returns the full UTXO and transaction data for those row IDs. The data
-node sees row IDs, not the original address — it cannot reconstruct what was queried
-without the stage-1 mapping, which it never receives.
+The data node returns the full UTXO and transaction data for those row IDs. The data node sees row IDs, not the original address — it cannot reconstruct what was queried without the stage-1 mapping, which it never receives.
 
 The browser re-blinds a fresh routing token before presenting to the data node.
-The data node cannot link this request to stage 1 even if it colluded with the index
-node after the fact — the blinding operations happened client-side and the blinding
-factors are ephemeral and never leave the browser.
+The data node cannot link this request to stage 1 even if it colluded with the index node after the fact — the blinding operations happened client-side and the blinding factors are ephemeral and never leave the browser.
 
 **Browser reassembles:** two `fetch()` calls and a client-side filter. No installed
 software required. Fully feasible in a vanilla JS SPA.
 
-**Role rotation:** the node that serves as index node for query 1 serves as data node
-for query 2. No node accumulates a consistent view across queries from any session.
-The browser randomises node selection per query from the signed node manifest.
+**Role rotation:** the node that serves as index node for query 1 serves as data node for query 2. No node accumulates a consistent view across queries from any session. The browser randomises node selection per query from the signed node manifest.
 
 ### What v1 sharding honestly achieves
 
-The honest claim: **reconstructing a user's query requires collusion between the index
-node and data node for that specific query, plus possession of both blinding factors —
-which exist only in the browser and are discarded after the query completes.**
+The honest claim: **reconstructing a user's query requires collusion between the index node and data node for that specific query, plus possession of both blinding factors — which exist only in the browser and are discarded after the query completes.**
 
 This is not cryptographic PIR. It is collusion-resistant query splitting with blind
 credential unlinkability. These are different claims and the product documentation
@@ -229,16 +188,12 @@ distinction is stated clearly in all documentation and is legally meaningful.
 ### Primitives in use
 
 **NUT-00 — Blind signatures (BDHKE):**
-Core primitive. Client blinds a credential request; the mint signs the blind message
-without seeing the plaintext; client unblinds and holds a valid credential the mint
-cannot link to the issuance event. Applied at two points:
+Core primitive. Client blinds a credential request; the mint signs the blind message without seeing the plaintext; client unblinds and holds a valid credential the mint cannot link to the issuance event. Applied at two points:
 
 1. Credential issuance: the mint issues query authorisation tokens to the browser.
    The mint knows a batch was requested; it cannot link any individual token to a
    specific query or session.
-2. Nested blinding across role-split stages: the browser re-blinds the routing token
-   before stage 2, preventing the data node from linking stage 2 to stage 1 even
-   in collusion with the mint.
+2. Nested blinding across role-split stages: the browser re-blinds the routing token before stage 2, preventing the data node from linking stage 2 to stage 1 even in collusion with the mint.
 
 **NUT-07 — Token state check:**
 Allows credential validity verification without account state. A browser with
@@ -255,9 +210,7 @@ endpoints.
 The client requests multiple tokens in a single mint operation. Essential for the
 breach scenario: a user pasting 47 addresses into the batch query modal receives
 47 credentials in one round-trip, not 47 sequential requests. The mint learns only
-that a batch of N was requested — not what any individual credential will authorise.
-For Enterprise, portfolio monitoring sessions (200+ addresses) are initialised with
-a single batch request.
+that a batch of N was requested — not what any individual credential will authorise. For Enterprise, portfolio monitoring sessions (200+ addresses) are initialised with a single batch request.
 
 ### Rotating mint instances — monthly cadence
 
@@ -287,25 +240,16 @@ allowance, not money.
 1. Browser presents expiring credential to exchange endpoint, blinded.
 2. Incoming mint signs the blinded exchange request without seeing the credential.
 3. Browser presents signed blind to new mint, which issues a new credential.
-4. New mint sees only a blinded request — it cannot link it to the expiring credential
-   or to any previous session.
+4. New mint sees only a blinded request — it cannot link it to the expiring credential or to any previous session.
 
 **NUT-29 interaction with rotating mints:**
 
-Batch requests issued near window close expire at window close. Enterprise onboarding
-documentation states this explicitly: credential batches should be requested with
-sufficient time remaining in the mint window. Enterprise monitoring sessions that
-span month boundaries require a credential refresh — this is documented in the
-contract and handled by the Enterprise client software, not the browser SPA.
+Batch requests issued near window close expire at window close. Enterprise onboarding documentation states this explicitly: credential batches should be requested with sufficient time remaining in the mint window. Enterprise monitoring sessions that span month boundaries require a credential refresh — this is documented in the contract and handled by the Enterprise client software, not the browser SPA.
 
 ### Self-hosting and the mint
 
 Self-hosters run their own Legend instance. They run their own Cashu mint for their
-own queries — no dependency on the Refueler-operated mint. The mint setup is included
-in the AI-assisted self-hosting guide. A self-hosted mint does not rotate unless
-the operator configures rotation — rotation is a multi-node FROST ceremony and
-a single-machine self-hosted instance will use a simpler single-key rotating-key-set
-approach instead.
+own queries — no dependency on the Refueler-operated mint. The mint setup is included in the AI-assisted self-hosting guide. A self-hosted mint does not rotate unless the operator configures rotation — rotation is a multi-node FROST ceremony and a single-machine self-hosted instance will use a simpler single-key rotating-key-set approach instead.
 
 ---
 
@@ -314,28 +258,23 @@ approach instead.
 ### What FROST provides
 
 FROST (Flexible Round-Optimised Schnorr Threshold signatures) splits a signing key
-across N parties such that any T of them must cooperate to produce a valid signature.
-The full key never exists on any single machine.
+across N parties such that any T of them must cooperate to produce a valid signature. The full key never exists on any single machine.
 
 Legend uses FROST 2-of-3 across the three nodes for:
 1. Mint key management (monthly rotating instances)
 2. Warrant canary signing
 
 A node seizure yields one FROST key share — cryptographically insufficient to issue
-credentials, forge canaries, or retroactively sign anything. Two shares are required.
-Those two shares exist on hardware in two different legal jurisdictions.
+credentials, forge canaries, or retroactively sign anything. Two shares are required. Those two shares exist on hardware in two different legal jurisdictions.
 
 ### Mint key management via FROST
 
-At the start of each monthly mint window, the three nodes perform a FROST distributed
-key generation (DKG) ceremony:
+At the start of each monthly mint window, the three nodes perform a FROST distributed key generation (DKG) ceremony:
 
 1. All three nodes must be online.
 2. DKG produces three key shares — one per node — and a single public key.
 3. No node holds the full private key at any point. The full key is never assembled.
-4. Credential issuance requires any 2-of-3 nodes to cooperate in a threshold signing
-   operation. A client request for credential issuance triggers a 2-of-3 signing round
-   between two available nodes. The result is a single valid Schnorr signature.
+4. Credential issuance requires any 2-of-3 nodes to cooperate in a threshold signing operation. A client request for credential issuance triggers a 2-of-3 signing round between two available nodes. The result is a single valid Schnorr signature.
 5. At window close, all three key shares are deleted from node storage. The key is
    destroyed across all jurisdictions simultaneously.
 
@@ -386,35 +325,23 @@ Declaration:   This node's operator and hosting provider have received no legal
 Signature:     [FROST 2-of-3 Schnorr signature]
 ```
 
-**Block hash as freshness oracle:** embedding the block hash of a recent block proves
-the statement was not pre-signed before that block existed. The Bitcoin chain itself
-provides the timestamp — no trusted time source required.
+**Block hash as freshness oracle:** embedding the block hash of a recent block proves the statement was not pre-signed before that block existed. The Bitcoin chain itself provides the timestamp — no trusted time source required.
 
-**72-hour expiry:** cadence is daily publication. A canary that expires every 72 hours
-and is published every 24 hours provides a 48-hour silence window before expiry is
-reached — long enough to distinguish a publication failure from a deliberate canary
-death, short enough to be meaningful.
+**72-hour expiry:** cadence is daily publication. A canary that expires every 72 hours and is published every 24 hours provides a 48-hour silence window before expiry is reached — long enough to distinguish a publication failure from a deliberate canary death, short enough to be meaningful.
 
-**Silence reads as death — by design.** An expired canary is a dead canary. No grace
-periods. No ambiguity. A node down for maintenance kills its canary; the status page
-says the node is under maintenance; resurrection requires a fresh FROST-signed
-statement. Ambiguity is what canaries exist to eliminate.
+**Silence reads as death — by design.** An expired canary is a dead canary. No grace periods. No ambiguity. A node down for maintenance kills its canary; the status page says the node is under maintenance; resurrection requires a fresh FROST-signed statement. Ambiguity is what canaries exist to eliminate.
 
 ### Publication — three independent channels
 
 Each canary statement is published to three locations simultaneously:
 
 1. **Static file on the node itself:** `https://[node-url]/canary.json` — served
-   directly from the node, no Legend infrastructure intermediary. Fetching it reveals
-   nothing about the fetcher beyond the fact that they fetched a public static file.
+   directly from the node, no Legend infrastructure intermediary. Fetching it reveals nothing about the fetcher beyond the fact that they fetched a public static file.
 
 2. **GitHub repository mirror:** `rajesh-taylor/refueler-legend/canaries/[node-id]/latest.json`
    — public, immutable commit history, independent of Legend infrastructure.
 
-3. **Nostr note from per-node npub:** each node has its own Nostr keypair. The canary
-   is published as a Nostr event from the node's npub. Verification via Nostr requires
-   no contact with Legend infrastructure whatsoever — a user can verify all three
-   canaries through any Nostr relay without Legend knowing a verification occurred.
+3. **Nostr note from per-node npub:** each node has its own Nostr keypair. The canary is published as a Nostr event from the node's npub. Verification via Nostr requires no contact with Legend infrastructure whatsoever — a user can verify all three canaries through any Nostr relay without Legend knowing a verification occurred.
 
 ### Verification without query logs
 
@@ -434,13 +361,10 @@ Investigatory Powers Act 2016 (IPA 2016) permits:
 
 - Compelled disclosure of decryption keys and system access
 - Non-disclosure orders (the operator cannot reveal a warrant has been served)
-- Arguably, compelled continuation of canary publication while under a non-disclosure
-  order — the legal position on this specific point is untested in UK courts
+- Arguably, compelled continuation of canary publication while under a non-disclosure order — the legal position on this specific point is untested in UK courts
 
 The per-node geographic distribution across Germany, Finland, and Iceland protects
-against orders served on hosting providers in those jurisdictions. It does not protect
-against a UK IPA order served on the operator personally, which can affect all three
-nodes regardless of hardware location.
+against orders served on hosting providers in those jurisdictions. It does not protect against a UK IPA order served on the operator personally, which can affect all three nodes regardless of hardware location.
 
 This caveat appears in:
 - The privacy explainer modal (plain language, non-alarming register)
@@ -530,10 +454,7 @@ The Double Ratchet algorithm (as used in Signal) over Curve25519 keys provides:
 - Forward secrecy: compromise of today's key does not expose yesterday's sessions
 - Break-in recovery: the ratchet heals after a key compromise
 
-Applied to the Enterprise API: an initial X3DH handshake establishes a shared secret
-between the Enterprise client software and the Legend Enterprise endpoint. The ratchet
-rotates per query. A node seizure or key compromise after the fact cannot decrypt
-historical query content.
+Applied to the Enterprise API: an initial X3DH handshake establishes a shared secret between the Enterprise client software and the Legend Enterprise endpoint. The ratchet rotates per query. A node seizure or key compromise after the fact cannot decrypt historical query content.
 
 Implementation: `libsignal` (Apache 2.0, Signal Foundation), Rust crate.
 Target: Enterprise tier, v2.
@@ -541,9 +462,7 @@ Target: Enterprise tier, v2.
 ### Post-quantum transport — ML-KEM hybrid (v2, Enterprise)
 
 The harvest-now-decrypt-later threat is real for Enterprise clients. A state-level
-actor recording encrypted query traffic today can decrypt it when quantum capability
-arrives. For clients who need to make a credible long-term privacy argument to their
-legal team, this matters now even though quantum decryption is not imminent.
+actor recording encrypted query traffic today can decrypt it when quantum capability arrives. For clients who need to make a credible long-term privacy argument to their legal team, this matters now even though quantum decryption is not imminent.
 
 **ML-KEM-768** (NIST FIPS 203, August 2024, formerly KYBER) as a hybrid with X25519:
 - X25519 for current security (well-understood, fast)
@@ -557,9 +476,7 @@ a research-level problem, not a production-ready one. Documented as v3+ consider
 Implementation: `ml-kem` Rust crate. Target: Enterprise tier, v2.
 
 The sentence an Enterprise client's legal team needs:
-*"Query transport uses a hybrid X25519 + ML-KEM-768 key exchange. A quantum computer
-breaking elliptic curve keys cannot decrypt recorded traffic because the ML-KEM
-component is quantum-resistant. Both components must be broken simultaneously."*
+*"Query transport uses a hybrid X25519 + ML-KEM-768 key exchange. A quantum computer breaking elliptic curve keys cannot decrypt recorded traffic because the ML-KEM component is quantum-resistant. Both components must be broken simultaneously."*
 
 ---
 
@@ -622,23 +539,14 @@ isolation is a v2 upgrade offered to existing Enterprise clients.
 
 ---
 
-## Carry-forward to Legend-1
+## Carry-forward — infrastructure cost
 
-**The ~€96/month figure in `legend-design-spec.md` is stale.**
-Three dedicated boxes (Hetzner AX-class × 2 + FlokiNET dedicated × 1) is
-realistically **€170–220/month** at current pricing. This is the opening
-figure for Legend-1's economics section. It remains trivially covered by
-one Enterprise contract — the "one client covers years of infrastructure"
-claim holds — but the honest number goes in the document.
+All cost figures are confirmed and documented in `legend-economics.md` §1.
+**Do not restate figures here — refer to that document.**
+Current confirmed range: €340–420/month midpoint ~€360/month (verified August 2026).
+The "one Enterprise client covers years of infrastructure" claim is confirmed and understated — see `legend-economics.md` §4.
 
-**Legend-1 opens with `legend-node-plan.md` committed and this figure confirmed.**
-Legend-1 will append the full economics section: monthly cost at v1, scaling
-cost model, bandwidth overhead quantified, break-even analysis, self-hosting
-cost estimate.
-
-**Legend-0a:** additional planning session before Legend-1. Load the standard
-six context files plus this document. Session explores further architectural
-ideas before the economics session locks the cost model.
+**Legend-4** adds `legend-incident-protocol.md`: node recovery procedures, provider-switch protocol, FROST re-keying after topology changes, and attack vector simulations (compelled shutdown, jurisdiction-level enforcement, DDoS against the role-split API). Two Opus sessions — production then review. Quarterly revision cadence begins at v1 launch.
 
 ---
 

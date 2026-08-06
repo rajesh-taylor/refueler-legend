@@ -64,14 +64,13 @@ Refueler Share is the only architecture that solves both failures simultaneously
 - Own infrastructure — no query metadata leaks to Blockstream, Mempool.space, or any third party
 - Ephemeral query sessions — no session persistence, no cookie tracking, no client correlation across queries
 - Tor-native API for Enterprise — client IP never reaches the server
-- PIR-inspired sharding (3-5 Hetzner nodes, fixed cost regardless of client count) — no single node sees the complete query; client reassembles locally. A world first for production Bitcoin chain data.
+- PIR-inspired sharding (three dedicated nodes across two providers and two legal jurisdictions, fixed cost regardless of client count) — no single node sees the complete query; client reassembles locally. A world first for production Bitcoin chain data.
 
 **Cashu query credentials — the Cashu model applied to chain queries:**
-- Query budgets issued as Cashu blind signature tokens — same infrastructure as Share
+- Query credentials issued as Cashu blind signature tokens — same blind-signature infrastructure as Share
 - Server cannot reconstruct a client's query history across sessions — structurally impossible, not a policy promise
-- Free tier: 10 Legend queries earned per Share upload, 50/day cap
-- Paid Share tiers: 50 queries per upload, uncapped daily
-- Enterprise: unlimited, PIR-sharded, Tor-native
+- Free tier: unlimited queries, no account, no rate limit, no credential gate at v1 launch
+- Enterprise: unlimited, PIR-sharded, Tor-native, NUT-11 P2PK-bound credentials
 
 **Proof-of-query receipts:**
 - Blind receipt issued per query — cryptographic proof the query was processed without linking receipt to query content
@@ -90,7 +89,7 @@ Refueler Share is the only architecture that solves both failures simultaneously
 
 ### Who Legend serves — the full stack, not just enterprise
 
-**Plebs first.** The free tier (10 queries per Share upload, or 50/day standalone) gives every Bitcoiner a private alternative to Mempool.space for basic lookups. No account. No tracking. Privacy is not a luxury — it is the default.
+**Plebs first.** The free tier gives every Bitcoiner a private alternative to Mempool.space for basic lookups. No account. No payment. No rate limit. Privacy is not a luxury — it is the default.
 
 **Lightning and Cashu wallet users.** Lightning nodes open and close channels on-chain. Those events are queryable. Legend gives Lightning wallet users (Mutiny, Phoenix, Breez, Zeus, Sparrow) a private way to track their own channel activity without revealing their node's footprint to a public explorer. Potential partnership: Sparrow Wallet (Craig Raw, post-B9) — already supports custom Esplora endpoints; Legend is API-compatible out of the box.
 
@@ -100,12 +99,13 @@ Refueler Share is the only architecture that solves both failures simultaneously
 
 ### Business model
 
-- Free: 10 queries per Share upload or 50/day standalone. No account required.
-- Paid Share subscribers: 50 queries per upload, uncapped daily, included in Creative Premium and above.
-- Enterprise: unlimited, full PIR stack, Tor API, Silent Payments scanning, family office reporting, self-hosting option with setup and support contract.
-- Open source: self-hosting encouraged. Enterprise value lives in the Cashu credential integration, Silent Payments scanning layer, and managed infrastructure — not in closed code.
+- Free: unlimited queries. No account. No payment. No rate limit. Funded by Enterprise cross-subsidy — the free tier is the proof the architecture works, not the product.
+- Enterprise (family office): £1,500/month (v1) → £2,500/month (v2: Tor API, Double Ratchet, ML-KEM-768) → £3,500/month (v2+: dedicated node isolation). Invite-only at v1, capped at five clients. Full detail in `legend-enterprise-pricing.md`.
+- Merchant add-on: £250/month per business entity, sold only into the existing Refueler POS merchant base. Never bundled with POS.
+- Estate reports: £50 per block-height balance statement (v2), £150 full verified estate report (v3).
+- Open source: self-hosting encouraged. Enterprise value lives in the institutional wrapper — FROST key management, warrant canaries, geographic jurisdiction distribution, SLA, compliance pack, named contact — not in closed code.
 
-**Traffic and cost model:** Free access is rate-limited by Cashu credentials. Enterprise revenue subsidises infrastructure before free tier scales. Sequence: Enterprise infrastructure first → open source → article 14 → free tier as proof of concept → Enterprise conversion. Legend does not open as a free unlimited public explorer until business model is proven.
+**Infrastructure cost:** ~€360/month (two Hetzner AX52 nodes in Germany and Finland; one FlokiNET dedicated node in Iceland). One Enterprise contract covers the infrastructure cost many times over. Full cost model in `legend-economics.md`.
 
 ---
 

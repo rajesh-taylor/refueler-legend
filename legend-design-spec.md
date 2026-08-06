@@ -64,9 +64,7 @@ at different scales and different moments in their Bitcoin journey.
    Share subscribers encounter Legend naturally. Legend drives Share conversions upward
    without forcing the connection.
 
-**Infrastructure cost:** ~€96/month (3–5 Hetzner nodes, indexed chain data, Silent Payments
-scanning). One Enterprise client covers years of infrastructure. The free tier is sustainable
-before the first Enterprise contract closes.
+**Infrastructure cost:** ~€360/month (two Hetzner AX52 nodes in Germany and Finland; one FlokiNET dedicated node in Iceland). Figures verified August 2026. One Enterprise client covers years of infrastructure. The free tier is sustainable before the first Enterprise contract closes.
 
 **No voluntary tip jar. No 21 sats prompt. No friction at the distress moment.**
 

@@ -3,6 +3,40 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+## Session Legend-4 · TBC
+
+**Phase:** 1 pre-build harness — incident protocol and attack vector simulation
+**Status:** Planned. Two Opus sessions.
+**Model:** Opus. Extended thinking ON for session A. OFF for session B (review).
+
+### Session A — produce legend-incident-protocol.md
+
+**Scope:**
+- Node recovery procedure: chain sync from surviving node vs fresh IBD — decision criteria, operational steps, data integrity verification before returning to production
+- Provider-switch protocol: full topology migration away from Hetzner and/or FlokiNET under compelled service termination. New provider selection criteria, FROST re-keying ceremony with changed node set, canary migration
+- Compelled shutdown scenarios: single node, single jurisdiction (both Hetzner nodes simultaneously), all three nodes. Response steps, canary death handling, user communication
+- IPA 2016 operator compulsion: what can be compelled, what does not exist to hand over, honest communication to Enterprise clients, non-disclosure order constraints on canary
+- Attack vector simulation: DDoS against role-split API, competitor-driven legal challenge, hostile jurisdiction data request naming Refueler
+- Chaos protocol: distress signal design, what Legend deletes vs what structurally does not exist, legal exposure of attempted deletion under a live order
+- Quarterly revision cadence: what triggers an out-of-cycle review, what the quarterly review covers (tech, cryptography, legal landscape, industry), governance structure
+
+**Session A produces:** `legend-incident-protocol.md` v1.0
+
+### Session B — review and adaptation
+
+**Scope:** Review v1.0 against legal and operational reality. Identify gaps, tighten language, confirm quarterly review trigger criteria. No new architecture — adaptation only.
+
+**Session B produces:** `legend-incident-protocol.md` v1.1 (reviewed)
+
+### Quarterly review cadence — begins at v1 launch
+
+The incident protocol is a living document. Reviewed every quarter by the founder. Review covers: incident protocol currency, node plan changes, cryptographic architecture developments, legal landscape (IPA, MLAT, relevant case law), industry changes (new PIR implementations, Cashu NUT updates, Bitcoin protocol changes). Calendar entry created at v1 launch.
+
+### Load list for Legend-4A
+
+`CLAUDE.md`, `SESSIONS.md`, `REFUELER-BRIDGE.md`, `legend-node-plan.md`, `legend-scope.md`, `legend-economics.md`, `legend-enterprise-pricing.md`
+
+---
 
 ## Session Legend-2 · 5 Aug 2026
 
