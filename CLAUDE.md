@@ -1,7 +1,9 @@
 # CLAUDE.md — refueler-legend
-> **Version:** 1.4 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Ad-hoc rename · 3 Aug 2026
+> **Version:** 1.5 | **Initialised:** CC-64 · 8 July 2026 | **Updated:** Legend-5 · 6 Aug 2026
 > Load alongside `SESSIONS.md` at the start of every session on this repo.
 > For platform-wide context, load `REFUELER-BRIDGE.md` which lives in this repo root.
+> In build sessions, also load `MASTER.md` — covers all planning documents in one file.
+> Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session post-Multi-8.
 
 ---
 
@@ -68,11 +70,35 @@ Legend is the privacy interface built on top of it.
 - Open source — "don't trust us, read the code" is the only honest privacy claim
 - Licence stays MIT to match upstream — Apache 2.0 is for Share, not this repo
 - Do not start Legend build before Share Lightning node is live at B9
+- v1 privacy claim is collusion-resistant query splitting with blind credential unlinkability — not PIR, not ZK. Use precise language always.
+- Bitcoin Knots over Bitcoin Core on all nodes — BIP110 policy, RBF disabled. Closes known attack vector against multisig users with compromised seed phrases. Consistent with Legend's position as infrastructure that works for the owner, not the observer.
+- No gateway node ever — browser talks to nodes directly. A gateway sees everything and is a surveillance point with extra steps.
+- Blink/POS sat rewards integration is explicitly out of scope for Legend. Product clarity over cross-product feature creep.
 
 **Query credit model (locked Multi-4):**
 - Free tier: unlimited queries at v1 launch. No account. No rate limit. No friction at distress moment.
 - Paid Share tiers: Share discovery drives Legend awareness — no query gate on Legend
 - Enterprise: unlimited, PIR-sharded, Tor-native
+
+---
+
+## Locked phrases
+
+- **"Chainalysis works for the observer. Legend works for the owner."** — coined Multi-5, 3 Aug 2026. Use in Article 14, Article 15, and any Legend investor or conference presentation. Never in UI copy.
+- **Article 14 opening line** — "Every time you look up a Bitcoin address on a public block explorer, you're telling that server exactly what you own and what you're watching. Here's what we built instead, and why it matters for our clients."
+- **"Nothing stops this train."** — closing line, all planning documents.
+
+---
+
+## Copy register — permanent rules
+
+These apply in every session that touches any user-facing string. Full rules and all locked strings are in `legend-ux-language.md` Section 8.
+
+- Never: anonymous, military-grade, bank-grade, Swiss-grade, end-to-end (unless exact), zero-knowledge as v1 headline, PIR without qualification, exclamation marks
+- Never call a degraded mode "secure" — it is reduced, not broken
+- "No logs" always requires the structural qualifier: not a policy promise, an architectural constraint
+- Distinguish IP privacy (Tor) from query privacy (architecture) whenever both are relevant
+- Denomination default: sats. Toggle: sats · BTC · USD at time of transaction · GBP at time of transaction
 
 ---
 
@@ -93,13 +119,11 @@ See `SESSIONS.md`.
 
 ---
 
-## Key article
+## Key articles
 
-**Article 14** (unlocks post-B9): "The metadata leak nobody talks about — what
-querying a public block explorer tells the world."
-Opening line locked: "Every time you look up a Bitcoin address on a public block
-explorer, you're telling that server exactly what you own and what you're watching.
-Here's what we built instead, and why it matters for our clients."
+- **Article 14** (unlocks post-B9): "The metadata leak nobody talks about — what querying a public block explorer tells the world." Opening line locked — see Locked phrases above.
+- **Article 15** (unlocks post-B9): 44-year cryptographic lineage arc — Chaum 1982 → DigiCash → Bitcoin → Cashu → Legend.
+- **Article 16** (unlocks post-B9): "Why Mempool over Tor isn't enough." Linked from privacy explainer modal when published.
 
 ---
 
