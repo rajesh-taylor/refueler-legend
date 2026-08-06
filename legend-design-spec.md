@@ -1,9 +1,9 @@
 # legend-design-spec.md — refueler-legend
-> **Version:** 1.1 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** Legend-3A · 6 Aug 2026
+> **Version:** 1.2 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** Legend-4 · 6 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.
 > Covers: page architecture, query flow, result anatomy, credential UX, breach scenario,
-> modal inventory, theme behaviour, navigation, funding model, and session roadmap.
+> modal inventory, theme behaviour, navigation, funding model, status page, and session roadmap.
 
 ---
 
@@ -360,6 +360,241 @@ All tokens inherited from REFUELER-BRIDGE.md. No Legend-specific tokens in v1.
 **Structural:**
 - Border weight: `0.5px`. Card radius: `10px`. Button radius: `8px`. Modal radius: `12px`.
 - Theme toggle transition: `0.35s` simultaneous on all token properties.
+
+---
+
+## Status page — `refueler.io/legend/status`
+
+### What the status page is
+
+A public, unauthenticated page showing three things: per-node operational status,
+current privacy mode, and per-node canary status. Nothing else. The page exists so
+users can understand the current state of the infrastructure without querying the
+infrastructure to find out.
+
+It is not a monitoring dashboard. It is not a metrics surface. It does not show
+query volumes because no query volumes are recorded. It does not show traffic graphs
+because the architecture produces no traffic data to graph.
+
+The established pattern is `share.refueler.io/status`. Legend's status page inherits
+that structure and adds the privacy mode indicator and canary section beneath it.
+
+---
+
+### Page structure
+
+Three sections, top to bottom:
+
+1. **Privacy mode** — single line across the top; the most operationally relevant
+   signal for a user who has arrived because something felt wrong
+2. **Node status** — per-node reachability and chain sync height; the operational layer
+3. **Canary status** — per-node canary health; a different kind of claim, visually separate
+
+Privacy mode sits above node status because it is the user's question, not the
+operator's. A user arriving at this page wants to know: *is this safe to use right now?*
+Privacy mode answers that. Node status explains why. Canary status says something
+categorically different and is separated accordingly.
+
+---
+
+### Section 1 — Privacy mode
+
+Single line. DM Sans 400. `--text-primary`.
+
+Four states, exact strings:
+
+| State | String |
+|---|---|
+| Full splitting | `Full splitting active — three nodes operational.` |
+| Reduced splitting | `Reduced splitting — one node offline.` |
+| Single node | `Single node — query splitting unavailable.` |
+| Rotation in progress | `Credential rotation in progress — queries available, new credentials paused.` |
+
+The string changes when node reachability or mint state changes. No animation. No
+colour change between full splitting, reduced splitting, or rotation states — all
+three are operationally normal. Single node state acquires `--text-secondary` colour
+only (not amber, not red) because it is a factual reduction, not a failure requiring
+alarm. Rotation in progress acquires `--text-tertiary` — it is a background ceremony,
+not a user-facing event, and the muted colour signals accordingly.
+
+Beneath the privacy mode string, in `--text-tertiary`, a one-line description that
+does not change with state:
+
+`Your browser selects which nodes handle each stage of your query. This page reflects
+current node availability.`
+
+---
+
+### Section 2 — Node status
+
+Inherits `share.refueler.io/status` layout. Three node cards in a row (desktop);
+stacked (mobile). Card border `--border`. Card radius `10px`. Card background
+`--surface`.
+
+**Per-node card contents:**
+
+```
+Node A · Falkenstein, DE          [Live]
+Chain height: 906,412
+Last seen: 4 seconds ago
+```
+
+**Label:** Node letter and city only. No IP addresses. No provider names in the
+user-facing status page (provider names appear in the privacy explainer modal and
+contract materials — not on a page a user checks under stress).
+
+**Status badge:** `Live` or `Unreachable`. DM Sans 500.
+- `Live` — `--text-primary`. No background. No colour treatment.
+- `Unreachable` — `--text-secondary`. No background. No red. Factual, not alarming.
+
+**Chain height:** comma-formatted integer. IBM Plex Mono 400.
+
+**Last seen:** relative time string. `Just now` / `N seconds ago` / `N minutes ago`.
+Updates on page refresh only — the status page is not a live dashboard.
+No auto-refresh. A user who wants fresh data refreshes the page.
+
+**What the card does not show:**
+- Query response time / latency
+- Memory or CPU utilisation
+- Inbound or outbound traffic
+- Number of active connections
+- Any metric that could reveal query load patterns
+
+These are absent because they do not exist as logs, and because their absence is
+part of the product's honest scope. The status page does not pretend they exist
+and choose not to display them.
+
+---
+
+### Section 3 — Canary status
+
+Visually separated from Section 2 by a full-width rule (`--border`, `0.5px`).
+A typographic section header above the rule:
+
+`Warrant canaries`
+DM Sans 500. `--text-secondary`. Not a heading hierarchy element — this is a label.
+
+The canary section is categorically different from the operational section. Node
+reachability is about whether the infrastructure is running. Canary status is about
+whether the infrastructure is under legal compulsion. These are different claims.
+Sharing visual language between them would imply that a dead canary is an operational
+incident. It is not. Separation is the correct design.
+
+**No custom icon at v1.**
+
+**Per-node canary display:**
+
+Each node's canary is displayed as a single typographic block. Three blocks,
+same left-to-right order as the node cards above.
+
+```
+NODE A  ·  CANARY
+Signed at block 906,412
+Expires in 51 hours
+```
+
+- `NODE A  ·  CANARY` — IBM Plex Mono 400. Small caps rendering via
+  `font-variant: small-caps`. `--text-secondary`. This is the label line.
+  The middot is the same separator used in the result status line — consistent
+  with the rest of Legend's typographic system.
+- `Signed at block [height]` — IBM Plex Mono 400. `--text-primary`.
+  Block height comma-formatted.
+- `Expires in [N hours/minutes]` — DM Sans 400. `--text-tertiary`.
+  Counts down to the 72-hour expiry window. No seconds display. Hours until
+  fewer than 1 hour remain; then minutes.
+
+**Live canary — no colour.** A valid canary is the expected state.
+The expected state needs no visual emphasis. Its absence is the signal.
+
+**Expired canary — muted amber only.**
+
+When a canary has expired, the label line becomes:
+
+```
+NODE A  ·  CANARY  ·  EXPIRED
+```
+
+The word `EXPIRED` appended after a second middot. IBM Plex Mono. Small caps.
+Colour: `--canary-expired: #B8860B` (Paper) / `#C9A227` (Carbon).
+These are muted amber values — neither orange nor yellow. Amber signals
+attention required. It does not signal breach.
+
+The body lines change to:
+
+```
+Last signed at block 906,412
+Expired [N hours] ago
+```
+
+`Expired [N hours] ago` in the amber value. Body lines only — the typography
+shifts; nothing else does. No icon. No border change. No background highlight.
+No red. No pulse animation. No modal triggered.
+
+**Why amber and not red:**
+A dead canary is not confirmed bad news. It may be a node maintenance event,
+a publication failure, an operator error. Red communicates certainty about a
+negative outcome. Amber communicates: something has changed; pay attention.
+The status page states what it knows. The user draws the conclusion.
+
+**FROST integrity note (status page only):**
+Beneath the three canary blocks, in `--text-tertiary`, DM Sans 400, one line:
+
+`Each canary is signed by a 2-of-3 threshold signature across separate nodes.
+A single compromised node cannot produce a valid canary statement.`
+
+This is the one piece of canary architecture that belongs on the status page
+for non-technical users who want the plain version. The full technical detail
+is in the privacy explainer modal (Section 5 of this spec) and in Enterprise
+contract materials.
+
+---
+
+### Token additions for canary expired state
+
+Two new tokens, scoped to `.theme-paper` and `.theme-carbon`:
+
+```css
+/* Paper */
+--canary-expired: #B8860B;
+
+/* Carbon */
+--canary-expired: #C9A227;
+```
+
+No other status-page-specific tokens. All other values inherit from the existing
+Refueler token set documented in the Design tokens section of this spec.
+
+---
+
+### What the status page explicitly does not show
+
+This list is part of the spec, not editorial commentary. Build sessions must
+not add these without a new spec session:
+
+- Query volumes — no logs exist to count them from
+- Traffic graphs — no traffic data is retained
+- Response time or latency metrics — these would reveal query load patterns
+- Error rate logs — errors are transient; none are stored
+- Node CPU, memory, or storage utilisation — operational tooling only, not public
+- Historical uptime percentages — not calculated, not stored
+- Canary publication history beyond current state — the GitHub mirror is the
+  historical record; the status page shows current state only
+
+The status page knows three things: reachability, chain height, canary state.
+It shows those three things. It stops.
+
+---
+
+### URL and navigation
+
+`refueler.io/legend/status` — static Eleventy page.
+Linked from the Legend page footer only. Not in nav. Not linked from the SPA chrome.
+The degraded mode banners (Section 7 of `legend-ux-language.md`) do not link to
+it — a banner is a functional notice, not a navigation element.
+
+The status page is for users who know to look for it, not a surface pushed
+at every user. Enterprise clients receive the URL in their contract onboarding.
+Free-tier users find it in the footer.
 
 ---
 

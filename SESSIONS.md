@@ -4,6 +4,43 @@
 
 ---
 
+## Session Legend-4 · 6 Aug 2026
+
+**Phase:** 1 pre-build harness — node status page spec
+**Status:** Complete. `legend-design-spec.md` v1.1 → v1.2.
+
+### Completed
+
+- Status page section added to `legend-design-spec.md` covering: page purpose and scope,
+  three-section structure (privacy mode / node status / canary status), per-section layout
+  and typography spec, canary expired state (muted amber, typographic only, no icon),
+  two new CSS tokens (`--canary-expired`), explicit list of what the page does not show,
+  URL and navigation placement.
+- Privacy mode: four states locked. Full splitting / Reduced splitting / Single node /
+  Credential rotation in progress. Rotation state colour: `--text-tertiary` (routine ceremony,
+  not a user action required). Single node: `--text-secondary`. Full and reduced: `--text-primary`.
+- Canary section visually separated from operational section by full-width rule. Different
+  claims must not share visual language.
+- FROST integrity note added beneath canary blocks — one line, `--text-tertiary`, for
+  non-technical users reading an expired canary notice.
+- Token additions: `--canary-expired: #B8860B` (Paper) / `#C9A227` (Carbon). No other
+  status-page-specific tokens.
+
+### Files changed
+
+- `legend-design-spec.md` v1.1 → v1.2
+- `SESSIONS.md` (this entry)
+
+### Carry-forward
+
+- **CONTRIBUTING.md contribution-back norm** — queued for first build session.
+- **Custom FlokiNET quote** — still open. Required before provisioning node C.
+- **legend-incident-protocol.md** — queued per `legend-node-plan.md` §9 carry-forward.
+  Node recovery, provider-switch protocol, FROST re-keying, attack vector simulations.
+  Two Opus sessions when infrastructure is live.
+
+---
+
 ## Session Legend-3B · 6 Aug 2026
 
 **Phase:** 1 pre-build harness — UX language and information hierarchy
@@ -95,73 +132,20 @@
 ## Session Legend-3A · 6 Aug 2026
 
 **Phase:** 1 pre-build harness — queued scope and spec edits
-**Status:** Complete. No new file produced. All queued edits from Legend-0a and Legend-1 applied.
-
-### Completed
-
-**legend-scope.md → v1.2:**
-- SP tweak index added as v1 build prerequisite under Silent Payments.
-- Cashu NUT status table added. NUT-13 and NUT-09 permanently rejected with reasons.
-  NUT-28 noted v2. NUT-24 noted v2+.
-- Merkle proof scope table added: v1/v2/v3.
-- Plain-language script rendering added as v2 item.
-- Version summary table updated.
-
-**legend-design-spec.md → v1.1:**
-- €96 → €360 infrastructure cost correction applied.
-
-### Files changed
-
-- `legend-scope.md` v1.1 → v1.2
-- `legend-design-spec.md` v1.0 → v1.1
-- `SESSIONS.md` (this entry)
-
----
-
-## Session Legend-2 · 5 Aug 2026
-
-**Phase:** 1 pre-build harness — Enterprise packaging and commercial model
-**Status:** Complete. `legend-enterprise-pricing.md` v1.0 produced. Pre-build harness closed.
+**Status:** Complete. No new file produced.
 
 ### Completed (abbreviated)
 
-- Family office pricing ladder locked: £1,500 (v1) / £2,500 (v2) / £3,500 (v2+).
-- Five-client cap at v1. Invite-only.
-- Contract: 3-month minimum, monthly rolling, 60 days' notice. Annual prepay at eleven months.
-- SLA: 99.0% monthly / ≥95% full-splitting / 4 business-hour response /
-  12-hour canary alerting / 10% credit below 97%.
-- Merchant: £250 entity / £500 franchise flat (≤25 locations). Always add-on.
-- Estate reports: £50 statement (v2) / £150 full report (v3).
-- Swan approach timing: post-audit + post-/legend/verify + ≥12 months canary history.
-- Compliance pack and PI insurer pack contents defined per tier.
-
-### Files produced
-
-- `legend-enterprise-pricing.md` v1.0
+- `legend-scope.md` v1.1 → v1.2: SP tweak index, Cashu NUT status table, Merkle proof scope table, plain-language script rendering (v2), version summary updated.
+- `legend-design-spec.md` v1.0 → v1.1: €96 → €360 infrastructure cost correction.
 
 ---
 
-## Session Legend-1 · 5 Aug 2026
-
-**Phase:** 1 pre-build harness — infrastructure costs and scaling economics
-**Status:** Complete. `legend-economics.md` and `legend-enterprise-pricing.md` (v0.1) produced.
-
-### Completed (abbreviated)
-
-- V1 launch cost locked: ~€360/month midpoint, range €340–420/month.
-- Hetzner AX52 (×2) + FlokiNET dedicated (×1). Previous estimates confirmed wrong.
-- SP tweak index locked as v1 build requirement.
-- Storage headroom to 2029 confirmed on 2 TB spec.
-- Enterprise break-even: £1,500/month covers ~4.8 years of infrastructure.
-
-### Files produced
-
-- `legend-economics.md` v1.0
-- `legend-enterprise-pricing.md` v0.1
+*Legend-1 and Legend-2 archived. Decisions captured in `legend-economics.md` v1.0 and `legend-enterprise-pricing.md` v1.0.*
 
 ---
 
-*Next session: Legend-4 — node status page spec*
-*Adds section to: `legend-design-spec.md`*
-*Load: CLAUDE.md, SESSIONS.md, REFUELER-BRIDGE.md, legend-design-spec.md (v1.1),*
-*legend-scope.md (v1.2), legend-node-plan.md, legend-ux-language.md (v1.0)*
+*Next session: Legend-5 — MASTER.md compression*
+*Produces: `MASTER.md` (~200-line summary of all harness documents with pointers to detail files)*
+*Load: all nine current harness files — last time this many load simultaneously*
+*After Legend-5: standard session load drops to `MASTER.md` + `SESSIONS.md` + one specific file (3 total)*
