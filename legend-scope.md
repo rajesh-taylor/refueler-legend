@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-multi-core
-> **Version:** 1.1 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Ad-hoc · 5 Aug 2026
+> **Version:** 1.2 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Legend-3A · 6 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -58,6 +58,18 @@ the same query interface, design tokens, and privacy guarantees.
 | Silent Payments (BIP-352) | **Yes** | Full: static address display, per-block scanning, derived output listing |
 | Cashu | **Yes** — as infrastructure | Query credentials only. Cashu tokens are not chain-queryable in v1. |
 
+### Silent Payments — v1 build requirement
+
+**Precomputed per-block tweak index is a prerequisite for Silent Payments, not an optimisation.**
+A naive per-query full-range ECDH scan over one year of blocks takes 1.5–3 core-hours — not shippable. The tweak index precomputes one public tweak per eligible transaction at block ingestion, shared across all future scans. Without it, Silent Payments scanning does not ship.
+
+With the tweak index:
+- Per-scan compute: ~8 minutes parallelised on 8 cores (vs 1.5–3 core-hours naive)
+- Storage overhead: ~30–60 GB per node — within the 2 TB spec
+- Concurrent full-range scans sustainable per node: 5–10
+
+The tweak index build must be complete before Silent Payments is declared v1-ready. Bounded-range scans (user specifies start block) are the default UX; full-range scan is available but documented as compute-intensive.
+
 ### Query types in scope (v1)
 
 - Bitcoin address → UTXOs, balance, transaction history
@@ -85,6 +97,38 @@ the same query interface, design tokens, and privacy guarantees.
 | Proof-of-query receipts | **Partial** — v1 stub | Blind receipt issued. Verification tooling is v2. |
 | No server-side query logs | **Yes** — locked | Structural, not policy. Ephemeral sessions make reconstruction impossible. |
 | IP privacy | **Partial** | Tor for Enterprise. Free tier: standard HTTPS, IP visible to server. Documented honestly. |
+
+### Cashu NUT status
+
+| NUT | Status | Reason |
+|---|---|---|
+| NUT-00 (BDHKE blind signatures) | **v1 — locked** | Core credential primitive. Required for all query credential issuance. |
+| NUT-01/02 (mint info / keysets) | **v1 — locked** | Vocabulary adopted. Required for mint operation. |
+| NUT-06 (mint info endpoint) | **v1 — locked** | Browser session start: confirms mint is live and which window is active. |
+| NUT-07 (token state check) | **v1 — locked** | Credential validity verification without account state. |
+| NUT-11 (P2PK spending conditions) | **v1 — locked** | Enterprise credentials bound to client public key. Prevents credential theft and replay. |
+| NUT-12 (DLEQ proofs) | **v1 — locked** | Browser-side, mandatory. Proves the mint signed honestly without revealing the message. |
+| NUT-19 (idempotency) | **v1 — locked** | Prevents duplicate credential issuance on retry. Required for batch query reliability. |
+| NUT-29 (batched minting) | **v1 — locked** | Breach scenario: 47 addresses → 47 credentials in one round-trip. Essential. |
+| NUT-17 (WebSocket subscriptions) | **Rejected — v1** | Requires persistent connection — incompatible with ephemeral session model. |
+| NUT-21/22 (bolt11/bolt12 melt) | **Rejected** | Monetary melt operations. Legend mint is non-monetary. Structurally absent. |
+| NUT-27 (clear text memos) | **Permanently rejected** | Would attach human-readable context to a credential — directly undermines unlinkability. |
+| NUT-09 (restore signatures) | **Permanently rejected** | Restore requires the mint to hold issuance state — breaks forward secrecy of rotating mint instances. |
+| NUT-13 (deterministic secrets) | **Permanently rejected** | Deterministic secrets would allow a compromised client device to reconstruct credential history — the opposite of ephemeral. |
+| NUT-28 (P2BK spending conditions) | **v2** | Hardened successor to NUT-11. Enterprise credential binding upgrade at v2. |
+| NUT-24 (HTTP 402 payment required) | **v2+** | May gate credential top-up flows if abuse requires throttling. Not active at v1 launch. |
+
+### Merkle proof scope
+
+| Scope | Version | Notes |
+|---|---|---|
+| Cross-node header fetch + in-browser SPV verification | **v1** | Locked Legend-0a. Browser fetches block header from a different node than the query, verifies inclusion. No server trust required for proof validity. |
+| Proof export artefact (downloadable, machine-verifiable) | **v2** | Required for estate solicitor £50 block-height balance statement. Depends on /legend/verify stub. |
+| Estate integration — ZK-backed proof accepted by PI insurer methodology | **v3** | Depends on full /legend/verify endpoint and ZK balance proof architecture. |
+
+### Plain-language script rendering
+
+Displaying raw scriptPubKey hex or ASM is correct for developers and wrong for solicitors, accountants, and distressed holders. Plain-language script rendering (e.g. "2-of-3 multisig — requires any two of these three keys to spend") is a **v2 item**. v1 shows script type label only (P2WPKH, P2WSH, P2TR, etc.) with raw script accessible on expand. Plain-language quorum descriptions for multisig and Miniscript policies ship at v2, timed with the professional market layer.
 
 ### Professional use cases in scope (v1)
 
@@ -315,6 +359,9 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Cashu mint health | — | Reserve check, blind | — |
 | Estate planning tooling | — | — | Probate verification, time-lock monitoring |
 | /legend/verify endpoint | — | ZK proof stub | Full verification flow |
+| Merkle proof | Cross-node SPV v1 | Proof export artefact | Estate PI methodology |
+| Script rendering | Type label only | Plain-language quorum | — |
+| SP tweak index | Build prerequisite (v1) | — | — |
 
 ---
 
@@ -324,12 +371,19 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 If a feature is not listed here, it does not exist yet. Add it to a planning session first.
 
 **Pre-build harness sessions (before Multi-8 / Legend-0 build opens):**
-- Node infrastructure costing session — produces `legend-node-plan.md`
-- Enterprise pricing session — produces `legend-enterprise-pricing.md`
-- UX language and information hierarchy session — produces `legend-ux-language.md`
+- Node infrastructure costing session — produces `legend-node-plan.md` ✅
+- Enterprise pricing session — produces `legend-enterprise-pricing.md` ✅
+- UX language and information hierarchy session — produces `legend-ux-language.md` (Legend-3B)
 - Node status page spec session — adds section to `legend-design-spec.md`
 - Silent Payments plain-language copy session — adds to `legend-ux-language.md`
 - Estate planning feature spec session — adds detail to v3 section above
+
+**Legend-3A queued edits applied (6 Aug 2026):**
+- SP tweak index added as v1 build prerequisite under Silent Payments ✅
+- Cashu NUT status table added (NUT-13/09 permanent-out with reasons; NUT-28 v2; NUT-24 v2+) ✅
+- Merkle proof scope table added (v1/v2/v3) ✅
+- Plain-language script rendering added as v2 item ✅
+- Version summary table updated ✅
 
 **Session naming:** Multi-[n] continues through Multi-8 (first query flow).
 From Legend-0 onwards, sessions are prefixed `Legend-[n]`.

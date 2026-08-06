@@ -3,38 +3,48 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
-## Session Legend-4 · TBC
 
-**Phase:** 1 pre-build harness — incident protocol and attack vector simulation
-**Status:** Planned. Two Opus sessions.
-**Model:** Opus. Extended thinking ON for session A. OFF for session B (review).
+## Session Legend-3A · 6 Aug 2026
 
-### Session A — produce legend-incident-protocol.md
+**Phase:** 1 pre-build harness — queued scope and spec edits
+**Status:** Complete. No new file produced. All queued edits from Legend-0a and Legend-1 applied.
 
-**Scope:**
-- Node recovery procedure: chain sync from surviving node vs fresh IBD — decision criteria, operational steps, data integrity verification before returning to production
-- Provider-switch protocol: full topology migration away from Hetzner and/or FlokiNET under compelled service termination. New provider selection criteria, FROST re-keying ceremony with changed node set, canary migration
-- Compelled shutdown scenarios: single node, single jurisdiction (both Hetzner nodes simultaneously), all three nodes. Response steps, canary death handling, user communication
-- IPA 2016 operator compulsion: what can be compelled, what does not exist to hand over, honest communication to Enterprise clients, non-disclosure order constraints on canary
-- Attack vector simulation: DDoS against role-split API, competitor-driven legal challenge, hostile jurisdiction data request naming Refueler
-- Chaos protocol: distress signal design, what Legend deletes vs what structurally does not exist, legal exposure of attempted deletion under a live order
-- Quarterly revision cadence: what triggers an out-of-cycle review, what the quarterly review covers (tech, cryptography, legal landscape, industry), governance structure
+### Completed
 
-**Session A produces:** `legend-incident-protocol.md` v1.0
+**legend-scope.md → v1.2:**
+- SP tweak index added as v1 build prerequisite under Silent Payments. Standalone subsection
+  below the chains table. Prerequisite status is explicit: without the tweak index, Silent
+  Payments scanning does not ship, full stop.
+- Cashu NUT status table added. Covers all NUTs considered across Legend-0a sessions.
+  NUT-13 and NUT-09 marked permanently rejected with reasons (deterministic secrets break
+  ephemerality; restore requires mint to hold issuance state, breaks forward secrecy).
+  NUT-28 noted v2. NUT-24 noted v2+.
+- Merkle proof scope table added: v1 (cross-node header fetch, in-browser SPV), v2 (proof
+  export artefact — estate £50 statement dependency), v3 (estate PI methodology integration).
+- Plain-language script rendering added as v2 item. v1 shows type label only (P2WPKH,
+  P2WSH, P2TR, etc.) with raw script on expand. Plain-language quorum descriptions
+  for multisig and Miniscript ship at v2, timed with the professional market layer.
+- Version summary table updated with Merkle proof, script rendering, and SP tweak index rows.
 
-### Session B — review and adaptation
+**legend-design-spec.md → v1.1:**
+- €96 → €360 infrastructure cost correction applied. Confirmed stale figure was still present.
+  Replaced with: "~€360/month (two Hetzner AX52 nodes in Germany and Finland; one FlokiNET
+  dedicated node in Iceland). Figures verified August 2026."
 
-**Scope:** Review v1.0 against legal and operational reality. Identify gaps, tighten language, confirm quarterly review trigger criteria. No new architecture — adaptation only.
+### Files changed
 
-**Session B produces:** `legend-incident-protocol.md` v1.1 (reviewed)
+- `legend-scope.md` v1.1 → v1.2
+- `legend-design-spec.md` v1.0 → v1.1
+- `SESSIONS.md` (this entry)
 
-### Quarterly review cadence — begins at v1 launch
+### Carry-forward to Legend-3B
 
-The incident protocol is a living document. Reviewed every quarter by the founder. Review covers: incident protocol currency, node plan changes, cryptographic architecture developments, legal landscape (IPA, MLAT, relevant case law), industry changes (new PIR implementations, Cashu NUT updates, Bitcoin protocol changes). Calendar entry created at v1 launch.
-
-### Load list for Legend-4A
-
-`CLAUDE.md`, `SESSIONS.md`, `REFUELER-BRIDGE.md`, `legend-node-plan.md`, `legend-scope.md`, `legend-economics.md`, `legend-enterprise-pricing.md`
+- Legend-3B is the UX language and information hierarchy session.
+- Produces: `legend-ux-language.md`
+- Load: `CLAUDE.md`, `SESSIONS.md`, `REFUELER-BRIDGE.md`, `legend-design-spec.md` (v1.1),
+  `legend-scope.md` (v1.2), `legend-node-plan.md`, `legend-economics.md`,
+  `legend-enterprise-pricing.md` (v1.0)
+- All queued edits from Legend-0a and Legend-1 are now cleared. Legend-3B opens clean.
 
 ---
 
