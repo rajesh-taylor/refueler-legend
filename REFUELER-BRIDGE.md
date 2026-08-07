@@ -55,7 +55,7 @@ Refueler Share is the only architecture that solves both failures simultaneously
 **The problem it solves:** Every query to a public block explorer (Mempool.space, Blockstream.info) tells that server exactly which addresses and transactions you're watching. This is a structural metadata leak that affects everyone from individual Bitcoiners to family offices managing significant holdings. No existing explorer is architected to prevent it.
 
 **URL:** `refueler.io/legend` (not a separate domain — domain authority consolidates on main domain)
-**Licence:** Apache 2.0. Open source. Self-hosting available — "don't trust us, read the code."
+**Licence:** MIT Open source. Self-hosting available — "don't trust us, read the code."
 **Prerequisite:** Lightning node live at B9. Do not start before B9 operational.
 
 ### What Legend does that nobody else does

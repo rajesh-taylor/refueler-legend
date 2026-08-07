@@ -3,6 +3,67 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+## Session Legend-6 · 7 Aug 2026
+
+**Phase:** 1 pre-build harness — operational incident runbook
+**Status:** Complete. `legend-incident-protocol.md` v1.0 produced. Committed `31c5caa`.
+
+### Completed
+
+- `legend-incident-protocol.md` v1.0 produced. Eight sections plus `## Opus-A notes`:
+  - Section 1 — four canary failure modes (A operational lapse / B single-node seizure /
+    C UK IPA 2016 compulsion / D AI-assisted attack), scenario matrix, and the C/D
+    structural distinction (canary continuity decoupled from query API).
+  - Section 2 — operator incapacitation: short-term, extended, and permanent.
+    FROST share escrow and timer-based dead-man's switch both rejected (trust assumptions /
+    self-defeating). Pre-signed notices (date-bounded, not canaries) are the sound option.
+    Permanent incapacitation disclosed honestly as a solo-operator constraint.
+  - Section 3 — node recovery: 3A (provider failure), 3B (seizure), 3C (provider migration).
+    Replacement-provider criteria specified by jurisdiction properties, not vendor list.
+    SLA credit assessment rule stated: single-node outage does not breach 99.0% availability
+    but burns ≥95% full-splitting budget.
+  - Section 4 — FROST re-keying: routine monthly DKG vs. emergency re-key, node-offline
+    24-hour extension, compromised-share procedure, client-observable states and maximum window.
+  - Section 5 — AI-assisted attack response. Anomaly detection via content-blind counters only.
+    Canary-continuity independence confirmed as the structural Boltz-failure safeguard. DKG
+    during active attack: canary/mint continuity outranks query-API restoration. Suspend vs.
+    degrade criteria stated.
+  - Section 6 — client notification protocols. Tiered matrix (free tier / Enterprise). All
+    incident types from Section 1 mapped to window, content, and pre-signed status.
+    Pre-written canary-lapse-no-compulsion notice specified (the Boltz countermeasure).
+  - Section 7 — five pre-signed statement templates, ready to sign and hold in escrow:
+    scheduled maintenance pause / operator incapacitation / node seizure public statement /
+    service suspension (attack, no timeline stated) / triple canary expiry standing note.
+  - Section 8 — revision schedule with log table. Quarterly from v1 + after any incident
+    + after any topology or legal change.
+  - `## Opus-A notes` — three categories: IPA 2016 legal claims for solicitor review
+    (compelled-continuation untested; NDO publication exposure; publication-delegate liability;
+    MLAT characterisation); architectural implementation dependencies (decoupled canary signing,
+    two-share canary publication for restored node, DKG duration, Nostr relay liveness, offline
+    manifest re-sign custody); open questions for Section 2 production standard (delegate
+    identity, release mechanism, share-escrow rejection as documented decision, snapshot
+    integrity method, permanent-incapacitation contract language).
+- `REFUELER-BRIDGE.md` licence corrected: Legend licence updated from Apache 2.0 → MIT,
+  consistent with `CLAUDE.md` and MIT upstream lineage.
+
+### Files changed
+
+- `legend-incident-protocol.md` v1.0 — new file (commit `31c5caa`)
+- `SESSIONS.md` (this entry)
+- `REFUELER-BRIDGE.md` (Legend licence correction, MIT)
+
+### Carry-forward
+
+- **legend-incident-protocol.md** — first Opus session complete ✅. Second Opus session
+  (attack vector simulations, node recovery drills) queued when infrastructure is live.
+- **CONTRIBUTING.md contribution-back norm** — queued for first build session.
+- **Custom FlokiNET quote** — still open. Required before provisioning node C.
+- **MIT/Apache licence discrepancy** — resolved this session. Verified: `CLAUDE.md`,
+  `legend-node-plan.md`, `REFUELER-BRIDGE.md` all now state MIT for `refueler-legend`.
+- **IPA compelled-continuation question** — queued for UK solicitor before
+  `legend-incident-protocol.md` is considered legally finalised.
+
+---
 # SESSIONS.md — refueler-legend
 *Rolling log — last 3–4 sessions only. Archive older entries.*
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
