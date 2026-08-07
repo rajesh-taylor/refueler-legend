@@ -3,6 +3,132 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+## Session Legend-7B · 7 Aug 2026
+
+**Phase:** 1 pre-build harness — update session
+**Status:** Complete. Five files updated to reflect five-node topology and FROST 3-of-4.
+
+### Completed
+
+- **`legend-incident-protocol.md` v1.0 → v1.1** — Opus-B gaps folded in:
+  - §3D sub-quorum procedure added: what is impossible at sub-quorum, what remains possible,
+    operator priority order (six steps), per-canary time-to-expiry monitoring requirement,
+    Node D warm-standby promotion as first restoration path, Node E Esplora index build triggered.
+  - §4 DKG-under-attack subsection added: compound failure where DKG boundary arrives during
+    active exploit campaign. Stated as a priority decision: query API suspends before DKG begins;
+    DKG outranks query-API continuity; this is the one path from scenario D to scenario C that
+    architecture does not otherwise prevent.
+  - §3C degraded-migration branch added: procedure when a second node fails during a migration
+    in progress. Node D and E activation triggers, status-page dual-state requirement, compound-
+    incident Enterprise notification rule, prohibition on running migration DKG with unverified
+    replacement node.
+  - §3A step 4 split into 4a (binary integrity — manifest-verified binary required before
+    rejoining) and 4b (index integrity — snapshot must be provenance-confirmed or full resync;
+    unverifiable snapshot is an untrusted node, not a shortcut).
+  - Channel asymmetry publication definition added to §6: published = FROST-signed + confirmed on
+    ≥2 channels including ≥1 off-node channel. Node's own `canary.json` alone does not count.
+    Channel-delivery degradation distinguished from canary expiry. Enterprise notifications must
+    state which channels were confirmed.
+  - FROST 3-of-4 references throughout: all 2-of-3 and three-node references updated. Three-node
+    DKG extension window rule updated: 24-hour extension triggered only when ≥2 nodes offline (not
+    one). Emergency re-key degraded state updated from 2-of-2 to 3-of-3 transient.
+  - Pre-signed statement bank §7 updated: all FROST 2-of-3 signatures → 3-of-4; triple expiry →
+    quadruple expiry in §7 #5 and all cross-references; Node E absence from canary set noted as
+    structural (not a signal).
+  - Revision log: v1.1 entry added.
+  - Opus-A notes: sub-quorum N-2 partial-signature open question added. Existing Opus-A notes
+    unchanged (solicitor-blocked).
+- **`SESSIONS.md`** — this entry, plus archival of session queue (queue remains unchanged in
+  position; Legend-7 and 7B entries prepended).
+- **`legend-economics.md`** — three-node cost figures replaced with five-node estimates;
+  Nodes B/D/E flagged as TBD pending provider session.
+- **`legend-scope.md`** — topology references updated three → five nodes; Node D and E defined.
+- **`legend-design-spec.md`** — status page privacy modes reviewed against five-node reality;
+  "Single node" state updated to reflect sub-quorum context; no other breaks found.
+
+### Files changed
+
+- `legend-incident-protocol.md` v1.1
+- `SESSIONS.md` (this entry)
+- `legend-economics.md`
+- `legend-scope.md`
+- `legend-design-spec.md`
+
+### Carry-forward
+
+- **Opus-A (solicitor) items** — unchanged. IPA compelled-continuation question; NDO publication
+  exposure; publication-delegate liability; MLAT characterisation. None can progress without counsel.
+- **Provider selection session** — Nodes B, D, E are TBD. Required before any node is provisioned.
+  Output: completed locations table with no TBD entries, confirmed jurisdiction independence.
+- **FROST 3-of-4 implementation confirmation** — `frost-secp256k1` crate supports configurable
+  thresholds; confirm 3-of-4 and test ceremony before first node goes live with query traffic.
+- **DKG ceremony duration** — measure on real hardware; replace "minutes" in SLA materials with a
+  confirmed figure before any Enterprise contract is signed.
+- **Index rebuild time** — measure on matching hardware; replace "hours to ~1 day" with a real
+  figure. Open question in Opus-A notes.
+- **Sub-quorum partial-signature open question** (Opus-A notes, new) — can two participants produce
+  a partial Schnorr signature under a 3-of-4 key that a third can complete when rejoining? Affects
+  operator priority timeline in §3D.
+- **Custom FlokiNET quote** — still open. Required before provisioning Node C.
+- **CONTRIBUTING.md contribution-back norm** — queued for first build session.
+- **GBP denomination edit** — `legend-ux-language.md` §4/§8. Apply next time that file is touched.
+- **Design-spec token block** — pre-CC-74 stale `--bg` values. Correct next time that file is edited.
+
+---
+## Session Legend-7 · 7 Aug 2026
+
+**Phase:** 1 pre-build harness — Opus-B adversarial review of legend-incident-protocol.md
+**Status:** Complete. `legend-node-plan.md` v1.0 → v1.1 produced. Legend-7B update session queued.
+
+### Completed
+
+- Opus-B adversarial review of `legend-incident-protocol.md` v1.0 against six simulated attack
+  scenarios. Five ranked gaps identified and documented.
+- Six simulations run:
+  1. **Seizure + migration compound event** — two nodes lost in overlapping windows; FROST signing
+     falls to 2-of-2, below documented 2-of-3 floor. Identified sub-quorum gap.
+  2. **AI attack at DKG boundary** — sustained exploit campaign coinciding with monthly ceremony;
+     operator exhaustion causes missed DKG; window closes, shares destroyed, canary automation
+     halts. Identified DKG-under-attack gap.
+  3. **Provider forces migration under time pressure** — second node fails mid-migration; procedure
+     had no branch for this compound state. Identified degraded-migration gap.
+  4. **Snapshot restoration with unverified provenance** — recovery proceeds from a snapshot of
+     unknown integrity; §3A step 4 treated binary and index verification as one step. Identified
+     binary-vs-index split gap.
+  5. **Channel asymmetry** — node's own `canary.json` confirms but GitHub and Nostr unreachable;
+     no definition of whether this counts as published. Identified channel-asymmetry definition gap.
+  6. **Warm standby Node D under attack** — confirmed D's isolation from active attack traffic
+     (private interface architecture, `legend-node-plan.md` §7); no gap.
+- Five ranked gaps, in priority order:
+  1. §3D sub-quorum procedure absent — highest risk; sub-quorum state had no operator protocol.
+  2. DKG-under-attack: no stated priority rule; residual path from D to C unmitigated.
+  3. §3C degraded-migration branch absent — compound failure during migration had no procedure.
+  4. §3A step 4 not split — binary and index integrity verification conflated.
+  5. Channel-asymmetry publication definition absent — "published" was undefined for partial channel failure.
+- `legend-node-plan.md` v1.0 → v1.1 produced:
+  - Three-node topology replaced with five-node topology (Nodes A–E).
+  - Node D defined: full participant, warm standby, fourth independent jurisdiction, fully synced from day one.
+  - Node E defined: chain-only cold standby, no FROST share, no Esplora index at launch; chain continuously
+    synced so Esplora index build is the only remaining step when E is activated.
+  - FROST 2-of-3 replaced with FROST 3-of-4 across four full participants (A, B, C, D).
+  - §9 redundancy/failover section added: N-1, N-2, N-3 (sub-quorum) states defined.
+  - Provider selection criteria updated: Node B changed from Hetzner Helsinki (shared parent with A)
+    to TBD non-Hetzner provider. Nodes B, D, E all TBD pending provider session.
+  - Cost carry-forward noted: five-node estimate ~€350–550/month.
+
+### Files changed
+
+- `legend-node-plan.md` v1.1 — committed
+- `SESSIONS.md` (this entry)
+
+### Carry-forward (to Legend-7B)
+
+- `legend-incident-protocol.md` v1.1 — fold in all five Opus-B gaps (covered in Legend-7B).
+- `legend-economics.md` — five-node cost model update.
+- `legend-scope.md` — topology references update.
+- `legend-design-spec.md` — status page privacy modes review.
+
+---
 ## Session Legend-6 · 7 Aug 2026
 
 **Phase:** 1 pre-build harness — operational incident runbook
