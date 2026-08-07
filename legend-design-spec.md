@@ -1,5 +1,5 @@
 # legend-design-spec.md — refueler-legend
-> **Version:** 1.2 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** Legend-4 · 6 Aug 2026
+> **Version:** 1.3 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.
 > Covers: page architecture, query flow, result anatomy, credential UX, breach scenario,
@@ -64,7 +64,7 @@ at different scales and different moments in their Bitcoin journey.
    Share subscribers encounter Legend naturally. Legend drives Share conversions upward
    without forcing the connection.
 
-**Infrastructure cost:** ~€360/month (two Hetzner AX52 nodes in Germany and Finland; one FlokiNET dedicated node in Iceland). Figures verified August 2026. One Enterprise client covers years of infrastructure. The free tier is sustainable before the first Enterprise contract closes.
+**Infrastructure cost:** ~€450/month planning midpoint, range €350–550/month (five dedicated nodes across five jurisdictions: Hetzner AX52 (DE), provider TBD, FlokiNET dedicated (IS), plus two further TBD nodes). Figures estimated August 2026; confirmed quotes pending for Nodes B, D, and E. One Enterprise client covers years of infrastructure. The free tier is sustainable before the first Enterprise contract closes.
 
 **No voluntary tip jar. No 21 sats prompt. No friction at the distress moment.**
 
@@ -123,7 +123,7 @@ Batch icon appears. Nothing else changes. No autocomplete. No suggestions.
 ### Input — submitting
 
 Input locks. Tertiary line beneath input becomes PIR progress:
-`Querying shard 1 of 3… 2 of 3… assembling result.`
+`Querying shard 1 of 4… 2 of 4… assembling result.`
 Determinate steps. Text updates only — no spinner, no animation beyond text change.
 This is honest about what the infrastructure is doing.
 
@@ -401,21 +401,34 @@ categorically different and is separated accordingly.
 
 Single line. DM Sans 400. `--text-primary`.
 
-Four states, exact strings:
+Five states, exact strings (updated Legend-7B for five-node topology):
 
-| State | String |
-|---|---|
-| Full splitting | `Full splitting active — three nodes operational.` |
-| Reduced splitting | `Reduced splitting — one node offline.` |
-| Single node | `Single node — query splitting unavailable.` |
-| Rotation in progress | `Credential rotation in progress — queries available, new credentials paused.` |
+| State | String | Colour |
+|---|---|---|
+| Full splitting | `Full splitting active — four nodes operational.` | `--text-primary` |
+| Reduced splitting (one offline) | `Reduced splitting — one node offline.` | `--text-primary` |
+| Reduced splitting (two offline) | `Reduced splitting — two nodes offline.` | `--text-primary` |
+| Sub-quorum | `Reduced availability — credential issuance paused. Queries available.` | `--text-secondary` |
+| Rotation in progress | `Credential rotation in progress — queries available, new credentials paused.` | `--text-tertiary` |
+
+**The "Single node" state is retired.** With five nodes (four full participants plus a warm
+standby), a single surviving node is a sub-quorum state, not a distinct UI mode with its own
+string. The **Sub-quorum** state replaces it: fewer than three FROST share-holders operational.
+Credential issuance halts at sub-quorum; queries on surviving nodes continue; Node D warm
+standby promotes immediately if available.
 
 The string changes when node reachability or mint state changes. No animation. No
 colour change between full splitting, reduced splitting, or rotation states — all
-three are operationally normal. Single node state acquires `--text-secondary` colour
-only (not amber, not red) because it is a factual reduction, not a failure requiring
-alarm. Rotation in progress acquires `--text-tertiary` — it is a background ceremony,
-not a user-facing event, and the muted colour signals accordingly.
+are operationally normal. Sub-quorum acquires `--text-secondary` (not amber, not red)
+because it is a factual reduction requiring attention, not a confirmed failure requiring
+alarm. Rotation in progress acquires `--text-tertiary` — it is a background ceremony.
+
+**Note for build:** the status page must surface **per-canary time-to-expiry** continuously
+in sub-quorum state. The incident protocol (§3D) requires the operator to know the expiry
+deadline in real time. The status page is the mechanism that surfaces this. No new design
+token is required; the existing canary expiry countdown serves the purpose. Ensure the
+countdown is rendered for all four full-participant nodes when sub-quorum is active, not
+suppressed.
 
 Beneath the privacy mode string, in `--text-tertiary`, a one-line description that
 does not change with state:
@@ -427,11 +440,17 @@ current node availability.`
 
 ### Section 2 — Node status
 
-Inherits `share.refueler.io/status` layout. Three node cards in a row (desktop);
-stacked (mobile). Card border `--border`. Card radius `10px`. Card background
-`--surface`.
+Inherits `share.refueler.io/status` layout. Five node cards (four full participants A–D,
+one cold standby E) in a row (desktop); stacked (mobile). Card border `--border`. Card
+radius `10px`. Card background `--surface`.
 
-**Per-node card contents:**
+**Node E** displays with a distinct label: `NODE E  ·  STANDBY`. Chain height shown;
+no canary block in the canary section (Node E holds no FROST share and publishes no canary).
+Node E's card uses `--text-tertiary` for its status label — it is always `Chain only`, never
+`Live` (it does not serve queries). This distinguishes it visually from the four active nodes
+without introducing a new token or alarming colour.
+
+**Per-node card contents (active nodes A–D):**
 
 ```
 Node A · Falkenstein, DE          [Live]
@@ -439,9 +458,17 @@ Chain height: 906,412
 Last seen: 4 seconds ago
 ```
 
-**Label:** Node letter and city only. No IP addresses. No provider names in the
-user-facing status page (provider names appear in the privacy explainer modal and
-contract materials — not on a page a user checks under stress).
+**Per-node card contents (Node E, cold standby):**
+
+```
+Node E · Standby                  [Chain only]
+Chain height: 906,412
+Last seen: 4 seconds ago
+```
+
+**Label:** Node letter and city only (or `Standby` for Node E). No IP addresses. No
+provider names in the user-facing status page (provider names appear in the privacy
+explainer modal and contract materials — not on a page a user checks under stress).
 
 **Status badge:** `Live` or `Unreachable`. DM Sans 500.
 - `Live` — `--text-primary`. No background. No colour treatment.
@@ -484,8 +511,10 @@ incident. It is not. Separation is the correct design.
 
 **Per-node canary display:**
 
-Each node's canary is displayed as a single typographic block. Three blocks,
-same left-to-right order as the node cards above.
+Each full-participant node's canary is displayed as a single typographic block. Four blocks
+(Nodes A, B, C, D), same left-to-right order as the node cards above. Node E has no canary
+block — it holds no FROST share and publishes no canary. This is structural, not an omission;
+the status page does not display a "missing" canary for Node E.
 
 ```
 NODE A  ·  CANARY
@@ -539,7 +568,7 @@ The status page states what it knows. The user draws the conclusion.
 **FROST integrity note (status page only):**
 Beneath the three canary blocks, in `--text-tertiary`, DM Sans 400, one line:
 
-`Each canary is signed by a 2-of-3 threshold signature across separate nodes.
+`Each canary is signed by a 3-of-4 threshold signature across separate nodes.
 A single compromised node cannot produce a valid canary statement.`
 
 This is the one piece of canary architecture that belongs on the status page
