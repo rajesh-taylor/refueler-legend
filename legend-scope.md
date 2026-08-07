@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-multi-core
-> **Version:** 1.2 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Legend-3A · 6 Aug 2026
+> **Version:** 1.3 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Legend-6 · 7 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -234,6 +234,17 @@ reserve consistency check. Does not query token state — mint blindness is pres
 The mint does not know it was checked. Positioned alongside the Cashu ecosystem
 as a trust and health signal, not as surveillance.
 
+**Public-body transparency module (v2 — parked):**
+Same infrastructure as Family Office tier, inverted output intention. A publicly-funded
+body (state treasury, municipal Bitcoin reserve, taxpayer-funded foundation) uses Legend
+to publish declared holdings and transaction history to the public — showing exactly what
+it chooses, nothing more, with the privacy architecture working for the institution's
+disclosure intent rather than against it. Proposition: "We help you show the public
+exactly what you choose, and nothing more." Distinct from surveillance — the institution
+controls the disclosure scope. Requires no new query infrastructure; requires a
+public-disclosure module (curated address set, denomination toggle, publication endpoint).
+Not a v1 consideration. Scoping session required before any v2 build begins on this feature.
+
 **Article pipeline unlocks at v2:**
 - Article 19: `zk-balance-proofs-bitcoin`
 - Article 20: `spiral-pir-bitcoin-legend`
@@ -358,6 +369,7 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Lightning node correlation | — | Own node, private | — |
 | Cashu mint health | — | Reserve check, blind | — |
 | Estate planning tooling | — | — | Probate verification, time-lock monitoring |
+| Public-body transparency module | — | Parked — scoping session required | — |
 | /legend/verify endpoint | — | ZK proof stub | Full verification flow |
 | Merkle proof | Cross-node SPV v1 | Proof export artefact | Estate PI methodology |
 | Script rendering | Type label only | Plain-language quorum | — |
