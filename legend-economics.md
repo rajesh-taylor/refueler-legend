@@ -1,5 +1,5 @@
 # legend-economics.md — refueler-legend
-> **Version:** 1.0 | **Created:** Legend-1 · 5 Aug 2026
+> **Version:** 1.1 | **Created:** Legend-1 · 5 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
 > Infrastructure cost model for Legend — privacy-first Bitcoin block explorer.
 > Load in every economics, Enterprise pricing, and business model session.
 > Companion documents: `legend-node-plan.md`, `legend-design-spec.md`,
@@ -28,29 +28,53 @@ before each annual renewal cycle.**
 
 ## Section 1 — V1 launch costs: monthly total
 
+**Five-node topology locked from Legend-7.** The original three-node estimate (€340–420/month)
+is superseded. All references to €340–420, €358, or €360 as a total infrastructure cost in
+other documents are stale and should be corrected on next edit.
+
 ### Per-node breakdown
 
 | Node | Location | Provider | Hardware | Monthly (ex-VAT) |
 |---|---|---|---|---|
 | A | Falkenstein, DE | Hetzner | AX52 (8c Ryzen 7 7700, 64 GB DDR5, 2×1 TB NVMe) | €59 |
-| B | Helsinki, FI | Hetzner | AX52 (same spec) | €59 |
+| B | **TBD** | **TBD (non-Hetzner — provider session required)** | Dedicated, AX52-equivalent spec | **TBD** |
 | C | Reykjavik, IS | FlokiNET | Dedicated, matching RAM/NVMe (custom quote) | ~€240 (midpoint) |
-| **Total** | | | | **~€358/month** |
+| D | **TBD** | **TBD (fourth jurisdiction — provider session required)** | Dedicated, AX52-equivalent spec | **TBD** |
+| E | **TBD** | **TBD (fifth jurisdiction — provider session required)** | Dedicated, chain-only (2 TB NVMe, lighter I/O profile acceptable) | **TBD** |
+| **Total** | | | | **~€350–550/month (see range below)** |
 
-One-off setup fees: €39 × 2 Hetzner nodes = €78, amortised over year one (~€6.50/month).
-Year-one effective monthly: ~€365. Year-two onwards: ~€358.
+**Nodes B, D, and E are TBD.** Provider selection session required before provisioning.
+The range below is the planning estimate pending confirmed quotes.
 
-**Stated range: €340–420/month.** The lower bound assumes FlokiNET comes in at
-€180 on a base SATA config with NVMe upgrade pricing that doesn't overshoot;
-the upper bound assumes a quote that reaches €300 for the full NVMe match.
-A custom quote before provisioning is mandatory. The midpoint (€360) is the
-planning figure used throughout this document.
+**Five-node stated range: €350–550/month.** Derivation:
+- Node A (Hetzner AX52): €59/month — confirmed.
+- Node C (FlokiNET dedicated): ~€240/month — confirmed midpoint, custom quote required before provisioning.
+- Node B (non-Hetzner dedicated, AX52-equivalent): €60–100/month estimated. Candidates include
+  Frantech/BuyVM (Luxembourg), Servers.com (Baltics), OVHcloud dedicated (FR). Actual quote required.
+- Node D (fourth jurisdiction, full participant): €60–120/month estimated. Same spec requirement.
+- Node E (chain-only standby, lighter I/O profile): €50–80/month estimated. No Esplora index at
+  launch reduces I/O and RAM pressure; spec can be slightly lower than A/B/D.
+- **Lower bound (€350):** all TBD nodes at their minimum estimates.
+- **Upper bound (€550):** TBD nodes at premium or jurisdiction-premium providers; FlokiNET at
+  €300 upper end; setup fees amortised in year one.
+- **Planning midpoint: ~€450/month.** Use this figure in all cost and break-even calculations
+  until confirmed quotes replace the estimates.
+
+One-off setup fees: Hetzner charges €39/node; other providers vary. Assume ~€150–200 total
+across five nodes, amortised over year one (~€13–17/month). Year-one effective monthly: ~€465.
+
+**Do not use the old three-node figures (€340–420/month, €358/month, €360/month) in any user-facing
+or Enterprise-facing copy.** The correct stated range is €350–550/month. The planning midpoint is
+~€450/month. These figures are estimates pending confirmed quotes for Nodes B, D, and E.
 
 ### VAT
 
 Hetzner invoices ex-VAT. UK operator purchasing B2B from a German entity:
 reverse charge applies; no German VAT paid, but the operator accounts for it
-under UK VAT rules. All figures in this document are ex-VAT unless stated.
+under UK VAT rules. FlokiNET and other providers may have different VAT treatments
+depending on their registered jurisdiction and the operator's VAT status — verify
+at invoice before provisioning each node. All figures in this document are ex-VAT
+unless stated.
 
 ### FlokiNET bandwidth cap
 
@@ -64,15 +88,19 @@ node C egress approaches 5 TB/month.
 
 - `legend-design-spec.md` states ~€96/month — this was a rough VPS estimate,
   before the dedicated-node topology was locked in Legend-0. It is wrong.
-  **Do not use €96 in any user-facing copy. The correct figure is ~€360/month.**
-- The Legend-0 revision of €170–220/month underweighted FlokiNET significantly.
-  The confirmed range based on live pricing is €340–420/month.
+- The three-node estimates of €170–220/month (Legend-0 revision) and €340–420/month
+  (Legend-1, Legend-economics.md v1.0) are superseded by the five-node topology
+  locked in Legend-7. **Do not use any of these figures in user-facing or
+  Enterprise-facing copy.**
+- **Correct figure: ~€450/month planning midpoint, range €350–550/month pending
+  confirmed quotes for Nodes B, D, and E.**
 
 **Action required:** `legend-design-spec.md` funding model section states
-"~€96/month (3–5 Hetzner nodes)." Queue a single-line correction for the next
-session that touches that file. Replace with: "~€360/month (two Hetzner AX52
-nodes in Germany and Finland; one FlokiNET dedicated node in Iceland)."
-Do not edit the spec mid-Legend-1.
+"~€96/month (3–5 Hetzner nodes)." Correct at next session touching that file.
+Replace with: "~€450/month (five dedicated nodes across five jurisdictions:
+Hetzner AX52 (DE), provider TBD (jurisdiction TBD), FlokiNET (IS), plus two
+further TBD nodes). Figures estimated August 2026; confirmed quotes pending."
+This action was carried forward from Legend-1 and remains open.
 
 ---
 
@@ -97,16 +125,20 @@ A standard single-node Esplora query returns 5–60 KB. The privacy overhead is
 
 | Scale | MAU | Queries/month | Egress/month (fleet) | Infra cost | Cost/query |
 |---|---|---|---|---|---|
-| V1 launch | 5,000–20,000 | 150k–600k | 23–90 GB | ~€360 | ~€0.0006–0.0024 |
-| Growth | 100,000 | ~3M | ~450 GB | ~€360 | ~€0.00012 |
-| Scale | 1M queries/mo | 1M | ~150 GB | ~€360 | ~€0.00036 |
-| High scale | 10M queries/mo | 10M | ~1.5 TB | ~€360–420 | ~€0.000036 |
+| V1 launch | 5,000–20,000 | 150k–600k | 23–90 GB | ~€450 | ~€0.00075–0.003 |
+| Growth | 100,000 | ~3M | ~450 GB | ~€450 | ~€0.00015 |
+| Scale | 1M queries/mo | 1M | ~150 GB | ~€450 | ~€0.00045 |
+| High scale | 10M queries/mo | 10M | ~1.5 TB | ~€450–550 | ~€0.000045 |
+
+Figures use ~€450/month planning midpoint. Will update when confirmed quotes for Nodes B, D, E are received.
 
 Assumes ~30 queries/MAU/month at v1 (mixed browsing/monitoring pattern).
 
-**At 10M queries/month, throughput is ~4 req/s average, ~40 req/s at peak.** Three
-dedicated 8-core boxes will not notice. Egress at 10M is ~500 GB/node/month —
-inside Hetzner's unmetered allowance and inside FlokiNET's 32 TB cap with room.
+**At 10M queries/month, throughput is ~4 req/s average, ~40 req/s at peak.** Five
+dedicated 8-core boxes will not notice. Egress at 10M is ~300 GB/node/month (fleet
+spread across five nodes) — inside Hetzner's unmetered allowance and well inside
+FlokiNET's 32 TB cap. Node E carries no query traffic (chain-only); fleet egress
+is distributed across four query-active nodes (A, B, C, D).
 
 **When does the architecture require a fourth node?** Load alone does not force
 it. The fourth node arrives for Enterprise isolation (v2, contractual requirement)
@@ -180,37 +212,45 @@ This figure belongs in user-facing copy as a concrete, honest claim:
 
 ### Annual infrastructure cost
 
-At the confirmed midpoint of €360/month:
-- **Annual infrastructure cost: ~€4,320/year (~£3,700/year at current rates)**
+At the five-node planning midpoint of ~€450/month:
+- **Annual infrastructure cost: ~€5,400/year (~£4,630/year at current rates)**
+
+At the five-node upper bound of €550/month:
+- **Annual infrastructure cost: ~€6,600/year (~£5,660/year at current rates)**
 
 ### Break-even contract values
 
-| Contract value | Covers infra for |
+| Contract value | Covers infra for (at €450/month midpoint) |
 |---|---|
-| £310/month | 12 months (cost-recovery floor) |
-| £620/month | 24 months |
-| £1,500/month (family office floor) | ~58 months (~4.8 years) |
-| £3,500/month (family office ceiling) | ~135 months (~11 years) |
+| ~£385/month | 12 months (cost-recovery floor, five-node midpoint) |
+| £770/month | 24 months |
+| £1,500/month (family office floor) | ~47 months (~3.9 years) |
+| £3,500/month (family office ceiling) | ~110 months (~9.2 years) |
 
-**The claim "one Enterprise client covers years of infrastructure" is verified and
-understated.** One family office at the floor of the pricing range covers nearly
-five years of the current topology. One client at the ceiling covers a decade.
+**The claim "one Enterprise client covers years of infrastructure" remains verified.**
+At the five-node midpoint, one family office at the floor covers nearly four years.
+At the ceiling, just over nine years. The economics claim holds with wider margins
+than the three-node estimate; the additional nodes increase the annual cost by
+~25% while materially improving the resilience and legal geography of the infrastructure.
 
 ### Implications for Legend-2
 
-- **Minimum viable Enterprise contract on pure cost-recovery grounds: ~£310/month.**
-  Anything below this is a loss-leader. Do not go below it regardless of
-  competitive pressure.
-- **The merchant/franchise add-on floor (£200–500/month discussed in ad-hoc
-  session) is below cost-recovery on its own.** A merchant paying £200/month
-  covers roughly seven months of infrastructure. Acceptable as a secondary tier
-  if family office revenue is covering the primary cost — not as a standalone
-  basis for the free tier.
-- **Free tier economics:** three nodes at €360/month supporting unlimited free
+- **Minimum viable Enterprise contract on pure cost-recovery grounds: ~£385/month**
+  (five-node midpoint; recalculate when confirmed quotes replace estimates).
+  The three-node figure of £310/month is superseded. Anything below £385/month is
+  a loss-leader at current estimates; do not commit to a contract price below this
+  floor before confirmed quotes are in.
+- **The merchant/franchise add-on floor (£200–500/month) is still below cost-recovery
+  on its own** at five-node pricing. Acceptable as a secondary tier if family office
+  revenue covers the primary cost — not as a standalone basis for the free tier.
+- **Free tier economics:** five nodes at ~€450/month supporting unlimited free
   queries is not sustainable on infrastructure cost alone. It is sustainable
-  because the Enterprise contracts cross-subsidise it. The free tier is funded
-  by Enterprise. This is the honest copy for the below-the-fold "how the free
-  tier works" section.
+  because Enterprise contracts cross-subsidise it. The free tier is funded by
+  Enterprise. This is the honest copy for the below-the-fold "how the free tier
+  works" section. The additional two nodes strengthen this argument: the fifth node
+  (Node E) exists solely to reduce restoration time — it is infrastructure for
+  resilience, not for revenue, and the honest characterisation of the free tier
+  is that it runs on infrastructure built to survive, not to scale cheaply.
 
 ---
 
@@ -284,42 +324,54 @@ Covers, in order:
 The cost model is not internal. It belongs on the page, in the /notes/ register:
 
 Draft copy for below-the-fold "how the free tier works" section:
-> *"Legend costs roughly €360 a month to run — three dedicated servers in two
+> *"Legend costs roughly €450 a month to run — five dedicated servers across five
 > jurisdictions, chosen for their legal geography, not their price.
 > One Enterprise contract covers the infrastructure cost many times over.
 > Your free queries are not the product. They are the proof that the
 > architecture works."*
+
+Note: update the cost figure in this copy once confirmed quotes for Nodes B, D, E
+replace the planning estimate. Do not use the old three-node figure (€360).
 
 This is a draft. Final copy belongs to the UX language session (Legend-3).
 
 ### legend-design-spec.md correction
 
 The funding model section contains: *"~€96/month (3–5 Hetzner nodes)"*.
-This is wrong on both the figure and the provider. Correction is queued for
+This is wrong on both the figure and the provider. A carry-forward queued since
+Legend-1 (for €360); now superseded by five-node topology. Correction queued for
 the next session that edits `legend-design-spec.md`:
 
-Replace with: *"~€360/month (two Hetzner AX52 nodes in Germany and Finland;
-one FlokiNET dedicated node in Iceland). Figures verified August 2026."*
-
-Do not edit mid-Legend-1.
+Replace with: *"~€450/month planning midpoint, range €350–550/month (five dedicated
+nodes across five jurisdictions: Hetzner AX52 (DE), provider TBD (jurisdiction TBD),
+FlokiNET dedicated (IS), plus two further TBD nodes). Figures estimated August 2026;
+confirmed quotes pending for Nodes B, D, and E."*
 
 ---
 
-## Carry-forward to Legend-2
+## Carry-forward
 
-- **Cost floor locked: €360/month midpoint, range €340–420.**
-- **Minimum Enterprise contract on cost-recovery grounds: ~£310/month.**
-- **Family office range reaffirmed: £1,500–3,500/month** — covers 4.8–11 years
-  of infrastructure per contract month. The "years of infrastructure" claim holds.
-- **FlokiNET bandwidth cap (32 TB/month):** not a v1 concern; monitor from launch.
-- **Custom FlokiNET quote required before provisioning node C** — confirm exact
-  NVMe and bandwidth spec before committing.
+- **Cost planning midpoint updated: ~€450/month, range €350–550/month.**
+  Three-node estimates (€340–420, €360) are superseded. Do not use in any copy.
+- **Minimum Enterprise contract on cost-recovery grounds: ~£385/month**
+  (five-node midpoint). Recalculate when confirmed quotes replace estimates.
+- **Family office range reaffirmed: £1,500–3,500/month** — covers 3.9–9.2 years
+  of infrastructure per contract month at five-node midpoint. The "years of
+  infrastructure" claim holds comfortably.
+- **FlokiNET bandwidth cap (32 TB/month):** not a v1 concern at estimated query
+  volumes. Fleet egress distributed across four active query nodes; Node E carries
+  none. Monitor per-node egress monthly from launch.
+- **Custom FlokiNET quote required before provisioning Node C** — confirm exact
+  NVMe, bandwidth spec, and price before committing.
+- **Provider selection session required before provisioning Nodes B, D, E.**
+  TBD entries in the cost table must be resolved. Output: completed per-node
+  cost table with no TBD entries, confirmed jurisdiction independence.
 - **Queue for legend-scope.md:** SP tweak index as v1 build requirement;
   NUT-13/09 permanent-out; NUT-28 v2 note; NUT-24 v2+ note;
   plain-language script rendering v2; Merkle proof scope v1/v2/v3.
-- **Queue for legend-design-spec.md:** €96 → €360 correction.
-- **Legend-2 opens with legend-economics.md committed.** Full commercial model
-  session: tier packaging, SLA commitments, contract structure, Swan scenario.
+  Also: five-node topology references (applied in Legend-7B).
+- **Queue for legend-design-spec.md:** €96 → €450 correction (supersedes the
+  earlier €360 carry-forward from Legend-1; update applied in Legend-7B).
 
 ---
 
