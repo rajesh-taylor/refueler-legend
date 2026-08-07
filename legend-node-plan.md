@@ -1,5 +1,5 @@
 # legend-node-plan.md — refueler-legend
-> **Version:** 1.1 | **Created:** Legend-0 · 5 Aug 2026 | **Updated:** Legend-7 · 7 Aug 2026
+> **Version:** 1.2 | **Created:** Legend-0 · 5 Aug 2026 | **Updated:** Legend-8 · 7 Aug 2026
 > Node infrastructure topology for Legend — privacy-first Bitcoin block explorer.
 > Infrastructure section only. Economics section appended in Legend-1.
 > Load in every build and infrastructure session.
@@ -19,23 +19,29 @@ The signed node manifest architecture (Section 3) means adding or replacing a no
 
 ### Locations
 
-| Node | Provider | Datacentre | Jurisdiction | Role |
-|---|---|---|---|---|
-| Node A | Hetzner | Falkenstein, DE | Germany (EU) | Full participant |
-| Node B | [non-Hetzner provider — TBD] | [TBD] | [different jurisdiction — TBD] | Full participant |
-| Node C | FlokiNET | Reykjavik, IS | Iceland (EEA, non-EU) | Full participant |
-| Node D | [fourth provider — TBD] | [TBD] | [fourth jurisdiction — TBD] | Full participant + warm standby |
-| Node E | [fifth provider — TBD] | [TBD] | [fifth jurisdiction — TBD] | Chain-only cold standby |
+| Node | Provider | Datacentre | Jurisdiction | Role | Status |
+|---|---|---|---|---|---|
+| Node A | Hetzner | Falkenstein, DE | Germany (EU) | Full participant | Confirmed |
+| Node B | Frantech / BuyVM | Luxembourg, LU | Luxembourg (EU-independent) | Full participant | Quote requested — Legend-8 |
+| Node C | FlokiNET | Reykjavik, IS | Iceland (EEA, non-EU) | Full participant | Custom quote requested — Legend-8 |
+| Node D | OVHcloud NA | Beauharnois, CA | Canada (non-EU, non-CLOUD Act) | Full participant + warm standby | Quote requested — Legend-8 |
+| Node E | Infomaniak | Geneva, CH | Switzerland (sovereign, non-EU) | Chain-only cold standby | Quote requested — Legend-8 |
 
-**Provider selection criteria for Nodes B, D, E** (same as §3C of the incident protocol): dedicated hardware (no VPS); 8+ cores x86_64, 64 GB RAM, 2 TB NVMe, 1 Gbps unmetered; no shared parent company with any other node's provider; jurisdiction preserves the no-single-order-reaches-two-nodes property. Node B replaces the original Hetzner Helsinki node — the original topology had two Hetzner nodes, violating the no-shared-parent criterion. Candidates: Frantech/BuyVM (Luxembourg), Njalla (Sweden), Servers.com (Baltics), OVHcloud dedicated (FR — separate from Hetzner GmbH). Provider session required before provisioning.
+**Provider selection criteria (all nodes):** dedicated bare metal (no VPS — VPS I/O contention is incompatible with RocksDB compaction); 8+ cores x86_64, 64 GB RAM, minimum 2 TB usable NVMe (2×2 TB preferred where price delta is small), 1 Gbps unmetered; no shared parent company with any other node's provider; jurisdiction preserves the no-single-order-reaches-two-nodes property. IPMI or equivalent out-of-band remote management required on all nodes. Providers selected in Legend-8 — quotes issued 7 August 2026, awaiting responses. Jurisdiction rationale: Germany (EU) / Luxembourg (EU-independent corporate entity) / Iceland (EEA non-EU, separate MLAT pathway) / Canada (non-EU, non-CLOUD Act, bilateral UK-Canada MLAT) / Switzerland (sovereign, non-EU, Swiss FADP). Five distinct legal frameworks, five distinct treaty pathways, no shared parent companies.
 
 **Why this combination:**
 
-Hetzner provides operational reliability and cost efficiency. Two Hetzner nodes are
-acceptable because the FlokiNET Iceland node sits outside the EU legal-assistance
-fast lane. Iceland is EEA but not EU — the MLAT chain from a UK or US order to
-Icelandic infrastructure runs through a different legal pathway than a request
-to EU-domiciled providers.
+**Why this combination:**
+
+Five nodes, five legal frameworks, no shared corporate parents. The design criterion is not geography alone — it is the legal pathway a government order must travel to reach each node simultaneously. A single order cannot reach all five simultaneously:
+
+- **Hetzner (DE):** EU GDPR framework, German BDSG enforcement. Fast EU legal pathway — this is the known constraint, accepted because Hetzner's operational reliability at €59/month is unmatched.
+- **Frantech/BuyVM (LU):** Separate Luxembourg corporate entity. EU but distinct from German/French enforcement culture and corporate chain. Different MLAT pathway from Hetzner.
+- **FlokiNET (IS):** EEA but not EU. Iceland is outside the EU legal assistance fast lane. MLAT requests from UK or US to Icelandic infrastructure travel a materially different legal path.
+- **OVHcloud NA (CA):** Canadian corporate entity, entirely separate from OVHcloud SAS (France). Not subject to EU law. Not subject to US CLOUD Act. UK-Canada bilateral MLAT is a separate treaty from EU mutual assistance instruments.
+- **Infomaniak (CH):** Swiss corporate entity. Switzerland is outside the EU entirely — subject to Swiss FADP (Federal Act on Data Protection) with unique sovereign status. No EU legal assistance fast lane applies.
+
+US nodes were evaluated and rejected: the CLOUD Act (2018) allows US-headquartered providers to be compelled to produce data stored anywhere in the world. A US provider does not give genuine legal independence regardless of where the physical server sits.
 
 **The honest caveat that must appear in all user-facing materials:**
 
@@ -55,13 +61,13 @@ Three Hetzner nodes would be one company. A single order served on Hetzner GmbH 
 |---|---|---|
 | CPU | 8+ cores, x86_64 | RocksDB compaction is multi-threaded; electrs indexing benefits from parallelism |
 | RAM | 64 GB | electrs in Esplora mode requires substantial RAM during initial sync and compaction |
-| Storage | 2 TB NVMe | Bitcoin chain ~650 GB now; Esplora index adds ~1 TB+; headroom to ~2029 before upgrade cycle |
+| Storage | 2×1 TB NVMe minimum (2×2 TB preferred) | Bitcoin chain ~650 GB now; Esplora index ~1 TB; total ~1.65 TB as of August 2026. Growing ~60 GB chain/year + proportional index growth. 2×1 TB (1.85 TB usable JBOD) is marginal by mid-2028. 2×2 TB provides headroom to ~2030+. Storage upgrade path confirmed with each provider at quote stage. |
 | Network | 1 Gbps unmetered or high-bandwidth | PIR role-split sends more data to client than a standard Esplora query by design |
 | OS | Ubuntu 24.04 LTS | Long-term support, unattended-upgrades for security patches |
 
 **Dedicated, not VPS.** VPS instances share CPU and storage I/O. Initial electrs indexing and RocksDB compaction will saturate I/O in bursts that a shared environment cannot sustain. Hetzner AX-class dedicated (AX41 or AX51) is the appropriate tier for nodes A and B. FlokiNET dedicated for node C.
 
-**Storage growth rate:** Bitcoin chain grows approximately 60 GB/year. The Esplora index grows proportionally. 2 TB NVMe provides approximately four to five years of headroom before a storage upgrade cycle, assuming current chain growth rate.
+**Storage growth rate and upgrade schedule:** Bitcoin chain grows approximately 60 GB/year; Esplora index grows proportionally. Current total (August 2026): ~1.65 TB. Projected total by April 2028 (next halving): ~1.9 TB — leaving minimal headroom on a 2×1 TB (1.85 TB usable JBOD) configuration. Storage upgrade window: target Q4 2027 ahead of the April 2028 halving. Each provider quote includes explicit questions on: (a) in-place NVMe upgrade feasibility; (b) process and expected downtime; (c) indicative price for 2×2 TB NVMe. Do not commit to provisioning until upgrade path is confirmed. 2×2 TB NVMe is the preferred spec at order if the price delta is small.
 
 ### What each node runs
 
@@ -572,7 +578,7 @@ isolation is a v2 upgrade offered to existing Enterprise clients.
 **Infrastructure cost figure is stale and must be updated in `legend-economics.md`.**
 Original estimate: €170–220/month (three nodes). Five-node topology: approximately **€350–550/month** at current dedicated-server pricing, pending confirmed quotes for Nodes B, D, and E. One Enterprise contract continues to cover years of infrastructure — the economics claim holds — but the honest five-node figure replaces all earlier estimates in every document that carries a cost figure.
 
-**Provider selection session required before provisioning.** Nodes B, D, and E are TBD. The session confirms provider, jurisdiction, and spec for each, verifying the no-shared-parent and jurisdiction-independence criteria. Output: a completed locations table with no TBD entries.
+**Provider quotes issued — Legend-8 (7 August 2026).** Recommended providers selected: Frantech/BuyVM (LU), OVHcloud NA (CA), Infomaniak (CH). Quotes sent to all five providers including FlokiNET (Node C, existing plan) and Hetzner (Node A, storage upgrade query). Awaiting responses — expected 10–11 August 2026. Reconvene to finalise confirmed prices once all five replies received. Locations table updated with recommended selections; status column added (Quote requested / Confirmed). No node to be provisioned before quotes confirmed.
 
 **FROST 3-of-4 implementation confirmation required.** The `frost-secp256k1` crate supports configurable thresholds. Confirm 3-of-4 is supported and test the ceremony before any node goes live with query traffic.
 

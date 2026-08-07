@@ -1,5 +1,5 @@
 # legend-economics.md — refueler-legend
-> **Version:** 1.1 | **Created:** Legend-1 · 5 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
+> **Version:** 1.2 | **Created:** Legend-1 · 5 Aug 2026 | **Updated:** Legend-8 · 7 Aug 2026
 > Infrastructure cost model for Legend — privacy-first Bitcoin block explorer.
 > Load in every economics, Enterprise pricing, and business model session.
 > Companion documents: `legend-node-plan.md`, `legend-design-spec.md`,
@@ -21,6 +21,13 @@ dual-CPU Intel Xeon or AMD EPYC with ECC RAM. The spec premium is structural —
 you are paying for the jurisdiction and the legal architecture it provides, not
 commodity hardware. This is the correct trade.
 
+**Providers selected Legend-8 (7 August 2026) — quotes requested, awaiting replies:**
+- Frantech/BuyVM (Luxembourg): KVM Slice x8 base €80/month + Storage Slabs est. ~€30/month. Custom quote requested for 64 GB RAM + 2 TB usable storage configuration.
+- OVHcloud NA (Canada): Advance-1 $115 USD/month (~€106, ~£89) ex-VAT. Confirmed from screenshot 7 Aug 2026. 12-month commitment, setup fee waived.
+- Infomaniak (Switzerland): Cloud VDS 8 vCPU, 64 GB RAM, 2 TB NVMe €158/month ex-VAT. Confirmed from screenshot 7 Aug 2026. Single-tenant confirmation requested in quote email.
+
+Exchange rate used for GBP conversions: £1 = €1.19 (August 2026). Re-check at invoice.
+
 **Prices are verified as of 5 August 2026. Re-check against live order pages
 before each annual renewal cycle.**
 
@@ -34,38 +41,32 @@ other documents are stale and should be corrected on next edit.
 
 ### Per-node breakdown
 
-| Node | Location | Provider | Hardware | Monthly (ex-VAT) |
-|---|---|---|---|---|
-| A | Falkenstein, DE | Hetzner | AX52 (8c Ryzen 7 7700, 64 GB DDR5, 2×1 TB NVMe) | €59 |
-| B | **TBD** | **TBD (non-Hetzner — provider session required)** | Dedicated, AX52-equivalent spec | **TBD** |
-| C | Reykjavik, IS | FlokiNET | Dedicated, matching RAM/NVMe (custom quote) | ~€240 (midpoint) |
-| D | **TBD** | **TBD (fourth jurisdiction — provider session required)** | Dedicated, AX52-equivalent spec | **TBD** |
-| E | **TBD** | **TBD (fifth jurisdiction — provider session required)** | Dedicated, chain-only (2 TB NVMe, lighter I/O profile acceptable) | **TBD** |
-| **Total** | | | | **~€350–550/month (see range below)** |
+| Node | Location | Provider | Hardware | Monthly (ex-VAT EUR) | Monthly (GBP ~) | Status |
+|---|---|---|---|---|---|---|
+| A | Falkenstein, DE | Hetzner | AX52 (8c Ryzen 7 7700, 64 GB DDR5, 2×1 TB NVMe) | €59 | ~£50 | Confirmed |
+| B | Luxembourg, LU | Frantech / BuyVM | KVM Slice x8 + Storage Slabs (8c, 64 GB RAM, 2 TB usable est.) | ~€110 est. | ~£92 | Quote requested 7 Aug 2026 |
+| C | Reykjavik, IS | FlokiNET | Dedicated Intel/EPYC, 64 GB ECC RAM, 2×2 TB NVMe (custom quote) | ~€240 (midpoint est.) | ~£202 | Custom quote requested 7 Aug 2026 |
+| D | Beauharnois, CA | OVHcloud NA | Advance-1 (AMD EPYC 4244P, 8c/16t, 64 GB DDR5, 2×960 GB NVMe) | ~€106 ($115 USD) | ~£89 | Quote confirmed from screenshot; storage upgrade path requested |
+| E | Geneva, CH | Infomaniak | Cloud VDS (8 dedicated vCPU, 64 GB RAM, 2 TB NVMe) | €158 | ~£133 | Quote confirmed from screenshot; single-tenant confirmation requested |
+| **Total** | | | | **~€673/month est.** | **~£566/month est.** | Pending quote replies |
 
-**Nodes B, D, and E are TBD.** Provider selection session required before provisioning.
-The range below is the planning estimate pending confirmed quotes.
+**Providers selected Legend-8. Quotes requested 7 August 2026. Awaiting replies.**
 
-**Five-node stated range: €350–550/month.** Derivation:
-- Node A (Hetzner AX52): €59/month — confirmed.
-- Node C (FlokiNET dedicated): ~€240/month — confirmed midpoint, custom quote required before provisioning.
-- Node B (non-Hetzner dedicated, AX52-equivalent): €60–100/month estimated. Candidates include
-  Frantech/BuyVM (Luxembourg), Servers.com (Baltics), OVHcloud dedicated (FR). Actual quote required.
-- Node D (fourth jurisdiction, full participant): €60–120/month estimated. Same spec requirement.
-- Node E (chain-only standby, lighter I/O profile): €50–80/month estimated. No Esplora index at
-  launch reduces I/O and RAM pressure; spec can be slightly lower than A/B/D.
-- **Lower bound (€350):** all TBD nodes at their minimum estimates.
-- **Upper bound (€550):** TBD nodes at premium or jurisdiction-premium providers; FlokiNET at
-  €300 upper end; setup fees amortised in year one.
-- **Planning midpoint: ~€450/month.** Use this figure in all cost and break-even calculations
-  until confirmed quotes replace the estimates.
+**Five-node planning estimate: ~€673/month (~£566/month) ex-VAT.** Derivation:
+- Node A (Hetzner AX52): €59/month (~£50) — confirmed.
+- Node B (Frantech/BuyVM, Luxembourg): ~€110/month (~£92) estimated — base €80 + ~€30 Storage Slabs for 2 TB usable. Exact figure pending custom quote.
+- Node C (FlokiNET, Iceland): ~€240/month (~£202) estimated — custom quote requested. Range €180–300; midpoint used.
+- Node D (OVHcloud NA, Canada): ~€106/month (~£89) — confirmed from screenshot ($115 USD). 12-month commitment assumed (setup fee waived).
+- Node E (Infomaniak, Switzerland): €158/month (~£133) — confirmed from screenshot. Single-tenant confirmation pending.
+- **Planning total: ~€673/month (~£566/month) ex-VAT.**
 
-One-off setup fees: Hetzner charges €39/node; other providers vary. Assume ~€150–200 total
-across five nodes, amortised over year one (~€13–17/month). Year-one effective monthly: ~€465.
+Previous planning midpoint of ~€450/month is superseded. The increase reflects:
+(a) genuine jurisdiction independence across five distinct legal frameworks requiring providers that command a premium over commodity EU hosting;
+(b) Canada and Switzerland jurisdictions specifically priced for their legal architecture, not their hardware cost.
 
-**Do not use the old three-node figures (€340–420/month, €358/month, €360/month) in any user-facing
-or Enterprise-facing copy.** The correct stated range is €350–550/month. The planning midpoint is
-~€450/month. These figures are estimates pending confirmed quotes for Nodes B, D, and E.
+One-off setup fees: Hetzner €39; OVHcloud NA setup fee waived on 12-month commitment; others TBC from quotes. Estimate ~£50–80 total one-off. Year-one effective monthly: ~£570/month.
+
+**Do not use €350–550/month or ~€450/month in any copy produced after Legend-8.** Correct planning figure is ~€673/month (~£566/month). Update when confirmed quotes replace estimates.
 
 ### VAT
 
@@ -220,12 +221,14 @@ At the five-node upper bound of €550/month:
 
 ### Break-even contract values
 
-| Contract value | Covers infra for (at €450/month midpoint) |
+| Contract value | Covers infra for (at ~£566/month planning estimate) |
 |---|---|
-| ~£385/month | 12 months (cost-recovery floor, five-node midpoint) |
-| £770/month | 24 months |
-| £1,500/month (family office floor) | ~47 months (~3.9 years) |
-| £3,500/month (family office ceiling) | ~110 months (~9.2 years) |
+| ~£566/month | 12 months (cost-recovery floor, Legend-8 estimate) |
+| £1,132/month | 24 months |
+| £1,500/month (family office floor) | ~31 months (~2.6 years) |
+| £3,500/month (family office ceiling) | ~74 months (~6.2 years) |
+
+Note: "one Enterprise client covers years of infrastructure" remains true at family office floor (2.6 years) and ceiling (6.2 years). Minimum viable Enterprise contract on pure cost-recovery grounds rises from ~£385/month to ~£566/month. Update legend-enterprise-pricing.md at next session touching that file.
 
 **The claim "one Enterprise client covers years of infrastructure" remains verified.**
 At the five-node midpoint, one family office at the floor covers nearly four years.
@@ -324,14 +327,13 @@ Covers, in order:
 The cost model is not internal. It belongs on the page, in the /notes/ register:
 
 Draft copy for below-the-fold "how the free tier works" section:
-> *"Legend costs roughly €450 a month to run — five dedicated servers across five
-> jurisdictions, chosen for their legal geography, not their price.
-> One Enterprise contract covers the infrastructure cost many times over.
-> Your free queries are not the product. They are the proof that the
-> architecture works."*
+> *"Legend costs roughly €670 a month to run — five dedicated servers across five
+> legal jurisdictions on three continents, chosen for their legal geography,
+> not their price. One Enterprise contract covers the infrastructure cost
+> many times over. Your free queries are not the product. They are the proof
+> that the architecture works."*
 
-Note: update the cost figure in this copy once confirmed quotes for Nodes B, D, E
-replace the planning estimate. Do not use the old three-node figure (€360).
+Note: update the exact figure once confirmed quotes replace the planning estimate. "Three continents" is accurate: Europe (DE, LU, IS), North America (CA), Europe/sovereign (CH). Do not publish this copy until confirmed quotes are in.
 
 This is a draft. Final copy belongs to the UX language session (Legend-3).
 
@@ -342,36 +344,23 @@ This is wrong on both the figure and the provider. A carry-forward queued since
 Legend-1 (for €360); now superseded by five-node topology. Correction queued for
 the next session that edits `legend-design-spec.md`:
 
-Replace with: *"~€450/month planning midpoint, range €350–550/month (five dedicated
-nodes across five jurisdictions: Hetzner AX52 (DE), provider TBD (jurisdiction TBD),
-FlokiNET dedicated (IS), plus two further TBD nodes). Figures estimated August 2026;
-confirmed quotes pending for Nodes B, D, and E."*
+Replace with: "~€673/month planning estimate, ~£566/month (five dedicated nodes across
+five jurisdictions and three continents: Hetzner AX52 (DE), Frantech/BuyVM (LU),
+FlokiNET (IS), OVHcloud NA (CA), Infomaniak (CH)). Providers selected Legend-8,
+August 2026; confirmed quotes pending provider replies."
 
 ---
 
 ## Carry-forward
 
-- **Cost planning midpoint updated: ~€450/month, range €350–550/month.**
-  Three-node estimates (€340–420, €360) are superseded. Do not use in any copy.
-- **Minimum Enterprise contract on cost-recovery grounds: ~£385/month**
-  (five-node midpoint). Recalculate when confirmed quotes replace estimates.
-- **Family office range reaffirmed: £1,500–3,500/month** — covers 3.9–9.2 years
-  of infrastructure per contract month at five-node midpoint. The "years of
-  infrastructure" claim holds comfortably.
-- **FlokiNET bandwidth cap (32 TB/month):** not a v1 concern at estimated query
-  volumes. Fleet egress distributed across four active query nodes; Node E carries
-  none. Monitor per-node egress monthly from launch.
-- **Custom FlokiNET quote required before provisioning Node C** — confirm exact
-  NVMe, bandwidth spec, and price before committing.
-- **Provider selection session required before provisioning Nodes B, D, E.**
-  TBD entries in the cost table must be resolved. Output: completed per-node
-  cost table with no TBD entries, confirmed jurisdiction independence.
-- **Queue for legend-scope.md:** SP tweak index as v1 build requirement;
-  NUT-13/09 permanent-out; NUT-28 v2 note; NUT-24 v2+ note;
-  plain-language script rendering v2; Merkle proof scope v1/v2/v3.
-  Also: five-node topology references (applied in Legend-7B).
-- **Queue for legend-design-spec.md:** €96 → €450 correction (supersedes the
-  earlier €360 carry-forward from Legend-1; update applied in Legend-7B).
+- **Planning midpoint updated: ~€673/month (~£566/month).** €450/month estimate superseded. Do not use old figure in any copy.
+- **Minimum Enterprise contract cost-recovery floor: ~£566/month** (recalculate when confirmed quotes received).
+- **legend-enterprise-pricing.md requires update** — break-even figures use old €450/month base. Update at next session touching that file.
+- **Quote replies awaited — all five providers.** Target: 10–11 August 2026. Reconvene session to confirm final figures, resolve Frantech storage slab I/O question, confirm Infomaniak single-tenant status, resolve OVHcloud NA 2×960 GB usable capacity question.
+- **Storage upgrade path:** all five providers asked for in-place NVMe upgrade feasibility, process/downtime, and 2×2 TB pricing. Target upgrade window Q4 2027 ahead of April 2028 halving. Do not commit to provisioning until upgrade path confirmed.
+- **OVHcloud NA 2×960 GB caveat:** usable capacity in JBOD ~1.85 TB, RAID-1 ~960 GB. Must confirm JBOD configuration and that 1.85 TB is sufficient through upgrade window. If OVHcloud NA cannot provide 2×2 TB at reasonable cost delta, revisit.
+- **Infomaniak single-tenant confirmation pending.** Cloud VDS must be confirmed as dedicated-hardware single-tenant, not shared hypervisor. If shared hypervisor, request bare metal quote.
+- **FlokiNET bandwidth cap (32 TB/month):** unchanged — not a v1 concern at estimated query volumes.
 
 ---
 

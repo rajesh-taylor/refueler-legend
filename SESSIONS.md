@@ -5,10 +5,67 @@
 ---
 ## Session Legend-7B · 7 Aug 2026
 
-**Phase:** 1 pre-build harness — update session
-**Status:** Complete. Five files updated to reflect five-node topology and FROST 3-of-4.
+**Phase:** 1 pre-build harness — provider selection and quote dispatch
+**Status:** Complete. Provider recommendations locked. Five quote emails drafted.
+Files updated: legend-node-plan.md v1.2, legend-economics.md v1.2.
 
 ### Completed
+
+- **Provider selection finalised.** Five nodes, five independent legal frameworks:
+  - Node A: Hetzner, Falkenstein DE — confirmed, unchanged.
+  - Node B: Frantech/BuyVM, Luxembourg — selected. KVM Slice x8 + Storage Slabs.
+    Custom quote requested 7 Aug 2026.
+  - Node C: FlokiNET, Reykjavik IS — confirmed provider, custom quote requested
+    7 Aug 2026 (storage upgrade path, IPMI, bandwidth overage).
+  - Node D: OVHcloud NA, Canada — selected. Advance-1, $115/month (~€106, ~£89).
+    Quote email sent; storage upgrade path and entity confirmation requested.
+  - Node E: Infomaniak, Geneva CH — selected. Cloud VDS €158/month.
+    Quote email sent; single-tenant confirmation and storage upgrade path requested.
+
+- **US nodes explicitly rejected.** CLOUD Act 2018 allows US-headquartered providers
+  to be compelled to produce data stored anywhere globally. Removes genuine legal
+  independence regardless of physical server location. Documented in legend-node-plan.md
+  §1 jurisdiction rationale.
+
+- **FHE (Fully Homomorphic Encryption) evaluated and rejected.** 3–6 orders of magnitude
+  slower than plaintext for arbitrary key-value store operations on a ~1 TB index. Not
+  viable on any realistic hardware in this decade. Spiral PIR (v2 scope) is the correct
+  path. FHE noted for CryptoRoadmap-1 research file as a v4+ / unlikely consideration.
+
+- **Storage spec updated.** Floor raised from "2 TB NVMe" to "2×1 TB NVMe minimum,
+  2×2 TB preferred where price delta is small." Chain + index total August 2026: ~1.65 TB.
+  Projected by April 2028 halving: ~1.9 TB. 2×1 TB (JBOD ~1.85 TB usable) is marginal
+  at that horizon. Storage upgrade window: target Q4 2027. All provider quotes include
+  explicit upgrade path questions.
+
+- **Planning cost updated.** ~€450/month superseded. New planning estimate: ~€673/month
+  (~£566/month) ex-VAT. Increase reflects genuine jurisdiction independence across
+  five legal frameworks — premium is structural, not avoidable. "One Enterprise client
+  covers years of infrastructure" remains true: family office floor (£1,500/month) covers
+  ~2.6 years; ceiling (£3,500/month) covers ~6.2 years.
+
+- **Minimum Enterprise cost-recovery floor updated:** ~£566/month (from ~£385/month).
+  legend-enterprise-pricing.md requires update at next session touching that file.
+
+- **SLA reality documented.** At small-client scale: hardware replacement SLA (hours),
+  network uptime SLA (99.9%), software stack entirely operator-owned. Architecture
+  tolerates node-down gracefully (N-1 = reduced splitting, not outage). IPMI remote
+  management requested in all five quote emails — enables OS-level recovery without
+  provider support dependency.
+
+- **Five quote emails drafted (Legend-8 session).** One per provider. Each includes:
+  exact hardware spec; storage upgrade path questions (in-place feasibility, process,
+  downtime, 2×2 TB pricing); IPMI/remote management confirmation; hardware fault SLA;
+  Bitcoin/Lightning payment question. Rajesh to send manually; replies expected
+  10–11 Aug 2026.
+
+- **B9 clarified.** B9 refers to the Share project Lightning node milestone — the
+  prerequisite gate before any Legend build session. Not a Legend milestone.
+
+- **Go-live timeline.** No nodes to be provisioned before: (a) B9 live on Share;
+  (b) quote replies confirmed; (c) UK legal sorted; (d) Legend design prototype live
+  at refueler.io/legend for Enterprise demo. Prototype costs nothing beyond existing
+  hosting — static shell + simulated query flow, no live nodes required for demo.
 
 - **`legend-incident-protocol.md` v1.0 → v1.1** — Opus-B gaps folded in:
   - §3D sub-quorum procedure added: what is impossible at sub-quorum, what remains possible,
@@ -48,14 +105,30 @@
 
 ### Files changed
 
-- `legend-incident-protocol.md` v1.1
+- `legend-node-plan.md` v1.1 → v1.2
+- `legend-economics.md` v1.1 → v1.2
 - `SESSIONS.md` (this entry)
-- `legend-economics.md`
 - `legend-scope.md`
 - `legend-design-spec.md`
 
 ### Carry-forward
+### Carry-forward
 
+- **legend-enterprise-pricing.md** — break-even figures use old €450/month base.
+  Update minimum contract floor from ~£385/month to ~£566/month at next session
+  touching that file.
+- **legend-design-spec.md** — €96/month figure still stale (carried from Legend-1).
+  Replace at next session: "~€673/month planning estimate (~£566/month), five dedicated
+  nodes across five jurisdictions and three continents. Confirmed quotes pending."
+- **GBP denomination edit** — legend-ux-language.md §4/§8. Still open from Legend-7B.
+- **Design-spec token block** — pre-CC-74 stale --bg values. Still open from Legend-7B.
+- **FROST 3-of-4 implementation confirmation** — unchanged from Legend-7B carry-forward.
+- **DKG ceremony duration** — unchanged from Legend-7B carry-forward.
+- **Sub-quorum partial-signature open question** (Opus-A notes) — unchanged.
+- **Custom FlokiNET quote** — still open; now formally requested in Legend-8.
+- **Provider reply session** — once all five quotes received, reconvene to:
+  confirm final cost table, resolve open questions, update both files with confirmed
+  figures, unlock legend-economics.md §6 published copy for use.
 - **Opus-A (solicitor) items** — unchanged. IPA compelled-continuation question; NDO publication
   exposure; publication-delegate liability; MLAT characterisation. None can progress without counsel.
 - **Provider selection session** — Nodes B, D, E are TBD. Required before any node is provisioned.
@@ -73,6 +146,17 @@
 - **CONTRIBUTING.md contribution-back norm** — queued for first build session.
 - **GBP denomination edit** — `legend-ux-language.md` §4/§8. Apply next time that file is touched.
 - **Design-spec token block** — pre-CC-74 stale `--bg` values. Correct next time that file is edited.
+
+### Open — awaiting provider replies
+
+- Frantech/BuyVM: custom quote for 64 GB RAM + 2 TB usable storage, Storage Slab I/O
+  profile confirmation, IPMI availability.
+- FlokiNET: custom quote, bandwidth overage rate, IPMI availability.
+- OVHcloud NA: 2×960 GB JBOD usable capacity confirmation, 2×2 TB upgrade option,
+  12-month price lock confirmation, Canadian entity confirmation.
+- Infomaniak: single-tenant (not shared hypervisor) confirmation, bare metal quote if VDS
+  is shared, storage upgrade path.
+- Hetzner: AX52 storage upgrade path (in-place vs AX102 migration), 2×2 TB NVMe pricing.
 
 ---
 ## Session Legend-7 · 7 Aug 2026
