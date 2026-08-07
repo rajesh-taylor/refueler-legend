@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-multi-core
-> **Version:** 1.3 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Legend-6 · 7 Aug 2026
+> **Version:** 1.4 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -92,11 +92,31 @@ The tweak index build must be complete before Silent Payments is declared v1-rea
 |---|---|---|
 | Ephemeral sessions | **Yes** — locked | No cookie, no session token, no cross-query linkage |
 | Cashu query credentials | **Yes** — infrastructure present | Free tier: unlimited. Enterprise: unlimited. No credential gate at v1 launch. |
-| PIR-inspired sharding | **Yes** — v1 approximation | 3–5 Hetzner nodes, query split at API gateway. Not full Spiral PIR — that is v2. |
+| PIR-inspired sharding | **Yes** — v1 approximation | Five dedicated nodes across five jurisdictions; four active query nodes (A, B, C, D); query split at API gateway. Not full Spiral PIR — that is v2. |
 | Tor-native API | **Yes** — Enterprise only | Hidden service for Enterprise endpoint. Not exposed to free tier in v1. |
 | Proof-of-query receipts | **Partial** — v1 stub | Blind receipt issued. Verification tooling is v2. |
 | No server-side query logs | **Yes** — locked | Structural, not policy. Ephemeral sessions make reconstruction impossible. |
 | IP privacy | **Partial** | Tor for Enterprise. Free tier: standard HTTPS, IP visible to server. Documented honestly. |
+
+### Node topology (v1, locked Legend-7)
+
+Five nodes. Four full participants (A, B, C, D) plus one cold standby (E).
+
+| Node | Role | Jurisdiction | Provider |
+|---|---|---|---|
+| A | Full participant | Germany (EU) | Hetzner, Falkenstein |
+| B | Full participant | TBD (non-Hetzner) | TBD — provider session required |
+| C | Full participant | Iceland (EEA, non-EU) | FlokiNET, Reykjavik |
+| D | Full participant + warm standby | TBD (fourth jurisdiction) | TBD — provider session required |
+| E | Chain-only cold standby | TBD (fifth jurisdiction) | TBD — provider session required |
+
+**Node D** is a full FROST 3-of-4 participant, fully synced chain and Esplora index, manifest-registered, live from day one. When any of Nodes A–C is lost, D promotes immediately with no sync delay.
+
+**Node E** holds a continuously synced Bitcoin Knots chain only — no Esplora index, no FROST share. Its sole purpose is to be ready to build its Esplora index and join the manifest as the new D when D is consumed. Activation trigger: sub-quorum state (fewer than three full-participant nodes operational) or D consumed.
+
+**FROST threshold:** 3-of-4 across Nodes A, B, C, D. Any three of four shares required to sign. Node E holds no share. Sub-quorum requires three simultaneous full-participant failures — materially less likely than the two-failure sub-quorum floor under the original three-node 2-of-3 scheme.
+
+**Providers for Nodes B, D, E are TBD.** Provider selection session required before any of these nodes are provisioned. Selection criteria: dedicated hardware (no VPS); 8+ cores x86_64, 64 GB RAM, 2 TB NVMe, 1 Gbps unmetered; no shared parent company with any other node's provider; jurisdiction preserves no-single-order-reaches-two-nodes property.
 
 ### Cashu NUT status
 
@@ -396,6 +416,12 @@ If a feature is not listed here, it does not exist yet. Add it to a planning ses
 - Merkle proof scope table added (v1/v2/v3) ✅
 - Plain-language script rendering added as v2 item ✅
 - Version summary table updated ✅
+
+**Legend-7B edits applied (7 Aug 2026):**
+- Five-node topology section added under v1 privacy architecture ✅
+- Node D (full participant + warm standby) and Node E (chain-only cold standby) defined ✅
+- FROST 3-of-4 topology and sub-quorum threshold noted ✅
+- PIR-inspired sharding row updated: "3–5 Hetzner nodes" → five dedicated nodes, four active query nodes ✅
 
 **Session naming:** Multi-[n] continues through Multi-8 (first query flow).
 From Legend-0 onwards, sessions are prefixed `Legend-[n]`.
