@@ -1,5 +1,5 @@
 # legend-incident-protocol.md — refueler-legend
-> **Version:** 1.0 | **Created:** Legend-6 · 7 Aug 2026
+> **Version:** 1.1 | **Created:** Legend-6 · 7 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
 > Operational incident runbook for Legend — privacy-first Bitcoin block explorer.
 > Committed to `rajesh-taylor/refueler-legend`. Read by the operator, Enterprise clients,
 > and legal counsel. Load in every incident and infrastructure session.
@@ -10,13 +10,16 @@
 
 ## Orientation
 
-Legend operates three nodes: Node A (Hetzner, Falkenstein, DE), Node B (Hetzner, Helsinki, FI),
-Node C (FlokiNET, Reykjavik, IS). One operator, domiciled in London, UK. FROST 2-of-3 threshold
-signing governs both credential issuance and warrant canary signing: any two of three shares are
-required, the full key is never assembled, and a seized node yields one share that is
-computationally useless alone. Each node publishes one independently meaningful canary daily to
-three channels (node-hosted `canary.json`, GitHub mirror, per-node Nostr npub), expiring after
-72 hours. Silence reads as death, by design.
+Legend operates five nodes: Node A (Hetzner, Falkenstein, DE), Node B (provider TBD, jurisdiction
+TBD), Node C (FlokiNET, Reykjavik, IS), Node D (provider TBD, fourth jurisdiction — full
+participant and warm standby), Node E (provider TBD, fifth jurisdiction — chain-only cold
+standby). One operator, domiciled in London, UK. FROST 3-of-4 threshold signing governs both
+credential issuance and warrant canary signing across the four full-participant nodes (A, B, C, D):
+any three of four shares are required, the full key is never assembled, and a seized node yields
+one share that is computationally useless alone. Node E holds no FROST share. Each full-participant
+node publishes one independently meaningful canary daily to three channels (node-hosted
+`canary.json`, GitHub mirror, per-node Nostr npub), expiring after 72 hours. Silence reads as
+death, by design.
 
 This document states what happens, what clients see, and what the operator does when something
 goes wrong. It is written against the architecture in `legend-node-plan.md` and the SLA in
@@ -48,8 +51,8 @@ the operator's word.
 | Scenario | Canary behaviour | Client observes | Operator action | Client should conclude |
 |---|---|---|---|---|
 | **A — Operational lapse** (neglect, illness, travel, technical failure; no legal compulsion) | Affected canary expires. No pre-signed operational notice accompanies it if the lapse was genuinely unplanned. | One or more canaries expired on the status page and across GitHub/Nostr. Query API may still answer. | Resurrect with a fresh FROST-signed canary as soon as reachable. If the lapse was planned, the maintenance notice (§7 #1) should already be published. | Treat the expiry at face value until resurrection. An expired canary with no accompanying pre-signed notice is indistinguishable, at the moment of expiry, from compulsion — and should be read as such. |
-| **B — Single-node seizure** (one node seized by host-jurisdiction law enforcement; FROST 2-of-3 intact) | The seized node's canary expires. The other two canaries continue — they are signed by the two surviving shares. | One canary expired; two live. Status page shows Reduced splitting. Query API answers on two nodes. | Publish the node-seizure statement (§7 #3) via the two surviving nodes. Re-key to exclude the seized share (§4). Engage counsel. | One node is lost; query splitting is reduced, not absent. No query data existed on the seized node to expose (ephemeral sessions). Two live canaries in two jurisdictions remain a meaningful signal. |
-| **C — Legal compulsion (UK IPA 2016)** (operator personally served with a disclosure and/or non-disclosure order; reaches all three nodes) | All three canaries eventually expire. The operator cannot renew under a non-disclosure order, and the monthly DKG dependency (§4) caps the time to observable expiry at roughly one mint window. Compelled *continuation* of publication is the untested exception — see below. | All three canaries expire, at most within one mint window plus the 72-hour expiry margin. | None available that a client should trust. Under a non-disclosure order the operator may be legally barred from stating a warrant was served. | **Highest-risk state.** Simultaneous triple-node expiry should be treated as compromise of the service. Cease reliance and migrate. Do not wait for or trust an operator statement. |
+| **B — Single-node seizure** (one node seized by host-jurisdiction law enforcement; FROST 3-of-4 intact) | The seized node's canary expires. The other three canaries continue — they are signed by the three surviving shares. | One canary expired; three live. Status page shows Reduced splitting. Query API answers on three nodes. | Publish the node-seizure statement (§7 #3) via the three surviving nodes. Re-key to exclude the seized share (§4). Engage counsel. | One node is lost; query splitting is reduced, not absent. No query data existed on the seized node to expose (ephemeral sessions). Three live canaries across three jurisdictions remain a meaningful signal. |
+| **C — Legal compulsion (UK IPA 2016)** (operator personally served with a disclosure and/or non-disclosure order; reaches all four full-participant nodes) | All four canaries eventually expire. The operator cannot renew under a non-disclosure order, and the monthly DKG dependency (§4) caps the time to observable expiry at roughly one mint window. Compelled *continuation* of publication is the untested exception — see below. | All four canaries expire, at most within one mint window plus the 72-hour expiry margin. | None available that a client should trust. Under a non-disclosure order the operator may be legally barred from stating a warrant was served. | **Highest-risk state.** Simultaneous quadruple-node expiry should be treated as compromise of the service. Cease reliance and migrate. Do not wait for or trust an operator statement. |
 | **D — AI-assisted attack / service suspension** (sustained automated exploit campaign forces query-API suspension; operational exhaustion) | Canaries **continue**, because canary signing is decoupled from the query API (§5). The query API can be suspended entirely while canaries keep signing and publishing. | Query API suspended or degraded, **but canaries live.** Status page shows suspension with a live canary state. | Defend or suspend the query API. Keep the canary signing service and monthly DKG running — they take priority over query-API restoration. Publish the attack-suspension statement (§7 #4). | A suspension accompanied by **live canaries** is operational, not legal. The live canary is the structural evidence that distinguishes D from C. If canaries also expire, escalate to reading it as C. |
 
 **The C/D distinction is the whole point.** The Boltz canary lapsed *during* an active attack,
@@ -64,7 +67,7 @@ ceremony falling inside a multi-day attack and not being run; §4 and §5 addres
 **The compelled-continuation exception (C).** UK IPA 2016 arguably permits an order compelling the
 operator to continue publishing a canary while under a non-disclosure order. This is legally
 untested in UK courts (see `legend-node-plan.md` §6 and `## Opus-A notes`). If such an order were
-both lawful and served, all three canaries could continue to publish while the service is in fact
+both lawful and served, all four canaries could continue to publish while the service is in fact
 compromised. Clients are told this plainly in Enterprise materials: the canary is a strong signal
 about orders served on hosting providers and a **limited** signal about orders served on the
 operator personally. No architecture defeats a lawful compelled-continuation order against a sole
@@ -120,14 +123,14 @@ The honest statement to Enterprise clients, which belongs in the contract materi
 Legend has a single point of human failure. If the operator is permanently incapacitated, the
 service ends. FROST key shares are destroyed at each monthly window close and cannot be
 regenerated without the operator running the next DKG ceremony. Within at most one mint window,
-credential issuance and automated canary signing halt, and all three canaries expire.
+credential issuance and automated canary signing halt, and all four full-participant node canaries expire.
 
 **Permanent incapacitation and UK IPA operator-level compulsion (scenario C) are indistinguishable
-from outside** — both present as simultaneous triple-node canary expiry with no trustworthy operator
-statement. This indistinguishability does not matter operationally, because the correct client
-action is identical in both cases: treat the service as ended, cease reliance, and migrate. The
-triple-expiry note (§7 #5) is the client-facing document for exactly this state, and it does not
-depend on the operator being alive or free to publish it.
+from outside** — both present as simultaneous quadruple-node canary expiry with no trustworthy
+operator statement. This indistinguishability does not matter operationally, because the correct
+client action is identical in both cases: treat the service as ended, cease reliance, and migrate.
+The quadruple-expiry note (§7 #5) is the client-facing document for exactly this state, and it
+does not depend on the operator being alive or free to publish it.
 
 ---
 
@@ -141,44 +144,58 @@ depend on the operator being alive or free to publish it.
    and — where lawful and available — a provider support ticket. If seizure cannot be excluded,
    switch to §3B and treat the node as lost.
 3. **Assess FROST share state.** A node that restarted has lost its in-memory share for the
-   current mint window. The mint continues on the two surviving shares (2-of-2 signing). The
-   restored node rejoins as a query node once its index is healthy, but **does not hold a signing
-   share again until the next monthly DKG**. Canary signing for all three nodes continues on the
-   two live shares — any two of three suffice.
-4. **Restore.** Bring the node back. Restore chain and Esplora index from a recent verified
-   snapshot, or resync from the Bitcoin p2p network. Before the node rejoins, verify the build
-   hash against the signed release manifest (`legend-node-plan.md` §7). A restored index snapshot
-   must have its integrity verified — see `## Opus-A notes`.
-5. **Resurrect the canary.** The two share-holding nodes sign a fresh canary statement for the
-   restored node, embedding a recent block hash, and publish to all three channels. Silence ends
-   only with a fresh signed statement — there is no automatic un-expiry.
+   current mint window. The mint continues on the surviving shares — with four full-participant
+   nodes (A, B, C, D) and a 3-of-4 threshold, a single offline node does not interrupt credential
+   issuance or canary signing; the ceremony and daily signing rounds continue on the remaining
+   three share-holders. The restored node rejoins as a query node once its index is healthy, but
+   **does not hold a signing share again until the next monthly DKG**. Canary signing for all four
+   nodes continues on the three live shares.
+4a. **Restore — binary integrity.** Before bringing the node back, verify the build
+   binary against the signed release manifest (`legend-node-plan.md` §7). Only a manifest-matched
+   binary is permitted to rejoin the query pool or the FROST signing set. A node running an
+   unverified binary is treated as untrusted regardless of its hardware status.
+4b. **Restore — index integrity.** Restore chain and Esplora index from a recent verified
+   snapshot, or resync from the Bitcoin p2p network. A restored snapshot must have its integrity
+   verified before the node rejoins: either confirm the index snapshot digest against the
+   operator's signed snapshot manifest, or perform a full resync — the index is not trusted on the
+   strength of the snapshot alone. The "hours to ~1 day" restoration window assumes a snapshot of
+   confirmed provenance; an unverifiable snapshot is not a shortcut — it is an untrusted node.
+   See `## Opus-A notes` for the open question on snapshot custody and verification method.
+5. **Resurrect the canary.** Three of the four share-holding nodes sign a fresh canary statement
+   for the restored node, embedding a recent block hash, and publish to all three channels. Silence
+   ends only with a fresh FROST-signed statement — there is no automatic un-expiry.
 6. **Notify.** Free tier: status page only. Enterprise: notify per SLA if the outage crossed an
    SLA threshold (below).
 7. **SLA credit assessment.** The SLA defines availability as **≥2 nodes operational with role-split
-   intact.** A single-node outage is still ≥2 nodes: it does **not** breach the 99.0% monthly
-   availability target. It **does** consume the ≥95%-of-month full-splitting budget. Track the
-   outage duration and roll it into the monthly full-splitting figure. A 10% service credit is due
-   for any calendar month below 97% availability — which a single-node outage alone does not cause,
-   but a compounding second outage could.
+   intact.** With five nodes (four full participants + one cold standby), a single-node outage leaves
+   three full participants operational: it does **not** breach the 99.0% monthly availability target,
+   does not interrupt FROST 3-of-4 signing, and does **not** consume the full-splitting budget.
+   Two simultaneous node outages reduce the query pool to two nodes and the FROST signing set to
+   two, which is below the 3-of-4 threshold for new credential issuance — this does breach the
+   ≥95%-of-month full-splitting budget. Track outage duration per node. A 10% service credit is
+   due for any calendar month below 97% availability — which a single-node outage alone cannot
+   cause, but two compounding simultaneous outages could.
 
 ### 3B — Node seizure confirmed or strongly suspected
 
 1. **Treat the node as lost and hostile.** Do not attempt to recover its share or its data. The
-   seized node yields one FROST share (useless alone) and no historical query data (ephemeral
-   sessions; nothing is stored to seize).
-2. **Confirm the other two nodes are operational.** The service continues at Reduced splitting on
-   two nodes. Collusion resistance drops from "any two of three" to "the only two." State this
+   seized node yields one FROST share (useless alone — three shares are required) and no historical
+   query data (ephemeral sessions; nothing is stored to seize).
+2. **Confirm the other three full-participant nodes are operational.** The service continues at
+   Reduced splitting on three nodes. FROST 3-of-4 signing continues: three of four shares are
+   sufficient. Collusion resistance drops from "any three of four" to "the only three." State this
    honestly; do not describe the reduced mode as secure — it is reduced.
-3. **Publish the node-seizure statement (§7 #3)** via the two surviving nodes' channels, the GitHub
-   mirror, and Nostr. This statement is pre-signed for exactly this moment because the operator may
-   be under a non-disclosure order and unable to author a statement live. It reports loss of operator
-   control of the node — a true statement — without characterising the legal cause, which the
-   operator may be barred from disclosing.
+3. **Publish the node-seizure statement (§7 #3)** via the three surviving nodes' channels, the
+   GitHub mirror, and Nostr. This statement is pre-signed for exactly this moment because the
+   operator may be under a non-disclosure order and unable to author a statement live. It reports
+   loss of operator control of the node — a true statement — without characterising the legal
+   cause, which the operator may be barred from disclosing.
 4. **Re-key to exclude the seized share (§4, emergency re-key).** Until re-keyed, the current mint
    window's public key still corresponds to a key set that includes the seized share. Re-key so
-   that no future signing set involves it. With only two nodes available, the mint operates 2-of-2
-   as a documented, transient degraded state until a replacement node is provisioned and a fresh
-   2-of-3 DKG runs.
+   that no future signing set involves it. With three remaining nodes, the mint continues in a
+   transient 3-of-3 configuration — all three surviving shares required — until a replacement
+   node is provisioned and a fresh 3-of-4 DKG runs. This transient state is documented and
+   stated on the status page; it is not described as full-threshold.
 5. **Provider communication.** Request confirmation of the legal basis where lawful. Expect that a
    non-disclosure order may prevent both the provider and the operator from confirming anything.
    The pre-signed statement does not depend on the provider's or operator's ability to speak.
@@ -205,11 +222,13 @@ criteria are maintained instead. A replacement must satisfy all of:
 **Migration sequence** (preserves FROST integrity and canary continuity):
 
 1. Provision the replacement node. Install and verify the build against the signed release manifest.
-2. Sync chain and Esplora index (from network, or restore a verified snapshot).
+2. Sync chain and Esplora index (from network, or restore a verified snapshot with confirmed
+   provenance per 4b above).
 3. Include the replacement in the next FROST DKG — either the scheduled monthly ceremony or an
    emergency re-key (§4) — and exclude the departing node. A live share cannot be migrated; it is
    ephemeral and node-bound. The clean path is a fresh DKG that includes the new node and excludes
-   the old. During migration the mint runs 2-of-2 on the two stable nodes.
+   the old. During migration, the mint runs on the three stable nodes (3-of-3 transient configuration)
+   while the replacement completes its sync and joins the ceremony.
 4. Re-sign the node manifest with the offline Legend release key, removing the departing node's URL
    and canary and adding the replacement's. Publish to `refueler.io/legend/manifest.json`. No code
    change is required — this is a manifest update and re-sign.
@@ -217,12 +236,37 @@ criteria are maintained instead. A replacement must satisfy all of:
 6. **Client communication.** Enterprise: incident notification within 24 hours if service mode is
    affected during migration; otherwise a scheduled-change notice. Free tier: status page.
 
-**Time estimate for full restoration.** Dominated by the replacement node's initial index build:
-Bitcoin Core chain (~650 GB) plus Esplora index (~1 TB) plus the Silent Payments tweak index.
-From scratch: **2–7 days**, bandwidth- and hardware-dependent. From a verified index snapshot
-restored to matching hardware: **hours to ~1 day**, plus tip catch-up — contingent on snapshot
-integrity verification (see `## Opus-A notes`). The DKG and manifest re-sign themselves take
-minutes once the node is synced.
+**Degraded-migration branch — concurrent node loss during migration.** If a second node becomes
+unavailable while a migration is in progress (provider migration of Node C coinciding with a
+hardware failure on Node A, for example), the procedure branches:
+
+- **Two stable nodes remain (FROST signing continues at 3-of-3 transient, now 2-of-remaining):**
+  below-3-of-4 threshold. New credential issuance halts. Canary signing continues as long as
+  the two surviving, share-holding nodes and the DKG window are intact. Prioritise the DKG
+  ceremony if a window boundary is approaching. Activate Node D immediately if not yet active;
+  activate Node E's Esplora index build.
+- **Status page:** show Reduced splitting — migration in progress alongside the node-offline
+  state. Do not suppress either condition.
+- **Enterprise notification:** treat as a compound incident — notify within 12 hours of the
+  second node event regardless of SLA trigger on the first.
+- **Do not attempt the migration DKG** until at least three nodes are stable and verified. A DKG
+  run with an unverified replacement node included is worse than a delayed migration.
+
+**Time estimate for full restoration.** In the five-node topology, restoration time depends
+on which node is being replaced:
+
+- **Replacing with Node D (warm standby):** Node D is fully synced and manifest-registered from
+  day one. If the departing node is A, B, or C, Node D promotes immediately with no sync delay.
+  The DKG and manifest re-sign complete in minutes. Full restoration to four-node FROST: **minutes
+  to hours** (DKG + manifest propagation only).
+- **Replacing with a fresh node (Node D consumed, new fourth node required):** dominated by the
+  initial index build: Bitcoin Core chain (~650 GB) plus Esplora index (~1 TB) plus the Silent
+  Payments tweak index. From scratch: **2–7 days**, bandwidth- and hardware-dependent. From a
+  verified snapshot: **hours to ~1 day**, plus tip catch-up — contingent on snapshot integrity
+  verification (see `## Opus-A notes`). Node E's chain is continuously synced, eliminating the
+  2–7 day chain-sync component; only the Esplora index build remains.
+- **DKG and manifest re-sign** themselves take minutes once the replacement node is synced and
+  binary-verified.
 
 ---
 
@@ -240,12 +284,12 @@ full re-key is an incident response.
 
 Per `legend-node-plan.md` §5:
 
-1. All three nodes online.
-2. DKG produces three shares (one per node) and a single public key. The full private key is never
+1. All four full-participant nodes (A, B, C, D) online. Node E does not participate.
+2. DKG produces four shares (one per node) and a single public key. The full private key is never
    assembled.
-3. Credential issuance thereafter requires any 2-of-3 nodes to cooperate in a threshold signing
+3. Credential issuance thereafter requires any 3-of-4 nodes to cooperate in a threshold signing
    round.
-4. At window close, all three shares are deleted across all three jurisdictions simultaneously.
+4. At window close, all four shares are deleted across all four jurisdictions simultaneously.
 
 Status page during the ceremony: **Credential rotation in progress** — the routine-ceremony state,
 rendered in `--text-tertiary` (no user action required). Existing valid credentials continue to
@@ -255,11 +299,12 @@ credential issuance are unaffected.
 
 ### One node offline at ceremony time
 
-DKG requires all participants. If one node is offline at ceremony time, a **24-hour extension
-window** is scheduled and the current mint window is extended by a maximum of 24 hours. If the node
-remains offline beyond the window, the rotation is treated as failed and requires manual
-intervention (provision or restore the node, then run the ceremony). During the extension, the mint
-operates on the current window; the status page shows the rotation state honestly.
+With a 3-of-4 threshold, one offline node does **not** delay the ceremony — the DKG proceeds on
+the three remaining nodes. The offline node rejoins the FROST signing set at the next ceremony.
+A **24-hour extension window** is scheduled only if **two or more** nodes are offline simultaneously.
+If nodes remain offline beyond the extension window, the rotation is treated as failed and requires
+manual intervention. During the extension, the mint operates on the current window; the status page
+shows the rotation state honestly.
 
 ### Node share compromised (seizure or suspected intrusion) — emergency re-key
 
@@ -267,10 +312,60 @@ Re-key immediately, regardless of the ceremony schedule, when a share is seized 
 suspected intruded. Procedure:
 
 1. Destroy the current window's shares on the surviving nodes.
-2. Run a fresh DKG across the trustworthy nodes, excluding the compromised node. If only two nodes
-   remain, re-key to a documented, transient 2-of-2 configuration until a replacement node is live,
-   then re-key to 2-of-3.
+2. Run a fresh DKG across the trustworthy nodes, excluding the compromised node. With three
+   remaining nodes, re-key to a documented, transient 3-of-3 configuration until a replacement
+   node is live, then re-key to 3-of-4.
 3. Re-sign and publish the node manifest to remove the compromised node.
+
+### §3D — Sub-quorum procedure
+
+Sub-quorum is the state in which fewer than three full-participant FROST share-holders are
+operational. Under the 3-of-4 scheme, sub-quorum requires three of four full-participant nodes
+(A, B, C, D) to fail simultaneously — a materially less likely compound event than under the
+original three-node 2-of-3 scheme, where two simultaneous failures sufficed.
+
+**What is impossible at sub-quorum:**
+- New credential issuance (requires 3-of-4 signing round — cannot be completed)
+- New canary signing for the next publication cycle (same signing requirement)
+- Running the §7 #3 or §7 #4 pre-signed statements (those were signed in advance; the current
+  state means the operator cannot sign new FROST statements until the quorum is restored)
+
+**What remains possible:**
+- Existing valid credentials continue to work for the current window (already signed)
+- Already-published canaries remain valid until their 72-hour expiry
+- Node E Esplora index build (no FROST participation required)
+- Querying on any surviving node (no credential issuance needed for free-tier queries)
+
+**Operator priorities in sub-quorum state, in order:**
+1. Note the time of sub-quorum entry and the expiry time of the earliest live canary.
+   The operator has at most 72 hours — minus time already elapsed since last publication —
+   before canaries begin expiring. The monitor must surface **per-canary time-to-expiry**
+   continuously so this deadline is visible in real time.
+2. Restore the fastest-to-bring-back node first. If Node D is available (warm standby), promote
+   it immediately — it requires no sync time, only binary verification.
+3. Activate Node E Esplora index build immediately regardless of which other node is being
+   restored. E's chain is already synced; only the index build is outstanding.
+4. If a DKG ceremony boundary arrives while still in sub-quorum, do not attempt the DKG —
+   a sub-quorum DKG cannot complete. Record the missed ceremony; notify Enterprise clients.
+5. Once three share-holders are online and verified, run an emergency re-key (above) immediately.
+   Do not wait for the scheduled ceremony window.
+6. Enterprise notification: sub-quorum is an SLA breach. Notify within 12 hours of entry
+   regardless of whether canaries have expired. Do not wait for expiry to notify.
+
+**DKG-under-attack — the compound failure of sub-quorum arriving during an active exploit
+campaign.** This is the residual failure mode identified in Simulation 4 (Opus-B review,
+Legend-7): sustained AI-assisted attack produces operational exhaustion precisely as a DKG
+ceremony boundary arrives, and the DKG is not run, causing the mint window to close without
+rotation, destroying the shares and halting canary signing.
+
+**Procedural safeguard (stated as a priority decision, not a recommendation):** if a DKG
+ceremony boundary arrives during an active attack, the query API is suspended or rate-limited
+*before* the ceremony begins. The DKG takes minutes; suspension clears the attack surface for
+that window. The ceremony outranks query-API continuity. This decision is locked in §5 and is
+reproduced here because it is also the sub-quorum prevention mechanism: a completed DKG means
+the mint window rotates, shares survive, and the automation that produces daily canaries
+continues without operator involvement. A missed DKG is the one path from scenario D to
+scenario C that the architecture does not otherwise prevent.
 
 **What to tell clients during the window between suspected compromise and confirmed re-key:** the
 status page shows Credential rotation in progress and the reduced node count. The honest position
@@ -286,10 +381,11 @@ understate: until re-key completes, the affected node is out of the trust set.
 - **Briefly unavailable:** new credential issuance during the active signing round.
 - **Maximum window before full restoration:** the routine ceremony itself completes in minutes and
   the rotation state clears once the new public key propagates to the signed manifest and node
-  endpoints. The node-offline extension caps at 24 hours. For an emergency re-key, the operator
-  target is completion within 24 hours of confirmed compromise, with the status page updated in
-  real time and Enterprise clients notified within the standard incident window. Ceremony and
-  propagation timing precision is flagged in `## Opus-A notes`.
+  endpoints. The node-offline extension (24 hours) is triggered only when two or more nodes are
+  simultaneously offline at ceremony time — a single offline node does not delay the 3-of-4
+  ceremony. For an emergency re-key, the operator target is completion within 24 hours of confirmed
+  compromise, with the status page updated in real time and Enterprise clients notified within the
+  standard incident window. Ceremony and propagation timing precision is flagged in `## Opus-A notes`.
 
 ---
 
@@ -391,19 +487,30 @@ below 97% availability.
 |---|---|---|---|---|
 | **A — Operational lapse** | Status page | Canary-expiry alert ≤12h; incident notice ≤24h | Which canary expired; current privacy mode; that resurrection is in progress; that the expiry should be read at face value until resurrected | Notice text pre-written (§7 #1 or #2 per cause) |
 | **B — Single-node seizure** | Status page | Canary-expiry alert ≤12h; incident notice ≤24h; post-incident summary ≤5 business days | Which node is out of operator control; Reduced splitting mode; structural reason no query data existed on the node | **Yes — §7 #3** (operator may be under NDO) |
-| **C — Legal compulsion** | Status page shows expiring canaries | No trustworthy operator notice is possible | The triple-expiry note (§7 #5) is the standing document; no live statement should be expected or trusted | **Yes — §7 #5**, held in contract/onboarding |
+| **C — Legal compulsion** | Status page shows expiring canaries | No trustworthy operator notice is possible | The quadruple-expiry note (§7 #5) is the standing document; no live statement should be expected or trusted | **Yes — §7 #5**, held in contract/onboarding |
 | **D — AI attack / suspension** | Status page | Incident notice ≤24h | Query API suspended or degraded; canary integrity maintained; suspension is operational, not legal; how to verify canaries independently | **Yes — §7 #4** |
-| **3A — Node offline (no seizure)** | Status page | Incident notice ≤24h if an SLA threshold is crossed | Node offline; cause where known; privacy mode; SLA-credit status | Live-authored |
-| **3C — Provider migration** | Status page | Incident notice ≤24h if mode affected; else scheduled-change notice | Migration in progress; mode during migration; estimated restoration window | Live-authored |
+| **3A — Node offline (no seizure)** | Status page | Incident notice ≤24h if an SLA threshold is crossed | Node offline; cause where known; privacy mode; SLA-credit status; note that single-node outage does not interrupt FROST 3-of-4 at five-node topology | Live-authored |
+| **3C — Provider migration** | Status page | Incident notice ≤24h if mode affected; else scheduled-change notice | Migration in progress; mode during migration; estimated restoration window; whether Node D warm standby is active | Live-authored |
+| **3D — Sub-quorum** | Status page | Notify ≤12h of sub-quorum entry regardless of canary state | Sub-quorum reached; number of operational share-holders; time-to-expiry of earliest live canary; credential issuance halted; restoration priority | Live-authored |
 | **§4 — Re-keying** | Status page: Credential rotation in progress | Incident notice ≤24h for an emergency re-key; none required for routine rotation | Rotation in progress; what is and is not available; maximum window | Live-authored |
 
 ### Minimum content of every Enterprise notification
 
 Incident identifier and date (with the current block height, which serves as the trustless
 timestamp); affected node(s); current privacy mode (Full splitting / Reduced splitting / Single node
-/ Credential rotation in progress); what changed; what the client should do; SLA-credit status if
-triggered; and the time of the next update. Register: legal-document precision, honest scope, no
-alarm language, no overstatement of protection.
+/ Credential rotation in progress / Sub-quorum); what changed; what the client should do;
+SLA-credit status if triggered; and the time of the next update. Register: legal-document
+precision, honest scope, no alarm language, no overstatement of protection.
+
+**Channel asymmetry publication definition.** A canary is considered **published** when it is
+FROST-signed and confirmed on at least two channels including at least one off-node channel (GitHub
+mirror or ≥1 Nostr relay confirmation). A canary present only on the node's own `canary.json`
+is **not** counted as published — the node cannot vouch for its own status. This definition applies
+to incident reporting: if a node's Nostr relay is unreachable but GitHub mirror and `canary.json`
+are live, the canary counts as published (two channels, one off-node). If only `canary.json` is
+reachable, the canary is degraded and the status page reports a **channel-delivery degradation**,
+not a canary expiry. Enterprise notifications must state which channels were confirmed at the time
+of the report.
 
 ### The special case — canary expired, operator believes no compulsion has occurred
 
@@ -449,7 +556,7 @@ This notice was prepared before the maintenance window began and is signed by th
 nodes remaining in operation. Verify it against the node manifest at
 refueler.io/legend/manifest.json.
 
-Signed: [Node A] + [Node B] (FROST 2-of-3)
+Signed: [Node A] + [Node B] + [Node C] (FROST 3-of-4)
 Prepared at block: [height] · [hash]
 ```
 
@@ -470,7 +577,7 @@ This notice was prepared in advance and released by a designated publication del
 who holds no key share and can sign nothing. Verify the live canaries independently
 (node-direct, GitHub mirror, or Nostr) before relying on the service.
 
-Signed: [two operational nodes] (FROST 2-of-3)
+Signed: [three operational nodes] (FROST 3-of-4)
 Prepared at block: [height] · [hash]
 ```
 
@@ -482,13 +589,13 @@ LEGEND — NODE STATUS STATEMENT
 
 Node [X] ([location]) is no longer under operator control as of [date].
 
-FROST 2-of-3 threshold signing continues across the remaining two nodes in two separate
+FROST 3-of-4 threshold signing continues across the remaining three nodes in three separate
 legal jurisdictions. One cryptographic key share has been lost with the node. A single
 share is computationally useless alone: it cannot issue credentials, forge a canary, or
-retroactively sign anything.
+retroactively sign anything. Three shares are required.
 
-Query splitting is operating in reduced mode across the two remaining nodes. Collusion
-resistance is now the-only-two rather than any-two-of-three. This is a reduced mode; it
+Query splitting is operating in reduced mode across the three remaining nodes. Collusion
+resistance is now any-three-of-three rather than any-three-of-four. This is a reduced mode; it
 is stated as reduced.
 
 No query data exists on the node for the following structural reasons: Legend holds no
@@ -500,7 +607,7 @@ control contained no record of what any user queried.
 This statement reports loss of operator control. It does not characterise any legal cause,
 which the operator may be prohibited from disclosing.
 
-Signed: [two remaining nodes] (FROST 2-of-3)
+Signed: [three remaining nodes] (FROST 3-of-4)
 Published at block: [height] · [hash]
 ```
 
@@ -531,28 +638,30 @@ We will not state a restoration timeline while the attack is active, because a m
 timeline under these conditions is worse than none. The next update will be published by
 [time UTC] regardless of whether service has resumed.
 
-Signed: [operational nodes] (FROST 2-of-3)
+Signed: [operational nodes] (FROST 3-of-4)
 Published at block: [height] · [hash]
 ```
 
-**5. Triple canary expiry — no statement possible.** This is not a statement from the operator. It is
-the standing note held in the Enterprise contract and client onboarding materials, explaining what
-triple expiry means and what to do. It does not depend on the operator being alive or free to publish
-anything.
+**5. Quadruple canary expiry — no statement possible.** This is not a statement from the operator.
+It is the standing note held in the Enterprise contract and client onboarding materials, explaining
+what simultaneous quadruple expiry means and what to do. It does not depend on the operator being
+alive or free to publish anything.
 
 ```
-LEGEND — WHAT SIMULTANEOUS TRIPLE CANARY EXPIRY MEANS
+LEGEND — WHAT SIMULTANEOUS QUADRUPLE CANARY EXPIRY MEANS
 (Standing note. Held in your contract. Not issued in response to an event.)
 
-If all three node canaries expire at or near the same time, treat the service as compromised
-or ended and act accordingly: cease reliance and migrate.
+If all four full-participant node canaries (Nodes A, B, C, D) expire at or near the same time,
+treat the service as compromised or ended and act accordingly: cease reliance and migrate.
 
-Simultaneous triple expiry is consistent with three causes that cannot be distinguished from
+Simultaneous quadruple expiry is consistent with three causes that cannot be distinguished from
 outside:
 
-  1. UK IPA 2016 compulsion served on the operator personally, reaching all three nodes;
+  1. UK IPA 2016 compulsion served on the operator personally, reaching all four full-participant
+     nodes;
   2. Permanent operator incapacitation, after which the shares cannot be regenerated; or
-  3. Catastrophic multi-node failure.
+  3. Catastrophic multi-node failure affecting all four full-participant nodes simultaneously
+     (Node E publishes no canary — its absence from the canary set is structural, not a signal).
 
 The correct action is identical in all three cases, which is why the ambiguity does not
 matter to you. Do not wait for an operator statement. Under compulsion the operator may be
@@ -585,6 +694,7 @@ publication actually do — recorded in the log below with a date and the block 
 | Version | Date | Block height | Reviewer | Change |
 |---|---|---|---|---|
 | 1.0 | 7 Aug 2026 | [height at commit] | Operator | Initial document (Legend-6). |
+| 1.1 | 7 Aug 2026 | [height at commit] | Operator | Five-node topology and FROST 3-of-4 throughout (Legend-7B). Added: §3D sub-quorum procedure; §4 DKG-under-attack subsection; §3C degraded-migration branch; §3A step 4 split into 4a binary integrity / 4b index integrity; channel asymmetry publication definition in §6; quadruple-expiry standing note in §7 #5. All 2-of-3 and three-node references updated. Opus-A notes unchanged. |
 
 ---
 
@@ -615,11 +725,18 @@ publication actually do — recorded in the log below with a date and the block 
   as a service independent of the query-API process, and survives a full query-API suspension. If
   canary signing shares a process or a failure domain with the query API, the C/D distinction
   collapses. This must be confirmed as an implementation requirement, not an assumption.
-- **Canary signing for a node whose own share is lost mid-window.** §3A assumes the two remaining
+- **Canary signing for a node whose own share is lost mid-window.** §3A assumes the three remaining
   shares can sign and publish the restored node's canary on its behalf until the next DKG. This
-  follows from "any two of three" but should be confirmed against the actual publication path (whose
+  follows from "any three of four" but should be confirmed against the actual publication path (whose
   npub signs the Nostr note, and which host serves the restored node's `canary.json` before it holds
   a share again).
+- **Sub-quorum canary continuation (§3D, N-2 state).** With only two share-holders operational,
+  the 3-of-4 threshold cannot be met for new signing rounds. The §3D procedure states that
+  already-published canaries remain valid until their 72-hour expiry, but does not specify whether
+  two remaining participants can produce a valid Schnorr signature under a 3-of-4 key for any
+  purpose. This must be confirmed: can two participants produce a partial signature that becomes
+  valid when a third rejoins, or does the 72-hour window represent a hard deadline with no
+  extension possible? The answer directly affects the operator's priority timeline in §3D step 1.
 - **DKG ceremony duration and the observable duration of the "credential rotation in progress"
   state** (§4) are stated as "minutes" without a measured figure. Confirm before quoting a window to
   Enterprise clients.
