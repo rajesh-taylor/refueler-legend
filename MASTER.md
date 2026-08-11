@@ -78,6 +78,52 @@ of hardware location. Stated unprompted in the privacy explainer modal, the
 below-the-fold explainer, and Enterprise contract materials. A product that
 overstates its legal protections is weaker than one that understates them.
 
+### Threat model — `legend-threat-model.md` v1.0 (Adversarial-1 · addd8af)
+
+Pre-build adversarial review of Legend v1 transport and query architecture.
+Three attacker profiles × five attack surfaces. Key findings compressed:
+
+**Load-bearing correctness check (gating for build):**
+Stage-2 obliviousness — must fetch full candidate set, not target row. Full-index-per-node
+means a non-oblivious stage-2 lets the data node reverse the identifier back to the queried
+address. Role-split collapses without this. Minimum bucket size *k* also unspecified; must
+be locked. Both → Legend-6 opener, before query code.
+
+**Core free-tier weakness:**
+Both nodes see client IP+timestamp — default TLS-layer data, not application-layer logs.
+Honest v1 floor: *k*-anonymity within a prefix bucket, keyed to IP. Distress users (most
+sensitive cohort) are on the least-protected tier. OHTTP (RFC 9458) is the v2 fix; nothing
+forecloses it. Interim: elevate Tor recommendation from docs to in-product notice.
+
+**Canary signalling gap (solicitor-blocked):**
+Under 3-of-4, single-operator IPA compulsion does not lapse the canary. Three remaining
+participants keep signing. FROST stops a seized node forging a canary — it does not make a
+compelled operator's silence visible. Canary semantics must be documented honestly in
+Enterprise materials and UX copy. Blocked on Opus-C / solicitor.
+
+**IPA Part-3 prospective logging risk (solicitor-blocked):**
+A Part-3 technical capability notice can compel silent addition of prospective logging.
+"No query logs" is a forward architectural property — it cannot be retrospectively inverted
+but can be quietly removed going forward. Worst-case operator-compulsion scenario.
+
+**Nothing forecloses v2:**
+Full-index-per-node enables Spiral PIR additively. Browser-direct role-split does not
+foreclose OHTTP or per-connection Tor. No locked v1 decision requires architectural
+replacement to reach planned v2.
+
+**Hardening absorbed into existing sessions:**
+- Stage-2 obliviousness + *k* → Legend-6 opener
+- Canary semantics → Opus-C / solicitor block
+- 2-of-4 unsignable confirmation → FROST ceremony session
+
+**Operational milestone added:**
+Two-operator requirement before first Enterprise contract — second operator, different
+jurisdiction, own FROST share. Not a build blocker.
+
+**Development sequence confirmed:**
+Node A only (~€77/month) for v1 build. Five-node production topology when production
+privacy claims are made. Five-node cost (~€673/month) is a production figure, not a
+development figure.
 ---
 
 ## 3 — Economics

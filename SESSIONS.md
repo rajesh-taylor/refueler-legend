@@ -3,7 +3,88 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+## Session Multi-10 · 11 Aug 2026
 
+**Phase:** Adversarial threat review — uncounted session
+**Status:** Complete. `legend-threat-model.md` v1.0 produced and committed (`addd8af`).
+
+### Completed
+
+- **`legend-threat-model.md` v1.0 produced and committed.** Pre-build adversarial threat
+  review of Legend v1 transport and query architecture. Three attacker profiles
+  (Chainalysis tier, GCHQ/NCA tier, passive network/ISP observer), five attack surfaces,
+  three structured questions (what is extractable, what is structurally unprotected, what
+  is foreclosed). Commit: `addd8af`, 152 insertions. Prompt: `adversarial-1-opus-prompt.md`.
+
+- **Stage-2 obliviousness identified as the load-bearing correctness check.** The v1 privacy
+  claim rests entirely on whether stage-2 fetches the full candidate set (oblivious) or only
+  the target row (not oblivious — collapse of the role-split). Must be verified and locked as
+  a protocol invariant before query code is written. Minimum bucket size *k* also unspecified —
+  must be documented. Both items → Legend-6 opener.
+
+- **IP-join finding: collusion-resistance overstated as currently framed.** Both nodes see
+  the same client IP seconds apart. IP+timestamp is default TLS-layer data. The honest v1
+  floor is *k*-anonymity within a prefix bucket, keyed to IP. Free-tier distress users are
+  the most exposed cohort. OHTTP (RFC 9458) is the natural v2 fix; nothing in v1 forecloses it.
+
+- **Canary signalling gap documented.** Under 3-of-4, single-operator IPA compulsion does
+  not lapse the canary — the other three participants keep it valid. "FROST resolves Boltz"
+  is half true. Requires honest documentation in Enterprise materials and canary UX copy.
+  Blocked on solicitor (Opus-C). Canary semantics → Opus-C / solicitor block.
+
+- **Prospective logging risk under IPA Part 3 documented.** A Part-3 notice can compel
+  silent addition of prospective logging. Architecture is not retrospectively reversible
+  but can be inverted going forward. Also blocked on solicitor.
+
+- **Nothing forecloses v2 transport improvements.** Full-index-per-node enables Spiral PIR
+  additively. Browser-direct role-split does not foreclose OHTTP or per-connection Tor.
+  No architectural replacement required for any planned v2 feature.
+
+- **Hardening candidates absorbed into existing sessions — no new standalone block.**
+  Three gating items: stage-2 obliviousness + *k* → Legend-6; canary semantics → Opus-C;
+  2-of-4 unsignable confirmation → FROST ceremony session (already queued).
+
+- **Two-operator milestone identified.** A second operator in a different jurisdiction,
+  holding their own FROST share, is required before the first Enterprise contract is signed.
+  Not a build blocker — an operational maturity milestone. Logged as carry-forward.
+
+- **Single-node-first development sequence confirmed.** Node A (Hetzner, ~€77/month)
+  is sufficient for the full v1 development stack. Five-node production topology
+  provisioned when production privacy claims are made — not before.
+
+- **Refueler IP honesty standard established as platform-wide principle.** Added to
+  REFUELER-BRIDGE.md. Applies to all current and future Refueler products (Share, Legend,
+  Pass, merchant terminal, ticketing). No product claims anonymity where IP is visible.
+  All products recommend Tor for high-sensitivity use. All products plan OHTTP or equivalent
+  as a v2 structural fix. This is a competitive advantage that cannot be retrofitted by
+  competitors whose architectures were not designed with it in mind.
+
+### Files changed
+
+- `legend-threat-model.md` v1.0 (new file, committed `addd8af`)
+- `SESSIONS.md` (this entry)
+- `MASTER.md` (threat model block added)
+- `REFUELER-BRIDGE.md` (Refueler IP honesty standard added)
+
+### Carry-forward
+
+- **Stage-2 obliviousness + minimum *k* floor** — lock in Legend-6 opener as the first
+  output of that session, before any query code is written.
+- **Canary signalling semantics** — what the canary does and does not signal under single-operator
+  IPA compulsion. Fold into Opus-C / solicitor block. Cannot be resolved without legal input.
+- **2-of-4 unsignable confirmation** — verify on real hardware in FROST ceremony session.
+  Only one acceptable answer: 2-of-4 cannot produce a valid signature under the 3-of-4 scheme.
+- **Two-operator milestone** — second operator, different jurisdiction, own FROST share,
+  required before first Enterprise contract is signed. Operational milestone, not build blocker.
+- **Nostr relay jurisdictions** — verify hosting jurisdiction of damus, nostr.band, nostr.wine.
+  Cannot confirm without web access. Required before canary publication design is finalised.
+- **`frost-secp256k1` audit status** — pin to a confirmed-audited version. Required before
+  any node goes live.
+- **All prior carry-forwards from Multi-9 remain open** (legend-enterprise-pricing.md break-even,
+  legend-design-spec.md stale infrastructure figure, legend-ux-language.md §4/§8 GBP edit,
+  FROST ceremony session, provider quote replies, solicitor engagement).
+
+---
 ## Session Multi-9 · 11 Aug 2026
 
 **Phase:** Planning and vision — use case library, session sequencing, B9 gate review
