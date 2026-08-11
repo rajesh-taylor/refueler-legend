@@ -1,5 +1,5 @@
 # legend-articles-list.md — refueler-multi-core /notes/ pipeline
-> **Version:** 1.1 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Ad-hoc · 5 Aug 2026
+> **Version:** 1.2 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Multi-9 · 11 Aug 2026
 > Editorial planning document. Lives in `refueler-multi-core/` alongside CLAUDE.md and SESSIONS.md.
 > Load when in an editorial planning or article build session. Not by default.
 > Publishing platform: `refueler.io/notes/` (main domain, not subdomain).
@@ -31,6 +31,102 @@ Do not publish Legend articles before the explorer is live — claims must be de
 ---
 
 ## Article pipeline
+
+---
+
+### Article A — What querying Mempool.space tells the server about your clients
+
+**Slug:** `what-mempool-tells-the-server`
+**Status:** Queued for drafting. No publish date. 2–3 weeks redraft time after draft produced.
+**Audience:** UK solicitors, accountants, compliance professionals handling client Bitcoin.
+**Dependency:** None — can draft before Legend is live. Publish after Legend live.
+
+**The argument:**
+Every time a solicitor or accountant queries Mempool.space to check a client's
+Bitcoin holdings, they are telling Mempool's server exactly which address they
+checked, at what time, from which IP (typically a corporate or home IP linked to a
+regulated professional). Mempool.space is US-incorporated — subpoenable under MLAT.
+A data request naming a specific firm returns every client address that firm ever
+checked. This is a compliance exposure the SRA and ICAEW have not addressed. Legend
+is the correct endpoint for any professional handling client Bitcoin.
+
+**Beats:**
+- What Mempool's server logs actually contain from a professional query
+- The corporate IP problem: regulated entities are identifiable
+- Sequence-of-queries: multiple clients in one session are linked in the log
+- MLAT reach: US incorporation, UK professional, client data
+- What the SRA's crypto asset guidance actually says
+- Legend as the professional endpoint: query metadata is architecturally absent
+- The honest scope: Legend protects query metadata, not on-chain history
+
+**CTA:** Contact Refueler for Enterprise access.
+**Links:** Earns professional services inbound links. UK compliance angle positions
+Refueler as serious infrastructure for regulated professionals.
+
+---
+
+### Article B — Four numbers that tell you where UK Bitcoin adoption actually is
+
+**Slug:** `four-numbers-uk-bitcoin-adoption`
+**Status:** Queued for drafting. Quarterly cadence — update figures each quarter.
+**Audience:** UK investors, financial press, anyone asking "how big is Bitcoin in the UK actually?"
+**Dependency:** None. Pure research article. No Legend dependency.
+
+**The four numbers:**
+1. HMRC CGT receipts attributable to cryptoassets (published annually)
+2. FCA registered cryptoasset businesses (published and updated by FCA)
+3. UK Bitcoin/crypto ETP AUM (ETF Stream, Bloomberg data)
+4. Coinbase and Kraken UK entity revenues from Companies House filings
+
+**The argument:**
+The noise around UK Bitcoin adoption is enormous. The signal is in four publicly
+available numbers that almost nobody reads together. Quarterly cadence makes this a
+reliable reference piece. Each update is a reason to publish. Positions Refueler as
+the serious infrastructure brand that does the homework.
+
+**Beats:**
+- Each of the four numbers with source, methodology note, and context
+- What they tell you together that none tells you alone
+- One paragraph of honest interpretation — not cheerleading, not doom
+- "We publish this quarterly because we think infrastructure companies should know
+  the market they're building for."
+
+**CTA:** Subscribe for quarterly updates. (No email capture — link to notes page.)
+**Note:** Quarterly cadence means this becomes a reference piece that compounds in
+search value over time. Brand play as much as content play.
+
+---
+
+### Article C — What BIP-110 means for wallets, Taproot, and second-layer protocols
+
+**Slug:** `bip-110-taproot-second-layer`
+**Status:** Queued for drafting. Timely if BIP-110 activates; evergreen if not.
+**Audience:** Bitcoin developers, wallet teams, second-layer protocol builders,
+technically curious Bitcoiners following protocol development.
+**Dependency:** None. Can draft now. Timely hook if BIP-110 gets traction.
+
+**The argument:**
+BIP-110 proposes restricting arbitrary data embedding via a 55% UASF threshold,
+targeting inscription/ordinal use of Taproot. The downstream implications for
+legitimate Taproot-dependent protocols — Ark, Spark, certain Miniscript constructions,
+covenants-based approaches — are underexplored in public discourse. This article
+maps the implications honestly: what BIP-110 would and wouldn't affect, which
+second-layer protocols have exposure, and what wallet teams and protocol developers
+need to know.
+
+**Beats:**
+- What BIP-110 actually proposes (precise, not sensationalised)
+- The UASF threshold: 55%, what that means historically
+- Taproot dependency map: which protocols rely on which Taproot features
+- Ark and Spark exposure — honest assessment, not alarmist
+- Covenant-based protocols: what's at risk and what isn't
+- What wallet teams should be watching
+- The Legend angle (one paragraph, earned not shoehorned): Legend tracks Ark and
+  Spark address support as v2/v3 scope items — BIP-110 is a variable in that plan
+
+**CTA:** Follow Refueler notes for protocol coverage. Link to Legend scope.
+**Note:** Professional services implications angle goes one level deeper than a
+layman guide. Aimed at people who build things, not people who hold things.
 
 ---
 
@@ -130,29 +226,29 @@ Consolidating UTXOs saves fees. It also permanently records on-chain that those 
 
 **Slug:** `silent-payments-bip352-explorer-problem`
 **Status:** Scoped. Not drafted. Unlocks post-B9.
-**Audience:** Silent Payments users. Privacy-focused Bitcoiners. Wallet developers.
-**Dependency:** Legend Silent Payments scanning live.
+**Audience:** BIP-352 implementers, privacy-focused Bitcoiners, wallet developers, anyone using or building Silent Payments support.
+**Dependency:** Legend SP scanning live (v1).
 
 **The argument:**
-BIP-352 Silent Payments allow a sender to pay a static address without that address appearing on-chain. Every payment goes to a unique derived address. This is excellent for privacy. It is also completely unsupported by every public block explorer — because correctly identifying Silent Payments outputs requires scanning every block, which public explorers don't do. Legend scans every block. It is the first explorer to display Silent Payments static addresses and their derived outputs correctly.
+Silent Payments (BIP-352) allow a recipient to publish a static address that generates a unique on-chain address for every sender — unlinkable by design. No explorer currently supports them correctly because none has the precomputed tweak index required to scan efficiently. Without it, a full-range SP scan takes hours per address. Legend's precomputed tweak index reduces this to ~8 minutes on 8 cores. Legend is the first production explorer to show Silent Payments correctly — and to explain what "correctly" means to users who have never heard of BIP-352.
 
 **Beats:**
-- What Silent Payments are and why they exist
-- The scanning problem: why public explorers can't support them
-- What Legend does differently
-- The batch scanning optimisation: EC point aggregation, ~256x speedup over naive
-- Practical use: checking whether a Silent Payment arrived, privately
+- What Silent Payments are and why they matter
+- The scanning problem: why explorers haven't done this
+- The tweak index: what it is, why Legend built it, the honest performance figures
+- What Legend shows for an SP-eligible transaction (one sentence in plain English)
+- The honest scope: what SP protects and what it doesn't
 
-**CTA:** Use a Silent Payments-compatible wallet. Use Legend to verify receipt.
+**CTA:** Try a Silent Payments scan on Legend.
 
 ---
 
 ### Article 19 — ZK balance proofs for Bitcoin holders
 
 **Slug:** `zk-balance-proofs-bitcoin`
-**Status:** Scoped. Not drafted. Unlocks post-v2.
-**Audience:** Family offices. Bitcoin-backed lenders and borrowers. Compliance professionals. Lawyers verifying client holdings.
-**Dependency:** Legend ZK balance proof feature live (v2).
+**Status:** Scoped. Not drafted. Unlocks post-v2 (ZK balance proofs live).
+**Audience:** Bitcoin holders needing to prove reserves. Lenders. Solicitors. Family offices.
+**Dependency:** Legend v2 live. ZK balance proofs implemented.
 
 **The argument:**
 If you want to prove to a lender, solicitor, or counterparty that you control a certain amount of Bitcoin, you currently have two options: show them your addresses (permanent privacy loss) or use a custodian (defeats self-custody). ZK balance proofs give you a third option: cryptographic proof that you control at least X BTC, without revealing which addresses. Legend generates the proof. The verifier checks it. No addresses exchanged.
@@ -192,8 +288,6 @@ Private Information Retrieval is a branch of cryptography that asks: can a serve
 
 ---
 
----
-
 ### Article 21 — The family office problem
 
 **Slug:** `family-office-bitcoin-privacy`
@@ -229,7 +323,7 @@ If you're moving jurisdictions — relocating, restructuring, or leaving — you
 **Beats:**
 - What MLAT requests can reach and how quickly
 - The timing problem: query logs are most dangerous at exactly the moment people use them
-- State-level monitoring: bulk collection doesn't discriminate — a Mempool query may be in an intelligence database not because you're a target but because everyone is
+- State-level monitoring: bulk collection doesn't discriminate
 - The Five Eyes legal chain: what a request to a US-incorporated entity returns
 - Legend's structural answer vs a policy promise
 - The honest scope: Legend protects query metadata, not on-chain history
@@ -260,28 +354,122 @@ Bitcoin is the only major asset class where the wealth permanently disappears if
 
 ---
 
+### Article UC-5 — The Florentine Protocol
+
+**Slug:** `the-florentine-protocol`
+**Status:** Outline in `legend-use-cases.md` UC-5. Full outline to be produced in UC-5 Opus session.
+**Audience:** Bitcoin-native jurisdictions, policy makers, talent-attracting institutions, technically curious Bitcoiners.
+**Dependency:** Legend civic treasury mode live (v1 or v2). Outline can draft earlier.
+
+**The argument:**
+The Medici didn't just hold gold — they attracted the people who made gold worth holding.
+Jurisdictions that can credibly demonstrate a Bitcoin treasury and pay in Bitcoin will
+attract talent that compounds in value. Silent Payments is the cryptographic equivalent
+of a Medici stipend envelope — you know money went out; you don't know who received it.
+Legend is the tool that makes the treasury verifiable without making the recipients visible.
+
+**Opening line (provisional):**
+"Florence in 1450 was the most valuable square mile in Europe. It didn't get there by taxing more. It got there by paying better."
+
+**CTA:** View a civic treasury on Legend. (Once feature live.)
+
+---
+
+### Article UC-6 — The Hanseatic Protocol
+
+**Slug:** `the-hanseatic-protocol`
+**Status:** Outline in `legend-use-cases.md` UC-6. Full outline to be produced in UC-6 Opus session.
+**Audience:** Bitcoin merchants, Fedimint operators, Lightning network builders, economic historians with a sense of humour.
+**Dependency:** Legend federation settlement display live. Outline can draft earlier.
+
+**The argument:**
+The Hanseatic League ran without a central bank for 300 years. It collapsed when
+nation-states got powerful enough to override it. The Bitcoin version — Fedimint
+federations settling weekly on-chain — is resistant to that. Legend's role is the
+port ledger: what arrived, what departed, what the aggregate represents.
+Not surveillance. Literacy.
+
+**Opening line (provisional):**
+"The Hanseatic League ran for 300 years without a central bank. Here is what its Bitcoin successor looks like, and how Legend reads its ledger."
+
+**CTA:** View federation settlement on Legend.
+
+---
+
+### Article UC-7 — Who Gets Priced Out
+
+**Slug:** `who-gets-priced-out`
+**Status:** Outline in `legend-use-cases.md` UC-7. Full outline to be produced in UC-7 Opus session.
+**Audience:** Every Bitcoiner. Global south advocates. Anyone who cares whether Bitcoin's
+financial inclusion promise survives fee spikes.
+**Dependency:** Legend human cost calculator live (v1). Historical fee context layer (v2).
+
+**The argument:**
+When fees hit 800 sat/vbyte, Bitcoin works fine for whales. For everyone else it is
+arithmetic: the fee exceeds the transaction value. Block space is a commons. When it
+is weaponised — deliberately or incidentally — the smallest users pay the highest
+relative cost. Legend shows this not as a political statement but as arithmetic.
+The chain doesn't lie.
+
+**Opening line (provisional):**
+"When fees hit 800 sat/vbyte, Bitcoin works fine for whales. Here is what it looks like for everyone else."
+
+**CTA:** Check current fee impact on Legend.
+
+---
+
+### Article UC-8 — The UTXO Lottery
+
+**Slug:** `the-utxo-lottery`
+**Status:** Outline in `legend-use-cases.md` UC-8. Full cryptographic design in UC-8 Opus session.
+**Audience:** Bitcoin developers, cryptography enthusiasts, anyone interested in on-chain
+coordination mechanisms that require no operator.
+**Dependency:** Legend movement count display live (v1). Full lottery eligibility (v2).
+
+**The argument:**
+Bitcoin's longest debate is whether it is money or gold. Here is a lottery that only
+works if it is money. Movement velocity is a monetary property. A UTXO that has moved
+ten times in a year is being used as money. The lottery rewards that — trustlessly,
+with the block hash as the entropy source and no operator able to manipulate the draw.
+
+**Opening line (provisional):**
+"Bitcoin's longest debate is whether it is money or gold. Here is a lottery that only works if it is money."
+
+**CTA:** Check your UTXO's lottery eligibility on Legend.
+
+---
+
 ## Publishing sequence
 
 Articles publish in this order, each unlocking when its dependency is met:
 
 | Order | Article | Dependency |
 |-------|---------|------------|
+| A | What querying Mempool tells the server about your clients | None (draft now, publish post-Legend live) |
+| B | Four numbers that tell you where UK Bitcoin adoption actually is | None (quarterly cadence) |
+| C | What BIP-110 means for wallets, Taproot, second-layer protocols | None (timely if BIP-110 activates) |
 | 14 | The metadata leak nobody talks about | Legend live |
 | 15 | From Chaum to Satoshi to Legend | Legend live, Article 14 published |
 | 16 | Why Mempool over Tor isn't enough | Legend live |
 | 17 | The UTXO consolidation problem | Legend v1 UTXO advisor live |
 | 18 | Silent Payments and why no explorer supports them | Legend SP scanning live |
-| 19 | ZK balance proofs for Bitcoin holders | Legend v2 live |
-| 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
 | 21 | The family office problem | Legend live |
 | 22 | The jurisdiction problem | Legend live |
+| UC-5 | The Florentine Protocol | Legend civic treasury mode live |
+| UC-6 | The Hanseatic Protocol | Legend federation settlement display live |
+| UC-7 | Who Gets Priced Out | Legend human cost calculator live |
+| 19 | ZK balance proofs for Bitcoin holders | Legend v2 live |
+| 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
+| UC-8 | The UTXO Lottery | Legend movement eligibility display live (v2) |
 | 23 | Bitcoin and your estate | Legend v2 live, /legend/verify live |
 
-Articles 14, 15, 16, 21, and 22 can publish in close succession at Legend launch.
-Articles 17 and 18 follow as features confirm stable.
-Articles 19, 20, and 23 are v2 unlocks — no timeline pressure.
+Articles A, B, C can publish before Legend is live — no infrastructure dependency.
+Articles 14, 15, 16, 21, 22 publish in close succession at Legend launch.
+Articles 17, 18 follow as features confirm stable.
+UC-5, UC-6, UC-7 slot in alongside v1/v2 feature rollout.
+Articles 19, 20, UC-8, 23 are v2 unlocks — no timeline pressure.
 
 ---
 
-*Next article session: post-B9, once Legend infrastructure exists to back the claims.*
+*Next article session: Articles A, B, C draft block. 2–3 weeks redraft time. No publish pressure.*
 *"Nothing stops this train."*
