@@ -1,5 +1,5 @@
 # MASTER.md — refueler-legend
-> **Version:** 1.0 | **Created:** Legend-5 · 6 Aug 2026
+> **Version:** 1.1 | **Created:** Legend-5 · 6 Aug 2026 | **Updated:** Multi-9 · 11 Aug 2026
 > Compression of the six planning documents. Rebuilt fresh at the end of each
 > planning block — not maintained incrementally. Source of truth is always the
 > detail file named in each section.
@@ -301,22 +301,66 @@ only if abuse forces throttling).
 
 ---
 
-## 8 — Open items
-*Source: `SESSIONS.md` carry-forwards + conflicts identified Legend-5*
+## 8 — Open items and session queue
+*Source: `SESSIONS.md` carry-forwards + conflicts identified Legend-5. Updated Multi-9.*
 
-- **CONTRIBUTING.md contribution-back norm** — queued for first build session.
+### B9 gate — lifted (Multi-9 · 11 Aug 2026)
+
+Legend runs its own independent node. Legend v1 has no Lightning dependency.
+The Cashu mint for query credentials is non-monetary — no Lightning node required.
+B9 (Share Lightning node) is no longer a prerequisite for any Legend session.
+
+### Use case library — `legend-use-cases.md` v1.0 (committed `6e3eb82`)
+
+Eight civilisational use cases. One Opus session per scenario, weekly/fortnightly.
+Maximum two paired if thematically linked (UC-1+UC-2, UC-5+UC-6).
+
+| Session | Scenario | Type |
+|---|---|---|
+| Adversarial-1 | v1 transport + query architecture threat model | Opus |
+| UC-1 | The Bradford Inheritance — distress mode, phone, estate | Opus |
+| UC-2 | The Grandparent's Ledger — stewardship mode, laptop, print | Opus |
+| UC-3 | The Bitcoin-Backed Loan — verification export, lender view | Opus |
+| UC-4 | The Council and the Whale — treasury watch, FROST attestation | Opus |
+| UC-5+UC-6 | The Florentine District + The Hanseatic Federation (paired) | Opus |
+| UC-7 | The Block War — human cost calculator, historical fee context | Opus |
+| UC-8 | The UTXO Lottery — Merkle lineage, block hash entropy, trustless draw | Opus |
+
+UC Opus sessions run in parallel with build sessions. Standard load for all UC sessions:
+`CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
+
+### Immediate session sequence
+
+1. **Adversarial-1 (Opus)** — threat model. Load: + `legend-scope.md` + `legend-node-plan.md`
+2. **UC-1 (Opus)** — Bradford Inheritance.
+3. **Legend-6 (Sonnet build)** — Eleventy shell. Load: + `legend-design-spec.md`
+4. **UC-2 (Opus)** — Grandparent's Ledger.
+5. **Legend-7 (Sonnet build)** — query flow, result states.
+6. **UC-3 (Opus)** — Bitcoin-Backed Loan.
+7. **Articles draft block (Sonnet)** — Articles A, B, C. Load: + `legend-articles-list.md`
+8. **UC-4 (Opus)** — Council and the Whale.
+9. **UC-5+UC-6 (Opus, paired)** — Florence + Hanseatic.
+10. **UC-7 (Opus)** — Block War.
+11. **UC-8 (Opus)** — UTXO Lottery. Load: + `legend-scope.md`
+
+### Carry-forward open items
+
+- **CONTRIBUTING.md** — queued for Legend-6 (first build session).
 - **Custom FlokiNET quote** — open. Mandatory before provisioning node C.
-- **`legend-incident-protocol.md`** — queued per `legend-node-plan.md` §9: node
-  recovery, provider-switch protocol, FROST re-keying, attack-vector simulations.
-  Two Opus sessions once infrastructure is live. Quarterly revision from v1 launch.
-- **GBP denomination edit** — locked in CLAUDE.md v1.5 but not yet applied to
-  `legend-ux-language.md` §4 and §8. Apply at next session touching that file.
-- **Design-spec token block stale** — `legend-design-spec.md` Design tokens section
-  still carries pre-CC-74 `--bg` values (`#F7F4EF`/`#1E1F22`). Canonical values are
-  in BRIDGE and §5 above. Queue a single-line correction next time the spec is edited.
-- **Licence statement divergence** — CLAUDE.md locks MIT for this repo;
-  REFUELER-BRIDGE.md Legend section says Apache 2.0. CLAUDE.md is the repo
-  authority (MIT, matching upstream). Correct BRIDGE at its next update.
+- **Provider quote replies** — expected 10–11 Aug 2026. Confirm cost table when received.
+- **`legend-incident-protocol.md`** — not complete until FROST 3-of-4 ceremony done.
+  Quarterly revision from v1 launch.
+- **GBP denomination edit** — `legend-ux-language.md` §4 and §8. Apply next session
+  touching that file.
+- **Design-spec token block stale** — pre-CC-74 `--bg` values in spec. Fix next design session.
+- **legend-enterprise-pricing.md** — break-even floor still ~£385/month. Update to ~£566/month.
+- **legend-design-spec.md** — stale €96/month figure. Replace with ~€673/month planning estimate.
+- **Licence statement divergence** — CLAUDE.md locks MIT; REFUELER-BRIDGE.md says Apache 2.0.
+  CLAUDE.md is authority. Correct BRIDGE at its next update.
+- **Solicitor (Opus-C)** — IPA compelled-continuation question blocked on engagement.
+  Firms: Bristows, Mishcon de Reya, AWO.
+- **FROST 3-of-4 ceremony** — measure DKG duration on real hardware before SLA materials finalised.
+- **Sub-quorum partial-signature open question** — Opus-A notes, unresolved.
 
 ---
 
@@ -326,17 +370,20 @@ only if abuse forces throttling).
 |---|---|---|---|
 | `CLAUDE.md` | 1.5 | Repo identity, locked decisions, locked phrases, build sequence | Every session |
 | `SESSIONS.md` | rolling | Last 3–4 session log + carry-forwards | Every session |
-| `MASTER.md` | 1.0 | This file — compression of the six planning documents | Every build session |
+| `MASTER.md` | 1.1 | This file — compression of planning documents + session queue | Every build session |
 | `REFUELER-BRIDGE.md` | 2.0 | Cross-product platform context, canonical tokens | Cross-product and design sessions |
-| `legend-node-plan.md` | 1.0 | Node topology, FROST, canaries, hardening, transport roadmap | Infrastructure and incident sessions |
-| `legend-economics.md` | 1.0 | Cost model, scaling, break-even, self-hosting economics | Economics and commercial sessions |
+| `legend-use-cases.md` | 1.0 | Eight civilisational use cases, UC-1–UC-8, Opus session structure | All UC Opus sessions |
+| `legend-node-plan.md` | 1.2 | Node topology, FROST, canaries, hardening, transport roadmap | Infrastructure and incident sessions |
+| `legend-economics.md` | 1.2 | Cost model, scaling, break-even, self-hosting economics | Economics and commercial sessions |
 | `legend-enterprise-pricing.md` | 1.0 | Tiers, contract terms, SLA, compliance pack, Swan (internal) | Sales, legal, onboarding sessions |
 | `legend-design-spec.md` | 1.2 | Page architecture, query flow, modals, tokens, status page | UI/UX build sessions |
 | `legend-ux-language.md` | 1.0 | Every locked user-facing string (Section 8 index) | Any session touching copy |
-| `legend-scope.md` | 1.2 | Version-locked feature scope, NUT decisions, scope-creep rules | Every build session needing a version reference |
+| `legend-scope.md` | 1.4 | Version-locked feature scope, NUT decisions, scope-creep rules | Every build session needing a version reference |
+| `legend-articles-list.md` | 1.2 | Full article pipeline — Articles A, B, C plus 14–23 plus UC candidates | Editorial and article sessions |
 
-Standard build session load from here: `MASTER.md` + `SESSIONS.md` + one specific
-detail file. `CLAUDE.md` loads alongside as always.
+Standard build session load: `MASTER.md` + `SESSIONS.md` + one specific detail file.
+`CLAUDE.md` loads alongside as always.
+UC Opus sessions load `MASTER.md` + `SESSIONS.md` + `legend-use-cases.md`.
 
 ---
 
