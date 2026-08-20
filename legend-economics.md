@@ -1,5 +1,5 @@
 # legend-economics.md — refueler-legend
-> **Version:** 1.2 | **Created:** Legend-1 · 5 Aug 2026 | **Updated:** Legend-8 · 7 Aug 2026
+> **Version:** 1.3 | **Created:** Legend-1 · 5 Aug 2026 | **Updated:** CC-103 planning · 20 Aug 2026
 > Infrastructure cost model for Legend — privacy-first Bitcoin block explorer.
 > Load in every economics, Enterprise pricing, and business model session.
 > Companion documents: `legend-node-plan.md`, `legend-design-spec.md`,
@@ -87,14 +87,10 @@ node C egress approaches 5 TB/month.
 
 ### Comparison to stale figures
 
-- `legend-design-spec.md` states ~€96/month — this was a rough VPS estimate,
-  before the dedicated-node topology was locked in Legend-0. It is wrong.
-- The three-node estimates of €170–220/month (Legend-0 revision) and €340–420/month
-  (Legend-1, Legend-economics.md v1.0) are superseded by the five-node topology
-  locked in Legend-7. **Do not use any of these figures in user-facing or
-  Enterprise-facing copy.**
-- **Correct figure: ~€450/month planning midpoint, range €350–550/month pending
-  confirmed quotes for Nodes B, D, and E.**
+- `legend-design-spec.md` previously stated ~€96/month — stale VPS estimate from before the dedicated-node topology. Now corrected (v1.4, CC-103).
+- Three-node estimates of €170–220/month and €340–420/month are superseded by the five-node topology locked in Legend-7. Do not use.
+- €450/month planning midpoint is superseded by **~€673/month** (Legend-8 five-node topology). Do not use €450/month in any copy.
+- **Correct current planning figure: ~€673/month (~£566/month) ex-VAT.** Update when confirmed quotes replace estimates.
 
 **Action required:** `legend-design-spec.md` funding model section states
 "~€96/month (3–5 Hetzner nodes)." Correct at next session touching that file.

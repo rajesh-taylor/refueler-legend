@@ -1,5 +1,5 @@
 # legend-design-spec.md — refueler-legend
-> **Version:** 1.3 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
+> **Version:** 1.4 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** CC-103 planning · 20 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.
 > Covers: page architecture, query flow, result anatomy, credential UX, breach scenario,
@@ -64,7 +64,7 @@ at different scales and different moments in their Bitcoin journey.
    Share subscribers encounter Legend naturally. Legend drives Share conversions upward
    without forcing the connection.
 
-**Infrastructure cost:** ~€450/month planning midpoint, range €350–550/month (five dedicated nodes across five jurisdictions: Hetzner AX52 (DE), provider TBD, FlokiNET dedicated (IS), plus two further TBD nodes). Figures estimated August 2026; confirmed quotes pending for Nodes B, D, and E. One Enterprise client covers years of infrastructure. The free tier is sustainable before the first Enterprise contract closes.
+**Infrastructure cost:** ~€673/month planning estimate (~£566/month) ex-VAT (five dedicated nodes across five jurisdictions and three continents: Hetzner AX52 (DE), Frantech/BuyVM (LU), FlokiNET dedicated (IS), OVHcloud NA (CA), Infomaniak (CH)). Providers selected Legend-8, August 2026; confirmed quotes pending provider replies. One Enterprise client covers years of infrastructure. The free tier is sustainable before the first Enterprise contract closes.
 
 **No voluntary tip jar. No 21 sats prompt. No friction at the distress moment.**
 
@@ -343,14 +343,16 @@ A tool people trust is a tool institutions eventually pay for.
 
 All tokens inherited from REFUELER-BRIDGE.md. No Legend-specific tokens in v1.
 
-**Backgrounds — Paper:** `--bg: #F7F4EF` · `--surface: #EDEAE4` · `--surface-raised: #E4E1DA`
-**Backgrounds — Carbon:** `--bg: #1E1F22` · `--surface: #26282C` · `--surface-raised: #2E3035`
-**Text — Paper:** `--text-primary: #3D3A36` · `--text-secondary: #5A5751` · `--text-tertiary: #9A948D`
-**Text — Carbon:** `--text-primary: #E4E2DC` · `--text-secondary: #8A8680` · `--text-tertiary: #5A5751`
-**Borders — Paper:** `--border: #D6D1C8` · `--border-mid: #B8B2A8`
-**Borders — Carbon:** `--border: #35373B` · `--border-mid: #4A4D52` · `--inset-rule: #C8A96E`
-**Accent (chrome only):** `--accent: #C8A96E` · `--accent-hover: #E0C48A`
-**CTA (consumer):** Paper `--accent-action: #D4690A` · Carbon `--accent-action: #F5820A`
+**Backgrounds — Paper:** `--bg: #E8E2D8` · `--surface: #DAD4CA` · `--surface-raised: #D0C9BE`
+**Backgrounds — Carbon:** `--bg: #1A1917` · `--surface: #242424` · `--surface-raised: #2E3035`
+**Text — Paper:** `--fg: #1A1A1A` · `--fg-muted: #5A5550` · `--fg-subtle: #9A9590`
+**Text — Carbon:** `--fg: #E8E2D8` · `--fg-muted: #B0AAA2` · `--fg-subtle: #6A6560`
+**Text aliases (transition):** `--text-primary: var(--fg)` · `--text-secondary: var(--fg-muted)` · `--text-tertiary: var(--fg-subtle)`
+**Borders — both themes:** `--border: rgba(...)` (theme-respective) · `--border-mid` solid · `--inset-rule: var(--border)` (neutral, never gold)
+**Accent (restricted consumers only):** `--accent: #C8A96E` · `--accent-hover: #E0C48A`
+**Abolished:** `--accent-action` (orange) · `#F7F4EF` · `#1E1F22` · `#F5820A` · `#D4690A` — must not appear in Legend CSS
+
+Canonical values sourced from `REFUELER-BRIDGE.md` and `global.css`. `legend.css` inherits all tokens — no Legend-specific `:root` block.
 
 **Typography:**
 - `--heading: 'Satoshi', 'DM Sans', sans-serif` — wordmark, product name, key labels (700)
@@ -672,5 +674,85 @@ The free tier is how Legend earns the trust of that world before the institution
 Every distressed Bitcoiner who checks their addresses and finds their funds intact —
 without telling anyone what they were looking at — is a future referral into a
 professional context.
+
+---
+
+## Post-B9 scope additions — locked CC-103 planning · 20 Aug 2026
+
+### Design principle additions
+
+**Legend is a block explorer. It is not a charting tool, a news aggregator, or a price terminal.**
+
+No live price charting in the Legend UI. No news section. No market data feeds in the nav. Every feature decision is tested against one question: does this help a user understand what the chain says about an address, a transaction, or a block — privately, without logging, without a custodian in the chain?
+
+The safety positioning is the product: **address lookup + Legend = the user always understands their privacy is intact.** FROST, non-logging, PIR-inspired sharding, Silent Payments, Payjoin-aware — these are not features listed in a sidebar. They are the reason Legend exists.
+
+Legend never becomes:
+- A news section
+- A live price terminal (Glassnode exists and is well-funded)
+- A portfolio tracker requiring account creation
+- A social layer
+- A comparison tool requiring third-party price feeds in the UI
+
+Every one of these exists elsewhere. None has Legend's privacy architecture. The moment Legend becomes any of them, the differentiator evaporates.
+
+### Scope addition 1 — Verified estate report: contextual metrics pages (v3 tier)
+
+The £150 verified estate report (see `legend-enterprise-pricing.md`) gains a contextual metrics section generated at report creation time. Not live charting — a point-in-time signed document.
+
+**Tone register:** FT Lex column applied to Bitcoin. Precise, dry, no hyperbole. A physicist or compliance officer reads it and finds nothing to object to on methodological grounds.
+
+**Pages included in contextual section:**
+- Current circulating supply vs 21M hard cap — sourced from Legend's own chain scan, not a third-party API
+- Holdings as % of fixed supply
+- Power law position at time of generation (log-log regression vs genesis block — Harold Christopher Burger methodology, cited and linked)
+- 4-year, 8-year, 12-year return windows vs gold, S&P 500, UK gilts — sourced from a data API called at generation time, cited with source and timestamp in the report
+- EO 6102 contextual note: one paragraph, factual — self-custodied Bitcoin and the historical precedent for gold confiscation (UK and US), and what cryptographic self-custody structurally changes about that calculus
+
+**Architecture (non-negotiable):** The charting/returns data infrastructure does NOT live in Legend. It lives in a separate data API scoped in its own session, called at report generation time. Legend stays a block explorer. The report is a separate paid output layer. Separation of concerns is locked.
+
+**Pricing:** unchanged — £150 full verified estate report. Contextual metrics pages included at that tier.
+
+### Scope addition 2 — Haiku chain-state helper (paid tier, post-B9)
+
+A Claude Haiku integration for paid Legend clients. Narrow, deliberate scope.
+
+**What it does:**
+- User pastes an address or txid into the Haiku panel
+- Haiku receives chain-state output from Legend's own indexer — not a third-party API
+- Returns plain-English explanation: last movement, holding period, KYC exchange interaction history (where detectable), power law context at current block height, Silent Payments compatibility, Payjoin flag where relevant
+- Example register: *"This address last moved in 2019. It holds 0.847 BTC. It has never interacted with a known KYC exchange address. At current chain height this represents approximately 1 in 24 million addresses with a non-zero balance."*
+
+**What it does not do:**
+- Project prices or give investment advice
+- Log the query (same non-logging guarantee as all Legend operations)
+- Pull from any data source Legend does not already index
+- Replace the explorer — it explains what the explorer found
+
+**Privacy architecture:** Query goes user → Legend indexer → Haiku context window → response. Nothing persists. The address never leaves Legend's own infrastructure in a form correlatable by external API logs. Implementation detail to resolve at build session.
+
+**Tier:** Paid clients only. Free tier gets the full explorer. Paid tier gets Haiku contextual explanation + estate report generation.
+
+### The Alex profile — Legend's non-bitcoiner audience
+
+Legend must work for the finance professional who holds gold, distrusts fiat, understands long-run asset returns, but has not yet made the step to Bitcoin. This profile (the Alex Williams archetype — physicist, fund manager, gold bug, sceptic of consensus) is a primary paid-tier target alongside Bitcoin-native family offices.
+
+The four metrics that move this profile, in order:
+1. **Supply audit** — verify the 21M cap independently, without trusting a Reuters feed. Gold's 197,000 tonne figure is World Gold Council data. Bitcoin's supply is verifiable by anyone running Legend or a node. That is not a marketing claim — it is a technical fact that a physicist immediately grasps.
+2. **Power law** — log-log linear regression against time since genesis. A physicist sees an emergent scaling law, not speculation. Legend's estate report surfaces this with source and methodology cited.
+3. **Return windows** — 4/8/12-year rolling performance vs every other asset class, every window positive. Presented as data with honest caveats, not marketing copy.
+4. **EO 6102** — Roosevelt's 1933 US gold confiscation, UK equivalent. The question this raises for any gold holder: can a government do the same to Bitcoin held in self-custody? Legend's architecture is part of the honest answer.
+
+The Haiku helper and estate report contextual pages are the tools that bridge this audience from curiosity to conviction — without Legend making any investment claim. Legend provides the data. The user draws the conclusion.
+
+### Sparrow Wallet integration (Phase 8 — flagged CC-103)
+
+Sparrow Wallet already allows users to configure a custom Esplora server endpoint. Legend's Esplora-compatible API (post-B9) means a Sparrow user can point their wallet at Legend with one URL paste — private address lookups with no logging, direct from their wallet, no browser required.
+
+This is a distribution channel and a trust signal. A Sparrow user who is already running their own node and thinking about address privacy is exactly the Legend profile. Integration cost for the user is near zero. The Enterprise API tier's Sparrow-compatible endpoint is noted in `legend-enterprise-pricing.md`; the self-hosting guide section 6 covers the paste procedure.
+
+Sparrow formalisation is Phase 8 (session roadmap). Do not build before Phase 2 privacy architecture is stable.
+
+---
 
 *"Nothing stops this train."*

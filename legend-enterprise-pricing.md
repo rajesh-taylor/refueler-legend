@@ -1,5 +1,5 @@
 # legend-enterprise-pricing.md — refueler-legend
-> **Version:** 1.0 (completed) | **Created:** Legend-1 · 5 Aug 2026 | **Completed:** Legend-2 · 5 Aug 2026
+> **Version:** 1.1 | **Created:** Legend-1 · 5 Aug 2026 | **Updated:** CC-103 planning · 20 Aug 2026
 > Commercial model and sales reference for Legend paid tiers.
 > Load in every sales, legal, onboarding, and commercial session.
 > The Swan scenario section is INTERNAL ONLY — remove before any external share.
@@ -29,12 +29,10 @@ against live pricing 5 August 2026.
 | Free | £0 | v1 launch | The explorer. Full data. No account, no payment, no rate limit. |
 | Family office | £1,500/month (v1) · £2,500/month (v2) · £3,500/month (v2+) | v1, invite-only, max 5 clients | Institutional wrapper: SLA, named contact, compliance pack, canary alerting, SP scanning support |
 | Merchant / franchise | £250/month entity · £500/month franchise (≤25 locations) | v1, Refueler POS merchants only | Support relationship and accountant onboarding around the free product |
-| Estate report | £50 (statement) · £150 (full report) | v2 / v3 | Per-report verified estate output for UK solicitors |
+| Estate report | £50 (statement) · £150 (full report) | v2 / v3 | Per-report verified estate output for UK solicitors. Full report (v3) includes contextual metrics pages: supply position, power law, 4/8/12-year return windows, EO 6102 note. FT Lex register. |
 | Enterprise API | From £2,500/month | v2 | Tor API, Double Ratchet, ML-KEM-768 hybrid, NUT-11/P2BK credentials |
 
-Minimum contract on cost-recovery grounds: **£310/month**. No tier is priced
-below it except the merchant tier, which exists only under family office
-cross-subsidy and is never the primary revenue plan.
+Minimum contract on cost-recovery grounds: **£566/month** (five-node infrastructure basis, ~€673/month; recalculate when confirmed quotes replace estimates). No tier is priced below it except the merchant tier, which exists only under family office cross-subsidy and is never the primary revenue plan. The three-node figure of £310/month is superseded — do not use.
 
 ---
 
@@ -45,9 +43,7 @@ cross-subsidy and is never the primary revenue plan.
 - **Transport:** standard HTTPS. Client IP visible to contacted nodes.
 - **Honest scope:** *"Your query is private by architecture. Your IP is not
   hidden from the node unless you route through Tor yourself."*
-- **Funded by:** Enterprise contracts. Three nodes cost ~€360/month; one family
-  office contract covers that many times over. The free tier is the proof that
-  the architecture works, not the product.
+- **Funded by:** Enterprise contracts. Five nodes across five jurisdictions cost ~€673/month (~£566/month); one family office contract covers that many times over. The free tier is the proof that the architecture works, not the product.
 - Cashu credential infrastructure is present but ungated at v1. Re-evaluate
   only if abuse forces throttling.
 
@@ -387,8 +383,16 @@ it appears in every contract.
 - Swan approach timing: post-audit + post-/legend/verify + ≥12 months canary
   history. CONTRIBUTING.md contribution-back norm to be published at repo
   build-out (queue for first build session).
-- All Legend-1 constraints reaffirmed: £310 floor, data parity, no
-  advertising or data monetisation, FlokiNET quote before node C.
+- All Legend-1 constraints reaffirmed: data parity, no advertising or data
+  monetisation, FlokiNET quote before node C.
+
+## Updated in CC-103 planning · 20 Aug 2026
+
+- **Minimum contract cost-recovery floor: £566/month** (five-node basis). Supersedes £310/month.
+- **Estate report (v3) contextual metrics pages added:** supply position vs 21M cap, power law at generation time, 4/8/12-year return windows vs gold/S&P/gilts, EO 6102 note. Data API (separate scope) called at generation time — not live UI charting. FT Lex register throughout.
+- **Haiku chain-state helper:** paid tier only, post-B9. Explains what Legend found. Does not project prices or log queries. Scoped in `legend-design-spec.md`.
+- **Non-bitcoiner audience formally logged:** the finance-professional-gold-bug profile (the Alex archetype) is a primary paid-tier target. Four metrics drive conviction: supply audit, power law, return windows, EO 6102. Estate report and Haiku helper are the tools; Legend makes no investment claims.
+- **Sparrow Wallet:** Phase 8. Esplora-compatible endpoint, one URL paste for the user. Distribution channel and trust signal. Do not build before Phase 2.
 
 ---
 
