@@ -1,5 +1,5 @@
 # legend-articles-list.md — refueler-multi-core /notes/ pipeline
-> **Version:** 1.2 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Multi-9 · 11 Aug 2026
+> **Version:** 1.3 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Multi-[n] · 22 Aug 2026
 > Editorial planning document. Lives in `refueler-multi-core/` alongside CLAUDE.md and SESSIONS.md.
 > Load when in an editorial planning or article build session. Not by default.
 > Publishing platform: `refueler.io/notes/` (main domain, not subdomain).
@@ -354,6 +354,73 @@ Bitcoin is the only major asset class where the wealth permanently disappears if
 
 ---
 
+### Article 24 — What the Mt. Gox victims needed that didn't exist
+
+**Slug:** `what-mt-gox-victims-needed`
+**Status:** Scoped. Not drafted. Unlocks post-v2 (Distress Mode v1 live,
+Chain Trace Report v2 live). Recovery Coordination Layer beats held for v3 unlock.
+**Audience:** Distressed Bitcoiners. Anyone who has suffered exchange collapse, hardware
+wallet compromise, or mass-breach events. Solicitors advising creditors in crypto
+insolvencies. Bitcoin historians. National Bitcoin treasury officers (El Salvador profile).
+**Dependency:** Legend Distress Mode v1. Chain Trace Report v2. Recovery Coordination
+Layer v3 candidate. Full outline to be produced in UC-9 Opus session.
+
+**The argument:**
+When Mt. Gox collapsed in February 2014, approximately 850,000 Bitcoin disappeared.
+The creditors spent a decade filing spreadsheets with a Japanese trustee, unable to
+verify independently what the chain already recorded. Every tool they needed existed
+in cryptographic literature. None had been built for humans in distress. Legend builds
+them: plain-language chain tracing from the moment of distress, Merkle-verified legal
+documents, private transmission via Share, address watching with Pass-native alerts,
+and a FROST-based coordination layer for mass-compromise events where victims assert
+collective claims without revealing individual holdings to each other or to Legend.
+The chain recorded everything. Legend reads it — for the owner, not the observer.
+
+At civilisational scale: a national Bitcoin reserve loss is a fiscal event. El Salvador's
+declared purchase programme makes this scenario material, not theoretical. A Bitcoin
+treasury that does not have Legend-compatible recovery protocols in place is operating
+below the standard of care. This article closes on that argument.
+
+**Opening line (locked):**
+"When Mt. Gox collapsed, the Bitcoin was gone but the chain still knew where it went.
+The victims had no tool to read it. We're building that tool now."
+
+**Beats:**
+- What Mt. Gox victims actually needed in February 2014 — not what they got
+- The chain trace: every hop permanent and public, unreadable without tooling
+- Distress Mode: the 3am screen — plain language, no jargon, no onboarding, no modal
+- Chain Trace Report: Merkle-verified, solicitor-legible, timestamped at block height
+- Why emailing the report compounds the breach — and what Share does instead
+- Share integration: "Send privately" button, encrypted link, 72-hour expiry,
+  recipient needs no account; plain English copy locked in REFUELER-BRIDGE.md v5.0
+- Address Watch: knowing your address is being swept while you still have minutes
+- The timing reality: sophisticated attackers wait and test with dust; the dust
+  transaction is your only warning; Pass notification is how you see it
+- Pass as notification layer: Cashu watch credential, quiet alert during daily use,
+  no address or amount in the notification, no corporate IT log signal
+- Recovery Coordination Layer: FROST collective claim, sealed individual Merkle proofs,
+  trustee receives aggregate total with individually-verifiable components, no victim
+  reveals holdings to another victim, no Legend node sees the complete picture
+- The dead drop analogy: each agent deposits separately; the composite is presented
+  to the minister; if one agent is compromised, the others are not exposed
+- Sovereign exposure: El Salvador model — 1 BTC/day purchase programme, material
+  reserve, fiscal consequences of loss without recovery protocols in place
+- The proactive standard argument: "A Bitcoin treasury that doesn't have
+  Legend-compatible recovery protocols is operating below the standard of care"
+- The Hoseki comparison: a notary for calm days; Legend is the A-Team for crisis ones
+- The honest scope: Legend reads the chain; it cannot undo what the chain recorded;
+  Legend provides the cryptographic and documentation layer, not legal or diplomatic services
+
+**CTA:** Use Legend. If you're in distress right now, start here.
+*(When Distress Mode live: direct link, no modal, no onboarding.)*
+
+**Note:** This article is simultaneously the strongest Legend article and the strongest
+Share article not yet written. Coordinate publication with Share editorial plan.
+Full outline to be produced in UC-9 Opus session — load CLAUDE.md · SESSIONS.md ·
+MASTER.md · legend-use-cases.md. Session prompt confirmed in prior Multi session.
+
+---
+
 ### Article UC-5 — The Florentine Protocol
 
 **Slug:** `the-florentine-protocol`
@@ -462,14 +529,18 @@ Articles publish in this order, each unlocking when its dependency is met:
 | 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
 | UC-8 | The UTXO Lottery | Legend movement eligibility display live (v2) |
 | 23 | Bitcoin and your estate | Legend v2 live, /legend/verify live |
+| 24 | What the Mt. Gox victims needed | Legend Distress Mode v1 + Chain Trace v2; sovereign dimension added at v3 unlock |
 
 Articles A, B, C can publish before Legend is live — no infrastructure dependency.
 Articles 14, 15, 16, 21, 22 publish in close succession at Legend launch.
 Articles 17, 18 follow as features confirm stable.
 UC-5, UC-6, UC-7 slot in alongside v1/v2 feature rollout.
 Articles 19, 20, UC-8, 23 are v2 unlocks — no timeline pressure.
+Article 24 publishes in two phases: v1/v2 beats at Distress Mode + Chain Trace launch;
+sovereign/Recovery Coordination Layer beats added at v3 unlock.
 
 ---
 
 *Next article session: Articles A, B, C draft block. 2–3 weeks redraft time. No publish pressure.*
+*UC-9 Opus session produces Article 24 full outline — run before any Article 24 drafting.*
 *"Nothing stops this train."*
