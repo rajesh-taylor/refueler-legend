@@ -1,5 +1,5 @@
 # legend-articles-list.md — refueler-multi-core /notes/ pipeline
-> **Version:** 1.3 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Multi-[n] · 22 Aug 2026
+> **Version:** 1.4 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** UC-9 Opus · 23 Aug 2026
 > Editorial planning document. Lives in `refueler-multi-core/` alongside CLAUDE.md and SESSIONS.md.
 > Load when in an editorial planning or article build session. Not by default.
 > Publishing platform: `refueler.io/notes/` (main domain, not subdomain).
@@ -141,14 +141,25 @@ layman guide. Aimed at people who build things, not people who hold things.
 "Every time you look up a Bitcoin address on a public block explorer, you're telling that server exactly what you own and what you're watching."
 
 **The argument:**
-Public block explorers are surveillance infrastructure dressed as public utilities. Mempool.space and Blockstream.info log every query. They know which addresses you watch, when you check them, and from which IP. When a hardware wallet supplier is breached and users rush to check whether their addresses have been swept, they compound the breach — they've now told the explorer exactly which addresses they're worried about, at the precise moment they have reason to believe those addresses are under threat. Legend is architected so this is structurally impossible. Not a policy promise. The maths won't allow it.
+Public block explorers are surveillance infrastructure dressed as public utilities.
+Mempool.space and Blockstream.info log every query. They know which addresses you
+watch, when you check them, and from which IP. When a hardware wallet supplier is
+breached and users rush to check whether their addresses have been swept, they compound
+the breach — they've now told the explorer exactly which addresses they're worried about,
+at the precise moment they have reason to believe those addresses are under threat.
+The Coldcard Mk3 event (August 2026) demonstrated this at scale: 1,200 BTC swept in
+a coordinated no-dust attack, with victims then querying public explorers to find out
+what happened — handing a second data point to anyone watching Mempool's logs.
+Legend is architected so this is structurally impossible. Not a policy promise.
+The maths won't allow it.
 
 **Beats:**
-- The Coldcard/Coinkite breach as the concrete example
+- The Coldcard/hardware wallet breach as the concrete example
 - What Mempool.space's server logs actually contain
 - Why Tor helps with IP but not with query content
 - What Legend does differently (PIR, ephemeral sessions, Cashu credentials)
-- The one honest sentence: "We can't see what you asked. Not because we promised. Because the maths won't let us."
+- The one honest sentence: "We can't see what you asked. Not because we promised.
+  Because the maths won't let us."
 
 **CTA:** Use Legend. Link to `refueler.io/legend`.
 
@@ -162,7 +173,12 @@ Public block explorers are surveillance infrastructure dressed as public utiliti
 **Dependency:** Legend live. Article 14 published first.
 
 **The argument:**
-Three people, four decades, one unfinished problem. David Chaum identified in 1982 that electronic payments could be made untraceable using blind signatures. DigiCash implemented it in 1989 with a centralised mint and failed. Satoshi removed the mint in 2009 and solved double-spend — but left the privacy layer unbuilt. Cashu restored Chaumian blind signatures on Lightning in 2022. Legend applies the same blind signature construction to chain queries in 2026. The trilogy is complete.
+Three people, four decades, one unfinished problem. David Chaum identified in 1982
+that electronic payments could be made untraceable using blind signatures. DigiCash
+implemented it in 1989 with a centralised mint and failed. Satoshi removed the mint
+in 2009 and solved double-spend — but left the privacy layer unbuilt. Cashu restored
+Chaumian blind signatures on Lightning in 2022. Legend applies the same blind
+signature construction to chain queries in 2026. The trilogy is complete.
 
 **Beats:**
 - Chaum 1982: blind signatures, the construction, what it proved
@@ -186,7 +202,10 @@ Three people, four decades, one unfinished problem. David Chaum identified in 19
 **Dependency:** Legend live.
 
 **The argument:**
-Tor hides your IP from Mempool. It does not hide your query from Mempool. Mempool's server still knows exactly which address you searched — it just doesn't know which IP searched it. Query unlinkability is a different problem from IP privacy, and Tor doesn't touch it. Legend solves the second problem. You need both. We give you the second one.
+Tor hides your IP from Mempool. It does not hide your query from Mempool. Mempool's
+server still knows exactly which address you searched — it just doesn't know which IP
+searched it. Query unlinkability is a different problem from IP privacy, and Tor doesn't
+touch it. Legend solves the second problem. You need both. We give you the second one.
 
 **Beats:**
 - What Tor actually does (IP privacy) and what it doesn't (query privacy)
@@ -209,7 +228,11 @@ Tor hides your IP from Mempool. It does not hide your query from Mempool. Mempoo
 **Dependency:** Legend UTXO advisor live (v1 qualitative flag sufficient for this article).
 
 **The argument:**
-Consolidating UTXOs saves fees. It also permanently records on-chain that those UTXOs were controlled by the same wallet. Most people making this decision are optimising for fees without knowing the privacy cost. Legend's consolidation advisor shows both numbers — fee cost precisely, privacy cost honestly. Not a score. A true statement: "This transaction will permanently reveal these UTXOs are co-owned."
+Consolidating UTXOs saves fees. It also permanently records on-chain that those UTXOs
+were controlled by the same wallet. Most people making this decision are optimising for
+fees without knowing the privacy cost. Legend's consolidation advisor shows both numbers
+— fee cost precisely, privacy cost honestly. Not a score. A true statement: "This
+transaction will permanently reveal these UTXOs are co-owned."
 
 **Beats:**
 - What UTXO consolidation is and why people do it
@@ -230,7 +253,13 @@ Consolidating UTXOs saves fees. It also permanently records on-chain that those 
 **Dependency:** Legend SP scanning live (v1).
 
 **The argument:**
-Silent Payments (BIP-352) allow a recipient to publish a static address that generates a unique on-chain address for every sender — unlinkable by design. No explorer currently supports them correctly because none has the precomputed tweak index required to scan efficiently. Without it, a full-range SP scan takes hours per address. Legend's precomputed tweak index reduces this to ~8 minutes on 8 cores. Legend is the first production explorer to show Silent Payments correctly — and to explain what "correctly" means to users who have never heard of BIP-352.
+Silent Payments (BIP-352) allow a recipient to publish a static address that generates
+a unique on-chain address for every sender — unlinkable by design. No explorer currently
+supports them correctly because none has the precomputed tweak index required to scan
+efficiently. Without it, a full-range SP scan takes hours per address. Legend's
+precomputed tweak index reduces this to ~8 minutes on 8 cores. Legend is the first
+production explorer to show Silent Payments correctly — and to explain what "correctly"
+means to users who have never heard of BIP-352.
 
 **Beats:**
 - What Silent Payments are and why they matter
@@ -251,7 +280,11 @@ Silent Payments (BIP-352) allow a recipient to publish a static address that gen
 **Dependency:** Legend v2 live. ZK balance proofs implemented.
 
 **The argument:**
-If you want to prove to a lender, solicitor, or counterparty that you control a certain amount of Bitcoin, you currently have two options: show them your addresses (permanent privacy loss) or use a custodian (defeats self-custody). ZK balance proofs give you a third option: cryptographic proof that you control at least X BTC, without revealing which addresses. Legend generates the proof. The verifier checks it. No addresses exchanged.
+If you want to prove to a lender, solicitor, or counterparty that you control a certain
+amount of Bitcoin, you currently have two options: show them your addresses (permanent
+privacy loss) or use a custodian (defeats self-custody). ZK balance proofs give you a
+third option: cryptographic proof that you control at least X BTC, without revealing
+which addresses. Legend generates the proof. The verifier checks it. No addresses exchanged.
 
 **Beats:**
 - The problem: proving reserves without disclosure
@@ -273,7 +306,12 @@ If you want to prove to a lender, solicitor, or counterparty that you control a 
 **Dependency:** Spiral PIR implemented in Legend (v2).
 
 **The argument:**
-Private Information Retrieval is a branch of cryptography that asks: can a server answer a query without learning what was asked? Previous PIR schemes required multiple non-colluding servers. Spiral PIR (MIT, 2022) achieves this with a single server and is fast enough for production use. Legend implements Spiral PIR for UTXO lookups. The server returns your answer. Its logs reveal nothing about what you asked. This is a world first for a production Bitcoin block explorer.
+Private Information Retrieval is a branch of cryptography that asks: can a server
+answer a query without learning what was asked? Previous PIR schemes required multiple
+non-colluding servers. Spiral PIR (MIT, 2022) achieves this with a single server and
+is fast enough for production use. Legend implements Spiral PIR for UTXO lookups.
+The server returns your answer. Its logs reveal nothing about what you asked.
+This is a world first for a production Bitcoin block explorer.
 
 **Beats:**
 - What PIR is and why it matters
@@ -296,7 +334,15 @@ Private Information Retrieval is a branch of cryptography that asks: can a serve
 **Dependency:** Legend explorer live.
 
 **The argument:**
-Your advisor's query behaviour is your attack surface. A family office checking client addresses from a corporate IP — logged into Chrome, on a monitored network, with IT security logging outbound traffic — has donated your holdings map to anyone who can reach Mempool's logs. The metadata leak isn't yours alone. It belongs to every professional who touches your addresses. Worse: family offices check multiple clients in sequence, which links those clients to each other in the explorer's session log. A data request naming that family office reconstructs every client's holdings they've ever checked. Legend is the correct Esplora endpoint for any professional handling client Bitcoin.
+Your advisor's query behaviour is your attack surface. A family office checking client
+addresses from a corporate IP — logged into Chrome, on a monitored network, with IT
+security logging outbound traffic — has donated your holdings map to anyone who can
+reach Mempool's logs. The metadata leak isn't yours alone. It belongs to every
+professional who touches your addresses. Worse: family offices check multiple clients
+in sequence, which links those clients to each other in the explorer's session log.
+A data request naming that family office reconstructs every client's holdings they've
+ever checked. Legend is the correct Esplora endpoint for any professional handling
+client Bitcoin.
 
 **Beats:**
 - The corporate IP problem: your advisor's query logs are attached to a regulated entity
@@ -318,7 +364,14 @@ Your advisor's query behaviour is your attack surface. A family office checking 
 **Dependency:** Legend explorer live.
 
 **The argument:**
-If you're moving jurisdictions — relocating, restructuring, or leaving — your pre-departure query behaviour is a timestamped record of asset attention that Five Eyes-adjacent legal processes can reach. Mempool.space is US-incorporated. Blockstream is Canadian. Both are subpoenable under mutual legal assistance treaties. A British national checking addresses from a London IP the week before departure has handed a legal record of pre-departure asset attention to any jurisdiction that knows to ask. Legend retains nothing. Not a policy promise — the architecture doesn't permit retention. There is nothing to subpoena.
+If you're moving jurisdictions — relocating, restructuring, or leaving — your
+pre-departure query behaviour is a timestamped record of asset attention that
+Five Eyes-adjacent legal processes can reach. Mempool.space is US-incorporated.
+Blockstream is Canadian. Both are subpoenable under mutual legal assistance treaties.
+A British national checking addresses from a London IP the week before departure has
+handed a legal record of pre-departure asset attention to any jurisdiction that knows
+to ask. Legend retains nothing. Not a policy promise — the architecture doesn't permit
+retention. There is nothing to subpoena.
 
 **Beats:**
 - What MLAT requests can reach and how quickly
@@ -340,7 +393,14 @@ If you're moving jurisdictions — relocating, restructuring, or leaving — you
 **Dependency:** Legend v2 live. /legend/verify endpoint live.
 
 **The argument:**
-Bitcoin is the only major asset class where the wealth permanently disappears if the owner dies without proper succession planning. Solicitors don't understand it. Banks won't custody it. The Solicitors Regulation Authority has mandated crypto asset accounting in estates and provided no tooling. Legend provides: time-locked balance verification at a specific block height for probate, inheritance script monitoring, multi-sig quorum verification in plain language, and ZK balance proof output a probate court can verify. Written entirely in language a solicitor — not a cryptographer — can act on.
+Bitcoin is the only major asset class where the wealth permanently disappears if the
+owner dies without proper succession planning. Solicitors don't understand it. Banks
+won't custody it. The Solicitors Regulation Authority has mandated crypto asset
+accounting in estates and provided no tooling. Legend provides: time-locked balance
+verification at a specific block height for probate, inheritance script monitoring,
+multi-sig quorum verification in plain language, and ZK balance proof output a probate
+court can verify. Written entirely in language a solicitor — not a cryptographer —
+can act on.
 
 **Beats:**
 - The permanent loss problem: no recovery mechanism for lost keys
@@ -357,67 +417,98 @@ Bitcoin is the only major asset class where the wealth permanently disappears if
 ### Article 24 — What the Mt. Gox victims needed that didn't exist
 
 **Slug:** `what-mt-gox-victims-needed`
-**Status:** Scoped. Not drafted. Unlocks post-v2 (Distress Mode v1 live,
-Chain Trace Report v2 live). Recovery Coordination Layer beats held for v3 unlock.
-**Audience:** Distressed Bitcoiners. Anyone who has suffered exchange collapse, hardware
-wallet compromise, or mass-breach events. Solicitors advising creditors in crypto
-insolvencies. Bitcoin historians. National Bitcoin treasury officers (El Salvador profile).
-**Dependency:** Legend Distress Mode v1. Chain Trace Report v2. Recovery Coordination
-Layer v3 candidate. Full outline to be produced in UC-9 Opus session.
+**Status:** Scoped. Not drafted. Two-phase publish.
+Phase 1 unlocks post-v2 (Distress Mode v1 live, Chain Trace Report v2 live).
+Phase 2 sovereign/Recovery Coordination Layer beats added at v3 unlock.
+**Audience:** Distressed Bitcoiners. Anyone who has suffered exchange collapse,
+hardware wallet compromise, or mass-breach events. Solicitors advising creditors in
+crypto insolvencies. Bitcoin historians. National Bitcoin treasury officers.
+**Dependency:** Legend Distress Mode v1. Chain Trace Report v2. Mixed attestation
+quorum operational (v3). Full outline produced in UC-9 Opus session (23 Aug 2026).
 
 **The argument:**
 When Mt. Gox collapsed in February 2014, approximately 850,000 Bitcoin disappeared.
 The creditors spent a decade filing spreadsheets with a Japanese trustee, unable to
 verify independently what the chain already recorded. Every tool they needed existed
-in cryptographic literature. None had been built for humans in distress. Legend builds
-them: plain-language chain tracing from the moment of distress, Merkle-verified legal
-documents, private transmission via Share, address watching with Pass-native alerts,
-and a FROST-based coordination layer for mass-compromise events where victims assert
-collective claims without revealing individual holdings to each other or to Legend.
-The chain recorded everything. Legend reads it — for the owner, not the observer.
+in cryptographic literature. None had been built for humans in distress.
 
-At civilisational scale: a national Bitcoin reserve loss is a fiscal event. El Salvador's
-declared purchase programme makes this scenario material, not theoretical. A Bitcoin
-treasury that does not have Legend-compatible recovery protocols in place is operating
-below the standard of care. This article closes on that argument.
+Legend builds them: plain-language chain tracing from the moment of distress,
+Merkle-verified legal documents, private transmission via Share, address watching
+with Pass-native alerts, and a coordination layer for mass-compromise events where
+victims submit sealed individual claims to a mixed trustee quorum — without revealing
+holdings to each other or to Legend, without any victim co-signing anything with any
+other victim.
+
+At civilisational scale: a national Bitcoin reserve loss is a fiscal event.
+El Salvador's declared purchase programme makes this scenario material, not
+theoretical. A Bitcoin treasury without verified recovery protocols in place is
+operating below the standard of care — and that standard is an open, verifiable
+format, not a dependency on Legend's infrastructure.
 
 **Opening line (locked):**
 "When Mt. Gox collapsed, the Bitcoin was gone but the chain still knew where it went.
 The victims had no tool to read it. We're building that tool now."
 
-**Beats:**
+**Phase 1 beats (publish at v2):**
+- The Coldcard Mk3 event (August 2026): AI-assisted victim enumeration, no dust,
+  coordinated sweep — the attacker model that makes every previous recovery playbook obsolete
 - What Mt. Gox victims actually needed in February 2014 — not what they got
 - The chain trace: every hop permanent and public, unreadable without tooling
-- Distress Mode: the 3am screen — plain language, no jargon, no onboarding, no modal
+- Distress Mode: the 2am screen — plain language, no jargon, no onboarding, no modal,
+  works whether funds are intact or already gone
+- The no-dust honest caveat: Pass tells you what happened as soon as the chain records
+  it; it cannot warn you before a coordinated sweep that leaves no test signal
 - Chain Trace Report: Merkle-verified, solicitor-legible, timestamped at block height
 - Why emailing the report compounds the breach — and what Share does instead
-- Share integration: "Send privately" button, encrypted link, 72-hour expiry,
-  recipient needs no account; plain English copy locked in REFUELER-BRIDGE.md v5.0
+- Share integration: sealed transport, "Send privately" button, 72-hour expiry,
+  recipient needs no account
 - Address Watch: knowing your address is being swept while you still have minutes
-- The timing reality: sophisticated attackers wait and test with dust; the dust
-  transaction is your only warning; Pass notification is how you see it
+  (when the attacker leaves a test signal — honest about when this doesn't apply)
 - Pass as notification layer: Cashu watch credential, quiet alert during daily use,
   no address or amount in the notification, no corporate IT log signal
-- Recovery Coordination Layer: FROST collective claim, sealed individual Merkle proofs,
-  trustee receives aggregate total with individually-verifiable components, no victim
-  reveals holdings to another victim, no Legend node sees the complete picture
+
+**Phase 2 beats (add at v3 unlock):**
+- Recovery Mode: the consent moment — a door, not a push; explicitly not a
+  continuation of Distress Mode
+- The sealed-component model: each victim's claim encrypted to a trustee quorum,
+  submitted via Share, independently verifiable against the chain without trust
+  in Legend — no victim co-signs anything with any other victim
 - The dead drop analogy: each agent deposits separately; the composite is presented
-  to the minister; if one agent is compromised, the others are not exposed
-- Sovereign exposure: El Salvador model — 1 BTC/day purchase programme, material
-  reserve, fiscal consequences of loss without recovery protocols in place
-- The proactive standard argument: "A Bitcoin treasury that doesn't have
-  Legend-compatible recovery protocols is operating below the standard of care"
-- The Hoseki comparison: a notary for calm days; Legend is the A-Team for crisis ones
-- The honest scope: Legend reads the chain; it cannot undo what the chain recorded;
-  Legend provides the cryptographic and documentation layer, not legal or diplomatic services
+  to the minister; a compromised agent does not expose the others
+- The mixed attestation quorum: Legend + appointed trustee + legal representative,
+  3-of-4 FROST — no single party including Legend's operator can forge or block
+  the filing; the IPA single-operator gap addressed architecturally
+- Pass credential architecture: attests "entitled to participate," not which group
+  or what amount; binding to specific recovery via sealed component only
+- Share v3 constraint: rotating ephemeral drops, timing jitter — content hidden,
+  and the fact of submission made harder to correlate; honest copy: "Share hides
+  what you send, not that you sent something"
+- The lawyer sequencing: format first, relationships second; two jurisdictions
+  (common law + civil law), not fifty; Legend names the class of trustee,
+  the victim engages their own counsel
+- Elena's arc (sovereign track): same five primitives, three in use — Chain Trace,
+  sealed attestation, quorum signing; no peer group; the coordination layer
+  degenerates for a claimant of one; ten minutes to a court-ready document
+- The proactive standard: a treasury that has the format, the trustee designation,
+  and the watch addresses active before an incident produces a court-ready
+  attestation at hour zero; a treasury that does not is operating below standard
+- The open format argument: Legend defines a verifiable standard — MIT-licensed,
+  independently implementable — not a dependency on one operator's uptime
+- The honest scope statement: Legend produces the evidence and the coordination
+  format; the trustee, the court, and the treasury's legal and diplomatic teams
+  do everything else
+- The Hoseki comparison: a notary for calm days; Legend is the forensic layer
+  for crisis ones
+- Closing: the chain recorded Gox, Bradford, and San Salvador in the same ledger.
+  Legend reads it — for the owner, not the observer.
 
 **CTA:** Use Legend. If you're in distress right now, start here.
 *(When Distress Mode live: direct link, no modal, no onboarding.)*
 
 **Note:** This article is simultaneously the strongest Legend article and the strongest
 Share article not yet written. Coordinate publication with Share editorial plan.
-Full outline to be produced in UC-9 Opus session — load CLAUDE.md · SESSIONS.md ·
-MASTER.md · legend-use-cases.md. Session prompt confirmed in prior Multi session.
+Article 17 (Mt. Gox): this is UC-9 output — Opus session 23 Aug 2026.
+Do not conflate Article 17 (UTXO consolidation) with Article 24 (Mt. Gox / Recovery).
 
 ---
 
@@ -529,18 +620,18 @@ Articles publish in this order, each unlocking when its dependency is met:
 | 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
 | UC-8 | The UTXO Lottery | Legend movement eligibility display live (v2) |
 | 23 | Bitcoin and your estate | Legend v2 live, /legend/verify live |
-| 24 | What the Mt. Gox victims needed | Legend Distress Mode v1 + Chain Trace v2; sovereign dimension added at v3 unlock |
+| 24 | What the Mt. Gox victims needed | Phase 1: Distress Mode v1 + Chain Trace v2. Phase 2: v3 unlock. |
 
 Articles A, B, C can publish before Legend is live — no infrastructure dependency.
 Articles 14, 15, 16, 21, 22 publish in close succession at Legend launch.
 Articles 17, 18 follow as features confirm stable.
 UC-5, UC-6, UC-7 slot in alongside v1/v2 feature rollout.
 Articles 19, 20, UC-8, 23 are v2 unlocks — no timeline pressure.
-Article 24 publishes in two phases: v1/v2 beats at Distress Mode + Chain Trace launch;
-sovereign/Recovery Coordination Layer beats added at v3 unlock.
+Article 24 publishes in two phases: Phase 1 at Distress Mode + Chain Trace launch;
+Phase 2 sovereign/Recovery Coordination Layer beats at v3 unlock.
 
 ---
 
 *Next article session: Articles A, B, C draft block. 2–3 weeks redraft time. No publish pressure.*
-*UC-9 Opus session produces Article 24 full outline — run before any Article 24 drafting.*
+*Article 24 full outline complete — UC-9 Opus session 23 Aug 2026.*
 *"Nothing stops this train."*

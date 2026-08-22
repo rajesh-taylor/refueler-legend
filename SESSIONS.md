@@ -3,6 +3,141 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+
+## Session UC-9 Opus · 23 Aug 2026
+
+**Phase:** Use case scoping — Recovery Coordination Layer
+**Status:** Complete. UC-9 block produced. legend-use-cases.md v1.1, legend-articles-list.md v1.4, SESSIONS.md updated.
+
+### Completed
+
+- **UC-9 scoped: The Recovery Coordination Layer.** Two parallel human tracks —
+  Marco (individual victim, mass-compromise event) and Elena (sovereign treasury
+  officer, national fiscal event) — developed as asymmetric tracks of the same
+  five-primitive architecture. Marco is the design driver; Elena is the proof the
+  primitives generalise upward. Not the same screen at two scales.
+
+- **Coldcard Mk3 event (August 2026) absorbed as the load-bearing attacker model.**
+  ~1,200 BTC swept in a coordinated no-dust attack. Vulnerable UTXO set identified
+  by AI-computed RNG pattern across the production batch — five years after device
+  shipping. No test transactions. No dust. Single coordinated sweep window.
+  Design consequence: the "dust then sweep" early-warning model is not the
+  primary attacker profile for UC-9. Pass notification may arrive after the
+  sweep, not before. Honest copy required.
+
+- **FROST decomposition corrected.** "Victims co-sign" replaced by the honest
+  three-layer model:
+  1. Blind membership credential (Pass Access-class) — asynchronous, anonymous,
+     does not encode group ID in a redemption-linkable way
+  2. Sealed individual component — each victim's claim encrypted to the trustee
+     quorum; submitted via Share; no victim sees another's data
+  3. Mixed attestation quorum — Legend + trustee + legal representative, 3-of-4
+     FROST; signs the aggregate envelope only; no single party can forge or block
+
+- **Mixed attestation quorum locked.** Not Legend's internal nodes alone — a mixed
+  quorum with the appointed trustee and a legal representative holding shares.
+  Addresses the single-operator IPA compulsion gap from the threat model:
+  a UK order on Legend's operator does not lapse the quorum.
+
+- **Recovery Mode defined as a distinct opt-in mode**, separate from Distress Mode.
+  Distress Mode is read-only. Recovery Mode is a legal and social action.
+  The mode boundary is the consent moment. Never triggered automatically.
+  Elena never enters Recovery Mode — she uses Watch/Verification (UC-4 mode).
+
+- **UI mode table locked (UC-9):**
+  - Distress Mode: entry point for both tracks
+  - Recovery Mode: Marco only, explicit opt-in
+  - Watch/Verification: Elena, institutional desktop context
+
+- **Share v3 design constraint flagged.** If N victims submit to one fixed
+  endpoint, Share and a network observer can count the group and correlate timing.
+  Content hidden; fact of submission visible. v3 requirement: rotating ephemeral
+  drop points, timing jitter. Design in, not bolt on. Surfaces in Share
+  architecture session before v3. Copy from v3 launch: "Share hides what you
+  send, not that you sent something."
+
+- **Pass credential hard constraint locked.** Credential must not encode group ID
+  in a redemption-linkable way. Attests: "entitled to participate in a
+  Legend-coordinated recovery." Binding to specific recovery via sealed component
+  only. Standard mint rotation rule applies. NUT-12 DLEQ mandatory.
+
+- **Sovereign positioning locked: standard, not dependency.** Legend defines an
+  open, verifiable format (MIT-licensed, independently implementable). A treasury
+  adopts a format that outlives the operator, not a dependency on one person's
+  infrastructure. "A Bitcoin treasury without verified recovery protocols in place
+  is operating below the standard of care." Not a dependency claim.
+
+- **Lawyer sequencing confirmed.** No lawyers required before v2 or v3 ships.
+  Before v3 launch: one UK/common-law forensic Bitcoin specialist (extending Opus-C
+  gate — firms: Mishcon, AWO, Pinsent Masons) + one civil-law equivalent.
+  Two jurisdiction relationships, not fifty. Format published before relationships
+  confirmed. Legend names the class of trustee; victim engages own counsel.
+
+- **v3 gates confirmed: three, not one.**
+  1. Sealed-component format built and tested
+  2. Mixed attestation quorum operational (Opus-C + two-operator milestone)
+  3. At least one real trustee/jurisdiction relationship confirmed
+  Honest copy before gate 3: "Coordination format published. Operational trustee
+  relationships pending."
+
+- **Article 24 full outline produced.** Two-phase publish unchanged. Phase 1
+  beats (Coldcard event, Distress Mode, Chain Trace, Share) at v2. Phase 2 beats
+  (Recovery Mode, sealed-component model, Elena's arc, sovereign standard) at v3.
+  Opening line locked: "When Mt. Gox collapsed, the Bitcoin was gone but the chain
+  still knew where it went. The victims had no tool to read it. We're building
+  that tool now."
+
+- **legend-use-cases.md v1.1 produced.** UC-9 appended. Scenario index updated.
+  "On the scope of Legend" closing section extended to include San Salvador.
+
+- **legend-articles-list.md v1.4 produced.** Article 24 replaced with UC-9
+  output. Article 14 updated to reference Coldcard Mk3 event. Version and date
+  updated. Note added distinguishing Article 17 (UTXO consolidation) from
+  Article 24 (Mt. Gox / Recovery).
+
+- **Guardian relationship framing established.** Legend is the tool that makes
+  the chain legible at every moment of a Bitcoiner's life — calm days,
+  distress days, loss days. The format and the infrastructure are the guardian;
+  the operator provides them. Distinction matters legally and in user copy.
+
+- **Legend page — immediate pre-build action agreed.** Current state (blank
+  result on address query) is unprofessional. Agreed: build a holding page
+  at `refueler.io/legend` before the next build session. Either a slick
+  "coming soon" using locked one-liners from planning documents, or a password
+  gate. Build session to follow UC-9 immediately.
+
+### Files changed
+
+- `legend-use-cases.md` v1.0 → v1.1
+- `legend-articles-list.md` v1.3 → v1.4
+- `SESSIONS.md` (this entry)
+
+### Carry-forward
+
+- **Legend holding page** — immediate pre-build action. Before Legend-6 (Eleventy
+  shell build session). Options: slick coming-soon using locked one-liners, or
+  password gate. Decision and build in next session.
+- **MASTER.md update** — UC-9 block, Share v3 constraint, mixed quorum, guardian
+  framing, Coldcard attacker model. Update at next session that opens MASTER.md.
+- **Opus-C solicitor gate extended** — now covers: IPA compelled-continuation
+  question (existing) + sealed-component/attestation format receivable in UK
+  insolvency context (UC-9 addition). Two questions, one engagement.
+- **Two-operator milestone** — unchanged from Multi-10 carry-forward. Now also
+  gates the mixed attestation quorum (UC-9 v3 gate 2).
+- **FROST ceremony session** — unchanged. Required before v1 canary or mint live.
+  Now also establishes the signing infrastructure that v3 Recovery quorum extends.
+- **Share architecture session** — must address rotating ephemeral drop points
+  and timing jitter before v3 Recovery Coordination Layer ships.
+- **legend-node-plan.md header** — still reads "three nodes / FROST 2-of-3."
+  Body reflects five-node / FROST 3-of-4 correctly. Fix header at next session
+  touching that file.
+- **All prior carry-forwards from Multi-10 remain open** (stage-2 obliviousness
+  + k floor → Legend-6 opener; canary semantics → Opus-C; frost-secp256k1 audit
+  pin; Nostr relay jurisdiction check; provider quote replies; two-operator
+  milestone; stale figures in economics/enterprise-pricing/ux-language/design-spec).
+
+---
+
 ## Session Multi-10 · 11 Aug 2026
 
 **Phase:** Adversarial threat review — uncounted session
@@ -85,6 +220,7 @@
   FROST ceremony session, provider quote replies, solicitor engagement).
 
 ---
+
 ## Session Multi-9 · 11 Aug 2026
 
 **Phase:** Planning and vision — use case library, session sequencing, B9 gate review
@@ -130,6 +266,7 @@
   - One scenario per Opus session. Maximum two if thematically paired.
   - Natural pairs: UC-1+UC-2 (estate/inheritance device contrast), UC-5+UC-6 (civic/institutional)
   - UC-8 runs solo — half UX session, half cryptographic design
+  - UC-9 runs solo — two parallel tracks, single architecture
   - Eight standard questions per session (see `legend-use-cases.md` §Opus session structure)
   - Standard outputs: interface spec → `legend-design-spec.md`, copy → `legend-ux-language.md`,
     version assignments → `legend-scope.md`, article outline → `legend-articles-list.md`
@@ -161,8 +298,8 @@
 
 ### Carry-forward
 
-- **Duplicate `### Carry-forward` heading** in Legend-7B entry (lines 115–116) — remove at
-  next session touching SESSIONS.md directly.
+- **Duplicate `### Carry-forward` heading** in Legend-7B entry — remove at
+  next session touching SESSIONS.md directly. *(Still open.)*
 - **legend-enterprise-pricing.md** — break-even floor still shows ~£385/month. Update to
   ~£566/month at next session touching that file.
 - **legend-design-spec.md** — €96/month figure still stale. Replace with ~€673/month
@@ -180,137 +317,6 @@
 
 ---
 
-## Session Legend-7B · 7 Aug 2026
-
-**Phase:** 1 pre-build harness — provider selection and quote dispatch
-**Status:** Complete. Provider recommendations locked. Five quote emails drafted.
-Files updated: legend-node-plan.md v1.2, legend-economics.md v1.2.
-
-### Completed
-
-- **Provider selection finalised.** Five nodes, five independent legal frameworks:
-  - Node A: Hetzner, Falkenstein DE — confirmed, unchanged.
-  - Node B: Frantech/BuyVM, Luxembourg — selected. KVM Slice x8 + Storage Slabs.
-    Custom quote requested 7 Aug 2026.
-  - Node C: FlokiNET, Reykjavik IS — confirmed provider, custom quote requested
-    7 Aug 2026 (storage upgrade path, IPMI, bandwidth overage).
-  - Node D: OVHcloud NA, Canada — selected. Advance-1, $115/month (~€106, ~£89).
-    Quote email sent; storage upgrade path and entity confirmation requested.
-  - Node E: Infomaniak, Geneva CH — selected. Cloud VDS €158/month.
-    Quote email sent; single-tenant confirmation and storage upgrade path requested.
-
-- **US nodes explicitly rejected.** CLOUD Act 2018 allows US-headquartered providers
-  to be compelled to produce data stored anywhere globally. Removes genuine legal
-  independence regardless of physical server location. Documented in legend-node-plan.md
-  §1 jurisdiction rationale.
-
-- **FHE (Fully Homomorphic Encryption) evaluated and rejected.** 3–6 orders of magnitude
-  slower than plaintext for arbitrary key-value store operations on a ~1 TB index. Not
-  viable on any realistic hardware in this decade. Spiral PIR (v2 scope) is the correct
-  path. FHE noted for CryptoRoadmap-1 research file as a v4+ / unlikely consideration.
-
-- **Storage spec updated.** Floor raised from "2 TB NVMe" to "2×1 TB NVMe minimum,
-  2×2 TB preferred where price delta is small." Chain + index total August 2026: ~1.65 TB.
-  Projected by April 2028 halving: ~1.9 TB. 2×1 TB (JBOD ~1.85 TB usable) is marginal
-  at that horizon. Storage upgrade window: target Q4 2027. All provider quotes include
-  explicit upgrade path questions.
-
-- **Planning cost updated.** ~€450/month superseded. New planning estimate: ~€673/month
-  (~£566/month) ex-VAT. Increase reflects genuine jurisdiction independence across
-  five legal frameworks — premium is structural, not avoidable. "One Enterprise client
-  covers years of infrastructure" remains true: family office floor (£1,500/month) covers
-  ~2.6 years; ceiling (£3,500/month) covers ~6.2 years.
-
-- **Minimum Enterprise cost-recovery floor updated:** ~£566/month (from ~£385/month).
-  legend-enterprise-pricing.md requires update at next session touching that file.
-
-- **SLA reality documented.** At small-client scale: hardware replacement SLA (hours),
-  network uptime SLA (99.9%), software stack entirely operator-owned. Architecture
-  tolerates node-down gracefully (N-1 = reduced splitting, not outage). IPMI remote
-  management requested in all five quote emails — enables OS-level recovery without
-  provider support dependency.
-
-- **Five quote emails drafted (Legend-8 session).** One per provider. Each includes:
-  exact hardware spec; storage upgrade path questions (in-place feasibility, process,
-  downtime, 2×2 TB pricing); IPMI/remote management confirmation; hardware fault SLA;
-  Bitcoin/Lightning payment question. Rajesh to send manually; replies expected
-  10–11 Aug 2026.
-
-- **B9 clarified.** B9 refers to the Share project Lightning node milestone — the
-  prerequisite gate before any Legend build session. Not a Legend milestone.
-  *(Gate subsequently lifted in Multi-9 — see above.)*
-
-- **Go-live timeline.** No nodes to be provisioned before: (a) B9 live on Share;
-  (b) quote replies confirmed; (c) UK legal sorted; (d) Legend design prototype live
-  at refueler.io/legend for Enterprise demo. Prototype costs nothing beyond existing
-  hosting — static shell + simulated query flow, no live nodes required for demo.
-
-- **`legend-incident-protocol.md` v1.0 → v1.1** — Opus-B gaps folded in:
-  - §3D sub-quorum procedure added: what is impossible at sub-quorum, what remains possible,
-    operator priority order (six steps), per-canary time-to-expiry monitoring requirement,
-    Node D warm-standby promotion as first restoration path, Node E Esplora index build triggered.
-  - §4 DKG-under-attack subsection added: compound failure where DKG boundary arrives during
-    active exploit campaign. Stated as a priority decision: query API suspends before DKG begins;
-    DKG outranks query-API continuity; this is the one path from scenario D to scenario C that
-    architecture does not otherwise prevent.
-  - §3C degraded-migration branch added: procedure when a second node fails during a migration
-    in progress. Node D and E activation triggers, status-page dual-state requirement, compound-
-    incident Enterprise notification rule, prohibition on running migration DKG with unverified
-    replacement node.
-  - §3A step 4 split into 4a (binary integrity — manifest-verified binary required before
-    rejoining) and 4b (index integrity — snapshot must be provenance-confirmed or full resync;
-    unverifiable snapshot is an untrusted node, not a shortcut).
-  - Channel asymmetry publication definition added to §6: published = FROST-signed + confirmed on
-    ≥2 channels including ≥1 off-node channel. Node's own `canary.json` alone does not count.
-    Channel-delivery degradation distinguished from canary expiry. Enterprise notifications must
-    state which channels were confirmed.
-  - FROST 3-of-4 references throughout: all 2-of-3 and three-node references updated. Three-node
-    DKG extension window rule updated: 24-hour extension triggered only when ≥2 nodes offline (not
-    one). Emergency re-key degraded state updated from 2-of-2 to 3-of-3 transient.
-  - Pre-signed statement bank §7 updated: all FROST 2-of-3 signatures → 3-of-4; triple expiry →
-    quadruple expiry in §7 #5 and all cross-references; Node E absence from canary set noted as
-    structural (not a signal).
-  - Revision log: v1.1 entry added.
-  - Opus-A notes: sub-quorum N-2 partial-signature open question added. Existing Opus-A notes
-    unchanged (solicitor-blocked).
-- **`SESSIONS.md`** — this entry, plus archival of session queue (queue remains unchanged in
-  position; Legend-7 and 7B entries prepended).
-- **`legend-economics.md`** — three-node cost figures replaced with five-node estimates;
-  Nodes B/D/E flagged as TBD pending provider session.
-- **`legend-scope.md`** — topology references updated three → five nodes; Node D and E defined.
-- **`legend-design-spec.md`** — status page privacy modes reviewed against five-node reality;
-  "Single node" state updated to reflect sub-quorum context; no other breaks found.
-
-### Files changed
-
-- `legend-node-plan.md` v1.1 → v1.2
-- `legend-economics.md` v1.1 → v1.2
-- `SESSIONS.md` (this entry)
-- `legend-scope.md`
-- `legend-design-spec.md`
-
-### Carry-forward
-
-- **legend-enterprise-pricing.md** — break-even figures use old €450/month base.
-  Update minimum contract floor from ~£385/month to ~£566/month at next session
-  touching that file.
-- **legend-design-spec.md** — €96/month figure still stale (carried from Legend-1).
-  Replace at next session: "~€673/month planning estimate (~£566/month), five dedicated
-  nodes across five jurisdictions and three continents. Confirmed quotes pending."
-- **GBP denomination edit** — legend-ux-language.md §4/§8. Still open from Legend-7B.
-- **Design-spec token block** — pre-CC-74 stale --bg values. Still open from Legend-7B.
-- **FROST 3-of-4 implementation confirmation** — unchanged from Legend-7B carry-forward.
-- **DKG ceremony duration** — unchanged from Legend-7B carry-forward.
-- **Sub-quorum partial-signature open question** (Opus-A notes) — unchanged.
-- **Custom FlokiNET quote** — still open; now formally requested in Legend-8.
-- **Provider reply session** — once all five quotes received, reconvene to:
-  confirm final cost table, resolve open questions, update both files with confirmed
-  figures, unlock legend-economics.md §6 published copy for use.
-- **Opus-A (solicitor) items** — unchanged. IPA compelled-continuation question; NDO publication
-  exposure; publication-delegate liability; MLAT characterisation. None can progress without counsel.
-
----
-
 *Legend-1 through Legend-3A archived. Decisions captured in `legend-economics.md` v1.0,
 `legend-enterprise-pricing.md` v1.0, `legend-scope.md` v1.2, `legend-design-spec.md` v1.1.*
 
@@ -320,13 +326,11 @@ Files updated: legend-node-plan.md v1.2, legend-economics.md v1.2.
 
 ### Immediate — no gate
 
-**Adversarial-1 (Opus, extended thinking)**
-v1 transport and query architecture threat model. Attacker model: unlimited budget,
-nation-state / Chainalysis tier. Questions: what can they extract from v1? What does
-the architecture not protect against? Do any current Legend-6–10 build decisions
-foreclose better v2 transport options?
-Output: `legend-threat-model.md` (or equivalent). May generate a hardening work block.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-scope.md` + `legend-node-plan.md`
+**Legend holding page (Sonnet build)**
+Current `refueler.io/legend` returns blank result on address query — unprofessional.
+Replace with either: (a) slick coming-soon using locked one-liners from planning documents,
+or (b) password gate. Decision and build before Legend-6.
+Load: `CLAUDE.md` + `SESSIONS.md` + `legend-design-spec.md`
 
 **UC-1 (Opus) — The Bradford Inheritance**
 Single scenario. The youngest daughter, phone, distress mode, father's estate.

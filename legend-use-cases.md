@@ -1,5 +1,5 @@
 # legend-use-cases.md — Legend Use Case Library
-> **Version:** 1.0 | **Created:** Multi-9 · 11 Aug 2026
+> **Version:** 1.1 | **Created:** Multi-9 · 11 Aug 2026 | **Updated:** UC-9 Opus · 23 Aug 2026
 > Civilisational use cases for Legend. Each scenario is a design brief, an article
 > candidate, and a potential UI mode. Scenarios are explored in dedicated Opus sessions —
 > one per scenario, weekly or fortnightly cadence.
@@ -78,6 +78,7 @@ Legend tells you that nothing has happened, and means it.
 | 6 | The Hanseatic Federation | Merchant federation settlement | Federation settlement | **Yes** | UC-6 |
 | 7 | The Block War | Nation-state fee spike, global south | Chain context / historical | **Yes** | UC-7 |
 | 8 | The UTXO Lottery | Provable movement, trustless draw | Lottery eligibility | **Yes** | UC-8 |
+| 9 | The Recovery Coordination Layer | Mass-compromise, 2am distress / sovereign treasury | Distress → Recovery / Watch + Verification | **Yes** | UC-9 |
 
 ---
 
@@ -605,6 +606,425 @@ Nobody else does.
 
 ---
 
+## Scenario 9 — The Recovery Coordination Layer
+
+**UC-9. Opus session: two parallel human tracks, one architecture.**
+**Article candidate — Article 24.**
+
+---
+
+### Why this scenario exists
+
+On a Tuesday morning in August 2026, approximately 1,200 Bitcoin were swept from
+Coldcard Mk3 users in a coordinated, no-dust attack. The vulnerable UTXO set was
+identified not by probing individual addresses but by computing the predictable output
+of a flawed RNG across the affected production batch — a calculation performed by a
+powerful language model five years after the devices shipped. There were no test
+transactions. No dust amounts. Funds moved directly to fresh addresses in a single
+coordinated sweep window.
+
+The victims had no warning before the sweep. Most learned of the loss through a
+disclosure alert, a news article, or by checking a public explorer.
+
+Every tool they needed had existed in cryptographic literature for years.
+None had been built for a human in distress.
+
+UC-9 is the design brief for building those tools.
+
+---
+
+### The governing principle for this scenario
+
+The Bradford daughter (UC-1) showed us what Distress Mode must do for an individual
+in a calm loss event — the death of a father, a piece of paper with an address.
+UC-9 is Distress Mode under adversarial conditions: a coordinated attack, a disclosed
+batch, 2am, funds possibly already gone, and — if they are gone — the question of
+whether anything can be recovered through collective legal action.
+
+The governing design principle does not change:
+
+> Design backwards from the human moment. Not forwards from the technology.
+
+What changes is that there are now two distinct human moments, at different scales
+of the same architecture, and they must be developed as parallel tracks — not merged.
+
+---
+
+### The attacker model for this scenario (UC-9-specific)
+
+The no-dust sweep is the load-bearing assumption. Do not design UC-9 around the
+"dust then sweep" model — that model assumes an attacker who probes before acting.
+A sophisticated attacker with AI-assisted victim enumeration does not probe.
+They compute the complete victim list from the flaw, then sweep all affected addresses
+in a coordinated window.
+
+**Design consequence:** Pass notification of a dust transaction is not Marco's first
+warning in this scenario. It may be his only warning *after* the fact. The first
+five seconds must work under both conditions:
+
+- Funds intact (he is on the list but not yet swept)
+- Funds moved (he was swept, silently, without a prior dust signal)
+
+Both must be answered in plain language, without euphemism, in the first five seconds.
+The rest of the interface follows from which answer he gets.
+
+---
+
+### Track A — Marco. Individual victim. Mass-compromise event.
+
+#### The moment
+
+It is some future year. A hardware wallet manufacturer has disclosed a supply chain
+compromise: the entropy used to generate seed phrases in a specific production batch
+was predictable. Marco's batch number is on the list. He does not know if his specific
+wallet was affected. He does not know if his funds have already moved.
+
+It is 2am. He opens Legend on his phone.
+
+#### First five seconds
+
+One answer. No jargon. No onboarding. No modal.
+
+Either:
+
+*"Funds intact. Last moved [date] — [X] days ago. No movement since."*
+
+Or:
+
+*"Funds were moved on [date] to an address we cannot identify. We can show you
+the full chain trace."*
+
+Both are honest. Neither contains a technical term. Both resolve his first question
+before anything else loads.
+
+If his funds are intact, the next sentence — offered quietly, not pushed — is:
+*"Your batch number appears in the disclosed list. Your funds are unaffected so far."*
+
+If his funds have moved, the next sentence is:
+*"This appears to be part of the disclosed batch compromise. Here is exactly what
+the chain recorded."*
+
+#### The ten-minute arc
+
+**Minutes 0–2:** Distress Mode answer for each address he holds (3+ address pattern
+triggers escalation from UC-1 — batch/breach recognition, quieter chrome,
+faster focus).
+
+**Minutes 2–5:** Chain Trace display. Every hop, in plain language, most recent first.
+"Received [amount] on [date]. Sent to unknown address on [date]."
+Technical detail (txid, block height) available on tap, never default.
+
+**Minutes 5–7:** "Send this to your solicitor privately" — Share button, encrypted
+link, 72-hour expiry, recipient needs no account. The Chain Trace Report is the
+document: Merkle-verified, block-height-stamped, solicitor-legible.
+
+**Minutes 7–10:** Recovery Mode door — offered once, quietly, after the distress
+answer and the trace, never before.
+
+*"This appears to relate to a disclosed batch compromise. If you want to add your
+claim to a shared legal filing — where others cannot see your amount and you cannot
+see theirs — here is how that works."*
+
+That sentence contains no cryptographic vocabulary. The explanation that follows
+uses two plain sentences:
+
+*"Each person's claim is sealed separately. A court-appointed trustee can open each
+one only through proper legal process. Nobody else can — not other claimants, not us."*
+
+The door. Not a push. Not a modal. One tap to learn more, one tap to proceed,
+one tap to decline. Marco is in distress. He must be able to say no and have that
+respected immediately.
+
+#### Recovery Mode (distinct opt-in — not a Distress Mode variant)
+
+Distress Mode is read-only: here is your situation, here is what the chain recorded.
+Recovery Mode is a legal and social action: I am choosing to join a collective filing.
+These are categorically different. The mode boundary is the consent moment.
+
+Recovery Mode is never triggered automatically. Marco opts in after the distress
+answer has resolved. If he opts in while his funds are intact, the framing shifts:
+*"You can register now. If your address is swept before the claim window closes,
+your registration is already in place."*
+
+**What Recovery Mode actually does:**
+
+1. Marco provides his address set (he has already entered these in Distress Mode —
+   they carry forward, with his confirmation).
+
+2. Legend generates a sealed component: Marco's addresses + the chain-verified amount
+   that moved (or the verified amount currently held, for intact-but-at-risk claims) +
+   a Merkle proof anchoring both to a specific block height. This component is
+   encrypted to the trustee's public key. Legend never sees the plaintext again.
+   Marco receives a local copy.
+
+3. Marco receives a Pass Access-class credential: a blind-signed token that attests
+   "entitled to participate in this recovery" — nothing more. The credential does not
+   encode the group ID in a redemption-linkable way. The binding to this specific
+   recovery happens via the sealed component, submitted separately. No amount.
+   No address. No group membership visible on redemption.
+
+4. Marco submits the sealed component via Share. Share moves encrypted ciphertext
+   and a routing token. Share sees: a blob, a timestamp. Not the group structure,
+   not any amount, not the aggregate.
+
+5. Done. Marco receives a receipt: a timestamp and a reference number (opaque —
+   not linked to his identity or amount). He can return with his credential to
+   check filing status.
+
+**What the trustee receives:**
+
+A set of sealed components. Each is a self-contained, Merkle-verified claim.
+The trustee cannot open them without legal process (the components are encrypted
+to a threshold key held jointly — see attestation quorum below). Once opened,
+each component is independently verifiable against the chain — no trust in Legend
+required for verification.
+
+**The attestation quorum (mixed — not Legend's internal nodes alone):**
+
+The aggregate attestation — "N sealed components received, total [X BTC] claimed,
+each component individually verifiable" — is signed by a mixed quorum:
+Legend (one share) + the appointed trustee (one share) + a designated legal
+representative (one share). 3-of-4 or similar threshold, using FROST. No single
+party, including Legend's operator, can forge or block the filing. This is the same
+FROST 3-of-4 already planned for canary and mint — same primitive, different
+application.
+
+**UK IPA caveat applies here as everywhere:** A compelled-continuation order served
+on Legend's operator does not lapse the quorum — two other parties hold shares.
+The mixed quorum design specifically addresses the single-operator IPA exposure
+the threat model identified. This is the architectural answer to that gap, not
+a policy promise.
+
+#### What Legend does not do
+
+Legend cannot undo what the chain recorded. It cannot recover funds. It cannot
+compel a trustee, file on Marco's behalf, provide legal advice, or replace a
+solicitor. These are stated on the Recovery Mode entry screen, in plain language,
+before Marco opts in:
+
+*"Legend provides the chain evidence and the coordination format. You will need
+your own solicitor. Legend cannot represent you or recover your funds."*
+
+---
+
+### Track B — Elena. Sovereign treasury. National fiscal event.
+
+#### The moment
+
+El Salvador's Bitcoin Office holds a reserve built on a declared daily purchase
+programme. Their node operator has detected anomalous signing activity. Elena —
+the duty treasury officer — is not a cryptographer. She is a treasury professional
+who understands fiduciary duty, legal procedure, and political consequences.
+
+She has her own legal team. She does not need to join a victim group.
+She needs a verified record of what the chain shows, fast, in a format her
+counsel can use.
+
+#### First five seconds — Elena's screen is not Marco's screen
+
+Elena's first screen is Watch/Verification mode (from UC-4), not Distress Mode.
+She has a declared reserve address set already known. What she sees:
+
+*"Movement detected on [address] at block [height], [date].*
+*Destination: address set we cannot identify.*
+*Canary status: Legend operating normally, no legal compromise detected."*
+
+Institutional register throughout. "Reserve address," not "wallet."
+"Verified movement," not "transaction detected."
+"Canary status" explained in one sentence: *"Legend's verification service is
+operating normally and has not been legally compromised."*
+
+#### Elena's ten-minute arc
+
+**Minutes 0–3:** Movement confirmation across all reserve addresses in the declared
+set. Aggregate moved. Aggregate remaining. Block height, timestamp. No jargon.
+
+**Minutes 3–7:** Chain trace for the moved funds. Every identifiable hop,
+in plain language. "Moved on [date] to address set [X]. Subsequent movement
+to [Y] on [date]." Honest about chain hops that cannot be identified
+(e.g. CoinJoin outputs, privacy-preserving consolidation).
+
+**Minutes 7–10:** One artefact — a verified-loss attestation:
+Merkle-anchored, block-height-stamped, quorum-signed. This document is the
+chain's record of what happened, authenticated by Legend's quorum, formatted
+for a legal team. It is not a legal opinion. It is not a valuation. It is
+chain evidence, made court-readable.
+
+Elena's legal team receives the attestation via Share — same private transport,
+same architecture. Elena does not enter Recovery Mode. There is no peer group
+to coordinate with. The coordination layer degenerates for a claimant of one.
+
+**What changes architecturally for Elena:** nothing fundamental. She uses
+three of the five primitives: Chain Trace verification, sealed attestation
+format, and quorum signing. The sealed-component / blind-membership /
+peer-coordination layer is structurally absent because she has no peers
+to be private from. Same bricks, subset.
+
+#### The sovereign dimension — standard, not dependency
+
+The strongest version of Elena's story is pre-compromise, not post.
+A national Bitcoin office that has adopted Legend's attestation format,
+established a trustee designation, and has watch addresses active before
+an incident will produce a court-ready verified-loss attestation at hour
+zero instead of a decade of spreadsheets.
+
+That is not a product sale. It is a standard of care.
+
+The honest framing — and the one that survives a solo operator's limits —
+is that Legend defines an open, verifiable format: sealed-component
+structure, attestation schema, Merkle anchoring. The format is MIT-licensed,
+independently implementable, and verifiable by anyone with chain access.
+A treasury adopts a *format that outlives the operator*, not a dependency
+on one person's infrastructure.
+
+*"A Bitcoin treasury without verified recovery protocols in place is
+operating below the standard of care."*
+
+That sentence is accurate. It is not a dependency claim. It does not require
+Legend-the-company to be operational for the statement to be true.
+
+**The boundary — stated on the screen and in the article:**
+
+Legend provides: chain-trace attestations, sealed-component and collective-filing
+format and machinery, private transport, quorum-signed verified-loss documents.
+
+Legend points to, does not provide: legal representation, insolvency administration,
+diplomatic or IMF engagement, custody, fund recovery, reserve valuation.
+
+*"Legend produces the evidence and the coordination format. The trustee, the court,
+and the treasury's own legal and diplomatic teams do everything else."*
+
+---
+
+### The civilisational argument — why this is not scope creep
+
+The chain recorded Marco's loss and Elena's loss in the same ledger, in the same
+way, readable by the same five primitives. The Bradford daughter (UC-1) and the
+El Salvador treasury officer (Track B) are the ends of the same scale.
+
+Legend's job is to make the chain's record legible and actionable at both ends
+using one set of components — sealed attestation, blind membership credential,
+quorum signing, private Share transport, Chain Trace verification. Marco uses all
+five. Elena uses three. The cathedral and the gatehouse: same bricks.
+
+This is not scope creep. It is the point.
+
+*"Chainalysis works for the observer. Legend works for the owner."*
+
+---
+
+### Share — v3 design constraint (flag for build, not v1)
+
+Share moves encrypted ciphertext plus a routing token and timing metadata.
+It does not see group structure, amounts, or aggregate.
+
+**Constraint:** if N victims all submit sealed components to one fixed trustee
+endpoint, Share and a network observer can count the group and correlate timing.
+Content is hidden; the fact of a drop is not.
+
+**v3 design requirement:** sealed components route to rotating, ephemeral drop
+points — not a single fixed endpoint. Timing jitter added by design.
+
+**Copy requirement (from v3 launch):** *"Share hides what you send, not that
+you sent something. For the strongest protection, use Tor."*
+
+Flag: design in, not bolt on. Surfaces in Share architecture session before v3.
+
+---
+
+### Pass — coordination credential architecture
+
+Pass holds the coordination credential as an Access-class token (non-monetary,
+closed-loop). Fresh independent mint instance per the standard rotation rule.
+NUT-12 DLEQ mandatory (detects mint tagging attacks — standard requirement).
+
+**Hard constraint:** the credential must not encode the group ID in a
+redemption-linkable way. Attests: "entitled to participate in a
+Legend-coordinated recovery." The binding to a specific recovery happens
+via the sealed component, submitted separately. Group membership and amount
+remain invisible on redemption.
+
+Pass also carries the early-warning job from the existing beats:
+quiet dust-transaction alert, no address, no amount, no corporate-IT log
+signal. In the no-dust attacker model (Coldcard Mk3 pattern), this alert
+may arrive after the sweep rather than before it. The copy must be honest
+about this: Pass tells you what happened as soon as the chain records it.
+It cannot warn you before a coordinated sweep that leaves no test signal.
+
+---
+
+### Lawyer sequencing — honest timeline
+
+No lawyers required before v2. No lawyers required before v3 ships.
+
+Before v3 launch:
+- One forensic Bitcoin specialist solicitor reviews the sealed-component and
+  attestation format — confirming it is receivable in a UK or EU insolvency
+  context. One session, one memo. This extends the existing Opus-C gate.
+  Firms: Mishcon de Reya (digital assets team), AWO (privacy-adjacent,
+  already on the shortlist), Pinsent Masons (Cryptopia/Bittylicious creditor
+  experience).
+- One civil-law jurisdiction equivalent (most likely German or French insolvency
+  practitioner, covering EU civil law). Two relationships, not fifty.
+- Format published openly before either relationship is confirmed — the format
+  is the durable artefact.
+
+Legend's copy at v3 launch names the class of eligible trustee
+(UK-registered insolvency practitioner, or equivalent) — not a specific firm.
+The victim engages their own counsel. Legend provides the machinery.
+
+---
+
+### UI mode summary
+
+| Mode | Trigger | Track |
+|---|---|---|
+| Distress Mode | Single address query, mobile, first visit; or 3+ addresses in session | Both (entry point) |
+| Recovery Mode | Explicit opt-in after Distress Mode answer resolves; disclosed batch detected | Marco only |
+| Watch/Verification | Declared address set, institutional context, desktop | Elena |
+
+Recovery Mode is never triggered automatically.
+Distress Mode is read-only. Recovery Mode is a legal and social action.
+The mode boundary is the consent moment.
+Elena never enters Recovery Mode.
+
+---
+
+### Version assignment
+
+**v1 (prerequisite — must ship and prove before any recovery claim is honest):**
+Legend's own FROST 3-of-4 for canary and mint key management. Blind-credential
+issue/redeem path (query credentials). Distress Mode (UC-1 core). The chain trace
+foundation. Without these in production, the Recovery Coordination Layer cannot
+be built honestly on top.
+
+**v2:**
+Chain Trace Report — Merkle-verified, solicitor-legible PDF export.
+Share encrypted transport in production.
+Pass Access credential in production.
+Address Watch + Pass notification (with honest copy re: no-dust attacker model).
+Article 24 phase-one beats publish at v2 (Marco/Distress/ChainTrace/Share beats).
+
+**v3 honest minimum — three gates, not one:**
+1. Sealed-component format built and tested (crypto — the easy part).
+2. Mixed attestation quorum operational (Legend + trustee + legal representative,
+   3-of-4 FROST). Requires the two-operator milestone and Opus-C solicitor
+   sign-off — these are the load-bearing gates, not the cryptography.
+3. At least one real trustee/jurisdiction relationship confirmed. Without a
+   real trustee anchor, offering "collective recovery" cannot be delivered.
+
+**Honest copy at v3 launch before gate 3 clears:**
+*"Coordination format published. Operational trustee relationships pending.
+Check refueler.io/legend/recovery for current status."*
+
+Article 24 sovereign/Recovery Coordination Layer beats publish at v3 unlock.
+
+---
+
+*"Chainalysis works for the observer. Legend works for the owner."*
+
+---
+
 ## Opus session structure
 
 Each use case runs as a dedicated Opus session. One session per scenario.
@@ -663,7 +1083,7 @@ Build sequence from Multi-9:
 4. **Article drafting block** — no publish pressure. 2–3 weeks to draft Articles
    A, B, C (queued in `legend-articles-list.md`) plus Article 14 and 15 outlines.
 
-5. **Use-case Opus sessions** — UC-1 through UC-8, weekly/fortnightly cadence,
+5. **Use-case Opus sessions** — UC-1 through UC-9, weekly/fortnightly cadence,
    running in parallel with build sessions.
 
 ---
@@ -676,7 +1096,8 @@ It undersells what Legend actually is: infrastructure for how value gets read an
 trusted across every scale of human economic life — from a daughter in Bradford
 checking her father's wallet on a phone, to a canton in Switzerland publishing a
 civic treasury, to a merchant federation settling a week of Lightning payments in
-a single on-chain UTXO.
+a single on-chain UTXO, to a national treasury officer in San Salvador generating
+a court-ready loss attestation at 3am.
 
 The chain doesn't know any of these humans. Legend doesn't either.
 That is the point.
