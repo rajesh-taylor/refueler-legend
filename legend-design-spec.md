@@ -123,9 +123,8 @@ Batch icon appears. Nothing else changes. No autocomplete. No suggestions.
 ### Input — submitting
 
 Input locks. Tertiary line beneath input becomes PIR progress:
-`Querying shard 1 of 4… 2 of 4… assembling result.`
-Determinate steps. Text updates only — no spinner, no animation beyond text change.
-This is honest about what the infrastructure is doing.
+`Querying node 1 of 4…` through `Querying node 4 of 4…` then `Assembling result.`
+Five discrete states, each replacing the last. Text updates only — no spinner, no animation beyond text change. This is honest about what the infrastructure is doing. Exact strings in `legend-ux-language.md` §8.
 
 ### Result — funds intact
 
