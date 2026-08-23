@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-multi-core
-> **Version:** 1.4 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Legend-7B · 7 Aug 2026
+> **Version:** 1.5 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -182,7 +182,7 @@ No localStorage. Covers basic professional use where fiat equivalence is needed.
 - Compliance report generation — deferred to v3
 - Family office credential management — deferred to v3
 - Insurance pricing layer — v3 or beyond
-- Estate / solicitor verification tooling — v3 or beyond
+- Estate / solicitor verification tooling — v3 or beyond. Exception: the v1 Legacy print layout (UC-2) must render full untruncated addresses to ensure estate chain continuity — a solicitor may commission a v2 Merkle-verified report from nothing but the holder's v1 printout.
 - Bitcoin-backed lending integration (Ledn, Unchained, Lava) — v3 or beyond
 
 ### What ships at v1 launch alongside the explorer
