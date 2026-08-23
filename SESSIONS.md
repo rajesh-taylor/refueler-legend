@@ -3,6 +3,110 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+## Session Multi-12 · 23 Aug 2026
+
+**Phase:** Use case scoping — UC-1 The Bradford Inheritance
+**Status:** Complete. UC-1 fully scoped. Two stale-copy flags identified and patched.
+
+### Completed
+
+- **UC-1 scoped: The Bradford Inheritance.** Full interface design produced for
+  Distress Mode and Stewardship Mode. Eight standard use-case questions answered.
+  Device/age split locked. Solicitor document output defined across v1/v2/v3.
+
+- **Distress Mode trigger conditions locked.** Mobile viewport + first query of
+  session + single address input. All three required. Never named or selected
+  by the user — inferred from query shape.
+
+- **Distress Mode anatomy locked.** Balance → GBP (surfaced without tap, overrides
+  sats default) → held/moved statement → plain-language history (tap) → technical
+  detail (second tap) → document CTA. Onboarding modal suppressed in Distress Mode.
+
+- **Stewardship Mode trigger conditions locked.** Desktop viewport, unhurried
+  single or small address set. Full width used for explanation. Silence-as-affirmation
+  prominent. Print affordance first-class.
+
+- **Estate escalation locked.** 3+ addresses in session → batch results view with
+  Distress Mode tone. Reuses breach architecture wholesale — no new component.
+
+- **Solicitor document output defined across versions.**
+  v1: free dated summary, browser-generated, no paywall.
+  v2: £50 Merkle-anchored + FROST-signed verified estate report (solicitor commissions).
+  v3: £150 report with contextual metrics + IHT methodology aid.
+
+- **Seven new locked strings drafted** for `legend-ux-language.md` — bereavement
+  register sub-section and Section 8 additions. To be patched in next ux-language session.
+
+- **Two stale-copy flags resolved:**
+  - `legend-ux-language.md` §3, §6, §8: node count updated from 3→5, progress
+    strings updated from `node 1 of 2` to `node 1 of 4` through `node 4 of 4`.
+    Commit `04739b7`.
+  - `legend-design-spec.md` query flow prose: shard framing replaced with node
+    framing, §8 named as string authority. Commit `329ab13`.
+
+### Files changed
+
+- `legend-ux-language.md` — §3, §6, §8 node count and progress string corrections
+- `legend-design-spec.md` — query flow submitting prose corrected
+
+### Carry-forward
+
+- **`legend-ux-language.md`** — add bereavement register sub-section to §1;
+  add seven new locked strings to §8 (distress/stewardship copy). Next ux-language session.
+- **`legend-use-cases.md`** — expand UC-1 from brief to full spec (Distress +
+  Stewardship anatomy, trigger locks, device/age table). → v1.2.
+- **`legend-design-spec.md`** — add Distress Mode and Stewardship Mode sections
+  with full anatomies; note estate-escalation reuse of breach architecture.
+- **`legend-scope.md`** — no change required; UC-1 version assignments consistent
+  with existing version summary table.
+- **UC-2 (Opus)** — The Grandparent's Ledger. Natural pair with UC-1. Can run
+  next or alongside Legend-6 build prep.
+
+## Session Multi-11 · 23 Aug 2026
+
+**Phase:** Legend holding page — pre-build action from UC-9 carry-forward
+**Status:** Complete. Commit `d2fcb80` pushed to `rajesh-taylor/refueler-io`.
+
+### Completed
+
+- **Hero line locked:** "Public block explorers are surveillance tools with a search bar.
+  Legend is the alternative." Discussed and rejected: "Every address lookup tells a server
+  what you own" (inaccurate — user may be watching, not owning). Rejected "servers" plural
+  (diffuses the threat). Settled on category reframe over query-logging angle.
+
+- **Holding page structure decided:** Option 1 — no live input, no false affordance.
+  `legend-wordmark` + hero line + launch line. No email capture (no mailing lists, ever).
+  Notes pointer only. Link to `/notes/` until three Legend articles exist, then
+  `/notes/legend/` (trivial Eleventy tag filter, one session when ready).
+
+- **Launch line locked:** "Explorer launching soon — follow progress in Notes →"
+  Dash variant chosen over two-sentence structure.
+
+- **"Bitcoin" omitted from hero line** — URL, nav, and wordmark carry the context.
+  Adding it reads as a disclaimer, not a confident statement.
+
+- **Files delivered:**
+  - `src/legend/index.njk` — new holding page (no SPA script, no broken input)
+  - `src/legend/index-spa.njk` — current SPA shell preserved verbatim for Legend-6
+  - `src/assets/css/legend.css` — holding page block appended (lines 128+);
+    all existing rules untouched; removal note for Legend-6 included
+
+- **Repo path corrected:** `~/Documents/refueler.io` (dot, not hyphen).
+
+### Carry-forward
+
+- **Check live render** in both Carbon and Paper at `refueler.io/legend` post-deploy.
+- **`/notes/legend/` tag route** — add when three Legend articles exist. One session,
+  trivial Eleventy collection filter. Parked until Article A, B, C drafted and published.
+- **Legend-6** — Eleventy SPA shell build session. Rename `index-spa.njk` → `index.njk`,
+  remove holding page CSS block, wire query input. Load: `CLAUDE.md` + `SESSIONS.md` +
+  `MASTER.md` + `legend-design-spec.md`.
+- **All UC-9 carry-forwards remain open** (see UC-9 entry above).
+- **index-spa.njk removed from repo** to clear Cloudflare retry loop.
+  Restore at Legend-6 with:
+  `git show d2fcb80:src/legend/index-spa.njk > src/legend/index-spa.njk`
+  
+---
 
 ## Session UC-9 Opus · 23 Aug 2026
 
