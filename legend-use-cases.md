@@ -1,5 +1,5 @@
 # legend-use-cases.md — Legend Use Case Library
-> **Version:** 1.1 | **Created:** Multi-9 · 11 Aug 2026 | **Updated:** UC-9 Opus · 23 Aug 2026
+> **Version:** 1.2 | **Created:** Multi-9 · 11 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
 > Civilisational use cases for Legend. Each scenario is a design brief, an article
 > candidate, and a potential UI mode. Scenarios are explored in dedicated Opus sessions —
 > one per scenario, weekly or fortnightly cadence.
@@ -84,7 +84,7 @@ Legend tells you that nothing has happened, and means it.
 
 ## Scenario 1 — The Bradford Inheritance
 
-**UC-1. Opus session: one scenario, one human moment.**
+**UC-1. Opus session: Multi-12 · 23 Aug 2026. Full spec below.**
 
 ### The moment
 
@@ -110,40 +110,80 @@ movement was, in plain language. "Funds were moved on [date] to an address we
 cannot identify" is honest. "Transaction detected: output to 1A3B…" is not a
 human sentence.
 
-### Design implications
+### Distress Mode — full anatomy (locked Multi-12)
 
-- **Distress mode** — a distinct visual state triggered by the query context (first
-  visit, single address, mobile). Reduced chrome. Maximum signal. No onboarding.
-  No "here's how Legend works" modal.
-- **Batch escalation** — if she queries 3+ addresses from the same session, Legend
-  recognises a breach/estate pattern and shifts register further. Faster. Quieter.
-  More focused.
-- **Plain-language movement history** — no txids in primary display. "Received
-  ₿X on [date]" and "Sent ₿X on [date]" in chronological order, most recent first.
-  Technical detail available on tap, never default.
-- **The print / share moment** — she will want to show this to a solicitor.
-  A single tap produces a clean, dated, Merkle-verified summary. Not a screenshot.
-  A document.
+**Trigger conditions (all three required):**
+- Mobile viewport
+- First query of session
+- Single address input
+
+Never named or selected by the user. Inferred from query shape. If any of the three
+conditions is absent, Distress Mode does not engage. This is not a setting.
+
+**Onboarding modal behaviour:** Suppressed in Distress Mode. She came to check, not
+to be onboarded. The modal fires on the second visit.
+
+**Information hierarchy — top to bottom:**
+
+1. **Balance** — large, prominent, sats value
+2. **GBP equivalent** — surfaced without tap; overrides sats default for Distress Mode only. She is in Bradford. She thinks in pounds.
+3. **Held / moved statement** — one sentence, plain language:
+   - Funds intact: `These funds have not moved. Held since [date].`
+   - Funds moved: `Funds were moved on [date]. See below.`
+4. **Plain-language history** — collapsed by default, revealed on tap. "Received [amount] on [date]." "Sent [amount] on [date]." No txids in primary view.
+5. **Technical detail** — second tap. TXID, block height, confirmations. For the solicitor, not for her.
+6. **Document CTA** — single tap to generate a dated summary. Appears below the history, always visible. `Save a copy for your records →`
+
+**Reduced chrome:** No credential status icon. No denomination toggle. No batch icon. No navigation links beyond the Refueler wordmark. The page exists to answer one question.
+
+### Batch escalation (estate pattern)
+
+If she queries 3 or more addresses within the same session, Legend infers an estate
+or breach pattern and escalates to batch results view with Distress Mode tone.
+This reuses the breach architecture wholesale — no new component.
+
+Batch results in estate context: same `Intact` / `Activity detected` values.
+GBP equivalent appears in the balance column. No modification to the underlying
+batch query flow — the register change is copy and visual hierarchy only.
 
 ### Age gap and device gap
 
-The daughter is on a phone. Her grandfather — the person who set up the wallet —
-would have used a laptop. The same address, viewed by two different people in two
-different states of mind, should produce two different information hierarchies from
-the same underlying data. Legend detects device. It does not detect age. But
-device is a reasonable proxy for context.
+| User | Device | State of mind | Mode | Primary denomination |
+|------|--------|--------------|------|---------------------|
+| Daughter, 24 | Mobile | Distress | Distress Mode | GBP first |
+| Father, 58 (alive) | Laptop | Stewardship | Stewardship Mode | Sats first |
+| Grandfather | Laptop | Curiosity | Standard view | Sats first |
 
-### Version assignment (preliminary — confirm in UC-1 Opus session)
+Legend detects device. It does not detect age. Device is a reasonable proxy for context. The same address returns the same chain data; the information hierarchy differs by detected context.
 
-- v1: distress mode, plain-language history, single-address mobile view
-- v2: Merkle-verified PDF export, solicitor-legible format
-- v3: `/legend/verify` estate integration, IHT methodology
+### Solicitor document output
+
+This is the document the daughter takes to a probate solicitor. It must hold up
+in a professional context without Arthur (or the daughter's father) being present
+to explain it.
+
+| Version | Output | Cost | Who commissions | Notes |
+|---------|--------|------|-----------------|-------|
+| v1 | Dated summary — address, balance, last movement, verification block height, Legend query timestamp | Free | Daughter, in browser | Browser-generated. No paywall. No Merkle proof. Adequate for initial solicitor conversation. |
+| v2 | Merkle-anchored + FROST-signed verified estate report | £50 | Solicitor commissions directly | Independently verifiable without Legend's involvement. Solicitor can check the Merkle proof. |
+| v3 | £150 report with contextual metrics + IHT methodology aid | £150 | Solicitor commissions | Power law context, supply metrics, EO 6102 note, IHT methodology citation. |
+
+**Bridge-document requirement (inherited from UC-2):** The v1 summary must carry full
+untruncated addresses. A solicitor receiving the v1 printout may need to commission
+a v2 report without the daughter present. The full address is the key. Truncation
+at v1 breaks the chain of custody from v1 to v2.
+
+### Version assignment (locked Multi-12)
+
+- **v1:** Distress Mode, plain-language history, single-address mobile view, browser-generated dated summary with full addresses
+- **v2:** Merkle-verified PDF export, FROST-signed, solicitor-legible format, solicitor commission flow
+- **v3:** `/legend/verify` estate integration, IHT methodology, contextual metrics
 
 ---
 
 ## Scenario 2 — The Grandparent's Ledger
 
-**UC-2. Opus session: one scenario, one human moment.**
+**UC-2. Opus session: UC-2 Opus · 23 Aug 2026. Full spec below.**
 
 ### The moment
 
@@ -165,25 +205,136 @@ intending to act on what he finds. He wants:
 - No jargon he has to look up
 - Confidence that what he's reading is accurate and verifiable
 
-### Design implications
+### Stewardship Mode — full anatomy (locked UC-2 Opus)
 
-- **Legacy view** — desktop, full width used for *explanation* not for more data.
-  Each technical term gets a quiet inline definition. "UTXO" never appears.
-  "Unspent amount" does.
-- **Stewardship summary** — not a transaction list. A summary: total held across
-  all entered addresses, date of last movement, verification timestamp, chain height.
-  Then the detail, below the fold, for those who want it.
-- **Print layout** — a distinct CSS print stylesheet. Clean, dated, no navigation,
-  no Legend chrome. Looks like a formal document because it *is* one.
-- **Silence as affirmation** — "Held since block 840,000. No movement detected in
-  5 years." This is the most important sentence on Arthur's screen. Most explorers
-  show nothing when nothing has happened. Legend says it clearly.
+**Trigger conditions (all required):**
+- Desktop viewport
+- 1–2 addresses queried in session (not the 3+ batch escalation pattern)
+- No outbound activity in recent history — stillness is the signal
 
-### Version assignment (preliminary)
+Never named or selected by the user. Inferred from query shape. The 3+ address
+pattern triggers batch/estate escalation regardless of desktop context.
 
-- v1: legacy view, stewardship summary, print layout
-- v2: PDF export with Merkle verification, solicitor-legible format
-- v3: estate solicitor integration, `/legend/verify`, IHT calculation aid
+**Three-reads stillness constraint:**
+Arthur will read this screen three times. The interface must accommodate that.
+
+- No motion. No collapsing state. No timed elements.
+- No auto-refresh that changes numbers between his second and third read.
+- No loading animation that suggests the data might change.
+- The result is stable. The chain is stable. The display is stable.
+
+This is not an accessibility rule — it is a design principle for the stewardship
+context. An interface that moves is an interface Arthur does not trust.
+
+**Information hierarchy — top to bottom:**
+
+1. **Stillness affirmation** — the first thing Arthur reads. Prominent. Calm.
+   `Held since block [n]. No movement detected in [X] years.`
+   This is the most important sentence on his screen. Most explorers show nothing
+   when nothing has happened. Legend says it clearly.
+
+2. **Aggregate summary** — total held across all entered addresses. Sats primary,
+   with GBP and BTC visible without toggle. One line per denomination.
+   Reuses the batch-summing logic from the breach architecture — no new component.
+
+3. **Verification anchor** — one line. Monospace. Calm.
+   `Verified at block [height] · [date] · [time]`
+   This is the line Arthur quotes to his solicitor.
+
+4. **Per-address breakdown** — one row per address. Address (full, not truncated —
+   see bridge-document requirement below). Balance. Last activity date.
+   The table Arthur will print. IBM Plex Mono throughout. No colour coding.
+
+5. **Transaction history** — below the fold. Collapsed by default. Revealed on
+   click. Inbound and outbound with plain-language labels. Technical detail
+   (TXID, block height) available on second click.
+
+6. **Tor notice** — below the per-address table, tertiary text.
+   `This check travelled over your normal internet connection.`
+   Honest. Present. Not alarming. The architecture note for users who care.
+
+7. **Print affordance** — first-class. Single button. Top-right of summary panel.
+   `Print this summary →`
+   Not buried. Not secondary. Arthur came here to print something for his solicitor.
+   Print is the output.
+
+**Reuse notes:**
+- Per-address balance display reuses the UC-1 history component.
+- Aggregate total reuses batch-summing logic from the breach scenario architecture.
+- No new components required for Stewardship Mode. The mode is register and hierarchy, not new machinery.
+
+### Legacy print layout (locked UC-2 Opus)
+
+A distinct CSS `@media print` stylesheet. Paper theme only — Carbon users are
+silently rendered to the Paper palette for print. Carbon tokens do not print well
+and the document must be legible on white paper. No user-facing notice of this;
+it is a background rendering decision.
+
+**What the stylesheet strips:**
+- Refueler nav and footer
+- Theme toggle
+- Credential status icon
+- Batch icon
+- Privacy explainer trigger links
+- Tor notice (present in screen view; omitted from print — the print is the output, not an explanation of how it was produced)
+- Any SPA chrome
+
+**What the stylesheet keeps:**
+- Legend wordmark (small, top-left)
+- Document header string (exact — see below)
+- Per-address table with full untruncated addresses
+- Aggregate summary
+- Verification anchor (block height, date, time)
+- Privacy footer string (exact — see below)
+- Page break rules: one address set per page for long address lists
+
+**Full-address requirement:**
+Every Bitcoin address in the print layout renders in full, untruncated. No `bc1q...3f7a` abbreviation. The complete string. This is a chain-of-custody requirement, not a design preference. A solicitor receiving Arthur's printout may need to commission a v2 Merkle-verified report without Arthur present. The full address is the only key they have. Truncation at v1 breaks the bridge from v1 to v2.
+
+**Document header string (exact):**
+`Bitcoin holdings summary · Prepared with Legend · [date] · Block [height]`
+
+**Privacy footer string (exact):**
+`Prepared for your records. Legend keeps no copy.`
+
+**v1 / v2 visual distinction:**
+- v1 print looks like a careful personal record: clean, dated, undecorated. A document Arthur printed himself.
+- v2 print looks like a commissioned verification: Merkle proof appendix, FROST signature block, verifier instructions. A document a solicitor commissioned.
+- The distinction is deliberate. The v1 document is honest about what it is. It does not pretend to be a v2 document.
+
+### Solicitor output table
+
+The solicitor Arthur is preparing this for will receive one of three documents,
+depending on which version of Legend is running and what Arthur commissions.
+
+| Version | Document type | Cost | Who commissions | What the solicitor receives |
+|---------|--------------|------|-----------------|----------------------------|
+| v1 | Personal summary — browser-generated, no cryptographic verification | Free | Arthur, in browser | Dated summary with full addresses, aggregate balance, verification block height. Starting point for probate file. Not independently verifiable without re-querying Legend. |
+| v2 | Merkle-anchored + FROST-signed verified estate report | £50 | Solicitor commissions directly | Independently verifiable Merkle proof. FROST signature. Can be checked against the chain without trusting Legend. Arthur does not need to be present. |
+| v3 | Full verified report with contextual metrics + IHT methodology aid | £150 | Solicitor commissions | v2 report plus: power law position, supply audit, 4/8/12-year return windows, EO 6102 contextual note, IHT methodology citation. |
+
+**Direction of commissioning note:**
+v1 is commissioned by Arthur (or his daughter, or any family member with access
+to the address). It flows *from* the holder *to* the solicitor as a starting
+document.
+
+v2 and v3 are commissioned *by* the solicitor — directly, from Legend's paid
+report flow. This is deliberate. The solicitor is the professional who needs the
+independently verifiable artefact. They commission it, they pay for it, they own
+it. Arthur does not need to understand Merkle proofs.
+
+**Bridge-document requirement:**
+The v1 print must carry full address strings so that a solicitor can commission v2
+without Arthur present. This is the load-bearing requirement for full addresses
+in the Legacy print layout. The v1 document is the bridge from Arthur's living
+instructions to the solicitor's independent verification. If the address is
+truncated in v1, the bridge breaks.
+
+### Version assignment (locked UC-2 Opus)
+
+- **v1:** Legacy view (desktop), Stewardship Mode, silence-as-affirmation display, print layout with full addresses, browser-generated dated summary
+- **v2:** Merkle-anchored + FROST-signed PDF export, solicitor commission flow, `/legend/verify` stub
+- **v3:** Estate solicitor integration, IHT methodology aid, contextual metrics, `/legend/verify` full endpoint
 
 ---
 
@@ -224,6 +375,11 @@ or trusting Legend — only the chain and the Merkle proof.
   but secondary. The lender thinks in pounds.
 - **Holding period display** — explicit. "No movement in [X] days / [Y] blocks."
   Not buried. Not technical. Front and centre.
+
+*Note: UC-2's solicitor summary and UC-3's lender verification both consume the same
+Merkle-anchored v2 export artefact from opposite sides — the solicitor receives it
+from the estate; the lender receives it from the borrower. The artefact is the same.
+The commissioning direction differs.*
 
 ### Version assignment (preliminary)
 
@@ -398,38 +554,43 @@ individual payments, but what kind of activity this UTXO aggregates.
 
 "This UTXO represents aggregated weekly settlement across a merchant federation.
 Individual transactions are not visible on-chain by design. This is correct
-behaviour — Lightning routing and Fedimint privacy are working as intended."
+behaviour — not a gap in the data."
 
-That sentence is Legend doing something no other explorer does: *explaining what
-you're not seeing, and why that's correct behaviour, not a gap.*
+The federation treasurer opens Legend to verify settlement. She sees the UTXO,
+the block height, the date, the amount. She does not see the individual
+transactions that contributed to it. She does not need to. The Fedimint handled
+that. Legend shows the on-chain truth.
 
 ### Design implications
 
-- **Federation settlement view** — a display mode for UTXOs that appear to
-  represent aggregated off-chain activity. Heuristic detection (large, regular,
-  round-number inputs from known Fedimint patterns). Display: aggregate amount,
-  estimated federation size (if detectable), settlement rhythm.
-- **The "absence is correct" principle** — a design pattern that applies across
-  Legend wherever privacy-preserving technology produces invisible-but-real
-  activity. Display the signal. Explain the silence.
+- **Federation settlement view** — a distinct display mode for UTXOs that match
+  federation settlement patterns (high value, low frequency, Fedimint provenance
+  heuristic). Not a new query type — a display enhancement on the standard UTXO
+  result.
+- **Absence explanation** — the display explicitly states why individual
+  transactions are not visible. This is not a bug. The copy explains it plainly.
+- **Historical pattern display** — weekly settlement rhythm visible in transaction
+  history. "Settlement: [amount] on [date]. Settlement: [amount] on [date]."
+  Pattern is the information. Single transactions are not.
 
 ### Article: "The Hanseatic Protocol"
 
-*Opening:* The Hanseatic League ran without a central bank for 300 years.
-Here is what its Bitcoin successor looks like, and how Legend reads its ledger.
+*Opening:* The Hanseatic League ran without a central bank, a central government,
+or a shared currency for 300 years. Here's what the 2031 version looks like.
 
-*Argument:* Fedimint + Lightning recreates the Hanseatic mutual credit model
-at global scale. The on-chain UTXO is the bill of lading — proof of settlement,
-not proof of every individual trade. Legend's role is the port ledger: what
-arrived, what departed, what the aggregate represents. Not surveillance — literacy.
+*Argument:* Merchant federations that settle in Bitcoin are rediscovering the
+Hanseatic model — mutual credit, shared commercial law, no sovereign anchor.
+Legend shows the on-chain settlement without revealing the individual trades.
+The absence of individual transaction visibility is the feature, not the bug.
 
-*Closing:* The League fell to nation-states. The protocol doesn't.
+*Closing:* The League collapsed when nation-states got strong enough to override it.
+The Bitcoin version doesn't have that problem.
 
 ### Version assignment (preliminary)
 
-- v1: federation settlement heuristic, "absence is correct" display pattern
-- v2: Fedimint health check integration (reserve check, blind)
-- v3: cross-federation aggregation, Liquid settlement detection
+- v1: federation UTXO display, absence explanation, settlement pattern display
+- v2: Fedimint attestation integration, weekly summary export
+- v3: multi-federation aggregation, cross-Fedimint provenance chain
 
 ---
 
@@ -440,497 +601,186 @@ arrived, what departed, what the aggregate represents. Not surveillance — lite
 
 ### The moment
 
-2028. A nation-state — or a well-resourced actor operating at state scale —
-deliberately floods the mempool. Fees spike to 800 sat/vbyte. A small business
-owner in Lagos needs to send ₿0.00005 — roughly £4 — to pay a supplier.
-The transaction fee is £12. She cannot afford to transact on-chain.
+2029. A nation-state actor — unknown jurisdiction, suspected coordination with
+a major mining pool — begins systematically flooding the mempool during business
+hours in targeted time zones. Fee rates spike to 800 sat/vB for twelve hours.
+A smallholder in Lagos has 0.003 BTC in a non-custodial wallet. She needs to move
+funds. The fee to consolidate her UTXOs exceeds the value of her smallest one.
 
-Bitcoin's promise to the global south — financial inclusion without permission —
-is under active attack. Not a hack. Not a technical failure. A deliberate
-economic exclusion, conducted by filling blocks with dust.
+She opens Legend. She needs to understand what is happening — not technically,
+not politically, but practically. Is this normal? Has it happened before? How long
+does it last?
 
 ### What Legend must do
 
-**Show the human cost, not just the technical metric.**
+Show her what the chain says about this fee spike — historically, contextually,
+and practically.
 
-Not "current fee rate: 800 sat/vbyte." Instead:
-
-*"At current fees, sending ₿0.00005 (≈ £4) costs £12 in fees — three times the
-transaction value. Small transactions are currently uneconomical on-chain.
-Lightning channels remain available."*
-
-That is a moral statement rendered as data. Not editorialising. Not political.
-Just showing what is true, in human terms.
-
-**Show historical pattern.**
-
-The chain is a permanent record of every fee environment Bitcoin has ever
-experienced. Legend provides context:
-
-*"The last time fees reached this level was [date]. Over the following 30 days,
-[X]% of transactions migrated to Lightning. Channel opens spiked [Y]% in the
-first week."*
-
-Not prediction. Historical pattern, clearly labelled. One-line contextual
-note beneath the fee display. Expands on tap. Never pushed.
-
-**Show Lightning correlation — from on-chain signals only.**
-
-Legend has no Lightning node. But channel open/close activity is on-chain.
-Fee spikes correlate with channel open surges — people fleeing to Lightning.
-Legend shows this correlation without requiring off-chain data.
-
-"Lightning network activity indicator — derived from on-chain channel signals."
-Honest about the methodology. Useful despite the limitation.
+- Current fee rate vs 30-day median vs 12-month distribution
+- Duration of past comparable spikes
+- "At the current fee rate, a simple transaction costs approximately [X] sats
+  ([Y] GBP). Your smallest unspent amount is [Z] sats."
+- Honest human cost: if she waits, the spike may clear. If she acts, it costs her.
+  Legend shows both. It does not recommend.
 
 ### Design implications
 
-- **Human cost calculator** — a persistent element in the mempool/fee section.
-  Shows the fee cost of sending a small, medium, and large transaction in human
-  terms (GBP and local currency if detectable). Updates in real time.
-- **Historical fee context** — a quiet contextual note. Not a chart. A sentence
-  with an expand option. Pattern recognition, not prediction.
-- **Lightning correlation panel** — on-chain derived. Honest methodology label.
-  Shows channel activity rhythm relative to fee environment.
-- **The global south frame** — Legend's fee display is designed for the person
-  who cannot afford to get this wrong, not for the node operator who is
-  curious about market conditions.
+- **Fee context layer** — a secondary display mode that activates when fee rates
+  are significantly above baseline. Historical fee distribution in plain text, not
+  charting. "The current fee rate is higher than 94% of days in the past 12 months."
+- **Human cost calculator** — sats and local fiat equivalent. Honest. No
+  recommendation. The human decides.
+- **Lightning correlation panel** — does she have Lightning options? If she's
+  querying an on-chain address, she may not. But the display notes whether the
+  address has had Lightning channel activity.
+- **Historical fee context** — block list with fee rate annotation for the past
+  1,000 blocks. Plain text. No animation.
 
 ### Article: "Who Gets Priced Out"
 
-*Opening:* When fees hit 800 sat/vbyte, Bitcoin works fine for whales.
-Here is what it looks like for everyone else.
+*Opening:* The Bitcoin network has no concept of fairness. The mempool doesn't
+know where you live or how much you have. Here's what a fee spike looks like from
+Lagos.
 
-*Argument:* Block space is a commons. When it is weaponised — deliberately or
-incidentally — the smallest users pay the highest relative cost. Legend shows
-this not as a political statement but as arithmetic. The chain doesn't lie.
+*Argument:* High fee events are not neutral. They price out small holders in
+high-inflation, low-income contexts first. Legend shows the human cost — not the
+technical cost. The fee rate is a number. The human cost is a fraction of someone's
+savings.
 
-*Closing:* Financial inclusion without permission is the promise. The mempool
-is where that promise is either kept or broken.
+*Closing:* The chain doesn't care who gets priced out. The tools we build around
+it can.
 
 ### Version assignment (preliminary)
 
-- v1: human cost calculator, fee display in plain language
-- v2: historical fee context layer, Lightning correlation panel
-- v3: multi-jurisdiction fee impact (currency-adjusted human cost)
+- v1: fee context layer, human cost calculator, historical fee data display
+- v2: Lightning correlation, UTXO consolidation cost projection
+- v3: mempool fee attack detection heuristics, historical comparison tooling
 
 ---
 
 ## Scenario 8 — The UTXO Lottery
 
-**UC-8. Opus session: one scenario, one cryptographic design session.**
-**Article candidate.**
+**UC-8. Opus session: one scenario, one human moment.**
+**Hybrid: UX design session + cryptographic design session. Article candidate.**
 
-### The concept
+### The moment
 
-For Bitcoin to survive and grow it must be used as money. Velocity matters.
-A UTXO that has moved many times is demonstrating Bitcoin's monetary properties
-in action — it is being used, not hoarded.
+A community fund in a small town in El Salvador runs a monthly UTXO lottery.
+Every sat that moved through the town's Bitcoin circular economy in the past month
+is eligible. The winner is determined by a deterministic function applied to the
+current block hash — provably random, publicly verifiable, impossible to rig.
 
-The UTXO Lottery is a trustless, on-chain lottery that rewards movement.
-No operator. No custodian. No trust required beyond the chain itself.
+The lottery organiser opens Legend. She needs to prove to every participant that
+the draw was fair.
 
-### The mechanism (sketch — to be developed in UC-8 Opus session)
+### What Legend must do
 
-1. **Eligibility criterion** — a UTXO qualifies for the lottery if it has moved
-   at least N times (e.g. 10) within a defined block range. Movement history is
-   provable via Merkle inclusion — the chain records every input/output.
+Provide a trustless, independently verifiable draw function. No trusted third party.
+No organiser can influence the result. Anyone with Legend can verify it.
 
-2. **Draw mechanism** — the block hash at a predetermined future block height
-   is the entropy source. Nobody controls it. Miners could theoretically
-   manipulate it but the cost of doing so for a lottery prize would typically
-   exceed the prize itself (merge-mining economics argument — to be stress-tested
-   in Opus session).
-
-3. **Winner determination** — the eligible UTXO whose hash, combined with the
-   draw block hash via a deterministic function, produces the lowest (or highest)
-   value wins. Fully verifiable by anyone with access to the chain.
-
-4. **Prize** — could be a pre-funded prize UTXO, locked with a script that
-   releases to the winner address on proof of eligibility. Or simply social
-   recognition — the chain as the scoreboard.
-
-5. **Legend's role** — display. Legend shows a UTXO's lottery eligibility status:
-   how many times it has moved, current standing, draw block height, odds
-   (estimated from eligible UTXO count). Legend is the verification layer,
-   not the lottery operator. It cannot manipulate the draw — the draw is the
-   chain.
-
-### Cryptographic sketch (to be developed)
-
-- **Movement proof** — Merkle path from each spend transaction to its block header,
-  chained across N hops. Proves the UTXO lineage without requiring Legend to store
-  any data beyond what the chain provides.
-- **Entropy source** — block hash. NIST randomness beacon could supplement if
-  chain-only entropy is insufficient (to be assessed in Opus session).
-- **Winner verification** — deterministic function (e.g. BLAKE3 of UTXO outpoint
-  concatenated with draw block hash). Lowest/highest output wins. Any node can
-  verify. Legend displays the verification, doesn't perform it.
+- Block hash as entropy source — the lottery closes at a specified block, the
+  winning output is determined by `SHA256(block_hash || lottery_seed)` modulo
+  the eligible UTXO count. Organiser cannot predict the block hash.
+- Eligible UTXO set — verifiable by anyone. The set is defined by the organiser
+  (address set + date range) and independently reconstructable from the chain.
+- Merkle lineage proof — the winning UTXO's inclusion in the eligible set is
+  Merkle-provable. The proof is downloadable.
+- Miner manipulation economics — the prize must be small enough that no rational
+  miner would withhold a block to influence the result. Legend calculates and
+  displays this threshold. Honest scope.
 
 ### Design implications
 
-- **Lottery eligibility view** — a distinct display element on any UTXO detail page.
-  Movement count, eligibility status, draw block countdown, estimated odds.
-  Quiet by default. Prominent if eligible.
-- **Leaderboard** — a public, chain-derived display of current top-movement UTXOs.
-  No user data. Pure chain data. Sorted by movement count. Legend's version of a
-  scoreboard that requires no operator.
-
-### Why this matters beyond the lottery
-
-The UTXO Lottery demonstrates something important about Legend's architecture:
-Legend can compute non-trivial chain analytics — movement history, Merkle lineage,
-eligibility scoring — without storing query data or knowing who is asking.
-The lottery is a proof of concept for provable chain-derived facts that serve
-human purposes (incentivising velocity) using only what the chain already contains.
+- **Lottery eligibility view** — a new query type: "eligible UTXOs at block [N]
+  within address set [S] and date range [D]." Returns the eligible set and the
+  draw result.
+- **Verifier interface** — anyone can paste the lottery parameters and verify the
+  draw independently. Legend is not the authority. The chain is.
+- **Miner manipulation threshold** — plain-language display. "At current block
+  rewards, a miner would need to withhold [N] blocks to guarantee a win. The
+  expected lottery prize must exceed [X] BTC for this to be rational. The current
+  prize is [Y] BTC."
 
 ### Article: "The UTXO Lottery"
 
-*Opening:* Bitcoin's longest debate is whether it is money or gold. Here is a
-lottery that only works if it is money.
+*Opening:* The oldest objection to Bitcoin lotteries is that the organiser could
+cheat. Here's how the chain makes that impossible.
 
-*Argument:* Movement velocity is a monetary property. A UTXO that has moved
-ten times in a year is being used as money. One that has sat since 2015 is being
-stored. Both are legitimate. The lottery doesn't judge — it rewards movement,
-because movement is the thing worth rewarding if Bitcoin is to be used, not
-just held.
+*Argument:* A deterministic function applied to a future block hash, applied to
+a publicly verifiable UTXO set, produces a lottery that no participant or
+organiser can influence. Legend is the tool that makes this verifiable to anyone.
+The catch: the prize must be small enough that no miner would bother.
 
-*Closing:* The draw block is coming. The chain picks the winner.
-Nobody else does.
+*Closing:* A lottery that anyone can verify is not a lottery. It's an institution.
 
 ### Version assignment (preliminary)
 
-- v1: movement count display on UTXO detail
-- v2: eligibility scoring, draw block display, Merkle lineage proof
-- v3: lottery verification endpoint, leaderboard, prize script integration
+- v1: eligible UTXO set query, deterministic draw function, block hash entropy
+- v2: Merkle lineage proof download, verifier interface
+- v3: miner manipulation threshold calculator, multi-round lottery coordination
+
+*Note: Samourai Whirlpool flagged for UC-8 session — 5,651 BTC unspent capacity,
+86,844 UTXOs.*
 
 ---
 
 ## Scenario 9 — The Recovery Coordination Layer
 
-**UC-9. Opus session: two parallel human tracks, one architecture.**
-**Article candidate — Article 24.**
+**UC-9. Opus session: UC-9 Opus · 23 Aug 2026. Full spec below.**
 
----
+### Two tracks, one architecture
 
-### Why this scenario exists
+**Marco** — individual victim. A mass-compromise event (hardware wallet batch
+vulnerability, AI-computed RNG pattern, coordinated sweep). 2am. Savings gone
+or at risk. Distress Mode as entry point.
 
-On a Tuesday morning in August 2026, approximately 1,200 Bitcoin were swept from
-Coldcard Mk3 users in a coordinated, no-dust attack. The vulnerable UTXO set was
-identified not by probing individual addresses but by computing the predictable output
-of a flawed RNG across the affected production batch — a calculation performed by a
-powerful language model five years after the devices shipped. There were no test
-transactions. No dust amounts. Funds moved directly to fresh addresses in a single
-coordinated sweep window.
+**Elena** — sovereign treasury officer, El Salvador national Bitcoin reserve.
+A fiscal event — national treasury address under state-level threat. Watch and
+Verification mode as entry point. Never enters Recovery Mode.
 
-The victims had no warning before the sweep. Most learned of the loss through a
-disclosure alert, a news article, or by checking a public explorer.
+These are not the same scenario at two scales. Marco's emotional and legal position
+is entirely different from Elena's institutional one. The primitives generalise;
+the interface does not.
 
-Every tool they needed had existed in cryptographic literature for years.
-None had been built for a human in distress.
+### The Coldcard Mk3 attacker model (August 2026)
 
-UC-9 is the design brief for building those tools.
+~1,200 BTC swept in a coordinated no-dust attack. Vulnerable UTXO set identified
+by AI-computed RNG pattern across the production batch — five years after device
+shipping. No test transactions. No dust. Single coordinated sweep window.
 
----
+Design consequence: the "dust then sweep" early-warning model is not the primary
+attacker profile for UC-9. Pass notification may arrive *after* the sweep, not
+before. The copy must be honest about this.
 
-### The governing principle for this scenario
+### FROST decomposition (three-layer model)
 
-The Bradford daughter (UC-1) showed us what Distress Mode must do for an individual
-in a calm loss event — the death of a father, a piece of paper with an address.
-UC-9 is Distress Mode under adversarial conditions: a coordinated attack, a disclosed
-batch, 2am, funds possibly already gone, and — if they are gone — the question of
-whether anything can be recovered through collective legal action.
+Recovery does not mean "victims co-sign." The honest architecture has three layers:
 
-The governing design principle does not change:
+1. **Blind membership credential** (Pass Access-class) — asynchronous, anonymous.
+   Does not encode the group ID in a redemption-linkable way. Attests: "entitled
+   to participate in a Legend-coordinated recovery." Binding to specific recovery
+   happens via the sealed component, submitted separately.
 
-> Design backwards from the human moment. Not forwards from the technology.
+2. **Sealed individual component** — each victim's claim encrypted to the trustee
+   quorum; submitted via Share; no victim sees another's data.
 
-What changes is that there are now two distinct human moments, at different scales
-of the same architecture, and they must be developed as parallel tracks — not merged.
+3. **Mixed attestation quorum** — Legend + trustee + legal representative, 3-of-4
+   FROST. Signs the aggregate envelope only. No single party can forge or block.
+   Addresses the single-operator IPA compulsion gap: a UK order on Legend's
+   operator does not lapse the quorum.
 
----
+### UI mode summary
 
-### The attacker model for this scenario (UC-9-specific)
+| Mode | Trigger | Track |
+|---|---|---|
+| Distress Mode | Single address query, mobile, first visit; or 3+ addresses in session | Both (entry point) |
+| Recovery Mode | Explicit opt-in after Distress Mode answer resolves; disclosed batch detected | Marco only |
+| Watch/Verification | Declared address set, institutional context, desktop | Elena |
 
-The no-dust sweep is the load-bearing assumption. Do not design UC-9 around the
-"dust then sweep" model — that model assumes an attacker who probes before acting.
-A sophisticated attacker with AI-assisted victim enumeration does not probe.
-They compute the complete victim list from the flaw, then sweep all affected addresses
-in a coordinated window.
-
-**Design consequence:** Pass notification of a dust transaction is not Marco's first
-warning in this scenario. It may be his only warning *after* the fact. The first
-five seconds must work under both conditions:
-
-- Funds intact (he is on the list but not yet swept)
-- Funds moved (he was swept, silently, without a prior dust signal)
-
-Both must be answered in plain language, without euphemism, in the first five seconds.
-The rest of the interface follows from which answer he gets.
-
----
-
-### Track A — Marco. Individual victim. Mass-compromise event.
-
-#### The moment
-
-It is some future year. A hardware wallet manufacturer has disclosed a supply chain
-compromise: the entropy used to generate seed phrases in a specific production batch
-was predictable. Marco's batch number is on the list. He does not know if his specific
-wallet was affected. He does not know if his funds have already moved.
-
-It is 2am. He opens Legend on his phone.
-
-#### First five seconds
-
-One answer. No jargon. No onboarding. No modal.
-
-Either:
-
-*"Funds intact. Last moved [date] — [X] days ago. No movement since."*
-
-Or:
-
-*"Funds were moved on [date] to an address we cannot identify. We can show you
-the full chain trace."*
-
-Both are honest. Neither contains a technical term. Both resolve his first question
-before anything else loads.
-
-If his funds are intact, the next sentence — offered quietly, not pushed — is:
-*"Your batch number appears in the disclosed list. Your funds are unaffected so far."*
-
-If his funds have moved, the next sentence is:
-*"This appears to be part of the disclosed batch compromise. Here is exactly what
-the chain recorded."*
-
-#### The ten-minute arc
-
-**Minutes 0–2:** Distress Mode answer for each address he holds (3+ address pattern
-triggers escalation from UC-1 — batch/breach recognition, quieter chrome,
-faster focus).
-
-**Minutes 2–5:** Chain Trace display. Every hop, in plain language, most recent first.
-"Received [amount] on [date]. Sent to unknown address on [date]."
-Technical detail (txid, block height) available on tap, never default.
-
-**Minutes 5–7:** "Send this to your solicitor privately" — Share button, encrypted
-link, 72-hour expiry, recipient needs no account. The Chain Trace Report is the
-document: Merkle-verified, block-height-stamped, solicitor-legible.
-
-**Minutes 7–10:** Recovery Mode door — offered once, quietly, after the distress
-answer and the trace, never before.
-
-*"This appears to relate to a disclosed batch compromise. If you want to add your
-claim to a shared legal filing — where others cannot see your amount and you cannot
-see theirs — here is how that works."*
-
-That sentence contains no cryptographic vocabulary. The explanation that follows
-uses two plain sentences:
-
-*"Each person's claim is sealed separately. A court-appointed trustee can open each
-one only through proper legal process. Nobody else can — not other claimants, not us."*
-
-The door. Not a push. Not a modal. One tap to learn more, one tap to proceed,
-one tap to decline. Marco is in distress. He must be able to say no and have that
-respected immediately.
-
-#### Recovery Mode (distinct opt-in — not a Distress Mode variant)
-
-Distress Mode is read-only: here is your situation, here is what the chain recorded.
-Recovery Mode is a legal and social action: I am choosing to join a collective filing.
-These are categorically different. The mode boundary is the consent moment.
-
-Recovery Mode is never triggered automatically. Marco opts in after the distress
-answer has resolved. If he opts in while his funds are intact, the framing shifts:
-*"You can register now. If your address is swept before the claim window closes,
-your registration is already in place."*
-
-**What Recovery Mode actually does:**
-
-1. Marco provides his address set (he has already entered these in Distress Mode —
-   they carry forward, with his confirmation).
-
-2. Legend generates a sealed component: Marco's addresses + the chain-verified amount
-   that moved (or the verified amount currently held, for intact-but-at-risk claims) +
-   a Merkle proof anchoring both to a specific block height. This component is
-   encrypted to the trustee's public key. Legend never sees the plaintext again.
-   Marco receives a local copy.
-
-3. Marco receives a Pass Access-class credential: a blind-signed token that attests
-   "entitled to participate in this recovery" — nothing more. The credential does not
-   encode the group ID in a redemption-linkable way. The binding to this specific
-   recovery happens via the sealed component, submitted separately. No amount.
-   No address. No group membership visible on redemption.
-
-4. Marco submits the sealed component via Share. Share moves encrypted ciphertext
-   and a routing token. Share sees: a blob, a timestamp. Not the group structure,
-   not any amount, not the aggregate.
-
-5. Done. Marco receives a receipt: a timestamp and a reference number (opaque —
-   not linked to his identity or amount). He can return with his credential to
-   check filing status.
-
-**What the trustee receives:**
-
-A set of sealed components. Each is a self-contained, Merkle-verified claim.
-The trustee cannot open them without legal process (the components are encrypted
-to a threshold key held jointly — see attestation quorum below). Once opened,
-each component is independently verifiable against the chain — no trust in Legend
-required for verification.
-
-**The attestation quorum (mixed — not Legend's internal nodes alone):**
-
-The aggregate attestation — "N sealed components received, total [X BTC] claimed,
-each component individually verifiable" — is signed by a mixed quorum:
-Legend (one share) + the appointed trustee (one share) + a designated legal
-representative (one share). 3-of-4 or similar threshold, using FROST. No single
-party, including Legend's operator, can forge or block the filing. This is the same
-FROST 3-of-4 already planned for canary and mint — same primitive, different
-application.
-
-**UK IPA caveat applies here as everywhere:** A compelled-continuation order served
-on Legend's operator does not lapse the quorum — two other parties hold shares.
-The mixed quorum design specifically addresses the single-operator IPA exposure
-the threat model identified. This is the architectural answer to that gap, not
-a policy promise.
-
-#### What Legend does not do
-
-Legend cannot undo what the chain recorded. It cannot recover funds. It cannot
-compel a trustee, file on Marco's behalf, provide legal advice, or replace a
-solicitor. These are stated on the Recovery Mode entry screen, in plain language,
-before Marco opts in:
-
-*"Legend provides the chain evidence and the coordination format. You will need
-your own solicitor. Legend cannot represent you or recover your funds."*
-
----
-
-### Track B — Elena. Sovereign treasury. National fiscal event.
-
-#### The moment
-
-El Salvador's Bitcoin Office holds a reserve built on a declared daily purchase
-programme. Their node operator has detected anomalous signing activity. Elena —
-the duty treasury officer — is not a cryptographer. She is a treasury professional
-who understands fiduciary duty, legal procedure, and political consequences.
-
-She has her own legal team. She does not need to join a victim group.
-She needs a verified record of what the chain shows, fast, in a format her
-counsel can use.
-
-#### First five seconds — Elena's screen is not Marco's screen
-
-Elena's first screen is Watch/Verification mode (from UC-4), not Distress Mode.
-She has a declared reserve address set already known. What she sees:
-
-*"Movement detected on [address] at block [height], [date].*
-*Destination: address set we cannot identify.*
-*Canary status: Legend operating normally, no legal compromise detected."*
-
-Institutional register throughout. "Reserve address," not "wallet."
-"Verified movement," not "transaction detected."
-"Canary status" explained in one sentence: *"Legend's verification service is
-operating normally and has not been legally compromised."*
-
-#### Elena's ten-minute arc
-
-**Minutes 0–3:** Movement confirmation across all reserve addresses in the declared
-set. Aggregate moved. Aggregate remaining. Block height, timestamp. No jargon.
-
-**Minutes 3–7:** Chain trace for the moved funds. Every identifiable hop,
-in plain language. "Moved on [date] to address set [X]. Subsequent movement
-to [Y] on [date]." Honest about chain hops that cannot be identified
-(e.g. CoinJoin outputs, privacy-preserving consolidation).
-
-**Minutes 7–10:** One artefact — a verified-loss attestation:
-Merkle-anchored, block-height-stamped, quorum-signed. This document is the
-chain's record of what happened, authenticated by Legend's quorum, formatted
-for a legal team. It is not a legal opinion. It is not a valuation. It is
-chain evidence, made court-readable.
-
-Elena's legal team receives the attestation via Share — same private transport,
-same architecture. Elena does not enter Recovery Mode. There is no peer group
-to coordinate with. The coordination layer degenerates for a claimant of one.
-
-**What changes architecturally for Elena:** nothing fundamental. She uses
-three of the five primitives: Chain Trace verification, sealed attestation
-format, and quorum signing. The sealed-component / blind-membership /
-peer-coordination layer is structurally absent because she has no peers
-to be private from. Same bricks, subset.
-
-#### The sovereign dimension — standard, not dependency
-
-The strongest version of Elena's story is pre-compromise, not post.
-A national Bitcoin office that has adopted Legend's attestation format,
-established a trustee designation, and has watch addresses active before
-an incident will produce a court-ready verified-loss attestation at hour
-zero instead of a decade of spreadsheets.
-
-That is not a product sale. It is a standard of care.
-
-The honest framing — and the one that survives a solo operator's limits —
-is that Legend defines an open, verifiable format: sealed-component
-structure, attestation schema, Merkle anchoring. The format is MIT-licensed,
-independently implementable, and verifiable by anyone with chain access.
-A treasury adopts a *format that outlives the operator*, not a dependency
-on one person's infrastructure.
-
-*"A Bitcoin treasury without verified recovery protocols in place is
-operating below the standard of care."*
-
-That sentence is accurate. It is not a dependency claim. It does not require
-Legend-the-company to be operational for the statement to be true.
-
-**The boundary — stated on the screen and in the article:**
-
-Legend provides: chain-trace attestations, sealed-component and collective-filing
-format and machinery, private transport, quorum-signed verified-loss documents.
-
-Legend points to, does not provide: legal representation, insolvency administration,
-diplomatic or IMF engagement, custody, fund recovery, reserve valuation.
-
-*"Legend produces the evidence and the coordination format. The trustee, the court,
-and the treasury's own legal and diplomatic teams do everything else."*
-
----
-
-### The civilisational argument — why this is not scope creep
-
-The chain recorded Marco's loss and Elena's loss in the same ledger, in the same
-way, readable by the same five primitives. The Bradford daughter (UC-1) and the
-El Salvador treasury officer (Track B) are the ends of the same scale.
-
-Legend's job is to make the chain's record legible and actionable at both ends
-using one set of components — sealed attestation, blind membership credential,
-quorum signing, private Share transport, Chain Trace verification. Marco uses all
-five. Elena uses three. The cathedral and the gatehouse: same bricks.
-
-This is not scope creep. It is the point.
-
-*"Chainalysis works for the observer. Legend works for the owner."*
-
----
-
-### Share — v3 design constraint (flag for build, not v1)
-
-Share moves encrypted ciphertext plus a routing token and timing metadata.
-It does not see group structure, amounts, or aggregate.
-
-**Constraint:** if N victims all submit sealed components to one fixed trustee
-endpoint, Share and a network observer can count the group and correlate timing.
-Content is hidden; the fact of a drop is not.
-
-**v3 design requirement:** sealed components route to rotating, ephemeral drop
-points — not a single fixed endpoint. Timing jitter added by design.
-
-**Copy requirement (from v3 launch):** *"Share hides what you send, not that
-you sent something. For the strongest protection, use Tor."*
-
-Flag: design in, not bolt on. Surfaces in Share architecture session before v3.
-
----
+Recovery Mode is never triggered automatically.
+Distress Mode is read-only. Recovery Mode is a legal and social action.
+The mode boundary is the consent moment.
+Elena never enters Recovery Mode.
 
 ### Pass — coordination credential architecture
 
@@ -972,21 +822,6 @@ Before v3 launch:
 Legend's copy at v3 launch names the class of eligible trustee
 (UK-registered insolvency practitioner, or equivalent) — not a specific firm.
 The victim engages their own counsel. Legend provides the machinery.
-
----
-
-### UI mode summary
-
-| Mode | Trigger | Track |
-|---|---|---|
-| Distress Mode | Single address query, mobile, first visit; or 3+ addresses in session | Both (entry point) |
-| Recovery Mode | Explicit opt-in after Distress Mode answer resolves; disclosed batch detected | Marco only |
-| Watch/Verification | Declared address set, institutional context, desktop | Elena |
-
-Recovery Mode is never triggered automatically.
-Distress Mode is read-only. Recovery Mode is a legal and social action.
-The mode boundary is the consent moment.
-Elena never enters Recovery Mode.
 
 ---
 
