@@ -1,9 +1,10 @@
 # legend-design-spec.md — refueler-legend
-> **Version:** 1.4 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** CC-103 planning · 20 Aug 2026
+> **Version:** 1.5 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.
 > Covers: page architecture, query flow, result anatomy, credential UX, breach scenario,
-> modal inventory, theme behaviour, navigation, funding model, status page, and session roadmap.
+> modal inventory, theme behaviour, navigation, funding model, status page, UI modes
+> (Distress, Stewardship, Legacy print), and session roadmap.
 
 ---
 
@@ -628,51 +629,176 @@ Free-tier users find it in the footer.
 
 ---
 
-## Session roadmap — 430 sessions to a world-class explorer
+## Stewardship Mode — UI mode spec
 
-Phases are calibrated as build progresses. Branding sessions are first-class throughout.
+**Locked: UC-2 Opus · 23 Aug 2026**
+**Source scenarios:** UC-1 (Bradford Inheritance) and UC-2 (Grandparent's Ledger)
 
-| Phase | Description | Sessions | Branding |
-|---|---|---|---|
-| 0 | Foundation — planning, architecture, scope lock | 6 | Multi-2 (complete) |
-| 1 | Working explorer by December — Eleventy, SPA, query flow, Silent Payments, batch, Article 14 | 15 | Build-1 opens with brand pass |
-| 2 | Privacy architecture — PIR sharding, ephemeral sessions, Tor API, first cryptographic review | 30 | Mid-phase brand review |
-| 3 | Professional market layer — UTXO provenance, ZK balance proofs, compliance reporting, family office onboarding | 40 | Opens with brand pass for compliance audience |
-| 4 | Lightning, Liquid, CoinJoin — channel correlation, confidential transactions, mixing recognition | 60 | Mid-phase brand review |
-| 5 | Academic and audit layer — external cryptographic audit, responsible disclosure, academic paper co-authorship, reading programme | 50 | N/A |
-| 6 | Enterprise infrastructure — API for accountants/insurers/lenders, professional credential architecture, institutional onboarding | 60 | Opens with brand pass for institutional audience |
-| 7 | Federated analytics and v3 — federated chain analytics, CL credentials, Silent Payments BIP-352 contribution | 80 | Mid-phase brand review |
-| 8 | Ecosystem contribution — Sparrow formalised, BIP contributions, Nostr integration, protocol work | 40 | Closing brand pass |
-| 9 | Ongoing — security review, annual audit cycles, incident response, world events | 20/year | Annual brand health check |
+### What Stewardship Mode is
 
-**Total: ~430 sessions. Four to six years at current pace.**
+Stewardship Mode is the display register for a holder who is methodical, unhurried,
+and intending to act on what they find. Arthur on a Sunday afternoon. Not frightened.
+Not in distress. Preparing something for people he loves.
 
-The December working explorer lands at approximately session 21 (end of Phase 1).
-The tool that sits on an accountant's desk alongside Bloomberg lands at approximately session 200.
-The tool that redefines the category — that gets cited in regulatory working groups — lands at session 430.
+It is not a named mode the user selects. It is inferred from query shape.
 
-You will present Legend at events before it is finished. Session 21 is the first presentation.
-Session 430 is not the finish line. It is the point at which the category has been redefined.
+### Trigger conditions (all required)
+
+- Desktop viewport
+- 1–2 addresses queried in session
+- The 3+ address pattern is *not* present — three or more addresses triggers batch/estate
+  escalation regardless of desktop context
+
+The trigger conditions are identical to the initial framing locked in Multi-12 for UC-1's
+Stewardship Mode. UC-2 confirms them and adds the stillness constraint below.
+
+### The three-reads stillness constraint
+
+Arthur will read the screen three times. The interface must accommodate that.
+
+- **No motion.** No animation on result arrival. No pulsing elements.
+- **No collapsing state.** The result does not re-render, reflow, or partially hide itself.
+- **No timed elements.** No auto-advancing displays. No "loading more" that triggers unprompted.
+- **No auto-refresh.** The data is stable. The chain at the queried block height does not change.
+  A refresh is only initiated by the user.
+
+This is not an accessibility rule (though it has accessibility benefits). It is a design
+principle for the stewardship context. An interface that moves after the user stops reading is
+an interface the user does not trust.
+
+### Information hierarchy — top to bottom
+
+**1. Stillness affirmation**
+The first element Arthur reads. Prominent. Calm. Exact string in `legend-ux-language.md` §8:
+`Held since block 840,000. No movement detected in 5 years.`
+(Values substituted at render time. Format locked.)
+
+This is the most important sentence on the screen. Most explorers show nothing when
+nothing has happened. Legend says it clearly.
+
+**2. Aggregate summary**
+Total held across all entered addresses. Three denomination lines visible simultaneously
+(sats, BTC, GBP) — no toggle required in Stewardship Mode. Arthur thinks in multiple
+denominations. The toggle persists for other modes; Stewardship Mode surfaces all three.
+
+Reuses the batch-summing logic from the breach architecture — no new component.
+
+**3. Verification anchor**
+One line. IBM Plex Mono. Tertiary colour. Calm.
+`Verified at block [height] · [date] · [time]`
+This is the line Arthur quotes to his solicitor. It must be present. It must be findable
+on print without hunting. It is not a secondary detail.
+
+**4. Per-address breakdown**
+One row per address. Full untruncated address (see Legacy print layout below for the
+bridge-document requirement). Balance in sats. Last activity date in plain language.
+IBM Plex Mono throughout. No colour coding. No status badges.
+
+The table Arthur will print. Every row equally weighted — no primary/secondary treatment.
+
+**5. Transaction history**
+Below the fold. Collapsed by default. Revealed on click.
+Plain-language labels: "Received [amount] on [date]" / "Sent [amount] on [date]".
+Technical detail (TXID, block height) available on second click.
+Reuses the UC-1 history component — no new component.
+
+**6. Tor notice**
+Below the per-address table. Tertiary text. DM Sans 300.
+`This check travelled over your normal internet connection.`
+Present in screen view. Omitted from print (see Legacy print layout).
+
+**7. Print affordance**
+First-class. Single button. Top-right of the summary panel. Not buried. Not secondary.
+`Print this summary →`
+Arthur came here to print something. Print is a first-class output, not an afterthought.
+
+### Estate escalation reuse
+
+If the session crosses the 3+ address threshold, Stewardship Mode yields to batch
+escalation. The batch results view with Distress Mode tone engages — reusing the breach
+architecture wholesale. No new component. The register change is copy and visual hierarchy
+only, not new machinery.
 
 ---
 
-## The world Legend is built for
+## Legacy print layout — `@media print` spec
 
-Bitcoin is the global payments rail. The world's second currency. The preferred long-term
-savings account. In that world:
+**Locked: UC-2 Opus · 23 Aug 2026**
 
-- Accountants qualify in chain analysis the way they qualify in IFRS today
-- Insurers price policies against UTXO age, provenance, and mixing history
-- Banks check chain history before allocating loans
-- Solicitors verify estate holdings with a tool their PI insurance accepts
-- Compliance officers need an audit trail that holds up in court
+### What the Legacy print layout is
 
-Legend is the only explorer built for that world, private by design, audited in public.
+A distinct CSS `@media print` stylesheet that fires whenever a user prints from
+Stewardship Mode. Arthur prints his summary. The solicitor receives a document.
+The document must look like a document, not a screenshot of a web page.
 
-The free tier is how Legend earns the trust of that world before the institutions arrive.
-Every distressed Bitcoiner who checks their addresses and finds their funds intact —
-without telling anyone what they were looking at — is a future referral into a
-professional context.
+### Theme rendering on print
+
+Carbon users are silently rendered to the Paper palette for print. No user-facing
+notice of this rendering decision. Carbon tokens (dark backgrounds, light text) do not
+print well on white paper. The document must be legible in a solicitor's office,
+in daylight, printed on standard A4. Paper palette renders correctly in all these conditions.
+
+This is a background CSS decision, not a UX decision. The user's theme choice is respected
+on screen. Print output is always Paper-palette.
+
+### What the stylesheet strips
+
+- Refueler nav and footer
+- Theme toggle button
+- Credential status icon
+- Batch icon
+- Privacy explainer trigger links (`How is this private?`)
+- Tor notice (present in screen view; honest on screen; not relevant to the printed
+  document — the document is the output, not an explanation of how it was produced)
+- SPA chrome (loading states, progress indicators)
+- Any element with `data-no-print` attribute
+
+### What the stylesheet keeps
+
+- Legend wordmark — small, top-left corner
+- **Document header string** (exact, locked):
+  `Bitcoin holdings summary · Prepared with Legend · [date] · Block [height]`
+- Per-address table — full untruncated addresses (see full-address requirement below)
+- Aggregate summary — sats, BTC, and GBP values
+- Verification anchor — block height, date, time
+- **Privacy footer string** (exact, locked):
+  `Prepared for your records. Legend keeps no copy.`
+- Page break rules: insert page break before each address's detail section when
+  printing more than three addresses, to prevent table rows from splitting across pages
+
+### Full-address requirement
+
+Every Bitcoin address in the print layout renders in full, without truncation. No
+`bc1q...3f7a` abbreviation. The complete string.
+
+**This is a chain-of-custody requirement, not a design preference.**
+
+A solicitor receiving Arthur's v1 printout may need to commission a v2 Merkle-verified
+report without Arthur present. The full address is the only key they have to do this.
+If the address is truncated in the v1 document, the bridge from Arthur's living
+instructions to the solicitor's independent verification is broken.
+
+IBM Plex Mono. Font size reduced to `0.75rem` on print only if necessary to fit a
+standard address on one line without wrapping. One address per row. No ellipsis.
+
+### v1 / v2 visual distinction
+
+The v1 and v2 print documents are deliberately different in appearance.
+
+**v1 — personal record:**
+Clean. Dated. Undecorated. A document Arthur printed himself. The Legend wordmark is
+small and secondary. The data is primary. It looks like a careful person's careful record.
+No cryptographic proof appendix. No signature block. No verifier instructions.
+
+**v2 — commissioned verification:**
+Same data, with a Merkle proof appendix, a FROST signature block, and verifier instructions
+for the solicitor. The document looks like something commissioned by a professional. It is.
+
+The v1 document does not pretend to be a v2 document. It does not include placeholder
+proof blocks or signature fields. Honest scope: the v1 document is what it is — a dated
+summary, browser-generated, not independently cryptographically verifiable without
+re-querying Legend. The solicitor can verify it by running the same query. That is the
+honest v1 claim.
 
 ---
 
@@ -751,6 +877,54 @@ Sparrow Wallet already allows users to configure a custom Esplora server endpoin
 This is a distribution channel and a trust signal. A Sparrow user who is already running their own node and thinking about address privacy is exactly the Legend profile. Integration cost for the user is near zero. The Enterprise API tier's Sparrow-compatible endpoint is noted in `legend-enterprise-pricing.md`; the self-hosting guide section 6 covers the paste procedure.
 
 Sparrow formalisation is Phase 8 (session roadmap). Do not build before Phase 2 privacy architecture is stable.
+
+---
+
+## Session roadmap — 430 sessions to a world-class explorer
+
+Phases are calibrated as build progresses. Branding sessions are first-class throughout.
+
+| Phase | Description | Sessions | Branding |
+|---|---|---|---|
+| 0 | Foundation — planning, architecture, scope lock | 6 | Multi-2 (complete) |
+| 1 | Working explorer by December — Eleventy, SPA, query flow, Silent Payments, batch, Article 14 | 15 | Build-1 opens with brand pass |
+| 2 | Privacy architecture — PIR sharding, ephemeral sessions, Tor API, first cryptographic review | 30 | Mid-phase brand review |
+| 3 | Professional market layer — UTXO provenance, ZK balance proofs, compliance reporting, family office onboarding | 40 | Opens with brand pass for compliance audience |
+| 4 | Lightning, Liquid, CoinJoin — channel correlation, confidential transactions, mixing recognition | 60 | Mid-phase brand review |
+| 5 | Academic and audit layer — external cryptographic audit, responsible disclosure, academic paper co-authorship, reading programme | 50 | N/A |
+| 6 | Enterprise infrastructure — API for accountants/insurers/lenders, professional credential architecture, institutional onboarding | 60 | Opens with brand pass for institutional audience |
+| 7 | Federated analytics and v3 — federated chain analytics, CL credentials, Silent Payments BIP-352 contribution | 80 | Mid-phase brand review |
+| 8 | Ecosystem contribution — Sparrow formalised, BIP contributions, Nostr integration, protocol work | 40 | Closing brand pass |
+| 9 | Ongoing — security review, annual audit cycles, incident response, world events | 20/year | Annual brand health check |
+
+**Total: ~430 sessions. Four to six years at current pace.**
+
+The December working explorer lands at approximately session 21 (end of Phase 1).
+The tool that sits on an accountant's desk alongside Bloomberg lands at approximately session 200.
+The tool that redefines the category — that gets cited in regulatory working groups — lands at session 430.
+
+You will present Legend at events before it is finished. Session 21 is the first presentation.
+Session 430 is not the finish line. It is the point at which the category has been redefined.
+
+---
+
+## The world Legend is built for
+
+Bitcoin is the global payments rail. The world's second currency. The preferred long-term
+savings account. In that world:
+
+- Accountants qualify in chain analysis the way they qualify in IFRS today
+- Insurers price policies against UTXO age, provenance, and mixing history
+- Banks check chain history before allocating loans
+- Solicitors verify estate holdings with a tool their PI insurance accepts
+- Compliance officers need an audit trail that holds up in court
+
+Legend is the only explorer built for that world, private by design, audited in public.
+
+The free tier is how Legend earns the trust of that world before the institutions arrive.
+Every distressed Bitcoiner who checks their addresses and finds their funds intact —
+without telling anyone what they were looking at — is a future referral into a
+professional context.
 
 ---
 
