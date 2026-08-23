@@ -133,10 +133,12 @@ Batch icon appears. No copy change. Tertiary line remains.
 
 ### Submitting — PIR progress text
 
-The tertiary line beneath the input is replaced by progress text. Three discrete states, updated as each stage completes:
+The tertiary line beneath the input is replaced by progress text. Five discrete states, updated as each stage completes:
 
-`Querying node 1 of 2…`
-`Querying node 2 of 2…`
+`Querying node 1 of 4…`
+`Querying node 2 of 4…`
+`Querying node 3 of 4…`
+`Querying node 4 of 4…`
 `Assembling result.`
 
 No spinner. Text updates only. The three states are shown in sequence, each replacing the last. They do not stack.
@@ -382,9 +384,9 @@ These are the canonical user-facing versions of each architecture claim. They ar
 
 ### UK operator caveat (user-facing register)
 
-`All three Legend nodes are operated by one person in London. The UK Investigatory Powers Act 2016 permits compelled disclosure and non-disclosure orders served on the operator personally, regardless of where the hardware is located.`
+`All five Legend nodes are operated by one person in London. The UK Investigatory Powers Act 2016 permits compelled disclosure and non-disclosure orders served on the operator personally, regardless of where the hardware is located.`
 
-`The geographic distribution of nodes across Germany, Finland, and Iceland protects against legal orders served on the hosting providers in those jurisdictions. It does not protect against an order served on the operator under UK law.`
+`The geographic distribution of nodes across Germany, Luxembourg, Iceland, Canada, and Switzerland protects against legal orders served on the hosting providers in those jurisdictions. It does not protect against an order served on the operator under UK law.`
 
 `This is stated here because a product that overstates its legal protections is weaker than one that understates them. The architecture does what it says it does. The legal boundary is this.`
 
@@ -431,9 +433,11 @@ Every finalised string in this document with its location. Build sessions pull f
 | `How your query stays private` | Landing page | Section 1 title (below fold) | 2 |
 | `Built for the moment it matters` | Landing page | Section 2 title (below fold) | 2 |
 | `Free. No account. No catch.` | Landing page | Section 3 title (below fold) | 2 |
-| `Querying node 1 of 2…` | Query input | Progress state 1 | 3 |
-| `Querying node 2 of 2…` | Query input | Progress state 2 | 3 |
-| `Assembling result.` | Query input | Progress state 3 | 3 |
+| `Querying node 1 of 4…` | Query input | Progress state 1 | 3 |
+| `Querying node 2 of 4…` | Query input | Progress state 2 | 3 |
+| `Querying node 3 of 4…` | Query input | Progress state 3 | 3 |
+| `Querying node 4 of 4…` | Query input | Progress state 4 | 3 |
+| `Assembling result.` | Query input | Progress state 5 | 3 |
 | `No activity found for this address.` | Result | Not found — primary | 3 |
 | `This address has not appeared on-chain. If you're expecting a payment, it may not have confirmed yet.` | Result | Not found — secondary | 3 |
 | `This is a Silent Payments static address (BIP-352).` | Result | SP not found — primary | 3 |
