@@ -1,5 +1,5 @@
 # legend-ux-language.md — refueler-legend
-> **Version:** 1.0 | **Created:** Legend-3B · 6 Aug 2026
+> **Version:** 1.1 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
 > Canonical UX copy and information hierarchy reference for Legend.
 > Load in every build session that touches copy, modals, result states, or user-facing language.
 > This document is the authority. If copy is not in this document, it does not exist yet.
@@ -57,6 +57,62 @@ All three are the same reader at different moments. The copy must work for all t
 - Refers to itself in the third person only when necessary — "Legend" not "the platform" or "the tool"
 - Uses sats not BTC as the default denomination label (toggle available)
 - Gives the reader the next step when something has gone wrong
+
+### Bereavement register
+
+**Locked: Multi-12 · 23 Aug 2026**
+**Context:** UC-1 — The Bradford Inheritance. Distress Mode. Mobile. First query. Single address.
+
+This register applies when the inferred context is bereavement or estate lookup. It is not a named mode. The copy adapts to the detected context (mobile, first visit, single address) without naming the adaptation.
+
+**Register rules:**
+
+- Lead with the fact, not the instruction. The user has arrived in distress. They need the answer first, the explanation second.
+- GBP equivalent appears without being asked. In the bereavement context, the user thinks in pounds. Sats are the correct denomination; GBP is the correct first denomination in this mode only.
+- Plain-language movement statement before any transaction detail. "These funds have not moved" or "Funds were moved on [date]" before any technical data.
+- No "here's how Legend works." The onboarding modal is suppressed. They came to check, not to be taught.
+- No denomination toggle in primary display. One number, legible, accurate.
+- Document CTA is present from the first result. `Save a copy for your records →` is not a secondary action.
+
+**What bereavement register copy never does:**
+- Uses "wallet" as the primary noun — use "funds" or "these holdings"
+- Uses technical abbreviations in primary display — no TXID, no UTXO, no vB
+- Expresses alarm about funds that have not moved — absence of movement is the correct and reassuring answer
+- Underplays funds that have moved — plain language, no euphemism: "Funds were moved on [date]"
+
+**Denomination rule for bereavement / Distress Mode:**
+GBP-first. Sats visible but secondary. The user is in Bradford. She thinks in pounds.
+This overrides the sats-default rule for this mode only. The denomination rule is contextual, not global.
+
+### Stewardship register
+
+**Locked: UC-2 Opus · 23 Aug 2026**
+**Context:** UC-2 — The Grandparent's Ledger. Stewardship Mode. Desktop. Unhurried. 1–2 addresses.
+
+This register applies when the inferred context is deliberate long-term holding review. Arthur on a Sunday afternoon. Not frightened. Not in distress. Preparing something for people he loves.
+
+**Register rules:**
+
+- Lead with stillness. The most important sentence for Arthur is that nothing has moved. That comes first.
+- Sats-first denomination. Arthur is a returning owner. He thinks in sats, or at least is comfortable with them. The denomination rule is sats-first for Stewardship Mode. GBP and BTC are visible but secondary.
+- Full addresses visible. Not truncated. Arthur is preparing a document for a solicitor. The full address is the estate record.
+- Verification anchor present and prominent. The block height and timestamp are the line Arthur reads to his solicitor.
+- Print is a first-class affordance, not an afterthought. The interface is designed to produce a document.
+- No jargon in primary display. "Unspent amount" not "UTXO." "Verified at block [height]" not "chain height."
+
+**What stewardship register copy never does:**
+- Uses alarm language for a stable result — calm is correct
+- Truncates addresses in the primary display — full addresses are the estate record
+- Buries the print affordance — it is first-class
+- Uses GBP as the primary denomination — sats-first in this mode (Arthur is the owner, not the frightened newcomer)
+- Uses "account" or "wallet" — the neutral term is "address" or "holdings"
+
+**Denomination rule for stewardship / Stewardship Mode:**
+Sats-first. GBP and BTC visible but secondary. Arthur is the returning owner.
+This is the default denomination rule applied correctly to the stewardship context.
+The distinction from Distress Mode is deliberate: same data, different denomination hierarchy,
+different user state. Both are correct. §8 states the rule explicitly: denomination hierarchy
+is contextual, not global.
 
 ---
 
@@ -221,6 +277,16 @@ Three states, session-persisted, reset on new session:
 Toggle label (accessible): `Display denomination`
 
 The third option is exact — "USD at time of transaction" not "USD" — because the fiat value at the time of a historical transaction is not the current fiat value and the distinction matters to an accountant.
+
+**Contextual denomination rule (locked UC-2 Opus):**
+
+Denomination hierarchy is contextual, not global. The toggle persists within a session, but the default denomination displayed varies by inferred context:
+
+- **Stewardship Mode (returning owner, desktop, 1–2 addresses):** Sats-first. Arthur is the owner. He thinks in sats. GBP and BTC are visible but secondary.
+- **Distress Mode (mobile, first visit, single address):** GBP-first. The user is in distress. They think in pounds. Sats remain visible but secondary.
+- **Standard / all other contexts:** Sats-first per the global default.
+
+Both hierarchies are correct for their context. The rule is not "show the denomination the user finds comforting" — it is "show the denomination that matches how this user thinks about this holding in this moment." The chain data is identical in both cases.
 
 ### Silent Payments section
 
@@ -424,6 +490,9 @@ The status page URL is not embedded in the banner. If the user wants the status 
 
 Every finalised string in this document with its location. Build sessions pull from this table. If a string is not here, it is not finalised.
 
+**Denomination rule (locked UC-2 Opus · 23 Aug 2026):**
+Denomination hierarchy is contextual. Stewardship Mode: sats-first (returning owner). Distress Mode: GBP-first (frightened newcomer). Both correct. Context determines hierarchy, not a user setting.
+
 | String | Surface | Element | Section |
 |---|---|---|---|
 | `Bitcoin, privately.` | Landing page | Headline (above fold) | 2 |
@@ -481,6 +550,11 @@ Every finalised string in this document with its location. Build sessions pull f
 | `Reduced splitting — one node offline` | Credential status modal | N-1 privacy mode indicator | 7 |
 | `Operating on a single node. Query splitting is unavailable — this node can see your full query. If you need full privacy, consider routing through Tor while the other nodes are offline.` | SPA chrome | N-2 degraded mode banner | 7 |
 | `Single node — splitting unavailable` | Credential status modal | N-2 privacy mode indicator | 7 |
+| `Held since block 840,000. No movement detected in 5 years.` | Stewardship Mode result | Stillness affirmation (primary) | 1 |
+| `Nothing has happened here since [date]. For a long-term holding, that is what you want to see.` | Stewardship Mode result | Stillness affirmation (secondary) | 1 |
+| `This summary reflects the chain as of block [n], checked [date]. Anyone can verify it against the Bitcoin network independently.` | Stewardship Mode result | Verification anchor (expanded) | 1 |
+| `Prepared for your records. Legend keeps no copy.` | Legacy print layout | Print footer | 1 |
+| `This check travelled over your normal internet connection.` | Stewardship Mode result | Tor notice (screen only; omitted from print) | 1 |
 
 ---
 
