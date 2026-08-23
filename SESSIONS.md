@@ -3,6 +3,83 @@
 *Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
 
 ---
+
+## Session UC-2 Opus · 23 Aug 2026
+
+**Phase:** Use case scoping — UC-2 The Grandparent's Ledger
+**Status:** Complete. Stewardship Mode anatomy locked. Legacy print layout locked. Five new locked strings drafted.
+
+### Completed
+
+- **Stewardship Mode anatomy locked.** Trigger conditions confirmed: desktop viewport,
+  1–2 addresses, not the 3+ batch escalation pattern. Full information hierarchy defined
+  top to bottom: stillness affirmation → aggregate → verification anchor → per-address
+  breakdown → history below fold → Tor notice → print affordance.
+
+- **Three-reads stillness constraint locked.** Arthur reads the screen three times.
+  No motion. No collapsing state. No timed elements. No auto-refresh. The interface
+  is stable because the chain at the queried block height is stable.
+
+- **Legacy print layout spec locked.** `@media print`, Paper-only (Carbon users silently
+  rendered to Paper palette for print — no user-facing notice). Stylesheet strips: nav,
+  footer, chrome, privacy explainer links, Tor notice. Stylesheet keeps: Legend wordmark,
+  document header, per-address table (full untruncated addresses), aggregate summary,
+  verification anchor, privacy footer. Page break rules for long address lists.
+
+- **Bridge-document requirement identified.** The v1 print must carry full untruncated
+  address strings. A solicitor receiving Arthur's printout may need to commission a v2
+  Merkle-verified report without Arthur present. The full address is the only key they
+  have. Truncation at v1 breaks the chain of custody from v1 to v2.
+
+- **Solicitor output table confirmed.** UC-2 consumes UC-1's three-version ladder from
+  the receiving side. Same artefact ladder; different commissioning direction.
+  v1 commissioned by the holder (browser-generated, free, no Merkle proof — starting
+  point for probate file). v2 commissioned by the solicitor (£50, Merkle-anchored,
+  FROST-signed, independently verifiable without Arthur present). v3 commissioned by
+  the solicitor (£150, v2 plus contextual metrics and IHT methodology aid).
+
+- **UC-2 and UC-3 shared artefact noted.** UC-2's solicitor summary and UC-3's lender
+  verification both consume the same Merkle-anchored v2 export artefact from opposite
+  sides — solicitor receives it from the estate; lender receives it from the borrower.
+  Same artefact, opposite commissioning direction. Feeds UC-3 session framing.
+
+- **Stewardship register locked** as a sibling to the bereavement register (Multi-12).
+  Denomination rule stated: Stewardship Mode keeps sats-first (returning owner); Distress
+  Mode surfaces GBP-first (frightened newcomer). Both correct; rule is contextual, not global.
+
+- **Five new locked strings drafted** for `legend-ux-language.md` §8 (stewardship register):
+  1. `Held since block 840,000. No movement detected in 5 years.`
+  2. `Nothing has happened here since [date]. For a long-term holding, that is what you want to see.`
+  3. `This summary reflects the chain as of block [n], checked [date]. Anyone can verify it against the Bitcoin network independently.`
+  4. `Prepared for your records. Legend keeps no copy.`
+  5. `This check travelled over your normal internet connection.`
+
+- **UC-1 expansion applied in same patch pass.** UC-1 was still brief version in
+  `legend-use-cases.md`. Full spec (Distress Mode anatomy, trigger locks, device/age table,
+  solicitor output, bridge-document requirement) applied to v1.2 alongside UC-2 expansion.
+
+### Files changed
+
+- `legend-use-cases.md` v1.1 → v1.2 (UC-1 full expansion + UC-2 full spec)
+- `legend-design-spec.md` v1.4 → v1.5 (Stewardship Mode + Legacy print layout sections added)
+- `legend-ux-language.md` v1.0 → v1.1 (bereavement register + stewardship register + five new locked strings + denomination rule)
+- `legend-scope.md` v1.4 → v1.5 (estate-tooling v1 note: full-address requirement for bridge-document)
+- `SESSIONS.md` (this entry)
+
+### Carry-forward
+
+- **MASTER.md stale figures** — three-node/2-of-3/€360 references remain in MASTER.md.
+  Update to five-node/3-of-4/€673 at next session that opens MASTER.md.
+- **UC-3 Opus next** — The Bitcoin-Backed Loan. Note that UC-2's solicitor summary and
+  UC-3's lender verification both consume the same Merkle-anchored v2 export artefact
+  from opposite sides. Brief in `legend-use-cases.md` v1.2 notes this; UC-3 session
+  should confirm the artefact format alignment and lock the commissioning distinction.
+- **All prior carry-forwards from Multi-12 remain open** (Legend-6 build, solicitor
+  engagement Opus-C, FROST ceremony, provider quotes, two-operator milestone, stale
+  figures in `legend-economics.md` and `legend-enterprise-pricing.md`).
+
+---
+
 ## Session Multi-12 · 23 Aug 2026
 
 **Phase:** Use case scoping — UC-1 The Bradford Inheritance
@@ -402,8 +479,8 @@
 
 ### Carry-forward
 
-- **Duplicate `### Carry-forward` heading** in Legend-7B entry — remove at
-  next session touching SESSIONS.md directly. *(Still open.)*
+- **Duplicate `### Carry-forward` heading in Legend-7B entry** — resolved by archival.
+  Legend-7B has been archived out of the rolling log. No action required.
 - **legend-enterprise-pricing.md** — break-even floor still shows ~£385/month. Update to
   ~£566/month at next session touching that file.
 - **legend-design-spec.md** — €96/month figure still stale. Replace with ~€673/month
