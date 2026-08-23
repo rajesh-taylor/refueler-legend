@@ -1,5 +1,5 @@
 # legend-ux-language.md — refueler-legend
-> **Version:** 1.1 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
+> **Version:** 1.2 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
 > Canonical UX copy and information hierarchy reference for Legend.
 > Load in every build session that touches copy, modals, result states, or user-facing language.
 > This document is the authority. If copy is not in this document, it does not exist yet.
@@ -113,6 +113,56 @@ This is the default denomination rule applied correctly to the stewardship conte
 The distinction from Distress Mode is deliberate: same data, different denomination hierarchy,
 different user state. Both are correct. §8 states the rule explicitly: denomination hierarchy
 is contextual, not global.
+
+### Verification / disclosure register
+
+**Locked: UC-3 Opus · 23 Aug 2026**
+**Context:** UC-3 — The Bitcoin-Backed Loan. Verification Mode (generation) and
+Recipient View / Lender View (consumption). The one moment Legend helps a user
+*disclose*, not conceal.
+
+This register is a sibling to the bereavement and stewardship registers. It is
+structurally different from both: those registers govern *privacy-preserving*
+moments. This one governs a *voluntary disclosure* to a counterparty. The register
+exists because the honest failure mode is inverted — not leaking what was hidden,
+but letting a user believe a thing they chose to show is still private from the
+recipient.
+
+**Register rules:**
+
+- Lead with what the verification *does not* prove before stating what it proves.
+  The absence (control, future state, lien) is where users make risky assumptions.
+- State the disclosure plainly in the generation modal. The borrower has chosen
+  to reveal their address. The copy confirms this without alarm, without apology,
+  and without softening it. It is a choice, stated as a fact.
+- GBP-first in the Recipient View. The counterparty — lender, solicitor, council
+  officer — thinks in pounds. Denomination follows the reader's relationship to
+  the holding.
+- The honest-scope footer is not small print. It is part of the document.
+  Do not hide it, collapse it, or render it in `--fg-subtle` only.
+- The verification anchor (block height + date) is the line the recipient quotes
+  to their compliance team. It must be findable in two seconds on a large desktop.
+- Never imply the verification is a lien, an escrow, or a custody arrangement.
+  Never imply it prevents future movement. State the limit once, plainly.
+
+**What verification/disclosure register copy never does:**
+- Implies that a v1 shareable link proves control — it proves existence and stillness only
+- Implies that sharing a verification keeps the address private — the borrower has chosen to reveal it
+- Implies Legend can recall or revoke a verification once shared
+- Uses "guarantee," "locked," or "secured" in relation to the collateral state
+- Calls the proof-of-control step "optional" at v2 — it is available; whether to use it is the borrower's choice, stated as such
+
+**Denomination rule for Recipient View / verification context:**
+GBP-first. The professional counterparty reads in fiat. Sats visible, secondary.
+
+**Unifying denomination principle (stated once, governs all three contextual rules):**
+Denomination follows the reader's relationship to the holding.
+- Owner, returning and deliberate → sats (Stewardship Mode)
+- Non-owner, frightened → GBP (Distress Mode)
+- Non-owner, professional counterparty → GBP (Recipient / Verification context)
+
+The chain data is identical in all three cases. The denomination hierarchy reflects
+the reader, not the holding.
 
 ---
 
@@ -448,6 +498,14 @@ These are the canonical user-facing versions of each architecture claim. They ar
 
 `Tor hides your IP from Legend. Legend hides your query from itself. You need both to be fully private. We give you the second. You supply the first if you need it.`
 
+### Verification and disclosure
+
+`A verification is the one moment Legend helps you disclose, not conceal. Legend keeps your query private from Legend. It cannot make private a balance you have chosen to show someone else.`
+
+`A v1 shareable link proves these addresses held this balance, unmoved for this window, as of this block. It does not prove who controls them. It is not a lien. The funds can move at any time. Re-check before you rely on it.`
+
+`At v1 and v2, the borrower reveals the address to the recipient. At v3, a ZK balance proof allows a holder to prove control of a threshold balance, unmoved for a window, without revealing any address to the lender.`
+
 ### UK operator caveat (user-facing register)
 
 `All five Legend nodes are operated by one person in London. The UK Investigatory Powers Act 2016 permits compelled disclosure and non-disclosure orders served on the operator personally, regardless of where the hardware is located.`
@@ -490,8 +548,12 @@ The status page URL is not embedded in the banner. If the user wants the status 
 
 Every finalised string in this document with its location. Build sessions pull from this table. If a string is not here, it is not finalised.
 
-**Denomination rule (locked UC-2 Opus · 23 Aug 2026):**
-Denomination hierarchy is contextual. Stewardship Mode: sats-first (returning owner). Distress Mode: GBP-first (frightened newcomer). Both correct. Context determines hierarchy, not a user setting.
+**Denomination rule (extended UC-3 Opus · 23 Aug 2026):**
+Denomination hierarchy is contextual. Stewardship Mode: sats-first (returning owner).
+Distress Mode: GBP-first (frightened newcomer). Recipient / Verification context:
+GBP-first (professional counterparty). Unifying principle: denomination follows the
+reader's relationship to the holding, not a user setting. All three are correct in
+their context.
 
 | String | Surface | Element | Section |
 |---|---|---|---|
@@ -555,6 +617,24 @@ Denomination hierarchy is contextual. Stewardship Mode: sats-first (returning ow
 | `This summary reflects the chain as of block [n], checked [date]. Anyone can verify it against the Bitcoin network independently.` | Stewardship Mode result | Verification anchor (expanded) | 1 |
 | `Prepared for your records. Legend keeps no copy.` | Legacy print layout | Print footer | 1 |
 | `This check travelled over your normal internet connection.` | Stewardship Mode result | Tor notice (screen only; omitted from print) | 1 |
+| `Create a verification →` | Result view (standard + Stewardship) | CTA — Verification Mode entry | 1 |
+| `Create a verification` | Verification modal | Title | 1 |
+| `This produces a shareable proof of what these addresses hold and how long they have held it. Your recipient verifies it against the Bitcoin network — they do not have to trust Legend, or you.` | Verification modal | Framing body | 1 |
+| `Sharing this reveals the address and its balance to whoever you send it to. Legend cannot recall a verification once it is shared.` | Verification modal | Disclosure warning | 1 |
+| `Sign a message from this address in your wallet to prove you control it. Legend checks the signature — it never sees your keys.` | Verification modal | Proof-of-control prompt (v2) | 1 |
+| `Copy shareable link` | Verification modal | Action (v1) | 1 |
+| `Download signed verification` | Verification modal | Action (v2) | 1 |
+| `Verified holdings · Prepared with Legend` | Recipient View | Header | 1 |
+| `Shared with you by the holder. Verified against the Bitcoin network in your browser.` | Recipient View | Context line | 1 |
+| `No outbound movement across these [k] addresses in [N] days · [M] blocks.` | Recipient View | Holding-period statement (plural) | 1 |
+| `No outbound movement from this address in [N] days · [M] blocks.` | Recipient View | Holding-period statement (singular) | 1 |
+| `Verified against the Bitcoin network at block [height] · [date].` | Recipient View | Verification anchor (live) | 1 |
+| `The holder generated this verification at block [height] · [date].` | Recipient View | Borrower reference (freshness delta) | 1 |
+| `Control of this address was demonstrated by signature · [date].` | Recipient View | Proof-of-control present (v2) | 1 |
+| `This verification confirms the holdings. It does not prove who controls them. Ask the holder for a signed message if you need that.` | Recipient View | Proof-of-control absent | 1 |
+| `Verify this yourself →` | Recipient View | Independent-verification affordance | 1 |
+| `This confirms what these addresses held when checked. It is not a lien or an escrow. The holder can move these funds at any time. Re-check before you rely on it.` | Recipient View | Honest-scope footer | 1 |
+| `A verification is the one moment Legend helps you disclose, not conceal. Legend keeps your query private from Legend. It cannot make private a balance you have chosen to show someone else.` | §6 honest-scope | Verification/disclosure register anchor | 6 |
 
 ---
 

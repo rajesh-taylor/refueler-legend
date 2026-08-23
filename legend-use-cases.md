@@ -1,5 +1,5 @@
 # legend-use-cases.md — Legend Use Case Library
-> **Version:** 1.2 | **Created:** Multi-9 · 11 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
+> **Version:** 1.3 | **Created:** Multi-9 · 11 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
 > Civilisational use cases for Legend. Each scenario is a design brief, an article
 > candidate, and a potential UI mode. Scenarios are explored in dedicated Opus sessions —
 > one per scenario, weekly or fortnightly cadence.
@@ -340,52 +340,168 @@ truncated in v1, the bridge breaks.
 
 ## Scenario 3 — The Bitcoin-Backed Loan
 
-**UC-3. Opus session: one scenario, one human moment.**
+**UC-3. Opus session: UC-3 Opus · 23 Aug 2026. Full spec below.**
 
 ### The moment
 
-James and Priya have 2.4 BTC. They want to use it as collateral for a £180,000
-loan to extend their house. The lender — a Bitcoin-native lending firm — needs to
-verify that the address holds what they claim, that the funds haven't moved in 90
-days, and that the address is genuinely theirs (or at least that they can sign a
-message from it). James opens Legend on a tablet. The lender has their own Legend
-link open on a desktop across town.
+James and Priya hold 2.4 BTC. They want it as collateral for a £180,000 loan to
+extend their house. The lender — a Bitcoin-native lending firm — needs to verify
+the address holds what they claim, that nothing has left it in 90 days, and that
+James can prove he controls it. James opens Legend on a tablet at the kitchen table.
+Ruth, an underwriter at the lender, has her own Legend link open on a desktop across
+town. They are not in the same room. The share link is the bridge.
 
 ### What Legend must do in this moment
 
-Two principals. One address. Different needs.
+Two principals, one address, opposite needs. James must *generate* a verification —
+holdings, holding period, freshness, control. Ruth must *consume* it independently,
+trusting only the chain and the proof — not James, not Legend. Neither reveals
+anything to Legend: Legend does not know a loan is happening.
 
-James needs to *generate* a verification artefact — a document that proves the
-balance, the holding period, and the freshness of the check.
+### Shared artefact and commissioning distinction (locked UC-3 Opus)
 
-The lender needs to *consume* that artefact independently, without trusting James
-or trusting Legend — only the chain and the Merkle proof.
+UC-2 (estate) and UC-3 (loan) consume one canonical v2 artefact — Merkle-anchored,
+FROST-signed verified holdings statement — from opposite sides.
 
-### Design implications
+**Canonical v2 artefact fields:**
 
-- **Verification export flow** — a distinct user journey. Not "look up an address"
-  but "generate a verification." Output: a dated, Merkle-anchored summary with a
-  shareable link and a downloadable PDF.
-- **Lender view** — the shared link opens in a read-only, lender-legible layout.
-  No Legend navigation. No query box. Just the verified data and the proof.
-  "This verification was generated at block [height] on [date]. The balance shown
-  has not changed since block [height − 90 days equivalent]."
-- **Fiat prominence** — in this context, GBP equivalent is the primary figure.
-  The denomination toggle defaults to GBP for verification exports. Sats visible
-  but secondary. The lender thinks in pounds.
-- **Holding period display** — explicit. "No movement in [X] days / [Y] blocks."
-  Not buried. Not technical. Front and centre.
+- Address set, full and untruncated
+- Balance at reference block height (sats; fiat-at-block-height noted, not current)
+- Reference block height + block hash
+- Last outbound block height per address (the holding-period basis)
+- Merkle inclusion proof (header + path) — verifiable offline against the chain
+- FROST 3-of-4 signature over the statement
+- Legend query timestamp
+- Verifier instructions
 
-*Note: UC-2's solicitor summary and UC-3's lender verification both consume the same
-Merkle-anchored v2 export artefact from opposite sides — the solicitor receives it
-from the estate; the lender receives it from the borrower. The artefact is the same.
-The commissioning direction differs.*
+**Commissioning distinction:**
 
-### Version assignment (preliminary)
+| | UC-2 estate | UC-3 loan |
+|---|---|---|
+| Who commissions | Verifier (solicitor) | Subject (borrower) |
+| Why | Subject is absent (deceased) | Subject is present, controls the keys |
+| Proof of control | Absent — will and probate establish the link | Present (v2) — signed message binds the living borrower |
+| Attests | Holdings at a historical block (date of death) | Current holdings + holding-period window + control |
+| Recipient surface | Solicitor's receiving view | Lender View |
 
-- v1: verification export flow, shareable link, holding period display
-- v2: Merkle proof download, PDF with chain verification instructions
-- v3: `/legend/verify` endpoint, lender API, ZK balance proof
+The format is identical. What differs is direction and the proof-of-control
+component — addable in the loan case *only because the subject is present to sign*.
+That is the whole architectural difference between the two sides of the same document.
+
+This canonical v2 artefact also underlies UC-9's Chain Trace Report. Its field
+format is a single locked spec; changes must be checked against all three consumers.
+
+### Verification Mode — borrower-side generation (locked UC-3 Opus)
+
+**Legend's first explicitly-invoked mode.** Distress and Stewardship are inferred
+from query shape and never named. Verification Mode is a deliberate act, taken from
+a result via `Create a verification →`. It appears on standard and Stewardship
+results; **never in Distress Mode** (a bereaved heir on a phone is not underwriting
+a loan).
+
+**The register inverts.** Every other Legend moment helps a user conceal. This one
+helps a user disclose — deliberately, to a counterparty. The honest failure mode is
+inverted accordingly: not leaking what was hidden, but letting a user believe a
+thing they chose to show is still private. The copy carries that weight (see
+verification/disclosure register, `legend-ux-language.md`).
+
+**Modal (title: `Create a verification`):** states inclusions, what it proves, what
+it does **not** prove, and the disclosure warning. Reuses batch-modal chrome — no
+new component. Actions by version:
+
+- **v1:** `Copy shareable link` — address + reference block in the URL fragment
+  only; never sent to a server; no server-side storage.
+- **v2:** `Download signed verification` (canonical artefact) and `Add proof of
+  control` (BIP-322 signed-message step).
+
+**v1 link mechanism:** URL fragment carries the address set and reference block
+height. The fragment is never transmitted to any server. The recipient's browser
+resolves it locally and runs in-browser cross-node SPV to verify. This keeps the
+share link storage-free and log-free, consistent with the no-logs guarantee, while
+being honest that the borrower has *chosen* to reveal the address to the recipient
+(string 4 in the disclosure warning says so plainly).
+
+### Lender View / Recipient View — recipient-side consumption (locked UC-3 Opus)
+
+The loan instance of the **Recipient View**: the read-only, chrome-less surface a
+share link opens into. The same surface serves UC-2's solicitor and (ahead) UC-4's
+council — same artefact substrate, context-framed per scenario.
+
+**What is stripped (as the print layout strips, but for screen):**
+Refueler nav and footer, query input, batch icon, credential status icon, onboarding
+modal, theme toggle, SPA chrome.
+
+**What remains:**
+Legend wordmark (small), header line, recipient context line, verified data, holding
+period, verification anchor, independent-verification affordance, honest-scope footer.
+
+**Three-reads stillness constraint applies.** Ruth makes a decision from this screen.
+No motion, no collapsing state, no timed elements, no auto-refresh.
+
+**Denomination:** GBP-first. Ruth thinks in pounds. Sats visible, secondary.
+
+**Theme:** respects `rs-theme` cookie if present. Cold link with no cookie → Paper.
+`dataset.theme === 'carbon'` detection only, per nav lock.
+
+**Full addresses present.** Per-address table carries full untruncated addresses for
+Ruth's own records and re-verification — same chain-of-custody logic as UC-2 print.
+
+**Information hierarchy — top to bottom:**
+
+1. Header: `Verified holdings · Prepared with Legend`
+2. Context: `Shared with you by the holder. Verified against the Bitcoin network in your browser.`
+3. **Balance** — GBP primary (large); sats secondary
+4. **Holding period** — `No outbound movement across these [k] addresses in [N] days · [M] blocks.` — prominent; front and centre; the load-bearing collateral-quality signal
+5. **Verification anchor (live)** — `Verified against the Bitcoin network at block [height] · [date].`
+6. **Borrower reference** — `The holder generated this verification at block [height] · [date].` (freshness delta)
+7. **Proof of control (v2)** — present: `Control of this address was demonstrated by signature · [date].` / absent: honest note
+8. **Independent verification** — `Verify this yourself →` (v1: explains and re-runs in-browser cross-node SPV; v2: Merkle proof + verifier instructions download)
+9. **Per-address table** — full untruncated address(es), balance, last activity; IBM Plex Mono throughout
+10. **Honest-scope footer** — point-in-time / not-a-lien / re-check note
+
+### Proof of control (v2 — locked UC-3 Opus)
+
+James signs a challenge message from the collateral address in his own wallet using
+BIP-322 (generic signed message, native to P2TR and multi-sig). Legend verifies the
+signature and records `Control demonstrated by signature · [date]` in the artefact.
+
+**Legend never touches the keys.** It checks a signature, nothing more.
+
+**BIP-322 only, never BIP-137.** BIP-137 (legacy) cannot natively sign for Taproot
+(P2TR) addresses, is not forward-compatible with multi-sig, and is limited to basic
+SegWit (P2WPKH) — older Ledger and Trezor only. BIP-322 is future-proof, Taproot-
+native, and multi-sig-compatible. Any reference to signed-message verification in
+Legend materials means BIP-322.
+
+**A signed message proves control at the moment of signing.** The honest footer
+says so plainly.
+
+### Honest scope — three absences, stated plainly
+
+1. **Point in time, not a lien.** A verification confirms holdings when checked.
+   It is not a lien, an escrow, or a custody arrangement. Legend does not hold the
+   funds and cannot stop them moving. Re-check before relying.
+2. **Existence vs control.** A v1 export proves the coins exist and are still —
+   not who controls them. Control binding is the v2 BIP-322 signed message.
+3. **Disclosure vs privacy.** At v1/v2 the borrower chooses to reveal the address.
+   Legend keeps the query private from Legend; it cannot make private a balance the
+   borrower has chosen to show. Address-hiding verification (prove a threshold without
+   revealing the address) arrives at v3.
+
+### Version assignment (locked UC-3 Opus)
+
+| Version | What ships | Notes |
+|---------|-----------|-------|
+| **v1** | Verification Mode (generation), shareable link via URL fragment, Lender/Recipient View surface, holding-period display, in-browser cross-node SPV on recipient side, GBP-first Recipient View | Honest as a point-in-time re-check for the initial lender conversation; not a signed instrument. Stated explicitly as such in the UI. |
+| **v2** | Canonical Merkle-anchored + FROST-signed downloadable artefact (PDF + proof + verifier instructions); proof of control via BIP-322 signed message; subject-commissioned side of UC-2 estate artefact | Proof-of-control moves to v2 (not v3). The formal instrument the lender relies on. |
+| **v3** | `/legend/verify` full endpoint + lender API + ZK balance proof — prove control of ≥ threshold, unmoved for a window, *without revealing the address to the lender* | Address-hiding verification. The Ledn/Unchained/Lava model; no addresses exchanged. The v3 sales argument activates here. |
+
+**Sales argument sequencing:** v1 and v2 capabilities are stated plainly to prospects
+as what is available now. v3 address-hiding ZK proof is offered as explicit roadmap
+only — never implied as current capability. The privacy gradient across the three
+versions is itself the sales argument for v3.
+
+*Article candidate: No. Feeds Article 23 (`/legend/verify`, lending use case) at v3.*
 
 ---
 

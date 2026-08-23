@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-multi-core
-> **Version:** 1.5 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
+> **Version:** 1.6 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -227,6 +227,14 @@ architecture-level. v2 makes them formally verifiable.
 
 ### Professional use cases (v2)
 
+**Proof of control (BIP-322 signed message verification):**
+A present subject signs a challenge message from the collateral address in their own
+wallet using BIP-322 (generic signed message — Taproot-native, multi-sig-compatible).
+Legend verifies the signature and records the attestation in the v2 verification
+artefact. Legend never handles keys. BIP-137 (legacy, P2WPKH-only) is never used
+for this purpose. Output: `Control demonstrated by signature · [date]` in the artefact.
+Use case: Bitcoin-backed loan, live-subject side of estate artefact.
+
 **ZK balance proof generation:**
 A holder generates cryptographic proof they control ≥ X BTC without revealing addresses.
 Use cases: Bitcoin-backed lending (Ledn, Unchained, Lava), estate verification for solicitors,
@@ -392,6 +400,9 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Public-body transparency module | — | Parked — scoping session required | — |
 | /legend/verify endpoint | — | ZK proof stub | Full verification flow |
 | Merkle proof | Cross-node SPV v1 | Proof export artefact | Estate PI methodology |
+| Proof of control | — | BIP-322 signed-message (lender/borrower) | — |
+| Verification Mode | Shareable link (URL fragment) | Signed artefact + BIP-322 | ZK threshold (address-hidden) |
+| Recipient View | Lender View (v1) | Lender View + Merkle proof | `/legend/verify` endpoint |
 | Script rendering | Type label only | Plain-language quorum | — |
 | SP tweak index | Build prerequisite (v1) | — | — |
 

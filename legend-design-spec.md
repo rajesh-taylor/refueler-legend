@@ -1,5 +1,5 @@
 # legend-design-spec.md — refueler-legend
-> **Version:** 1.5 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** UC-2 Opus · 23 Aug 2026
+> **Version:** 1.6 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.
 > Covers: page architecture, query flow, result anatomy, credential UX, breach scenario,
@@ -799,6 +799,188 @@ proof blocks or signature fields. Honest scope: the v1 document is what it is �
 summary, browser-generated, not independently cryptographically verifiable without
 re-querying Legend. The solicitor can verify it by running the same query. That is the
 honest v1 claim.
+
+---
+
+## Verification Mode — generation spec
+
+**Locked: UC-3 Opus · 23 Aug 2026**
+**Source scenario:** UC-3 — The Bitcoin-Backed Loan
+
+### What Verification Mode is
+
+Legend's first explicitly-invoked mode. Distress Mode and Stewardship Mode are inferred
+from query shape and never named by the interface. Verification Mode is a deliberate act —
+the one moment Legend helps a user disclose rather than conceal.
+
+It is triggered by a CTA on an existing result, not by query shape. It produces a
+document — not a display.
+
+### Entry point
+
+`Create a verification →` — appended to the result view in standard and Stewardship
+contexts. Never appears in Distress Mode (trigger conditions absent: mobile, first visit,
+single address). Never appears on error or not-found states.
+
+### Verification modal
+
+**Title:** `Create a verification`
+
+**Body — in order:**
+1. What will be included (address set, balance at reference block, holding period since last outbound)
+2. What it proves (these addresses held this balance, unmoved for this window, as of this block)
+3. What it does not prove (who controls these addresses — that requires a signed message, v2)
+4. Disclosure warning
+
+Reuses batch-modal chrome (title, body, action buttons, cancel). No new component.
+
+**Actions by version:**
+
+| Version | Action |
+|---------|--------|
+| v1 | `Copy shareable link` |
+| v2 | `Download signed verification` + `Add proof of control` |
+
+### v1 share-link mechanism
+
+The shareable link carries the address set and reference block height in the **URL
+fragment only** — the `#` portion. The fragment is never transmitted to any server
+by any HTTP client. No server-side record of what was shared.
+
+The recipient's browser reads the fragment locally and runs **in-browser cross-node
+SPV** to verify the claimed state against the chain. The verification is reproducible —
+anyone with the link can re-run it. The borrower has chosen to reveal the address
+to the recipient; the copy says so plainly (string 4 in the locked strings).
+
+Optional QR code render on the modal for tablet-to-phone handoff. No additional
+component beyond the QR library already in scope.
+
+### v2 additions
+
+`Download signed verification` — generates the canonical Merkle-anchored, FROST-signed
+artefact on demand. PDF + machine-verifiable proof file + verifier instructions.
+
+`Add proof of control` — prompts the in-wallet BIP-322 signing step. On completion,
+Legend verifies the signature and records `Control demonstrated by signature · [date]`
+in the artefact header. Legend never handles keys. BIP-322 only — never BIP-137
+(legacy; P2WPKH-only; not Taproot-compatible; not multi-sig-compatible).
+
+---
+
+## Recipient View / Lender View — spec
+
+**Locked: UC-3 Opus · 23 Aug 2026**
+**Source scenario:** UC-3 — The Bitcoin-Backed Loan (loan instance)
+**Reused by:** UC-2 solicitor receiving view, UC-4 council watch view
+
+### What the Recipient View is
+
+The read-only, chrome-less surface a share link opens into. The loan instance is named
+the Lender View; the pattern is the Recipient View reused across scenarios with
+context-appropriate framing. Same stripped surface, same artefact substrate.
+
+### Three-reads stillness constraint
+
+Applies here as in Stewardship Mode. The recipient is making a decision from this screen.
+
+- No motion. No collapsing state. No timed elements. No auto-refresh.
+- The result is stable. The chain at the verified block height does not change.
+
+### What is stripped
+
+- Refueler nav and footer
+- Query input
+- Batch icon
+- Credential status icon
+- Onboarding modal (entirely — no cookie check needed; this is a read-only surface)
+- Theme toggle
+- SPA chrome (loading states, progress indicators)
+- Privacy explainer trigger (`How is this private?`)
+- Any element with `data-no-print` attribute
+
+### What remains
+
+- Legend wordmark (small, top-left)
+- Header line and recipient context line
+- Balance (GBP primary, sats secondary)
+- Holding-period statement (prominent)
+- Verification anchor (live: in-browser cross-node SPV result)
+- Borrower reference line (freshness delta)
+- Proof-of-control line (v2) or honest absence note
+- Independent verification affordance
+- Per-address table (full untruncated addresses)
+- Honest-scope footer
+
+### Theme
+
+Respects `rs-theme` cookie if the recipient's browser has one (existing Refueler user).
+Cold link with no cookie → Paper default. Detection via `dataset.theme === 'carbon'`
+only. Never `classList.contains`.
+
+### Denomination
+
+GBP-first. The counterparty — lender, solicitor, council officer — thinks in pounds,
+not sats. Sats visible, secondary. Per the contextual denomination rule (see
+`legend-ux-language.md` §4): denomination follows the reader's relationship to the
+holding. The owner reads in sats. The non-owner professional counterparty reads in fiat.
+
+### Information hierarchy — top to bottom
+
+**1. Header**
+`Verified holdings · Prepared with Legend`
+DM Sans 500. `--text-primary`.
+
+**2. Recipient context**
+`Shared with you by the holder. Verified against the Bitcoin network in your browser.`
+DM Sans 300. `--text-tertiary`. One line. Sets the relationship and the verification claim.
+
+**3. Balance**
+GBP primary — large. IBM Plex Mono. `--text-primary`.
+Sats secondary — one line below. IBM Plex Mono. `--text-secondary`.
+
+**4. Holding period — the load-bearing element**
+`No outbound movement across these [k] addresses in [N] days · [M] blocks.`
+(Singular variant: `No outbound movement from this address in [N] days · [M] blocks.`)
+DM Sans 500. `--text-primary`. Prominent. Front and centre.
+This is the collateral-quality signal. "Silence is information" rendered for an
+underwriter. No other explorer surfaces this as a plain-language front-and-centre claim.
+
+**5. Verification anchor (live)**
+`Verified against the Bitcoin network at block [height] · [date].`
+IBM Plex Mono 400. `--text-secondary`. One line.
+This is the line Ruth quotes to her compliance team.
+
+**6. Borrower reference**
+`The holder generated this verification at block [height] · [date].`
+DM Sans 300. `--text-tertiary`. Freshness delta — how long ago the holder checked.
+
+**7. Proof of control**
+Present (v2): `Control of this address was demonstrated by signature · [date].`
+Absent: `This verification confirms the holdings. It does not prove who controls them. Ask the holder for a signed message if you need that.`
+DM Sans 400. `--text-secondary`.
+
+**8. Independent verification affordance**
+`Verify this yourself →`
+v1: explains and re-runs in-browser cross-node SPV.
+v2: downloads Merkle proof + verifier instructions file.
+
+**9. Per-address table**
+Full untruncated addresses. IBM Plex Mono throughout. One row per address: address,
+balance (sats), last activity. Same chain-of-custody requirement as UC-2 print:
+Ruth may need to re-verify or commission a further report from nothing but this link.
+
+**10. Honest-scope footer**
+`This confirms what these addresses held when checked. It is not a lien or an escrow.
+The holder can move these funds at any time. Re-check before you rely on it.`
+DM Sans 300. `--text-tertiary`. Always visible. Never hidden or collapsed.
+
+### Honest-scope footer — design note
+
+This footer is the most important copy discipline on the Recipient View. It is not
+a legal disclaimer in small print at the bottom. It is an honest statement of what
+Legend can and cannot certify, in the same register as everything else on the screen.
+The font is small because it is secondary; the copy is unambiguous because the
+recipient needs to understand the limit before they rely on the document.
 
 ---
 

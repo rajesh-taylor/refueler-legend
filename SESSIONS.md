@@ -4,6 +4,90 @@
 
 ---
 
+## Session UC-3 Opus · 23 Aug 2026
+
+**Phase:** Use case scoping — UC-3 The Bitcoin-Backed Loan
+**Status:** Complete. Shared-artefact commissioning distinction locked. Verification Mode and Lender/Recipient View locked. Verification/disclosure register locked. 17 new locked strings. One substantive version change (proof-of-control → v2).
+
+### Completed
+
+- **Shared v2 artefact confirmed and commissioning distinction locked.** UC-2 estate
+  and UC-3 loan consume one canonical Merkle-anchored, FROST-signed verified-holdings
+  statement. Estate = verifier-commissioned, no proof-of-control (subject absent).
+  Loan = subject-commissioned, proof-of-control attached (subject present). Format
+  identical. Same substrate also underlies UC-9's Chain Trace Report. Its field format
+  is a single locked spec; changes must be checked against all three consumers (UC-2,
+  UC-3, UC-9).
+
+- **Verification Mode locked** — Legend's first explicitly-invoked mode (vs inferred
+  Distress/Stewardship). Triggered by `Create a verification →` on standard and
+  Stewardship results; never in Distress Mode. Generation modal reuses batch-modal
+  chrome. v1 action: `Copy shareable link` (URL fragment only). v2 actions:
+  `Download signed verification` + `Add proof of control`.
+
+- **v1 share-link mechanism locked** — address + reference block in URL fragment
+  only; never sent to server; no server-side record; recipient's browser runs
+  in-browser cross-node SPV to verify. Log-free and storage-free, consistent with
+  the no-logs guarantee.
+
+- **Recipient View / Lender View locked** — read-only, chrome-less surface a share
+  link opens into. Stripped of all Legend nav, query box, onboarding, chrome. Keeps:
+  wordmark, verified data, holding-period statement (prominent, front and centre),
+  verification anchor, proof-of-control state, independent-verification affordance,
+  per-address table (full untruncated), honest-scope footer. Three-reads stillness
+  constraint applies. GBP-first. Full anatomy fed to `legend-design-spec.md`.
+
+- **Verification/disclosure register locked** — sibling to bereavement/stewardship
+  registers; governs the one moment Legend helps a user disclose, not conceal.
+  Inverted failure mode (letting a user believe a chosen disclosure is still private)
+  is what the copy guards against. Register anchor string 18 in §8 and §6 statement.
+
+- **Contextual denomination rule extended** — Recipient / Verification context =
+  GBP-first (professional counterparty). Unifying principle stated: denomination
+  follows the reader's relationship to the holding (owner→sats; non-owner→fiat).
+
+- **Proof-of-control moved to v2.** BIP-322 signed-message verification; Legend
+  never handles keys. BIP-322 only — BIP-137 (legacy, P2WPKH-only, not Taproot-
+  compatible, not multi-sig-compatible) never used for this purpose.
+
+- **Sales argument sequencing locked.** v1 and v2 stated plainly to prospects as
+  current capability. v3 address-hiding ZK proof (prove threshold balance without
+  revealing address) offered as explicit roadmap only — never implied as current.
+  The privacy gradient across three versions is itself the sales argument for v3.
+
+- **17 new locked strings drafted** for `legend-ux-language.md` §8.
+
+### Files changed
+
+- `legend-use-cases.md` v1.2 → v1.3 (UC-3 full spec replaces brief)
+- `legend-design-spec.md` v1.5 → v1.6 (Verification Mode + Recipient/Lender View sections)
+- `legend-ux-language.md` v1.1 → v1.2 (verification/disclosure register + §6 statement + 17 strings + denomination rule extension)
+- `legend-scope.md` v1.5 → v1.6 (proof-of-control v2 line + BIP-322 note + version-summary rows)
+- `SESSIONS.md` (this entry)
+
+### Carry-forward
+
+- **UC-4 Opus next** — The Council and the Whale. The council's watch link is a
+  Recipient View variant; the FROST watch attestation is a close cousin of the
+  verification artefact. Interrogate the distinction between a *point-in-time
+  verification* (UC-3) and an *ongoing watch* (UC-4) — the latter promises future
+  detection, which UC-3 explicitly does not.
+- **Canonical v2 artefact field format now shared across UC-2 / UC-3 / UC-9** —
+  treat as a single locked spec; changes must be checked against all three consumers.
+- **Build recommendation** — start Legend-6 Eleventy shell build session now; run
+  remaining UC sessions (UC-4 through UC-9) in parallel with build sessions, not
+  as prerequisites. UC-7, UC-8, UC-9 do not block any Phase 1 build work.
+- **BIP-322 implementation note** — multisig proof-of-control signing quorum UX
+  deferred to a v2 build session; not a lock.
+- **Article 23** — `/legend/verify` + lending use case; UC-3 is its upstream.
+  Draft at v3 approach.
+- **All prior carry-forwards remain open** — MASTER.md stale three-node/2-of-3/€360
+  figures; Legend-6 build; Opus-C solicitor; FROST ceremony; provider quotes;
+  two-operator milestone; stale figures in `legend-economics.md` and
+  `legend-enterprise-pricing.md`.
+
+---
+
 ## Session UC-2 Opus · 23 Aug 2026
 
 **Phase:** Use case scoping — UC-2 The Grandparent's Ledger
