@@ -1,6 +1,47 @@
 # SESSIONS.md — refueler-legend
-*Rolling log — last 3–4 sessions only. Archive older entries.*
-*Session naming: Multi-[n] through Multi-8. Legend-[n] from first build session after Multi-8.*
+*Rolling log — last 3–4 sessions only. Archive older entries to `SESSIONS-ARCHIVE.md`.*
+*Session naming: Multi-[n] for planning. Legend-[n] for build. UC-[n] Opus for use-case scoping.*
+
+---
+
+## Session Multi-[n] · 25 Aug 2026
+
+**Phase:** File restructure — context management before UC-5
+**Status:** Complete. All five core documents split and produced. MASTER.md retired.
+
+### Completed
+
+- **File split plan approved and executed.** Five core documents split into nine.
+  All files under 450 lines (exception: `legend-use-cases-2.md` at ~500 lines).
+
+- **New files created:**
+  - `legend-ui-modes.md` — all UI mode specs extracted from `legend-design-spec.md`
+  - `legend-design-appendix.md` — post-B9 scope additions + session roadmap extracted from `legend-design-spec.md`
+  - `legend-use-cases-2.md` — UC-5 through UC-9 + Opus session structure + B9 gate note + scope essay extracted from `legend-use-cases.md`
+  - `legend-copy-index.md` — Sections 6–8 (honest-scope statements, degraded mode notices, locked copy index) extracted from `legend-ux-language.md`
+  - `SESSIONS-ARCHIVE.md` — all session entries prior to UC-3 archived here
+
+- **Files updated:**
+  - `legend-design-spec.md` — header updated, modes and appendix extracted, cross-references updated
+  - `legend-ux-language.md` — trimmed to Sections 1–5; §6–8 now in `legend-copy-index.md`; infrastructure cost updated to €673/month
+  - `legend-scope.md` — carry-forward section deleted (history belongs in SESSIONS.md); stale figures removed; node table updated to reflect confirmed providers (B, D, E no longer TBD)
+  - `legend-use-cases.md` — trimmed to UC-1–4 full specs; UC-5+ extracted to `legend-use-cases-2.md`; Opus session load instructions updated
+  - `SESSIONS.md` — this restructure entry; pre-UC-3 sessions archived
+
+- **MASTER.md retired.** Stale figures (three-node/2-of-3/€360) removed from circulation. Content distributed across split files. MASTER.md is no longer used as a session loader.
+
+- **CLAUDE.md load instruction block** updated by Rajesh before session open (manual paste of new file load instructions from Multi-[n] plan). No further change required.
+
+### Files changed
+
+- All nine files above (new + updated)
+- `SESSIONS-ARCHIVE.md` (new)
+
+### Carry-forward
+
+- **All prior carry-forwards remain open:** Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony; provider quote replies; two-operator milestone; stale figures in `legend-economics.md`, `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
+- **`legend-ux-language.md` §2 infrastructure cost** — "roughly €360 a month" → "roughly €673 a month" patched in this restructure. Verify the below-the-fold body copy on the live holding page does not also carry the old figure.
+- **UC-5 + UC-6 Opus next** — paired session, Florentine District + Hanseatic Federation. Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-copy-index.md`.
 
 ---
 
@@ -29,7 +70,7 @@
   `Create a watch →` on standard/Stewardship results; never in Distress Mode.
   Reuses the verification/batch modal chrome. v1: `Copy watch link`. v2:
   `Download signed watch attestation` + `Add proof of control` (BIP-322, at
-  watch creation time only). Full anatomy fed to `legend-design-spec.md`.
+  watch creation time only). Full anatomy fed to `legend-ui-modes.md`.
 
 - **Watch Recipient View locked** — live variant of the UC-3 Recipient View
   with institutional register applied. Movement status is the load-bearing
@@ -37,7 +78,7 @@
   surface — reuses four-node canary state from the status page; no new machinery
   beyond the existing `--canary-expired` token. No-alert footer inverts the UC-3
   honest-scope footer. GBP-first denomination. Three-reads stillness constraint
-  applies. Full anatomy fed to `legend-design-spec.md`.
+  applies. Full anatomy fed to `legend-ui-modes.md`.
 
 - **Four corrections to the prior brief:**
   1. Canary string "…has not been legally compromised" rejected — overclaims
@@ -62,13 +103,13 @@
 
 - **Institutional register locked (§1) and no-alert honest-scope statement
   locked (§6).** 15 new locked strings drafted for §8, all fed to
-  `legend-ux-language.md`.
+  `legend-copy-index.md`.
 
 ### Files changed
 
 - `legend-use-cases.md` v1.3 → v1.4 (UC-4 full spec replaces brief — applied by hand)
-- `legend-design-spec.md` v1.6 → v1.7 (Treasury Watch Mode + Watch Recipient View sections)
-- `legend-ux-language.md` v1.0 → v1.3 (UC-2 + UC-3 + UC-4 additions: institutional register §1, denomination defaults §4, no-alert statement §6, all outstanding locked strings §8)
+- `legend-ui-modes.md` (new in restructure — Treasury Watch Mode + Watch Recipient View sections)
+- `legend-copy-index.md` (new in restructure — UC-2 + UC-3 + UC-4 additions: institutional register §1, denomination defaults §4, no-alert statement §6, all outstanding locked strings §8)
 - `legend-scope.md` v1.4 → v1.7 (UC-2 + UC-3 + UC-4 additions: watch version rows, four-consumer artefact note, v3 blind-channel constraint, version summary rows)
 - `SESSIONS.md` (this entry)
 
@@ -88,10 +129,7 @@
   Flag for Legend-6+ build: one canary state source, two surfaces.
 - **Build recommendation stands** — run remaining UC sessions in parallel with
   Legend-6 build; UC-4 does not block Phase 1 build work.
-- **All prior carry-forwards remain open** — MASTER.md stale three-node/2-of-3/€360
-  figures; Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony;
-  provider quotes; two-operator milestone; stale figures in `legend-economics.md`,
-  `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
+- **All prior carry-forwards remain open** — Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony; provider quotes; two-operator milestone; stale figures in `legend-economics.md`, `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
 
 ---
 
@@ -126,7 +164,7 @@
   wordmark, verified data, holding-period statement (prominent, front and centre),
   verification anchor, proof-of-control state, independent-verification affordance,
   per-address table (full untruncated), honest-scope footer. Three-reads stillness
-  constraint applies. GBP-first. Full anatomy fed to `legend-design-spec.md`.
+  constraint applies. GBP-first. Full anatomy fed to `legend-ui-modes.md`.
 
 - **Verification/disclosure register locked** — sibling to bereavement/stewardship
   registers; governs the one moment Legend helps a user disclose, not conceal.
@@ -146,614 +184,70 @@
   revealing address) offered as explicit roadmap only — never implied as current.
   The privacy gradient across three versions is itself the sales argument for v3.
 
-- **17 new locked strings drafted** for `legend-ux-language.md` §8.
+- **17 new locked strings drafted** for `legend-copy-index.md` §8.
 
 ### Files changed
 
 - `legend-use-cases.md` v1.2 → v1.3 (UC-3 full spec replaces brief)
-- `legend-design-spec.md` v1.5 → v1.6 (Verification Mode + Recipient/Lender View sections)
-- `legend-ux-language.md` v1.1 → v1.2 (verification/disclosure register + §6 statement + 17 strings + denomination rule extension)
+- `legend-ui-modes.md` (new in restructure — Verification Mode + Recipient/Lender View sections)
+- `legend-copy-index.md` (new in restructure — verification/disclosure register + §6 statement + 17 strings + denomination rule extension)
 - `legend-scope.md` v1.5 → v1.6 (proof-of-control v2 line + BIP-322 note + version-summary rows)
 - `SESSIONS.md` (this entry)
 
 ### Carry-forward
 
-- **UC-4 Opus next** — The Council and the Whale. The council's watch link is a
-  Recipient View variant; the FROST watch attestation is a close cousin of the
-  verification artefact. Interrogate the distinction between a *point-in-time
-  verification* (UC-3) and an *ongoing watch* (UC-4) — the latter promises future
-  detection, which UC-3 explicitly does not.
+- **UC-4 Opus next** — The Council and the Whale. ✅ Complete · 25 Aug 2026
 - **Canonical v2 artefact field format now shared across UC-2 / UC-3 / UC-9** —
   treat as a single locked spec; changes must be checked against all three consumers.
+  (Updated to four consumers at UC-4.)
 - **Build recommendation** — start Legend-6 Eleventy shell build session now; run
-  remaining UC sessions (UC-4 through UC-9) in parallel with build sessions, not
-  as prerequisites. UC-7, UC-8, UC-9 do not block any Phase 1 build work.
+  remaining UC sessions (UC-4 through UC-9) in parallel with build sessions.
 - **BIP-322 implementation note** — multisig proof-of-control signing quorum UX
   deferred to a v2 build session; not a lock.
 - **Article 23** — `/legend/verify` + lending use case; UC-3 is its upstream.
   Draft at v3 approach.
-- **All prior carry-forwards remain open** — MASTER.md stale three-node/2-of-3/€360
-  figures; Legend-6 build; Opus-C solicitor; FROST ceremony; provider quotes;
-  two-operator milestone; stale figures in `legend-economics.md` and
-  `legend-enterprise-pricing.md`.
-
----
-
-## Session UC-2 Opus · 23 Aug 2026
-
-**Phase:** Use case scoping — UC-2 The Grandparent's Ledger
-**Status:** Complete. Stewardship Mode anatomy locked. Legacy print layout locked. Five new locked strings drafted.
-
-### Completed
-
-- **Stewardship Mode anatomy locked.** Trigger conditions confirmed: desktop viewport,
-  1–2 addresses, not the 3+ batch escalation pattern. Full information hierarchy defined
-  top to bottom: stillness affirmation → aggregate → verification anchor → per-address
-  breakdown → history below fold → Tor notice → print affordance.
-
-- **Three-reads stillness constraint locked.** Arthur reads the screen three times.
-  No motion. No collapsing state. No timed elements. No auto-refresh. The interface
-  is stable because the chain at the queried block height is stable.
-
-- **Legacy print layout spec locked.** `@media print`, Paper-only (Carbon users silently
-  rendered to Paper palette for print — no user-facing notice). Stylesheet strips: nav,
-  footer, chrome, privacy explainer links, Tor notice. Stylesheet keeps: Legend wordmark,
-  document header, per-address table (full untruncated addresses), aggregate summary,
-  verification anchor, privacy footer. Page break rules for long address lists.
-
-- **Bridge-document requirement identified.** The v1 print must carry full untruncated
-  address strings. A solicitor receiving Arthur's printout may need to commission a v2
-  Merkle-verified report without Arthur present. The full address is the only key they
-  have. Truncation at v1 breaks the chain of custody from v1 to v2.
-
-- **Solicitor output table confirmed.** UC-2 consumes UC-1's three-version ladder from
-  the receiving side. Same artefact ladder; different commissioning direction.
-  v1 commissioned by the holder (browser-generated, free, no Merkle proof — starting
-  point for probate file). v2 commissioned by the solicitor (£50, Merkle-anchored,
-  FROST-signed, independently verifiable without Arthur present). v3 commissioned by
-  the solicitor (£150, v2 plus contextual metrics and IHT methodology aid).
-
-- **UC-2 and UC-3 shared artefact noted.** UC-2's solicitor summary and UC-3's lender
-  verification both consume the same Merkle-anchored v2 export artefact from opposite
-  sides — solicitor receives it from the estate; lender receives it from the borrower.
-  Same artefact, opposite commissioning direction. Feeds UC-3 session framing.
-
-- **Stewardship register locked** as a sibling to the bereavement register (Multi-12).
-  Denomination rule stated: Stewardship Mode keeps sats-first (returning owner); Distress
-  Mode surfaces GBP-first (frightened newcomer). Both correct; rule is contextual, not global.
-
-- **Five new locked strings drafted** for `legend-ux-language.md` §8 (stewardship register):
-  1. `Held since block 840,000. No movement detected in 5 years.`
-  2. `Nothing has happened here since [date]. For a long-term holding, that is what you want to see.`
-  3. `This summary reflects the chain as of block [n], checked [date]. Anyone can verify it against the Bitcoin network independently.`
-  4. `Prepared for your records. Legend keeps no copy.`
-  5. `This check travelled over your normal internet connection.`
-
-- **UC-1 expansion applied in same patch pass.** UC-1 was still brief version in
-  `legend-use-cases.md`. Full spec (Distress Mode anatomy, trigger locks, device/age table,
-  solicitor output, bridge-document requirement) applied to v1.2 alongside UC-2 expansion.
-
-### Files changed
-
-- `legend-use-cases.md` v1.1 → v1.2 (UC-1 full expansion + UC-2 full spec)
-- `legend-design-spec.md` v1.4 → v1.5 (Stewardship Mode + Legacy print layout sections added)
-- `legend-ux-language.md` v1.0 → v1.1 (bereavement register + stewardship register + five new locked strings + denomination rule)
-- `legend-scope.md` v1.4 → v1.5 (estate-tooling v1 note: full-address requirement for bridge-document)
-- `SESSIONS.md` (this entry)
-
-### Carry-forward
-
-- **MASTER.md stale figures** — three-node/2-of-3/€360 references remain in MASTER.md.
-  Update to five-node/3-of-4/€673 at next session that opens MASTER.md.
-- **UC-3 Opus next** — The Bitcoin-Backed Loan. Note that UC-2's solicitor summary and
-  UC-3's lender verification both consume the same Merkle-anchored v2 export artefact
-  from opposite sides. Brief in `legend-use-cases.md` v1.2 notes this; UC-3 session
-  should confirm the artefact format alignment and lock the commissioning distinction.
-- **All prior carry-forwards from Multi-12 remain open** (Legend-6 build, solicitor
-  engagement Opus-C, FROST ceremony, provider quotes, two-operator milestone, stale
-  figures in `legend-economics.md` and `legend-enterprise-pricing.md`).
-
----
-
-## Session Multi-12 · 23 Aug 2026
-
-**Phase:** Use case scoping — UC-1 The Bradford Inheritance
-**Status:** Complete. UC-1 fully scoped. Two stale-copy flags identified and patched.
-
-### Completed
-
-- **UC-1 scoped: The Bradford Inheritance.** Full interface design produced for
-  Distress Mode and Stewardship Mode. Eight standard use-case questions answered.
-  Device/age split locked. Solicitor document output defined across v1/v2/v3.
-
-- **Distress Mode trigger conditions locked.** Mobile viewport + first query of
-  session + single address input. All three required. Never named or selected
-  by the user — inferred from query shape.
-
-- **Distress Mode anatomy locked.** Balance → GBP (surfaced without tap, overrides
-  sats default) → held/moved statement → plain-language history (tap) → technical
-  detail (second tap) → document CTA. Onboarding modal suppressed in Distress Mode.
-
-- **Stewardship Mode trigger conditions locked.** Desktop viewport, unhurried
-  single or small address set. Full width used for explanation. Silence-as-affirmation
-  prominent. Print affordance first-class.
-
-- **Estate escalation locked.** 3+ addresses in session → batch results view with
-  Distress Mode tone. Reuses breach architecture wholesale — no new component.
-
-- **Solicitor document output defined across versions.**
-  v1: free dated summary, browser-generated, no paywall.
-  v2: £50 Merkle-anchored + FROST-signed verified estate report (solicitor commissions).
-  v3: £150 report with contextual metrics + IHT methodology aid.
-
-- **Seven new locked strings drafted** for `legend-ux-language.md` — bereavement
-  register sub-section and Section 8 additions. To be patched in next ux-language session.
-
-- **Two stale-copy flags resolved:**
-  - `legend-ux-language.md` §3, §6, §8: node count updated from 3→5, progress
-    strings updated from `node 1 of 2` to `node 1 of 4` through `node 4 of 4`.
-    Commit `04739b7`.
-  - `legend-design-spec.md` query flow prose: shard framing replaced with node
-    framing, §8 named as string authority. Commit `329ab13`.
-
-### Files changed
-
-- `legend-ux-language.md` — §3, §6, §8 node count and progress string corrections
-- `legend-design-spec.md` — query flow submitting prose corrected
-
-### Carry-forward
-
-- **`legend-ux-language.md`** — add bereavement register sub-section to §1;
-  add seven new locked strings to §8 (distress/stewardship copy). Next ux-language session.
-- **`legend-use-cases.md`** — expand UC-1 from brief to full spec (Distress +
-  Stewardship anatomy, trigger locks, device/age table). → v1.2.
-- **`legend-design-spec.md`** — add Distress Mode and Stewardship Mode sections
-  with full anatomies; note estate-escalation reuse of breach architecture.
-- **`legend-scope.md`** — no change required; UC-1 version assignments consistent
-  with existing version summary table.
-- **UC-2 (Opus)** — The Grandparent's Ledger. Natural pair with UC-1. Can run
-  next or alongside Legend-6 build prep.
-
-## Session Multi-11 · 23 Aug 2026
-
-**Phase:** Legend holding page — pre-build action from UC-9 carry-forward
-**Status:** Complete. Commit `d2fcb80` pushed to `rajesh-taylor/refueler-io`.
-
-### Completed
-
-- **Hero line locked:** "Public block explorers are surveillance tools with a search bar.
-  Legend is the alternative." Discussed and rejected: "Every address lookup tells a server
-  what you own" (inaccurate — user may be watching, not owning). Rejected "servers" plural
-  (diffuses the threat). Settled on category reframe over query-logging angle.
-
-- **Holding page structure decided:** Option 1 — no live input, no false affordance.
-  `legend-wordmark` + hero line + launch line. No email capture (no mailing lists, ever).
-  Notes pointer only. Link to `/notes/` until three Legend articles exist, then
-  `/notes/legend/` (trivial Eleventy tag filter, one session when ready).
-
-- **Launch line locked:** "Explorer launching soon — follow progress in Notes →"
-  Dash variant chosen over two-sentence structure.
-
-- **"Bitcoin" omitted from hero line** — URL, nav, and wordmark carry the context.
-  Adding it reads as a disclaimer, not a confident statement.
-
-- **Files delivered:**
-  - `src/legend/index.njk` — new holding page (no SPA script, no broken input)
-  - `src/legend/index-spa.njk` — current SPA shell preserved verbatim for Legend-6
-  - `src/assets/css/legend.css` — holding page block appended (lines 128+);
-    all existing rules untouched; removal note for Legend-6 included
-
-- **Repo path corrected:** `~/Documents/refueler.io` (dot, not hyphen).
-
-### Carry-forward
-
-- **Check live render** in both Carbon and Paper at `refueler.io/legend` post-deploy.
-- **`/notes/legend/` tag route** — add when three Legend articles exist. One session,
-  trivial Eleventy collection filter. Parked until Article A, B, C drafted and published.
-- **Legend-6** — Eleventy SPA shell build session. Rename `index-spa.njk` → `index.njk`,
-  remove holding page CSS block, wire query input. Load: `CLAUDE.md` + `SESSIONS.md` +
-  `MASTER.md` + `legend-design-spec.md`.
-- **All UC-9 carry-forwards remain open** (see UC-9 entry above).
-- **index-spa.njk removed from repo** to clear Cloudflare retry loop.
-  Restore at Legend-6 with:
-  `git show d2fcb80:src/legend/index-spa.njk > src/legend/index-spa.njk`
-  
----
-
-## Session UC-9 Opus · 23 Aug 2026
-
-**Phase:** Use case scoping — Recovery Coordination Layer
-**Status:** Complete. UC-9 block produced. legend-use-cases.md v1.1, legend-articles-list.md v1.4, SESSIONS.md updated.
-
-### Completed
-
-- **UC-9 scoped: The Recovery Coordination Layer.** Two parallel human tracks —
-  Marco (individual victim, mass-compromise event) and Elena (sovereign treasury
-  officer, national fiscal event) — developed as asymmetric tracks of the same
-  five-primitive architecture. Marco is the design driver; Elena is the proof the
-  primitives generalise upward. Not the same screen at two scales.
-
-- **Coldcard Mk3 event (August 2026) absorbed as the load-bearing attacker model.**
-  ~1,200 BTC swept in a coordinated no-dust attack. Vulnerable UTXO set identified
-  by AI-computed RNG pattern across the production batch — five years after device
-  shipping. No test transactions. No dust. Single coordinated sweep window.
-  Design consequence: the "dust then sweep" early-warning model is not the
-  primary attacker profile for UC-9. Pass notification may arrive after the
-  sweep, not before. Honest copy required.
-
-- **FROST decomposition corrected.** "Victims co-sign" replaced by the honest
-  three-layer model:
-  1. Blind membership credential (Pass Access-class) — asynchronous, anonymous,
-     does not encode group ID in a redemption-linkable way
-  2. Sealed individual component — each victim's claim encrypted to the trustee
-     quorum; submitted via Share; no victim sees another's data
-  3. Mixed attestation quorum — Legend + trustee + legal representative, 3-of-4
-     FROST; signs the aggregate envelope only; no single party can forge or block
-
-- **Mixed attestation quorum locked.** Not Legend's internal nodes alone — a mixed
-  quorum with the appointed trustee and a legal representative holding shares.
-  Addresses the single-operator IPA compulsion gap from the threat model:
-  a UK order on Legend's operator does not lapse the quorum.
-
-- **Recovery Mode defined as a distinct opt-in mode**, separate from Distress Mode.
-  Distress Mode is read-only. Recovery Mode is a legal and social action.
-  The mode boundary is the consent moment. Never triggered automatically.
-  Elena never enters Recovery Mode — she uses Watch/Verification (UC-4 mode).
-
-- **UI mode table locked (UC-9):**
-  - Distress Mode: entry point for both tracks
-  - Recovery Mode: Marco only, explicit opt-in
-  - Watch/Verification: Elena, institutional desktop context
-
-- **Share v3 design constraint flagged.** If N victims submit to one fixed
-  endpoint, Share and a network observer can count the group and correlate timing.
-  Content hidden; fact of submission visible. v3 requirement: rotating ephemeral
-  drop points, timing jitter. Design in, not bolt on. Surfaces in Share
-  architecture session before v3. Copy from v3 launch: "Share hides what you
-  send, not that you sent something."
-
-- **Pass credential hard constraint locked.** Credential must not encode group ID
-  in a redemption-linkable way. Attests: "entitled to participate in a
-  Legend-coordinated recovery." Binding to specific recovery via sealed component
-  only. Standard mint rotation rule applies. NUT-12 DLEQ mandatory.
-
-- **Sovereign positioning locked: standard, not dependency.** Legend defines an
-  open, verifiable format (MIT-licensed, independently implementable). A treasury
-  adopts a format that outlives the operator, not a dependency on one person's
-  infrastructure. "A Bitcoin treasury without verified recovery protocols in place
-  is operating below the standard of care." Not a dependency claim.
-
-- **Lawyer sequencing confirmed.** No lawyers required before v2 or v3 ships.
-  Before v3 launch: one UK/common-law forensic Bitcoin specialist (extending Opus-C
-  gate — firms: Mishcon, AWO, Pinsent Masons) + one civil-law equivalent.
-  Two jurisdiction relationships, not fifty. Format published before relationships
-  confirmed. Legend names the class of trustee; victim engages own counsel.
-
-- **v3 gates confirmed: three, not one.**
-  1. Sealed-component format built and tested
-  2. Mixed attestation quorum operational (Opus-C + two-operator milestone)
-  3. At least one real trustee/jurisdiction relationship confirmed
-  Honest copy before gate 3: "Coordination format published. Operational trustee
-  relationships pending."
-
-- **Article 24 full outline produced.** Two-phase publish unchanged. Phase 1
-  beats (Coldcard event, Distress Mode, Chain Trace, Share) at v2. Phase 2 beats
-  (Recovery Mode, sealed-component model, Elena's arc, sovereign standard) at v3.
-  Opening line locked: "When Mt. Gox collapsed, the Bitcoin was gone but the chain
-  still knew where it went. The victims had no tool to read it. We're building
-  that tool now."
-
-- **legend-use-cases.md v1.1 produced.** UC-9 appended. Scenario index updated.
-  "On the scope of Legend" closing section extended to include San Salvador.
-
-- **legend-articles-list.md v1.4 produced.** Article 24 replaced with UC-9
-  output. Article 14 updated to reference Coldcard Mk3 event. Version and date
-  updated. Note added distinguishing Article 17 (UTXO consolidation) from
-  Article 24 (Mt. Gox / Recovery).
-
-- **Guardian relationship framing established.** Legend is the tool that makes
-  the chain legible at every moment of a Bitcoiner's life — calm days,
-  distress days, loss days. The format and the infrastructure are the guardian;
-  the operator provides them. Distinction matters legally and in user copy.
-
-- **Legend page — immediate pre-build action agreed.** Current state (blank
-  result on address query) is unprofessional. Agreed: build a holding page
-  at `refueler.io/legend` before the next build session. Either a slick
-  "coming soon" using locked one-liners from planning documents, or a password
-  gate. Build session to follow UC-9 immediately.
-
-### Files changed
-
-- `legend-use-cases.md` v1.0 → v1.1
-- `legend-articles-list.md` v1.3 → v1.4
-- `SESSIONS.md` (this entry)
-
-### Carry-forward
-
-- **Legend holding page** — immediate pre-build action. Before Legend-6 (Eleventy
-  shell build session). Options: slick coming-soon using locked one-liners, or
-  password gate. Decision and build in next session.
-- **MASTER.md update** — UC-9 block, Share v3 constraint, mixed quorum, guardian
-  framing, Coldcard attacker model. Update at next session that opens MASTER.md.
-- **Opus-C solicitor gate extended** — now covers: IPA compelled-continuation
-  question (existing) + sealed-component/attestation format receivable in UK
-  insolvency context (UC-9 addition). Two questions, one engagement.
-- **Two-operator milestone** — unchanged from Multi-10 carry-forward. Now also
-  gates the mixed attestation quorum (UC-9 v3 gate 2).
-- **FROST ceremony session** — unchanged. Required before v1 canary or mint live.
-  Now also establishes the signing infrastructure that v3 Recovery quorum extends.
-- **Share architecture session** — must address rotating ephemeral drop points
-  and timing jitter before v3 Recovery Coordination Layer ships.
-- **legend-node-plan.md header** — still reads "three nodes / FROST 2-of-3."
-  Body reflects five-node / FROST 3-of-4 correctly. Fix header at next session
-  touching that file.
-- **All prior carry-forwards from Multi-10 remain open** (stage-2 obliviousness
-  + k floor → Legend-6 opener; canary semantics → Opus-C; frost-secp256k1 audit
-  pin; Nostr relay jurisdiction check; provider quote replies; two-operator
-  milestone; stale figures in economics/enterprise-pricing/ux-language/design-spec).
-
----
-
-## Session Multi-10 · 11 Aug 2026
-
-**Phase:** Adversarial threat review — uncounted session
-**Status:** Complete. `legend-threat-model.md` v1.0 produced and committed (`addd8af`).
-
-### Completed
-
-- **`legend-threat-model.md` v1.0 produced and committed.** Pre-build adversarial threat
-  review of Legend v1 transport and query architecture. Three attacker profiles
-  (Chainalysis tier, GCHQ/NCA tier, passive network/ISP observer), five attack surfaces,
-  three structured questions (what is extractable, what is structurally unprotected, what
-  is foreclosed). Commit: `addd8af`, 152 insertions. Prompt: `adversarial-1-opus-prompt.md`.
-
-- **Stage-2 obliviousness identified as the load-bearing correctness check.** The v1 privacy
-  claim rests entirely on whether stage-2 fetches the full candidate set (oblivious) or only
-  the target row (not oblivious — collapse of the role-split). Must be verified and locked as
-  a protocol invariant before query code is written. Minimum bucket size *k* also unspecified —
-  must be documented. Both items → Legend-6 opener.
-
-- **IP-join finding: collusion-resistance overstated as currently framed.** Both nodes see
-  the same client IP seconds apart. IP+timestamp is default TLS-layer data. The honest v1
-  floor is *k*-anonymity within a prefix bucket, keyed to IP. Free-tier distress users are
-  the most exposed cohort. OHTTP (RFC 9458) is the natural v2 fix; nothing in v1 forecloses it.
-
-- **Canary signalling gap documented.** Under 3-of-4, single-operator IPA compulsion does
-  not lapse the canary — the other three participants keep it valid. "FROST resolves Boltz"
-  is half true. Requires honest documentation in Enterprise materials and canary UX copy.
-  Blocked on solicitor (Opus-C). Canary semantics → Opus-C / solicitor block.
-
-- **Prospective logging risk under IPA Part 3 documented.** A Part-3 notice can compel
-  silent addition of prospective logging. Architecture is not retrospectively reversible
-  but can be inverted going forward. Also blocked on solicitor.
-
-- **Nothing forecloses v2 transport improvements.** Full-index-per-node enables Spiral PIR
-  additively. Browser-direct role-split does not foreclose OHTTP or per-connection Tor.
-  No architectural replacement required for any planned v2 feature.
-
-- **Hardening candidates absorbed into existing sessions — no new standalone block.**
-  Three gating items: stage-2 obliviousness + *k* → Legend-6; canary semantics → Opus-C;
-  2-of-4 unsignable confirmation → FROST ceremony session (already queued).
-
-- **Two-operator milestone identified.** A second operator in a different jurisdiction,
-  holding their own FROST share, is required before the first Enterprise contract is signed.
-  Not a build blocker — an operational maturity milestone. Logged as carry-forward.
-
-- **Single-node-first development sequence confirmed.** Node A (Hetzner, ~€77/month)
-  is sufficient for the full v1 development stack. Five-node production topology
-  provisioned when production privacy claims are made — not before.
-
-- **Refueler IP honesty standard established as platform-wide principle.** Added to
-  REFUELER-BRIDGE.md. Applies to all current and future Refueler products (Share, Legend,
-  Pass, merchant terminal, ticketing). No product claims anonymity where IP is visible.
-  All products recommend Tor for high-sensitivity use. All products plan OHTTP or equivalent
-  as a v2 structural fix. This is a competitive advantage that cannot be retrofitted by
-  competitors whose architectures were not designed with it in mind.
-
-### Files changed
-
-- `legend-threat-model.md` v1.0 (new file, committed `addd8af`)
-- `SESSIONS.md` (this entry)
-- `MASTER.md` (threat model block added)
-- `REFUELER-BRIDGE.md` (Refueler IP honesty standard added)
-
-### Carry-forward
-
-- **Stage-2 obliviousness + minimum *k* floor** — lock in Legend-6 opener as the first
-  output of that session, before any query code is written.
-- **Canary signalling semantics** — what the canary does and does not signal under single-operator
-  IPA compulsion. Fold into Opus-C / solicitor block. Cannot be resolved without legal input.
-- **2-of-4 unsignable confirmation** — verify on real hardware in FROST ceremony session.
-  Only one acceptable answer: 2-of-4 cannot produce a valid signature under the 3-of-4 scheme.
-- **Two-operator milestone** — second operator, different jurisdiction, own FROST share,
-  required before first Enterprise contract is signed. Operational milestone, not build blocker.
-- **Nostr relay jurisdictions** — verify hosting jurisdiction of damus, nostr.band, nostr.wine.
-  Cannot confirm without web access. Required before canary publication design is finalised.
-- **`frost-secp256k1` audit status** — pin to a confirmed-audited version. Required before
-  any node goes live.
-- **All prior carry-forwards from Multi-9 remain open** (legend-enterprise-pricing.md break-even,
-  legend-design-spec.md stale infrastructure figure, legend-ux-language.md §4/§8 GBP edit,
-  FROST ceremony session, provider quote replies, solicitor engagement).
-
----
-
-## Session Multi-9 · 11 Aug 2026
-
-**Phase:** Planning and vision — use case library, session sequencing, B9 gate review
-**Status:** Complete. `legend-use-cases.md` v1.0 produced and committed (`6e3eb82`).
-
-### Completed
-
-- **B9 gate formally lifted.** Legend runs its own independent node. Legend v1 has
-  no Lightning dependency. The Cashu mint for query credentials is non-monetary and
-  requires no Lightning node. B9 (Share Lightning node) is no longer a prerequisite
-  for any Legend build or planning session. Decision logged here and in
-  `legend-use-cases.md` §B9 gate section and `MASTER.md`.
-
-- **`legend-use-cases.md` v1.0 produced and committed.** Eight civilisational use
-  cases, each a full design brief with named human moment, interface implications,
-  article candidate flag, and preliminary version assignments. Commit: `6e3eb82`,
-  688 insertions.
-
-- **Eight use cases defined (UC-1 through UC-8):**
-  - UC-1: The Bradford Inheritance — estate lookup, distress mode, phone
-  - UC-2: The Grandparent's Ledger — stewardship mode, legacy print, laptop
-  - UC-3: The Bitcoin-Backed Loan — verification export, lender view, tablet
-  - UC-4: The Council and the Whale — treasury watch, FROST attestation, desktop
-  - UC-5: The Florentine District — civic treasury mode + article (dual output)
-  - UC-6: The Hanseatic Federation — federation settlement mode + article (dual output)
-  - UC-7: The Block War — human cost calculator, historical fee context + article
-  - UC-8: The UTXO Lottery — movement eligibility, trustless draw, cryptographic sketch + article
-
-- **Five cross-scenario design principles locked:**
-  1. Multiple principals, same data — context inferred from query shape, not login
-  2. Verification as a first-class output — exportable, independently verifiable artefacts
-  3. Time and history matter as much as current state — chain as civilisational ledger
-  4. Plain language as a technical choice — precision and legibility are not in tension
-  5. Silence is information — "Held since block 840,000. No movement detected."
-
-- **Four new article candidates identified:**
-  - "The Florentine Protocol" — city-states, talent attraction, SP as Medici stipend envelope
-  - "The Hanseatic Protocol" — merchant federation, Lightning settlement, on-chain bill of lading
-  - "Who Gets Priced Out" — block war, human cost calculator, global south frame
-  - "The UTXO Lottery" — movement velocity as monetary property, trustless draw
-
-- **Opus session structure for use cases locked:**
-  - One scenario per Opus session. Maximum two if thematically paired.
-  - Natural pairs: UC-1+UC-2 (estate/inheritance device contrast), UC-5+UC-6 (civic/institutional)
-  - UC-8 runs solo — half UX session, half cryptographic design
-  - UC-9 runs solo — two parallel tracks, single architecture
-  - Eight standard questions per session (see `legend-use-cases.md` §Opus session structure)
-  - Standard outputs: interface spec → `legend-design-spec.md`, copy → `legend-ux-language.md`,
-    version assignments → `legend-scope.md`, article outline → `legend-articles-list.md`
-
-- **Session sequence confirmed** — see Session queue below.
-
-- **Design vision discussion logged in `legend-use-cases.md`.** Key framing: Legend is
-  infrastructure for how value gets read and trusted at civilisational scale. "Pandora's box
-  rather than block explorer" — everything inside is useful. Design backwards from the human
-  moment, not forwards from the technology.
-
-- **"Absence is correct" principle named** — a display pattern for wherever privacy-preserving
-  technology produces invisible-but-real activity. Show the signal. Explain the silence.
-  Applies across Silent Payments display, Fedimint settlement, SP-paid civic stipends.
-
-- **UTXO Lottery cryptographic sketch drafted** — Merkle lineage proof of movement history,
-  block hash at predetermined height as entropy source, deterministic winner function
-  (BLAKE3 of UTXO outpoint + draw block hash). Full design in UC-8 Opus session.
-
-- **`legend-articles-list.md`** — Articles A, B, C added (queued since Multi-8, now done).
-  Four new article candidates (UC-5, UC-6, UC-7, UC-8) added. Publishing sequence updated.
-
-### Files changed
-
-- `legend-use-cases.md` v1.0 (new file, committed `6e3eb82`)
-- `legend-articles-list.md` (Articles A, B, C + four new candidates added)
-- `MASTER.md` (B9 gate, session queue, use case block updated)
-- `SESSIONS.md` (this entry)
-
-### Carry-forward
-
-- **Duplicate `### Carry-forward` heading in Legend-7B entry** — resolved by archival.
-  Legend-7B has been archived out of the rolling log. No action required.
-- **legend-enterprise-pricing.md** — break-even floor still shows ~£385/month. Update to
-  ~£566/month at next session touching that file.
-- **legend-design-spec.md** — €96/month figure still stale. Replace with ~€673/month
-  planning estimate at next session touching that file.
-- **legend-ux-language.md** §4/§8 — GBP denomination edit still not applied. Apply at next
-  session touching that file.
-- **Design-spec token block** — pre-CC-74 stale `--bg` values still in spec. Fix at next
-  design session.
-- **FROST 3-of-4 ceremony** — blocked on nodes provisioned. Measure DKG duration on real
-  hardware; replace "minutes" placeholder in SLA materials with confirmed figure.
-- **Provider quote replies** — expected 10–11 Aug 2026. Reconvene when all five received
-  to confirm final cost table and unlock `legend-economics.md` §6 published copy.
-- **Solicitor (Opus-C)** — IPA compelled-continuation question. Firms: Bristows, Mishcon
-  de Reya, AWO. Blocked until engaged.
-
----
-
-*Legend-1 through Legend-3A archived. Decisions captured in `legend-economics.md` v1.0,
-`legend-enterprise-pricing.md` v1.0, `legend-scope.md` v1.2, `legend-design-spec.md` v1.1.*
+- **All prior carry-forwards remain open** — Legend-6 build; Opus-C solicitor; FROST ceremony; provider quotes; two-operator milestone; stale figures in `legend-economics.md` and `legend-enterprise-pricing.md`.
 
 ---
 
 ## Session queue
 
-### Immediate — no gate
+### Next: UC-5 + UC-6 (Opus, paired) — The Florentine District + The Hanseatic Federation
 
-**Legend holding page (Sonnet build)**
-Current `refueler.io/legend` returns blank result on address query — unprofessional.
-Replace with either: (a) slick coming-soon using locked one-liners from planning documents,
-or (b) password gate. Decision and build before Legend-6.
-Load: `CLAUDE.md` + `SESSIONS.md` + `legend-design-spec.md`
-
-**UC-1 (Opus) — The Bradford Inheritance**
-Single scenario. The youngest daughter, phone, distress mode, father's estate.
-Eight standard questions from `legend-use-cases.md`. Full interface design for
-distress mode and stewardship mode. Device/age split. Solicitor document output.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
-
-**Legend-6 (Sonnet build)**
-Eleventy shell at `refueler.io/legend`. SPA mount point, Paper/Carbon theme wired,
-query input idle state. CONTRIBUTING.md. Feeds from UC-1 output if UC-1 runs first.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-design-spec.md`
-
-**UC-2 (Opus) — The Grandparent's Ledger**
-Single scenario. Arthur, laptop, Sunday afternoon, stewardship mode.
-Legacy view, stewardship summary, print layout, silence as affirmation.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
-
-**Legend-7 (Sonnet build)**
-Query flow, result states. Feeds from UC-1 output.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-design-spec.md`
-
-**UC-3 (Opus) — The Bitcoin-Backed Loan**
-Single scenario. James and Priya, tablet, lender verification.
-Verification export flow, lender view, fiat prominence, holding period display.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
-
-**Articles draft block (Sonnet)**
-Draft Articles A, B, C (queued). No publish. 2–3 weeks sitting time.
-Outlines for Articles 14, 15 also worth roughing in during this block.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-articles-list.md`
-
-**UC-4 (Opus) — The Council and the Whale** ✅ Complete · 25 Aug 2026
-Treasury Watch Mode + Watch Recipient View locked. Institutional register locked.
-Verification/watch boundary locked. 15 new strings. Four brief corrections.
-
-**UC-5 + UC-6 (Opus, paired) — The Florentine District + The Hanseatic Federation**
 Two scenarios, thematically paired — both civic/institutional, both article candidates,
 both use the "absence is correct" display pattern.
 Outputs: civic treasury UI mode spec, federation settlement UI mode spec,
 two article outlines ("The Florentine Protocol", "The Hanseatic Protocol").
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
+Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-copy-index.md`
 
-**UC-7 (Opus) — The Block War**
+### UC-7 (Opus) — The Block War
+
 Single scenario. Fee spike, global south, nation-state mempool attack.
 Human cost calculator, historical fee context layer, Lightning correlation panel.
 Article outline: "Who Gets Priced Out."
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
+Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md`
 
-**UC-8 (Opus) — The UTXO Lottery**
+### UC-8 (Opus) — The UTXO Lottery
+
 Single scenario + cryptographic design session. Merkle lineage proof, block hash
 entropy, deterministic winner function. Stress-test miner manipulation economics.
 Article outline: "The UTXO Lottery."
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md` + `legend-scope.md`
+Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-scope.md`
 
 ### Phase 1 build — Legend-6 through Legend-~15 (target: December 2026)
 
 Eleventy shell → SPA query flow → result states → batch query / breach scenario →
 Silent Payments display → Article 14 → `refueler.io/legend` live.
-Each session: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + one detail file.
+Each session: `CLAUDE.md` + `SESSIONS.md` + `legend-design-spec.md` + one detail file.
 UC Opus sessions run in parallel with build sessions — Opus thinks, Sonnet builds.
 
 ### CryptoRoadmap block — target: January 2027
+
 *Runs after Phase 1 working explorer is live. Before any v2 build session
 touches the PIR or ZK layers. Three Opus sessions + three Sonnet sessions.*
 
 **CryptoRoadmap-1 (Opus) — Primitives audit**
-Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-scope.md`
+Load: `CLAUDE.md`, `SESSIONS.md`, `legend-scope.md`
 Cover: Ristretto255 vs secp256k1 for Legend and Share (ecosystem compatibility cost,
 WebCrypto acceleration, Safari memory profile, honest performance figures — no
 speculative multipliers); FROST + blind signatures against Crites-Komlo-Maller 2023
@@ -763,7 +257,7 @@ including the client hint payload size question which is the real adoption risk.
 Output: `legend-crypto-primitives.md`
 
 **CryptoRoadmap-2 (Opus) — Transport and scanning layer**
-Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-node-plan.md`
+Load: `CLAUDE.md`, `SESSIONS.md`, `legend-node-plan.md`
 Cover: Signal Sealed Sender as a query-sender-hiding model; ML-KEM-768 hybrid
 against NIST FIPS 203 final spec and `ml-kem` Rust crate maturity; Double Ratchet
 session initialisation latency on the Enterprise API; Fuzzy Message Detection
@@ -773,8 +267,7 @@ signatures honest timeline.
 Output: `legend-crypto-transport.md`
 
 **CryptoRoadmap-3 (Opus) — ZK architecture and estate/lending use case**
-Load: `CLAUDE.md`, `SESSIONS.md`, `MASTER.md`, `legend-scope.md`,
-`legend-enterprise-pricing.md`
+Load: `CLAUDE.md`, `SESSIONS.md`, `legend-scope.md`, `legend-enterprise-pricing.md`
 Cover: Bulletproofs+ (Eagen et al. 2022) vs Groth16 vs PLONK for ZK balance proofs
 — proof size (solicitor emails a file), verification time (lender runs this), prover
 time (client-side generation); `bellman` vs `arkworks` Rust ecosystem maturity 2026;
