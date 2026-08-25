@@ -1,10 +1,11 @@
-# legend-scope.md — refueler-multi-core
-> **Version:** 1.7 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** UC-4 Opus · 25 Aug 2026
+# legend-scope.md — refueler-legend
+> **Version:** 1.8 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Multi-[n] restructure · 25 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
 > Load in every build session. Nothing builds without a version reference here.
 > Companion documents: `legend-design-spec.md`, `CLAUDE.md`, `SESSIONS.md`.
+> Note: carry-forward log removed in Multi-[n] restructure — session history lives in `SESSIONS.md`.
 
 ---
 
@@ -105,10 +106,10 @@ Five nodes. Four full participants (A, B, C, D) plus one cold standby (E).
 | Node | Role | Jurisdiction | Provider |
 |---|---|---|---|
 | A | Full participant | Germany (EU) | Hetzner, Falkenstein |
-| B | Full participant | TBD (non-Hetzner) | TBD — provider session required |
+| B | Full participant | Luxembourg (EU) | Frantech/BuyVM |
 | C | Full participant | Iceland (EEA, non-EU) | FlokiNET, Reykjavik |
-| D | Full participant + warm standby | TBD (fourth jurisdiction) | TBD — provider session required |
-| E | Chain-only cold standby | TBD (fifth jurisdiction) | TBD — provider session required |
+| D | Full participant + warm standby | Canada | OVHcloud NA |
+| E | Chain-only cold standby | Switzerland | Infomaniak |
 
 **Node D** is a full FROST 3-of-4 participant, fully synced chain and Esplora index, manifest-registered, live from day one. When any of Nodes A–C is lost, D promotes immediately with no sync delay.
 
@@ -116,7 +117,7 @@ Five nodes. Four full participants (A, B, C, D) plus one cold standby (E).
 
 **FROST threshold:** 3-of-4 across Nodes A, B, C, D. Any three of four shares required to sign. Node E holds no share. Sub-quorum requires three simultaneous full-participant failures — materially less likely than the two-failure sub-quorum floor under the original three-node 2-of-3 scheme.
 
-**Providers for Nodes B, D, E are TBD.** Provider selection session required before any of these nodes are provisioned. Selection criteria: dedicated hardware (no VPS); 8+ cores x86_64, 64 GB RAM, 2 TB NVMe, 1 Gbps unmetered; no shared parent company with any other node's provider; jurisdiction preserves no-single-order-reaches-two-nodes property.
+**Provider selection criteria:** dedicated hardware (no VPS); 8+ cores x86_64, 64 GB RAM, 2 TB NVMe, 1 Gbps unmetered; no shared parent company with any other node's provider; jurisdiction preserves no-single-order-reaches-two-nodes property. US providers excluded (CLOUD Act 2018).
 
 ### Cashu NUT status
 
@@ -164,7 +165,7 @@ for individual holders checking their own addresses.
 **Sparrow Wallet / custom Esplora endpoint:**
 Legend is API-compatible with Esplora from electrs lineage. Sparrow users paste
 Legend's endpoint URL into Server preferences. No plugin, no custom code.
-Instruction article ships with the Phase 1 build. Craig Raw approach deferred to post-B9.
+Instruction article ships with the Phase 1 build.
 
 **UTXO consolidation advisor (qualitative):**
 Single informational flag when an address has 5+ UTXOs:
@@ -174,15 +175,15 @@ Plain statement. No score. No recommendation. Honest scope — the flag is quali
 **Denomination toggle:**
 Sats / BTC / USD (at time of transaction) / GBP (at time of transaction). Session-persisted.
 Resets on new session. No localStorage. GBP added UC-2 Opus. Denomination defaults vary by mode
-— see `legend-ux-language.md` §4.
+— see `legend-copy-index.md` §8.
 
-**Verification Mode and Stewardship Mode (locked UC-2/UC-3 Opus):**
+**UI modes (locked UC-1/UC-2/UC-3/UC-4 Opus):**
 Distress Mode (mobile, first query, single address) — inferred, never named.
 Stewardship Mode (desktop, 1–2 addresses, no outbound activity) — inferred, never named.
 Verification Mode (explicitly invoked via `Create a verification →` on standard/Stewardship
 results) — Legend's first explicitly-invoked mode.
 Treasury Watch Mode (explicitly invoked via `Create a watch →`) — Legend's second
-explicitly-invoked mode (locked UC-4 Opus). Never appears in Distress Mode.
+explicitly-invoked mode. Never appears in Distress Mode.
 
 **Legacy print layout (locked UC-2 Opus):**
 `@media print` stylesheet. Paper theme only on print. Full untruncated addresses.
@@ -284,27 +285,15 @@ to operator. Never used for third-party surveillance.
 Private correlation of on-chain channel opens/closes with own node's channel history.
 Requires the holder to provide their own node pubkey. Nothing leaves the session.
 
-**Lightning node pubkey — private channel correlation:**
-Holder provides own node pubkey. Legend correlates on-chain channel opens/closes
-with node footprint privately. Nothing leaves the session. No other explorer
-supports this at all, let alone privately.
-
 **Cashu mint health verification:**
 Private on-chain verification of a Cashu mint's Lightning liquidity footprint.
 Query input: mint public key + block height. Output: channel open/close history,
 reserve consistency check. Does not query token state — mint blindness is preserved.
-The mint does not know it was checked. Positioned alongside the Cashu ecosystem
-as a trust and health signal, not as surveillance.
+The mint does not know it was checked.
 
 **Public-body transparency module (v2 — parked):**
-Same infrastructure as Family Office tier, inverted output intention. A publicly-funded
-body (state treasury, municipal Bitcoin reserve, taxpayer-funded foundation) uses Legend
-to publish declared holdings and transaction history to the public — showing exactly what
-it chooses, nothing more, with the privacy architecture working for the institution's
-disclosure intent rather than against it. Proposition: "We help you show the public
-exactly what you choose, and nothing more." Distinct from surveillance — the institution
-controls the disclosure scope. Requires no new query infrastructure; requires a
-public-disclosure module (curated address set, denomination toggle, publication endpoint).
+A publicly-funded body uses Legend to publish declared holdings and transaction history
+to the public. Requires no new query infrastructure; requires a public-disclosure module.
 Not a v1 consideration. Scoping session required before any v2 build begins on this feature.
 
 **Article pipeline unlocks at v2:**
@@ -335,42 +324,8 @@ in v1 and v2 to be stable, audited, and trusted before a line of v3 code is writ
 
 ### Professional use cases (v3)
 
-**Compliance report generation:**
-Credential-gated, client-side generated. PDF report of address history, provenance scores,
-and balance proofs for a given date range. The operator never sees the content.
-For solicitors, accountants, family office trustees, compliance officers.
-This is the tool that PI insurance accepts.
-
-**Family office credential management:**
-Enterprise tier with named credential sets, access controls by role, audit trail
-the family office owns and controls. Not logged by Legend. Documented honestly.
-
-**Insurance pricing layer:**
-API for insurers pricing BTC holdings. UTXO provenance scores and mixing history
-provided without the insurer knowing which client's addresses they're pricing.
-ZK balance proof integration.
-
-**Estate / solicitor verification tooling:**
-Formal integration pathway for UK solicitors probating BTC estates. Verification
-of holdings at a specific block height. ZK balance proof as court-admissible evidence.
-Depends on legal framework development outside Legend's control — scope is the
-technical tooling, not the legal acceptance.
-
-**Self-custody estate planning:**
-Time-locked balance verification at a specific block height for probate purposes.
-A solicitor needs to know what the deceased held at date of death — a specific block. Legend returns a ZK-backed statement of holdings at that block without revealing which addresses were checked. Inheritance script monitoring for Miniscript/Liana-style time-locks: holder or heir pastes the script, Legend watches privately. Multi-sig quorum verification in plain language for solicitors. Per-report pricing model — £50–150 per verified estate report. UK solicitors are the primary audience; the Solicitors Regulation Authority has mandated crypto asset accounting in estates with no tooling provided. Legend is that tooling.
-
-**/legend/verify endpoint:**
-Dedicated ZK balance proof verification flow. Separate URL, separate interaction —
-not a modification to the main explorer input. Input: proof + claimed amount.
-Output: verified or not verified against chain at specified block height.
-Used by lenders, solicitors, and counterparties to verify a holder's proof
-without seeing addresses. Article 23 CTA links here.
-
-**Bitcoin-backed lending (formal integrations):**
-Ledn, Unchained, Lava — ZK balance proof as collateral verification. No addresses
-exchanged with the lender. Lender verifies the proof against the chain.
-Formal partnership approach begins post-v2 audit.
+**Compliance report generation, family office credential management, insurance pricing layer, estate/solicitor verification tooling, self-custody estate planning:**
+See full detail in v3 section — these are credential-gated, client-side generated professional outputs for solicitors, accountants, trustees, and compliance officers.
 
 **Movement alerting — Treasury Watch (locked UC-4 Opus):**
 Watch push notification for movement on a watched collateral address. v3 only.
@@ -379,8 +334,7 @@ unlinkable channel (Pass Access-class credential, per UC-9 architecture) or it i
 offered. Any non-blind delivery channel (email, webhook with address) would let Legend
 join the recipient's identity to the watched address and destroy the core claim.
 Alerting is reactive (post-on-chain-confirmation) and never preventive. NUT-12 DLEQ
-mandatory. No redemption-linkable address binding. Free-tier no-storage default
-untouched — alerting is an opt-in institutional layer only.
+mandatory. No redemption-linkable address binding.
 
 **Multi-signatory watch (locked UC-4 Opus):**
 Council + developer + solicitor multi-party watch. Requires two-operator milestone
@@ -456,55 +410,6 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Treasury Watch Mode + Watch Recipient View | Yes (live link, canary summary, no-alert footer) | + Signed watch attestation + BIP-322 control | + Blind-channel alerting (Pass) + Council API + Multi-signatory watch |
 | Denomination toggle | Sats / BTC / USD / GBP | — | — |
 | Proof of control | — | BIP-322, UC-3 and UC-4 | — |
-
----
-
-## Carry-forward
-
-`legend-scope.md` is the authority document for every build session.
-If a feature is not listed here, it does not exist yet. Add it to a planning session first.
-
-**Pre-build harness sessions (before Multi-8 / Legend-0 build opens):**
-- Node infrastructure costing session — produces `legend-node-plan.md` ✅
-- Enterprise pricing session — produces `legend-enterprise-pricing.md` ✅
-- UX language and information hierarchy session — produces `legend-ux-language.md` (Legend-3B)
-- Node status page spec session — adds section to `legend-design-spec.md`
-- Silent Payments plain-language copy session — adds to `legend-ux-language.md`
-- Estate planning feature spec session — adds detail to v3 section above
-
-**Legend-3A queued edits applied (6 Aug 2026):**
-- SP tweak index added as v1 build prerequisite under Silent Payments ✅
-- Cashu NUT status table added (NUT-13/09 permanent-out with reasons; NUT-28 v2; NUT-24 v2+) ✅
-- Merkle proof scope table added (v1/v2/v3) ✅
-- Plain-language script rendering added as v2 item ✅
-- Version summary table updated ✅
-
-**Legend-7B edits applied (7 Aug 2026):**
-- Five-node topology section added under v1 privacy architecture ✅
-- Node D (full participant + warm standby) and Node E (chain-only cold standby) defined ✅
-- FROST 3-of-4 topology and sub-quorum threshold noted ✅
-- PIR-inspired sharding row updated: "3–5 Hetzner nodes" → five dedicated nodes, four active query nodes ✅
-
-**UC-2 Opus edits applied (23 Aug 2026):**
-- Stewardship Mode + Legacy print layout added to v1 scope ✅
-- GBP denomination added to toggle ✅
-- Denomination defaults by mode noted ✅
-
-**UC-3 Opus edits applied (23 Aug 2026):**
-- Verification Mode + Recipient/Lender View added to v1 scope ✅
-- Proof-of-control via BIP-322 confirmed as v2 ✅
-- Canonical Merkle-anchored artefact noted: three consumers (UC-2, UC-3, UC-9) ✅
-- /legend/verify stub noted as v2; full endpoint as v3 ✅
-
-**UC-4 Opus edits applied (25 Aug 2026):**
-- Treasury Watch Mode + Watch Recipient View added to v1 scope ✅
-- Canonical Merkle-anchored artefact updated: four consumers (UC-2, UC-3, UC-4, UC-9) ✅
-- Movement alerting v3 architectural constraint locked (blind channel only) ✅
-- Multi-signatory watch added to v3 ✅
-- Version summary rows added for Watch Mode, proof of control, denomination toggle ✅
-
-**Session naming:** Multi-[n] continues through Multi-8 (first query flow).
-From Legend-0 onwards, sessions are prefixed `Legend-[n]`.
 
 ---
 
