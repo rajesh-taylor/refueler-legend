@@ -507,55 +507,158 @@ versions is itself the sales argument for v3.
 
 ## Scenario 4 — The Council and the Whale
 
-**UC-4. Opus session: one scenario, one human moment.**
+**UC-4. Opus session: UC-4 Opus · 25 Aug 2026. Full spec below.**
 
 ### The moment
 
 A county council in the West Midlands has accepted Bitcoin as collateral security
-from a property developer — a Bitcoin whale — for a £40 million housing development.
-The whale needs to demonstrate his holdings are unencumbered. The council needs
-ongoing assurance that the collateral hasn't been moved. Neither party trusts the
-other completely. Both need a trusted third party that isn't a bank.
+from a property developer — a Bitcoin whale — against a £40 million housing
+development. The whale must show the collateral is real and unencumbered. The
+council needs assurance, for the life of the covenant, that it has not moved.
+Neither party fully trusts the other. Both want a trusted third party that is
+not a bank.
 
-Legend is that third party. Except Legend doesn't hold anything, store anything,
-or know who either party is.
+Legend is that third party — and holds nothing, stores nothing, and knows
+neither party. The chain is the witness.
+
+The whale opens Legend on his laptop and creates a *watch* over the collateral
+address. Legend produces a live watch link, and (v2) a FROST-signed watch
+attestation he can hand over as a filed document. He shares the link with the
+council.
+
+The council's officer opens the link on a Monday morning. She sees, in pounds:
+the collateral intact, verified live against the Bitcoin network in her own
+browser as she opens it; whether it has moved; when the whale created the watch
+and whether he proved control; and whether Legend itself is under legal
+compulsion (canary). She has revealed nothing to Legend, and neither has he.
 
 ### What Legend must do in this moment
 
-The whale opens Legend. He adds the collateral address to a *watch*. Legend
-generates a FROST-signed watch attestation — a statement that at this block height,
-this address held this amount, and any movement will be detectable. The watch
-link is shared with the council.
+Two principals, one address, a standing covenant. The whale must *create* a watch —
+holdings, movement status, control. The council must *consume* it repeatedly over
+months, trusting only the chain and the proof — not the whale, not Legend. Legend
+must never let the officer mistake a link she has to open for an alarm that reaches
+her.
 
-The council's officer opens the watch link on a Monday morning. She sees: funds
-intact, last verification block height, canary status (is Legend itself operational
-and uncompromised), date of next scheduled check.
+### The verification/watch boundary (locked UC-4 Opus)
 
-Neither party has revealed anything about themselves to Legend. The chain is the
-witness.
+A verification (UC-3) and a watch (UC-4) share one machinery: a fragment-encoded
+address set, resolved by the recipient's browser via in-browser cross-node SPV
+against the current chain, with nothing stored on Legend. They differ only in
+temporal purpose, and the honesty burden inverts accordingly.
 
-### Design implications
+| | UC-3 verification | UC-4 watch |
+|---|---|---|
+| Supports | One decision (underwrite, disburse) | A standing covenant (18 months) |
+| Temporal frame | Point-in-time snapshot | Live on open; dead between openings |
+| Honest risk | Reader relies on a stale snapshot | Reader treats a pull link as a push alarm |
+| Footer guards against | "This may be stale — re-check" | "Legend does not watch for you — no alert is not no movement" |
+| Commissioning | Subject-present (borrower) | Subject-present (holder) |
+| Proof of control | BIP-322, v2 | BIP-322, v2 (at watch creation only) |
+| Artefact substrate | Canonical v2 statement | Same substrate, framed as watch attestation |
 
-- **Watch mode** — a persistent (session-based, not account-based) monitoring view.
-  An address is "watched" for a session. Share the session link. The recipient
-  sees the current state without needing a Legend account.
-- **Treasury dashboard** — council view. Single address or address set. Balance,
-  movement status, canary status, verification timestamp. Clean enough for a council
-  officer who has no Bitcoin background. The legend canary status is explained in
-  one sentence: "Legend's verification service is operating normally and has not
-  been legally compromised."
-- **Institutional language** — "collateral address" not "wallet." "Verified balance"
-  not "UTXO set." "Movement alert" not "transaction detected."
-- **FROST attestation as document** — the watch attestation is a signed statement,
-  not a live feed. It can be filed. It can be cited. It has a timestamp and a
-  block height and a cryptographic signature.
+**Locked principle:** *A verification is a snapshot. A watch is a live link.
+Neither is an alarm.* Absence of an alert is not evidence of absence of movement.
 
-### Version assignment (preliminary)
+**Honest "future detection."** A watch that genuinely pushes notice of movement
+requires Legend to hold the watched address and a contact channel — state Legend
+structurally refuses at v1. The only honest push is: (a) v3 only; (b) delivered
+through a blind, unlinkable channel (Pass Access-class credential, per UC-9);
+(c) reactive — it fires *after* on-chain confirmation, never before; (d) never
+preventive. Delivered any other way (an email list) it would let Legend join the
+council's identity to the address and destroy the core claim. So the constraint
+is load-bearing: **movement alerting is delivered through a blind credential or
+it is not offered.**
 
-- v1: watch mode, shareable link, institutional language layer
-- v2: FROST-signed attestation download, automated movement alerts
-- v3: council API, multi-signatory watch (council + developer + solicitor)
+### Shared artefact — fourth consumer (locked UC-4 Opus)
 
+The v2 watch attestation is the canonical Merkle-anchored, FROST-signed
+verified-holdings statement (see UC-3 §"Shared artefact") framed as a watch:
+same fields, plus a `watch created at block [height]` line. It is, necessarily,
+point-in-time — a signed document is a snapshot by definition. The *ongoing*
+quality lives in the live link; the *filed record* lives in the periodic signed
+attestation the council files for audit.
+
+The field format is now shared across **four consumers — UC-2, UC-3, UC-4, UC-9.**
+It is a single locked spec; any change must be checked against all four.
+
+**Commissioning direction:** subject-present, holder-commissioned — identical to
+UC-3. UC-3 and UC-4 differ *only* in temporal mode, not in commissioning direction
+and not in substrate. That is the whole architectural difference between them.
+
+### Treasury Watch Mode — creator side (locked UC-4 Opus)
+
+Legend's **second explicitly-invoked mode** (after Verification Mode). Distress and
+Stewardship are inferred and never named; Treasury Watch is a deliberate act, taken
+from a result via `Create a watch →`. It appears on standard and Stewardship
+results; **never in Distress Mode** (same guard as Verification Mode — a bereaved
+heir on a phone is not administering a collateral covenant).
+
+The creation modal makes the frozen-vs-live distinction explicit, carries the same
+disclosure warning as a verification (sharing a watch reveals the address to whoever
+holds the link), and states plainly that Legend monitors on no one's behalf and
+cannot freeze funds. Reuses the verification/batch modal chrome — no new component.
+
+- **v1:** `Copy watch link` — address set + reference block in the URL fragment
+  only; never sent to a server; no server-side storage. The recipient's browser
+  re-resolves it live on every open.
+- **v2:** `Download signed watch attestation` (canonical artefact, framed as watch)
+  and `Add proof of control` (BIP-322 signed-message step, at creation time only).
+
+### Watch Recipient View — council side (locked UC-4 Opus)
+
+A variant of the UC-3 Recipient View: the same read-only, chrome-less surface a
+share link opens into, with the **institutional register** applied. Full anatomy
+in `legend-design-spec.md`. Differences from the Lender View:
+
+- **Live, not snapshot.** Re-runs in-browser cross-node SPV against the current
+  tip on every open. The verification anchor reads *"checked … in your browser"*,
+  present tense.
+- **Movement status is the load-bearing element**, framed as an ongoing covenant
+  signal rather than a one-time holding period.
+- **Legend canary summary line** — the first place a canary appears inside a
+  recipient surface (previously status-page only). Honest face-line + explainer
+  link. No new machinery; reuses the four-node canary state.
+- **The no-alert footer** — the load-bearing new copy discipline, inverting the
+  UC-3 footer.
+- **Institutional vocabulary** — collateral address, verified balance, movement
+  status.
+- **GBP-first**, per the locked contextual denomination rule (council officer,
+  professional counterparty, thinks in pounds).
+
+### Honest scope — four absences, stated plainly
+
+1. **A watch is not an alarm.** It is live only when opened. Legend does not watch
+   on anyone's behalf and, at v1/v2, sends no alerts. No alert is not evidence of
+   no movement.
+2. **Not a lien, escrow, or custody.** Legend holds nothing and cannot stop the
+   collateral moving. It is a witness, never a custodian.
+3. **Control is proven once.** A BIP-322 signature (v2) proves control at the
+   moment of signing. Control may change over the covenant; the watch shows live
+   *balance and movement*, but not live *control*.
+4. **The canary has limits.** A current canary means no warrant-based compulsion
+   has been signalled by silence. It is not a guarantee against every legal
+   instrument (see the honest explainer). Legend never claims to be uncompromisable.
+
+### Reuse note — UC-9 Elena track
+
+The Watch Recipient View and Treasury Watch Mode are the upstream components Elena
+(sovereign treasury officer) reuses in UC-9: same surface, same institutional
+register, applied to a declared treasury address set. UC-9 locked this dependency
+("Elena never enters Recovery Mode — she uses Watch/Verification (UC-4 mode)").
+Changes to these surfaces must be checked against the UC-9 Elena track.
+
+### Version assignment (locked UC-4 Opus)
+
+| Version | What ships | Notes |
+|---------|-----------|-------|
+| **v1** | Treasury Watch Mode (create live watch link via URL fragment); Watch Recipient View (chrome-less, live re-verification, institutional register, GBP-first, canary summary line, no-alert footer); institutional language layer | Honest as a live, re-checkable link — not a push alarm, not a signed instrument, not a lien. Stated as such on the face. |
+| **v2** | Canonical Merkle-anchored + FROST-signed **watch attestation** (filable snapshot); proof of control via BIP-322 at watch creation | Same substrate as UC-2/UC-3/UC-9. The filed document a council can cite in its records. |
+| **v3** | Movement alerting via **Pass blind credential** (reactive, post-confirmation, unlinkable); council API; multi-signatory watch (council + developer + solicitor) | The only honest "future detection". Enterprise/institutional layer; disclosed, opt-in; the free-tier no-storage default is untouched. |
+
+*Article candidate: No. Strengthens the Enterprise/treasury positioning ("the
+third party that holds nothing"); candidate material for a future institutional
+article. No article number assigned.*
 ---
 
 ## Scenario 5 — The Florentine District

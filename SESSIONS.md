@@ -4,6 +4,97 @@
 
 ---
 
+## Session UC-4 Opus · 25 Aug 2026
+
+**Phase:** Use case scoping — UC-4 The Council and the Whale
+**Status:** Complete. Verification/watch boundary locked. Treasury Watch Mode and Watch Recipient View locked. Institutional register + no-alert honest-scope statement locked. 15 new locked strings. Four honesty corrections to the prior brief. Automated alerts confirmed v3 (not v2). Canonical artefact now four consumers.
+
+### Completed
+
+- **Verification/watch boundary locked.** Same machinery (fragment-encoded address
+  set, in-browser cross-node SPV, nothing stored on Legend). They differ only in
+  temporal purpose. A verification supports one decision and warns "may be stale,
+  re-check." A watch supports a standing covenant and warns "Legend does not watch
+  for you — no alert is not no movement." The honesty burden inverts.
+  Locked principle: *a verification is a snapshot, a watch is a live link,
+  neither is an alarm.*
+
+- **Honest "future detection" constrained.** Push movement alerting is v3-only,
+  blind-channel-only (Pass Access-class, per UC-9), reactive (post-confirmation),
+  never preventive. Any non-blind channel (e.g. email) would let Legend join the
+  council's identity to the address — prohibited. Constraint is architectural,
+  not a policy decision.
+
+- **Treasury Watch Mode locked** — Legend's second explicitly-invoked mode.
+  `Create a watch →` on standard/Stewardship results; never in Distress Mode.
+  Reuses the verification/batch modal chrome. v1: `Copy watch link`. v2:
+  `Download signed watch attestation` + `Add proof of control` (BIP-322, at
+  watch creation time only). Full anatomy fed to `legend-design-spec.md`.
+
+- **Watch Recipient View locked** — live variant of the UC-3 Recipient View
+  with institutional register applied. Movement status is the load-bearing
+  element (replaces holding period). First canary summary inside a recipient
+  surface — reuses four-node canary state from the status page; no new machinery
+  beyond the existing `--canary-expired` token. No-alert footer inverts the UC-3
+  honest-scope footer. GBP-first denomination. Three-reads stillness constraint
+  applies. Full anatomy fed to `legend-design-spec.md`.
+
+- **Four corrections to the prior brief:**
+  1. Canary string "…has not been legally compromised" rejected — overclaims
+     against CLAUDE.md canary honesty note (3-of-4 does not catch single-operator
+     IPA compulsion). Replaced with factual "all four canaries are current" face-line
+     plus honest explainer link.
+  2. "Date of next scheduled check" deleted — Legend schedules nothing in a pull
+     model; implies monitoring Legend does not do.
+  3. "Movement alert" (v1 language) → "movement status" — `alert` reserved
+     strictly for v3 push notification.
+  4. "Automated movement alerts" moved v2 → v3; "session-based/persistent"
+     reframed — nothing persists on Legend; durability is in the link, not
+     the server.
+
+- **Canonical v2 artefact now shared across FOUR consumers — UC-2/UC-3/UC-4/UC-9.**
+  Watch attestation variant adds `watch created at block [height]` line. Single
+  locked field format; changes checked against all four.
+
+- **UC-9 Elena dependency confirmed.** Watch Recipient View + Treasury Watch Mode
+  are the upstream components Elena (sovereign treasury officer) reuses. Changes to
+  these surfaces must be checked against the UC-9 Elena track.
+
+- **Institutional register locked (§1) and no-alert honest-scope statement
+  locked (§6).** 15 new locked strings drafted for §8, all fed to
+  `legend-ux-language.md`.
+
+### Files changed
+
+- `legend-use-cases.md` v1.3 → v1.4 (UC-4 full spec replaces brief — applied by hand)
+- `legend-design-spec.md` v1.6 → v1.7 (Treasury Watch Mode + Watch Recipient View sections)
+- `legend-ux-language.md` v1.0 → v1.3 (UC-2 + UC-3 + UC-4 additions: institutional register §1, denomination defaults §4, no-alert statement §6, all outstanding locked strings §8)
+- `legend-scope.md` v1.4 → v1.7 (UC-2 + UC-3 + UC-4 additions: watch version rows, four-consumer artefact note, v3 blind-channel constraint, version summary rows)
+- `SESSIONS.md` (this entry)
+
+### Carry-forward
+
+- **UC-5 + UC-6 Opus next** (paired) — Florentine District + Hanseatic Federation.
+  Both civic/institutional, both article candidates, both use the "absence is
+  correct" display pattern. UC-4's Watch Recipient View may inform the civic
+  treasury public view — check for surface reuse before speccing a new mode.
+- **Canonical v2 artefact — four consumers (UC-2/UC-3/UC-4/UC-9).** Single locked
+  spec; any change checked against all four.
+- **v3 alerting is a locked architectural constraint** — blind-channel (Pass)
+  delivery only; cross-reference UC-9 Pass Access-class credential (NUT-12 DLEQ;
+  no redemption-linkable address binding). Not to be re-derived.
+- **Canary summary now appears in a recipient surface** — Watch Recipient View
+  canary line must draw from the same four-node canary state as the status page.
+  Flag for Legend-6+ build: one canary state source, two surfaces.
+- **Build recommendation stands** — run remaining UC sessions in parallel with
+  Legend-6 build; UC-4 does not block Phase 1 build work.
+- **All prior carry-forwards remain open** — MASTER.md stale three-node/2-of-3/€360
+  figures; Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony;
+  provider quotes; two-operator milestone; stale figures in `legend-economics.md`,
+  `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
+
+---
+
 ## Session UC-3 Opus · 23 Aug 2026
 
 **Phase:** Use case scoping — UC-3 The Bitcoin-Backed Loan
@@ -627,10 +718,9 @@ Draft Articles A, B, C (queued). No publish. 2–3 weeks sitting time.
 Outlines for Articles 14, 15 also worth roughing in during this block.
 Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-articles-list.md`
 
-**UC-4 (Opus) — The Council and the Whale**
-Single scenario. West Midlands council, housing development collateral.
-Treasury watch, FROST attestation, institutional language layer.
-Load: `CLAUDE.md` + `SESSIONS.md` + `MASTER.md` + `legend-use-cases.md`
+**UC-4 (Opus) — The Council and the Whale** ✅ Complete · 25 Aug 2026
+Treasury Watch Mode + Watch Recipient View locked. Institutional register locked.
+Verification/watch boundary locked. 15 new strings. Four brief corrections.
 
 **UC-5 + UC-6 (Opus, paired) — The Florentine District + The Hanseatic Federation**
 Two scenarios, thematically paired — both civic/institutional, both article candidates,

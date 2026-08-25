@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-multi-core
-> **Version:** 1.6 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
+> **Version:** 1.7 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** UC-4 Opus · 25 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -172,8 +172,31 @@ Single informational flag when an address has 5+ UTXOs:
 Plain statement. No score. No recommendation. Honest scope — the flag is qualitative in v1.
 
 **Denomination toggle:**
-Sats / BTC / USD (at time of transaction). Session-persisted. Resets on new session.
-No localStorage. Covers basic professional use where fiat equivalence is needed.
+Sats / BTC / USD (at time of transaction) / GBP (at time of transaction). Session-persisted.
+Resets on new session. No localStorage. GBP added UC-2 Opus. Denomination defaults vary by mode
+— see `legend-ux-language.md` §4.
+
+**Verification Mode and Stewardship Mode (locked UC-2/UC-3 Opus):**
+Distress Mode (mobile, first query, single address) — inferred, never named.
+Stewardship Mode (desktop, 1–2 addresses, no outbound activity) — inferred, never named.
+Verification Mode (explicitly invoked via `Create a verification →` on standard/Stewardship
+results) — Legend's first explicitly-invoked mode.
+Treasury Watch Mode (explicitly invoked via `Create a watch →`) — Legend's second
+explicitly-invoked mode (locked UC-4 Opus). Never appears in Distress Mode.
+
+**Legacy print layout (locked UC-2 Opus):**
+`@media print` stylesheet. Paper theme only on print. Full untruncated addresses.
+Solicitor-legible chain-of-custody document format.
+
+**Shareable verification links and Recipient/Lender View (locked UC-3 Opus):**
+URL-fragment share links (address + reference block, never transmitted to server).
+In-browser cross-node SPV on recipient side. Lender View: read-only, chrome-less,
+GBP-first, three-reads stillness constraint.
+
+**Watch links and Watch Recipient View (locked UC-4 Opus):**
+Same URL-fragment mechanism as verification links; re-runs SPV on every open.
+Watch Recipient View: institutional register, movement status as load-bearing element,
+canary summary line, no-alert honest-scope footer.
 
 ### Professional use cases out of scope (v1)
 
@@ -183,7 +206,9 @@ No localStorage. Covers basic professional use where fiat equivalence is needed.
 - Family office credential management — deferred to v3
 - Insurance pricing layer — v3 or beyond
 - Estate / solicitor verification tooling — v3 or beyond. Exception: the v1 Legacy print layout (UC-2) must render full untruncated addresses to ensure estate chain continuity — a solicitor may commission a v2 Merkle-verified report from nothing but the holder's v1 printout.
-- Bitcoin-backed lending integration (Ledn, Unchained, Lava) — v3 or beyond
+- Formal estate/solicitor verification endpoint (`/legend/verify`) — v3 or beyond
+- Bitcoin-backed lending formal integrations (Ledn, Unchained, Lava) — v3 or beyond
+- Movement alerting (watch push notification) — v3 only, blind channel, see below
 
 ### What ships at v1 launch alongside the explorer
 
@@ -192,6 +217,9 @@ No localStorage. Covers basic professional use where fiat equivalence is needed.
 - Onboarding modal (first visit)
 - Privacy explainer modal (per result)
 - Batch query flow (breach scenario)
+- Distress Mode, Stewardship Mode
+- Verification Mode + Recipient/Lender View
+- Treasury Watch Mode + Watch Recipient View
 - Credential status icon (confirms: private queries active)
 - Paper/Carbon theme toggle (rs-theme cookie)
 - Open source repo with MIT licence
@@ -213,6 +241,20 @@ architecture-level. v2 makes them formally verifiable.
 | Proof-of-query receipt verification | **Yes** | Full client-side verification tooling. Completes the v1 stub. |
 | Homomorphic aggregate queries | **Experimental** | Batch query aggregation without revealing individual addresses. If viable. |
 
+**Canonical Merkle-anchored, FROST-signed artefact (locked UC-2/UC-3/UC-4 Opus):**
+The v2 verified-holdings statement is shared across four consumers — UC-2 (estate),
+UC-3 (loan), UC-4 (watch attestation), UC-9 (Chain Trace Report). Single locked field
+format; any change must be checked against all four. Watch attestation variant adds
+`watch created at block [height]` line. Commissioning direction: subject-present for
+UC-3 and UC-4; verifier-commissioned for UC-2; Recovery coordinator for UC-9.
+
+**Proof of control via BIP-322 (locked UC-3/UC-4 Opus):**
+BIP-322 signed-message verification. Legend checks the signature; Legend never
+handles keys. BIP-322 only — BIP-137 (legacy; P2WPKH-only; not Taproot-compatible;
+not multi-sig-compatible) is never used. In UC-3: at verification generation time.
+In UC-4: at watch creation time only. A signature proves control at the moment of
+signing — not ongoing.
+
 ### Protocol expansions (v2)
 
 | Protocol | v2 status | Notes |
@@ -226,14 +268,6 @@ architecture-level. v2 makes them formally verifiable.
 | Cashu mint health → reserve verification | **Yes** | On-chain Lightning liquidity footprint only. Mint blindness preserved. Mint does not know it was checked. |
 
 ### Professional use cases (v2)
-
-**Proof of control (BIP-322 signed message verification):**
-A present subject signs a challenge message from the collateral address in their own
-wallet using BIP-322 (generic signed message — Taproot-native, multi-sig-compatible).
-Legend verifies the signature and records the attestation in the v2 verification
-artefact. Legend never handles keys. BIP-137 (legacy, P2WPKH-only) is never used
-for this purpose. Output: `Control demonstrated by signature · [date]` in the artefact.
-Use case: Bitcoin-backed loan, live-subject side of estate artefact.
 
 **ZK balance proof generation:**
 A holder generates cryptographic proof they control ≥ X BTC without revealing addresses.
@@ -338,6 +372,20 @@ Ledn, Unchained, Lava — ZK balance proof as collateral verification. No addres
 exchanged with the lender. Lender verifies the proof against the chain.
 Formal partnership approach begins post-v2 audit.
 
+**Movement alerting — Treasury Watch (locked UC-4 Opus):**
+Watch push notification for movement on a watched collateral address. v3 only.
+**Architectural constraint (non-negotiable):** alerting is delivered through a blind,
+unlinkable channel (Pass Access-class credential, per UC-9 architecture) or it is not
+offered. Any non-blind delivery channel (email, webhook with address) would let Legend
+join the recipient's identity to the watched address and destroy the core claim.
+Alerting is reactive (post-on-chain-confirmation) and never preventive. NUT-12 DLEQ
+mandatory. No redemption-linkable address binding. Free-tier no-storage default
+untouched — alerting is an opt-in institutional layer only.
+
+**Multi-signatory watch (locked UC-4 Opus):**
+Council + developer + solicitor multi-party watch. Requires two-operator milestone
+and v3 credential architecture. Part of the council API tier.
+
 **Academic and regulatory contribution:**
 External cryptographic audit of PIR and ZK implementations. Co-authored academic
 paper on privacy-preserving chain analytics. Engagement with regulatory working
@@ -398,13 +446,16 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Cashu mint health | — | Reserve check, blind | — |
 | Estate planning tooling | — | — | Probate verification, time-lock monitoring |
 | Public-body transparency module | — | Parked — scoping session required | — |
-| /legend/verify endpoint | — | ZK proof stub | Full verification flow |
-| Merkle proof | Cross-node SPV v1 | Proof export artefact | Estate PI methodology |
-| Proof of control | — | BIP-322 signed-message (lender/borrower) | — |
-| Verification Mode | Shareable link (URL fragment) | Signed artefact + BIP-322 | ZK threshold (address-hidden) |
-| Recipient View | Lender View (v1) | Lender View + Merkle proof | `/legend/verify` endpoint |
+| /legend/verify endpoint | — | Stub (estate/loan) | Full verification flow |
+| Merkle proof | Cross-node SPV v1 | Export artefact (4 consumers: UC-2/3/4/9) | Estate PI methodology |
 | Script rendering | Type label only | Plain-language quorum | — |
 | SP tweak index | Build prerequisite (v1) | — | — |
+| Distress Mode | Yes | Yes | Yes |
+| Stewardship Mode + Legacy print | Yes | Yes | Yes |
+| Verification Mode + Recipient View | Yes | + Signed artefact + BIP-322 control | + ZK address-hiding |
+| Treasury Watch Mode + Watch Recipient View | Yes (live link, canary summary, no-alert footer) | + Signed watch attestation + BIP-322 control | + Blind-channel alerting (Pass) + Council API + Multi-signatory watch |
+| Denomination toggle | Sats / BTC / USD / GBP | — | — |
+| Proof of control | — | BIP-322, UC-3 and UC-4 | — |
 
 ---
 
@@ -433,6 +484,24 @@ If a feature is not listed here, it does not exist yet. Add it to a planning ses
 - Node D (full participant + warm standby) and Node E (chain-only cold standby) defined ✅
 - FROST 3-of-4 topology and sub-quorum threshold noted ✅
 - PIR-inspired sharding row updated: "3–5 Hetzner nodes" → five dedicated nodes, four active query nodes ✅
+
+**UC-2 Opus edits applied (23 Aug 2026):**
+- Stewardship Mode + Legacy print layout added to v1 scope ✅
+- GBP denomination added to toggle ✅
+- Denomination defaults by mode noted ✅
+
+**UC-3 Opus edits applied (23 Aug 2026):**
+- Verification Mode + Recipient/Lender View added to v1 scope ✅
+- Proof-of-control via BIP-322 confirmed as v2 ✅
+- Canonical Merkle-anchored artefact noted: three consumers (UC-2, UC-3, UC-9) ✅
+- /legend/verify stub noted as v2; full endpoint as v3 ✅
+
+**UC-4 Opus edits applied (25 Aug 2026):**
+- Treasury Watch Mode + Watch Recipient View added to v1 scope ✅
+- Canonical Merkle-anchored artefact updated: four consumers (UC-2, UC-3, UC-4, UC-9) ✅
+- Movement alerting v3 architectural constraint locked (blind channel only) ✅
+- Multi-signatory watch added to v3 ✅
+- Version summary rows added for Watch Mode, proof of control, denomination toggle ✅
 
 **Session naming:** Multi-[n] continues through Multi-8 (first query flow).
 From Legend-0 onwards, sessions are prefixed `Legend-[n]`.

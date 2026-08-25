@@ -1,10 +1,11 @@
 # legend-design-spec.md — refueler-legend
-> **Version:** 1.6 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
+> **Version:** 1.7 | **Created:** Multi-4 · 3 Aug 2026 | **Updated:** UC-4 Opus · 25 Aug 2026
 > UI/UX design specification for Legend — privacy-first Bitcoin block explorer.
 > Load in build sessions. Not by default.
 > Covers: page architecture, query flow, result anatomy, credential UX, breach scenario,
 > modal inventory, theme behaviour, navigation, funding model, status page, UI modes
-> (Distress, Stewardship, Legacy print), and session roadmap.
+> (Distress, Stewardship, Legacy print, Verification, Recipient View, Treasury Watch,
+> Watch Recipient View), and session roadmap.
 
 ---
 
@@ -871,7 +872,7 @@ in the artefact header. Legend never handles keys. BIP-322 only — never BIP-13
 
 **Locked: UC-3 Opus · 23 Aug 2026**
 **Source scenario:** UC-3 — The Bitcoin-Backed Loan (loan instance)
-**Reused by:** UC-2 solicitor receiving view, UC-4 council watch view
+**Reused by:** UC-2 solicitor receiving view, UC-4 Watch Recipient View (watch variant), UC-9 Elena track
 
 ### What the Recipient View is
 
@@ -1107,6 +1108,202 @@ The free tier is how Legend earns the trust of that world before the institution
 Every distressed Bitcoiner who checks their addresses and finds their funds intact —
 without telling anyone what they were looking at — is a future referral into a
 professional context.
+
+---
+
+## Treasury Watch Mode — generation spec
+
+**Locked: UC-4 Opus · 25 Aug 2026**
+**Source scenario:** UC-4 — The Council and the Whale
+
+### What Treasury Watch Mode is
+
+Legend's second explicitly-invoked mode, after Verification Mode. It produces a
+*watch* — a live, re-checkable link — rather than a *verification* — a
+point-in-time snapshot. Distress and Stewardship are inferred and never named;
+Treasury Watch is a deliberate act. "Treasury" denotes the institutional register
+it is primarily built for; the underlying capability is general.
+
+### Entry point
+
+`Create a watch →` — appended to the result view in standard and Stewardship
+contexts, alongside (not replacing) `Create a verification →`. Never appears in
+Distress Mode (trigger conditions absent: mobile, first visit, single address).
+Never on error or not-found states. The two CTAs must be visibly distinct: the
+snapshot/live distinction is the whole point of the mode and must not blur at the
+button.
+
+### Watch creation modal
+
+**Title:** `Create a watch`
+
+**Body — in order:**
+1. What a watch is (a live link; the counterparty's browser checks the address on
+   each open and shows current state)
+2. How it differs from a verification (a verification is one moment; a watch is
+   checkable at any time and always shows the latest state)
+3. What it discloses (sharing a watch reveals the address to whoever holds the
+   link — same disclosure logic as a verification)
+4. What it does not do (Legend monitors on no one's behalf, sends no alerts, and
+   cannot hold or freeze funds)
+
+Reuses the verification/batch modal chrome. No new component.
+
+**Actions by version:**
+
+| Version | Action |
+|---------|--------|
+| v1 | `Copy watch link` |
+| v2 | `Download signed watch attestation` + `Add proof of control` |
+
+### v1 watch-link mechanism
+
+Identical to the UC-3 verification link: address set + reference block in the URL
+**fragment only**; never transmitted to any server; no server-side record. The
+recipient's browser re-resolves the fragment and re-runs in-browser cross-node SPV
+**on every open**, against the current chain tip. The only difference from a
+verification link is intent and the recipient-side copy — the mechanism is the same.
+
+Optional QR render for tablet-to-desktop handoff. No component beyond the existing
+QR library.
+
+### v2 additions
+
+`Download signed watch attestation` — generates the canonical Merkle-anchored,
+FROST-signed artefact, framed as a watch (adds a `watch created at block [height]`
+line). A signed document is a snapshot by definition; the attestation is
+point-in-time and filable. PDF + machine-verifiable proof + verifier instructions.
+
+`Add proof of control` — the in-wallet BIP-322 signing step, at watch creation
+only. Legend verifies the signature and records `Control demonstrated by signature
+· [date]`. Legend never handles keys. BIP-322 only — never BIP-137.
+
+---
+
+## Watch Recipient View — spec
+
+**Locked: UC-4 Opus · 25 Aug 2026**
+**Source scenario:** UC-4 — The Council and the Whale
+**Base surface:** Recipient View (UC-3). This is the watch variant.
+**Reused by:** UC-9 Elena track (sovereign treasury watch/verification)
+
+### What the Watch Recipient View is
+
+The UC-3 Recipient View, live rather than snapshot, with the institutional register
+applied. Everything stripped in the Recipient View is stripped here. Everything kept
+there is kept here, with the differences noted below.
+
+### Three-reads stillness constraint
+
+Applies. The officer makes oversight decisions from this screen over many months.
+No motion, no collapsing state, no timed elements, no auto-refresh. The view is
+live *on open* — it resolves once, when opened, and then holds still. It does not
+poll or tick. A monitor that moves on its own is a monitor she cannot read three
+times, and worse, one that implies it is watching when it is not.
+
+### Denomination
+
+GBP-first. Sats secondary. Per the contextual denomination rule — the non-owner
+professional counterparty reads in fiat.
+
+### Theme
+
+Respects `rs-theme` cookie if present; cold link → Paper. `dataset.theme ===
+'carbon'` detection only, per nav lock. Never `classList.contains`.
+
+### What differs from the Lender View
+
+1. **Verification anchor is present-tense and live** ("checked … in your browser"),
+   re-run on every open against the current tip.
+2. **Movement status replaces holding period** as the load-bearing element.
+3. **A Legend canary summary line is added** — the first canary summary inside a
+   recipient surface. Reuses the four-node canary state from the status page (§Canary
+   status); no new machinery beyond the existing `--canary-expired` token.
+4. **The honest-scope footer inverts** — from "may be stale, re-check" to "not an
+   alarm, no alert is not no movement".
+5. **Institutional vocabulary** throughout: collateral address, verified balance,
+   movement status.
+
+### Information hierarchy — top to bottom
+
+**1. Header**
+`Collateral watch · Prepared with Legend`
+DM Sans 500. `--text-primary`.
+
+**2. Recipient context**
+`Shared with you by the holder. Verified live against the Bitcoin network in your
+browser each time you open this.`
+DM Sans 300. `--text-tertiary`. One line. Sets the relationship and the *live* claim.
+
+**3. Movement status — the load-bearing element**
+Intact (plural): `No outbound movement recorded on this collateral as of block
+[height] · [date].`
+Intact (singular): `No outbound movement from this address as of block [height] ·
+[date].`
+Moved: `Movement recorded. [amount] left on [date] · block [height]. See below.`
+DM Sans 500. `--text-primary`. Prominent, front and centre. Non-euphemistic in the
+moved case — the same honesty discipline as Distress Mode's funds-moved sentence.
+No alarming colour; the sentence carries the weight, not the palette.
+
+**4. Verified balance**
+GBP primary — large. IBM Plex Mono. `--text-primary`.
+Sats secondary — one line below. IBM Plex Mono. `--text-secondary`.
+
+**5. Verification anchor (live)**
+`Checked against the Bitcoin network at block [height] · [date], in your browser.`
+IBM Plex Mono 400. `--text-secondary`. The line the officer quotes to her committee.
+
+**6. Watch reference**
+`The holder created this watch at block [height] · [date].`
+DM Sans 300. `--text-tertiary`. The covenant's origin point.
+
+**7. Proof of control**
+Present (v2): `Control of this collateral was demonstrated by signature when the
+watch was created · [date]. A signature proves control only at the moment of
+signing.`
+Absent: `This confirms the collateral exists and is unmoved. It does not prove who
+controls it. Ask the holder for a signed message if you need that.`
+DM Sans 400. `--text-secondary`.
+
+**8. Legend canary summary**
+Current: `All four Legend canaries are current — what this means →`
+Expired: `One or more Legend canaries have expired — see status →`
+DM Sans 400. `--text-secondary`. Expired variant uses `--canary-expired` for the
+link text value only. The face-line is factual; the honest limits (3-of-4 does not
+catch single-operator compulsion; a technical capability notice may not lapse a
+canary) live in the explainer the link opens. The face-line never claims Legend "has
+not been legally compromised." Reuses the canary state from the status page. No new
+token beyond the existing `--canary-expired`.
+
+**9. Independent verification affordance**
+`Verify this yourself →`
+v1: explains and re-runs in-browser cross-node SPV.
+v2: downloads Merkle proof + verifier instructions.
+
+**10. Per-address table**
+Full untruncated addresses. IBM Plex Mono throughout. One row per address: address,
+verified balance (sats), last activity. Same chain-of-custody logic as UC-2 print —
+the officer may need to re-verify or commission an attestation from nothing but
+this link.
+
+**11. Honest-scope footer — the load-bearing copy discipline**
+`This is live only when you open it. Legend does not watch this address on your
+behalf and sends no alerts — no alert is not evidence of no movement. Legend cannot
+hold or freeze these funds. Check again on your own schedule.`
+DM Sans 300. `--text-tertiary`. Always visible. Never hidden or collapsed.
+
+This footer is the single most important discipline on the Watch Recipient View. It
+is what stops a pull link being read as a push alarm. It is not fine print; it is an
+honest statement of what the watch is, in the same register as everything above it.
+
+### Design note — what is deliberately absent
+
+- **No "last checked by you" element.** Legend keeps no record of the officer's
+  visits; such a line would either be a lie or require state Legend refuses to hold.
+- **No "next scheduled check."** Legend schedules nothing. The cadence is the
+  council's to set and keep.
+- **No traffic-light "all clear" badge.** Implies active monitoring. The movement
+  status sentence carries the signal; no badge is needed or honest.
 
 ---
 

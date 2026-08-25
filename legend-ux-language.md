@@ -1,5 +1,5 @@
 # legend-ux-language.md — refueler-legend
-> **Version:** 1.2 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** UC-3 Opus · 23 Aug 2026
+> **Version:** 1.3 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** UC-4 Opus · 25 Aug 2026
 > Canonical UX copy and information hierarchy reference for Legend.
 > Load in every build session that touches copy, modals, result states, or user-facing language.
 > This document is the authority. If copy is not in this document, it does not exist yet.
@@ -164,6 +164,30 @@ Denomination follows the reader's relationship to the holding.
 The chain data is identical in all three cases. The denomination hierarchy reflects
 the reader, not the holding.
 
+### Institutional register — Treasury Watch (locked UC-4 Opus)
+
+**Context:** UC-4 — The Council and the Whale. Watch Recipient View. Institutional
+counterparty. Desktop. Ongoing covenant oversight.
+
+Applied on the Watch Recipient View and any institutional/oversight surface. The
+plain-language principle holds; the vocabulary shifts to the professional
+counterparty's frame.
+
+| General term | Institutional term |
+|---|---|
+| wallet / address | collateral address (or: address) |
+| balance / UTXO set | verified balance |
+| transaction detected / movement alert | movement status / movement recorded |
+
+`alert` is reserved strictly for v3 blind-channel push notification. At v1/v2 the
+word is `status`. Never call a watch `secure`; it is live, not protective. Never
+imply a watch prevents, freezes, or holds funds.
+
+**Denomination rule for Watch Recipient View:**
+GBP-first. Institutional counterparty thinks in pounds. Sats visible, secondary.
+Extends the unifying principle: denomination follows the reader's relationship to
+the holding. The institutional counterparty is a non-owner professional — fiat-first.
+
 ---
 
 ## Section 2 — Landing page hierarchy
@@ -320,23 +344,27 @@ Nothing follows this sentence. No link. No further explanation at the result lev
 
 ### Denomination toggle labels
 
-Three states, session-persisted, reset on new session:
+Four states, session-persisted, reset on new session:
 
-`sats` · `BTC` · `USD at time of transaction`
+`sats` · `BTC` · `USD at time of transaction` · `GBP at time of transaction`
 
 Toggle label (accessible): `Display denomination`
 
-The third option is exact — "USD at time of transaction" not "USD" — because the fiat value at the time of a historical transaction is not the current fiat value and the distinction matters to an accountant.
+The third and fourth options are exact — "USD at time of transaction" / "GBP at time of transaction" not "USD" / "GBP" — because the fiat value at the time of a historical transaction is not the current fiat value and the distinction matters to an accountant.
 
-**Contextual denomination rule (locked UC-2 Opus):**
+**Contextual denomination rule (locked UC-2 Opus · extended UC-3/UC-4 Opus):**
 
 Denomination hierarchy is contextual, not global. The toggle persists within a session, but the default denomination displayed varies by inferred context:
 
 - **Stewardship Mode (returning owner, desktop, 1–2 addresses):** Sats-first. Arthur is the owner. He thinks in sats. GBP and BTC are visible but secondary.
 - **Distress Mode (mobile, first visit, single address):** GBP-first. The user is in distress. They think in pounds. Sats remain visible but secondary.
+- **Recipient View / Verification context (UC-3):** GBP-first. The professional counterparty — lender, solicitor — thinks in pounds.
+- **Watch Recipient View (UC-4):** GBP-first. The institutional counterparty — council officer — thinks in pounds.
 - **Standard / all other contexts:** Sats-first per the global default.
 
-Both hierarchies are correct for their context. The rule is not "show the denomination the user finds comforting" — it is "show the denomination that matches how this user thinks about this holding in this moment." The chain data is identical in both cases.
+All hierarchies are correct for their context. The rule is not "show the denomination the user finds comforting" — it is "show the denomination that matches how this user thinks about this holding in this moment." The chain data is identical in all cases.
+
+**Unifying principle (locked UC-3 Opus):** Denomination follows the reader's relationship to the holding. The owner reads in sats. The non-owner professional counterparty reads in fiat.
 
 ### Silent Payments section
 
@@ -506,6 +534,14 @@ These are the canonical user-facing versions of each architecture claim. They ar
 
 `At v1 and v2, the borrower reveals the address to the recipient. At v3, a ZK balance proof allows a holder to prove control of a threshold balance, unmoved for a window, without revealing any address to the lender.`
 
+### The watch is not an alarm (locked UC-4 Opus)
+
+`This is live only when you open it. Legend does not watch this address on your behalf and sends no alerts — no alert is not evidence of no movement. Legend cannot hold or freeze these funds. Check again on your own schedule.`
+
+This appears as the honest-scope footer on the Watch Recipient View. It is the single most important copy discipline on that surface — what stops a pull link being read as a push alarm. It is not fine print; it is an honest statement of what the watch is, in the same register as everything above it.
+
+The inverted failure mode this guards against: a reader treating a link they must open as an alarm that reaches them. Honest "future detection" (v3) is reactive (post-confirmation), delivered only through a blind unlinkable channel, and never preventive.
+
 ### UK operator caveat (user-facing register)
 
 `All five Legend nodes are operated by one person in London. The UK Investigatory Powers Act 2016 permits compelled disclosure and non-disclosure orders served on the operator personally, regardless of where the hardware is located.`
@@ -635,6 +671,22 @@ their context.
 | `Verify this yourself →` | Recipient View | Independent-verification affordance | 1 |
 | `This confirms what these addresses held when checked. It is not a lien or an escrow. The holder can move these funds at any time. Re-check before you rely on it.` | Recipient View | Honest-scope footer | 1 |
 | `A verification is the one moment Legend helps you disclose, not conceal. Legend keeps your query private from Legend. It cannot make private a balance you have chosen to show someone else.` | §6 honest-scope | Verification/disclosure register anchor | 6 |
+| `Create a watch →` | Result view | Treasury Watch entry CTA | UC-4 |
+| `Create a watch` | Watch creation modal | Title | UC-4 |
+| `Copy watch link` | Watch creation modal | Action (v1) | UC-4 |
+| `Download signed watch attestation` | Watch creation modal | Action (v2) | UC-4 |
+| `Collateral watch · Prepared with Legend` | Watch Recipient View | Header | UC-4 |
+| `Shared with you by the holder. Verified live against the Bitcoin network in your browser each time you open this.` | Watch Recipient View | Recipient context | UC-4 |
+| `No outbound movement recorded on this collateral as of block [height] · [date].` | Watch Recipient View | Movement status — intact (plural) | UC-4 |
+| `No outbound movement from this address as of block [height] · [date].` | Watch Recipient View | Movement status — intact (singular) | UC-4 |
+| `Movement recorded. [amount] left on [date] · block [height]. See below.` | Watch Recipient View | Movement status — moved | UC-4 |
+| `Checked against the Bitcoin network at block [height] · [date], in your browser.` | Watch Recipient View | Verification anchor (live) | UC-4 |
+| `The holder created this watch at block [height] · [date].` | Watch Recipient View | Watch reference | UC-4 |
+| `Control of this collateral was demonstrated by signature when the watch was created · [date]. A signature proves control only at the moment of signing.` | Watch Recipient View | Proof of control (v2, present) | UC-4 |
+| `This confirms the collateral exists and is unmoved. It does not prove who controls it. Ask the holder for a signed message if you need that.` | Watch Recipient View | Proof of control (absent) | UC-4 |
+| `All four Legend canaries are current — what this means →` | Watch Recipient View | Canary summary (current) | UC-4 |
+| `One or more Legend canaries have expired — see status →` | Watch Recipient View | Canary summary (expired) | UC-4 |
+| `This is live only when you open it. Legend does not watch this address on your behalf and sends no alerts — no alert is not evidence of no movement. Legend cannot hold or freeze these funds. Check again on your own schedule.` | Watch Recipient View | Honest-scope footer | UC-4 |
 
 ---
 
