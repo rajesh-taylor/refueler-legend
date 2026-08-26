@@ -190,6 +190,68 @@ GBP-first. Institutional counterparty thinks in pounds. Sats visible, secondary.
 Extends the unifying principle: denomination follows the reader's relationship to
 the holding. The institutional counterparty is a non-owner professional — fiat-first.
 
+### Civic transparency register — locked UC-5 Opus · Multi-14
+
+**Context:** UC-5 — The Florentine District. Civic Treasury View and (v2) Civic Treasury
+Mode. Voluntary public institutional disclosure to an unbounded audience, indefinitely.
+
+Sibling to the verification/disclosure and institutional registers. The failure mode
+differs from both: not "user believes a shown thing is private," and not "reader treats
+a pull link as a push alarm" — but **"observer reads a declared, voluntary, partial
+disclosure as a complete institutional audit"** and **"observer reads Legend's rendering
+as an endorsement of the publisher's identity."** Both failure modes must be guarded
+against before anything else appears on the screen.
+
+**Register rules:**
+
+- State the identity limit first and plainly. Legend renders a name as provided;
+  it verifies chain data, not the institution behind the name. This sentence is the
+  first thing the reader sees after the header.
+- State that the declared set is not exhaustive before the reader assumes it is.
+  The footer carries this; the interface does not contradict it anywhere above the fold.
+- Render the Silent Payments absence as *design*, precisely: the outflow amounts and
+  cadence are visible; the recipients are unlinkable. Never describe SP outflows as
+  "invisible" — that overclaims. Never describe the absence as a gap or limitation.
+- BTC-first denomination (see fourth contextual rule below). The institution declares
+  a Bitcoin reserve; the display honours that.
+
+**What civic transparency register copy never does:**
+- Implies Legend verifies who a treasury belongs to
+- Implies a declared set is the complete on-chain footprint of the institution
+- Describes Silent Payments outflows as invisible (only recipients are unlinkable)
+- Uses "audit", "certified", "official", or "verified organisation" of a self-declared view
+- Uses "anonymous" — the correct word is "unlinkable" for SP recipients
+- Implies the view is permanent or exhaustive — it renders what was declared at the
+  addresses provided, live against the current chain
+
+**Denomination rule for Civic Treasury View:**
+BTC-first. This is the fourth contextual denomination rule (locked UC-5 Opus). A declared
+institutional reserve states itself in BTC; leading in fiat undercuts the declaration the
+institution is making. Sats visible, secondary. Fiat-at-time available via toggle.
+
+### Provenance-agnosticism rule — locked UC-6 Opus · Multi-14
+
+**Context:** UC-6 — The Hanseatic Federation. Generalises the batch-result decision
+("Activity detected", never "Compromised") to all heuristic display enhancements.
+
+Legend states on-chain facts and observable patterns. It never asserts an interpretation
+of provenance or cause for an address the querying party has not declared.
+
+"Regular settlement cadence detected on this address" is a descriptive statement of an
+observable on-chain pattern — permitted. "This UTXO represents aggregated Fedimint
+federation settlement" is a provenance assertion — forbidden unless the address is
+*declared* by the party it describes.
+
+When an address is *declared* by a known federation (Civic Treasury View / Federation
+Settlement View, declared mode), Legend faithfully renders that declaration assertively:
+the federation has named itself; Legend is rendering a declaration, not inferring.
+When no declaration exists, Legend is descriptive and conditional only.
+
+This rule also keeps settlement-pattern detection on the right side of the
+third-party-analytics line: descriptive cadence display applied to an address the user
+themselves queries is not surveillance. Offering the same as an API for classifying
+*other people's* addresses is — and remains permanently out of scope.
+
 ---
 
 ## Section 2 — Landing page hierarchy
@@ -354,7 +416,7 @@ Toggle label (accessible): `Display denomination`
 
 The third and fourth options are exact — "USD at time of transaction" / "GBP at time of transaction" not "USD" / "GBP" — because the fiat value at the time of a historical transaction is not the current fiat value and the distinction matters to an accountant.
 
-**Contextual denomination rule (locked UC-2 Opus · extended UC-3/UC-4 Opus):**
+**Contextual denomination rule (locked UC-2 Opus · extended UC-3/UC-4/UC-5 Opus):**
 
 Denomination hierarchy is contextual, not global. The toggle persists within a session, but the default denomination displayed varies by inferred context:
 
@@ -362,11 +424,12 @@ Denomination hierarchy is contextual, not global. The toggle persists within a s
 - **Distress Mode (mobile, first visit, single address):** GBP-first. The user is in distress. They think in pounds. Sats remain visible but secondary.
 - **Recipient View / Verification context (UC-3):** GBP-first. The professional counterparty — lender, solicitor — thinks in pounds.
 - **Watch Recipient View (UC-4):** GBP-first. The institutional counterparty — council officer — thinks in pounds.
+- **Civic Treasury View / Federation Settlement View (UC-5/UC-6):** BTC-first. A declared institutional Bitcoin reserve states itself in BTC. Leading in fiat undercuts the declaration the institution is making. Sats secondary; fiat-at-time available via toggle. This is the fourth contextual rule — it *extends* the unifying principle rather than applying it: the institution's relationship to its own reserve is in BTC, and the public observer reads it the same way.
 - **Standard / all other contexts:** Sats-first per the global default.
 
 All hierarchies are correct for their context. The rule is not "show the denomination the user finds comforting" — it is "show the denomination that matches how this user thinks about this holding in this moment." The chain data is identical in all cases.
 
-**Unifying principle (locked UC-3 Opus):** Denomination follows the reader's relationship to the holding. The owner reads in sats. The non-owner professional counterparty reads in fiat.
+**Unifying principle (locked UC-3 Opus · extended UC-5 Opus):** Denomination follows the reader's relationship to the holding. The owner reads in sats. The non-owner professional counterparty reads in fiat. The declared institutional reserve reads in BTC — the fourth rule extends, not contradicts, the unifying principle.
 
 ### Silent Payments section
 

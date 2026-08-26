@@ -4,6 +4,109 @@
 
 ---
 
+## Session Multi-14 · 26 Aug 2026
+
+**Phase:** Use case scoping — UC-5 The Florentine District + UC-6 The Hanseatic Federation (paired Opus session)
+**Status:** Complete. Civic Treasury View and Federation Settlement View locked. Three architectural decisions resolved. Two article outlines locked. Fourth contextual denomination rule locked. Provenance-agnosticism rule locked. Five files patched.
+
+### Completed
+
+- **Three forks resolved before speccing:**
+  1. Civic Treasury View is a new member of the Recipient-View family (sibling to Lender,
+     Watch Recipient, and Federation Settlement Views) — not a Watch Recipient View variant.
+     Load-bearing element differs: UC-4 = movement status (stillness); UC-5 = outflow pattern
+     over time (consistency). Different questions; distinct surfaces on the same substrate.
+  2. BTC-first denomination for declared institutional reserves — fourth contextual rule,
+     extends rather than contradicts the unifying principle. Locked UC-5 Opus.
+  3. Provenance-agnosticism rule locked — Legend describes cadence, never asserts provenance.
+     Generalises the "Activity detected" / "Compromised" decision. Forbidden: asserting a UTXO
+     represents a Fedimint settlement unless the address is *declared* by the federation.
+
+- **Civic Treasury View locked** — read surface, v1. Recipient-View family member. Sibling to
+  Lender View, Watch Recipient View, Federation Settlement View. Load-bearing element: activity
+  summary (outflow/inflow count + monthly aggregate panel). One genuinely new v1 build component:
+  the monthly aggregate panel (Month · Inflows · Outflows · Net). All other components reuse
+  existing substrate. Publisher context (identity caveat) is the first element after the header —
+  non-omittable. Declared-not-exhaustive footer is the load-bearing copy discipline. BTC-first.
+  Full spec in `legend-ui-modes.md`.
+
+- **Civic Treasury Mode locked** — v2, Legend's third explicitly-invoked mode. Specifies the
+  parked "public-body transparency module" from `legend-scope.md`. Entry CTA: `Publish a treasury
+  view →`. Same URL-fragment mechanism as UC-3/UC-4. Actions: `Copy treasury-view link` +
+  `Download monthly summary`. ⚠ Optional signed civic attestation parked as v2 decision item
+  (would be fifth artefact consumer — field-format check across all four required first).
+
+- **Recipient-View family finalised (four members):**
+  Lender View (UC-3) · Watch Recipient View (UC-4) · Civic Treasury View (UC-5) · Federation
+  Settlement View (UC-6). One substrate; four load-bearing elements. Changes to substrate check
+  against all four.
+
+- **Civic transparency register locked** — sibling to bereavement, stewardship, verification/
+  disclosure, and institutional registers. Guards two failure modes: (a) observer reads a
+  voluntary, partial, self-declared disclosure as a complete institutional audit; (b) observer
+  reads Legend's rendering as an identity endorsement. Never: "audit", "certified", "official",
+  "verified organisation". Never: "outflows are invisible" (only recipients are unlinkable).
+
+- **Provenance-agnosticism rule locked** — generalises the batch-result decision to all heuristic
+  display enhancements. Assertive provenance (e.g. "this is a Fedimint settlement") permitted only
+  when the address is *declared* by the party described. Undeclared address: descriptive + conditional
+  only. Keeps settlement-pattern detection on the holder's side of the third-party-analytics line.
+
+- **Federation Settlement View locked** — variant of Civic Treasury View. Load-bearing element:
+  settlement cadence (most recent first). Two modes: (a) declared — assertive; header, publisher
+  context, cadence, declared absence note, full substrate; (b) undeclared — settlement-pattern
+  display enhancement on standard result + conditional absence note only; no provenance assertion.
+  Full spec in `legend-ui-modes.md`.
+
+- **Fourth contextual denomination rule locked** — Civic Treasury View / Federation Settlement View:
+  BTC-first. Declared institutional reserve states itself in BTC. Sats secondary; fiat-at-time
+  via toggle. Updated in `legend-ux-language.md` §1 and §4, `legend-copy-index.md` §8, `legend-scope.md`.
+
+- **Two article outlines locked** — "The Florentine Protocol" and "The Hanseatic Protocol."
+  Both opening lines promoted from provisional to locked. Custom House (Lower Thames Street, London)
+  added as historical anchor in "The Hanseatic Protocol" — the port ledger that was public but
+  surveilled, versus Legend's port ledger that is readable by anyone and logged by no one.
+
+- **Public-body transparency module cross-reference updated** — `legend-scope.md` v2 section now
+  points to Civic Treasury Mode as its specification. Parked status lifted.
+
+- **Share × Legend planning note logged** — at v2, Share may provide encrypted transport where
+  Legend provides the civic treasury view. One place the two products touch without Share becoming
+  a Legend dependency. Requires a dedicated planning session before v2 build on either side.
+  Not baked into any current spec.
+
+### Files changed
+
+- `legend-ui-modes.md` — Civic Treasury View, Civic Treasury Mode, Federation Settlement View (new sections)
+- `legend-ux-language.md` — civic transparency register + provenance-agnosticism rule (§1 new sections); fourth denomination rule + updated unifying principle (§4)
+- `legend-copy-index.md` — denomination rule note extended (§8); civic treasury + provenance-agnosticism honest-scope statements (§6); UC-5 and UC-6 strings appended (§8)
+- `legend-scope.md` — UI modes list updated; public-body module cross-reference updated; UC-5 and UC-6 version rows added (version summary table); denomination toggle row updated
+- `legend-articles-list.md` — UC-5 and UC-6 full outlines replacing provisional stubs; publishing sequence table updated; closing note updated
+- `SESSIONS.md` (this entry)
+
+### Carry-forward
+
+- **UC-7 (The Block War) next** — single scenario; human cost calculator, fee context layer,
+  Lightning correlation panel. Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md`.
+- **Recipient-View family — four consumers.** Changes to the substrate (chrome-less, three-reads
+  stillness, canary summary, verification anchor, per-address table, declared-not-exhaustive footer)
+  must be checked against all four: Lender View · Watch Recipient View · Civic Treasury View ·
+  Federation Settlement View.
+- **⚠ Fifth-consumer flag (parked v2 decision).** Optional signed civic attestation on Civic
+  Treasury Mode would be the fifth consumer of the canonical FROST-signed artefact (current four:
+  UC-2/3/4/9). Field-format check across all four required before implementation. Do not implement
+  without that check.
+- **Share × Legend v2 integration — dedicated planning session required** before any v2 build
+  begins on either side. Share provides transport; Legend provides the civic treasury view.
+  Not a Legend dependency at v1 or v2 without that session.
+- **Provenance-agnosticism rule** — check any future heuristic display feature (settlement pattern,
+  CoinJoin detection, Fedimint recognition, etc.) against this rule before speccing.
+- **All prior carry-forwards remain open** — Legend-6 build; Opus-C solicitor (IPA + insolvency);
+  FROST ceremony; provider quote replies; two-operator milestone; stale figures in
+  `legend-economics.md`, `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
+
+---
+
 ## Session Multi-13 · 25 Aug 2026
 
 **Phase:** File restructure — context management before UC-5

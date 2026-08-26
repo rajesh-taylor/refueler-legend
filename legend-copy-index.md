@@ -52,6 +52,18 @@ This appears as the honest-scope footer on the Watch Recipient View. It is the s
 
 The inverted failure mode this guards against: a reader treating a link they must open as an alarm that reaches them. Honest "future detection" (v3) is reactive (post-confirmation), delivered only through a blind unlinkable channel, and never preventive.
 
+### Civic treasury — declared, not audited (locked UC-5 Opus)
+
+`This view shows the addresses this treasury has chosen to declare. Legend verifies the chain data against the Bitcoin network — not the identity of the institution that declared it. A self-declared treasury is not an audited one. The declared set may be partial. Legend renders what was declared and checks it against the chain — nothing more.`
+
+This appears as the declared-not-exhaustive footer on the Civic Treasury View and Federation Settlement View. It guards the same failure mode the Watch Recipient View footer guards against a different misreading — here, the reader mistaking a voluntary, partial, self-declared disclosure for a complete institutional audit, or mistaking Legend's rendering for an identity endorsement.
+
+### Provenance-agnosticism (locked UC-6 Opus)
+
+`Legend describes on-chain patterns. It does not identify their cause. A regular settlement cadence is a fact visible on-chain. Whether it represents a Fedimint federation, a batching service, or something else is not a conclusion Legend draws from the chain alone. If a treasury or federation has declared its address, Legend renders that declaration assertively. If it has not, Legend describes what it can see and nothing more.`
+
+This is the user-facing counterpart to the provenance-agnosticism rule in `legend-ux-language.md` §1. It appears in the privacy explainer modal section covering settlement-pattern display, if queried.
+
 ### UK operator caveat (user-facing register)
 
 `All five Legend nodes are operated by one person in London. The UK Investigatory Powers Act 2016 permits compelled disclosure and non-disclosure orders served on the operator personally, regardless of where the hardware is located.`
@@ -94,12 +106,14 @@ The status page URL is not embedded in the banner. If the user wants the status 
 
 Every finalised string in this document with its location. Build sessions pull from this table. If a string is not here, it is not finalised.
 
-**Denomination rule (extended UC-3 Opus · 23 Aug 2026):**
+**Denomination rule (extended UC-3 Opus · 23 Aug 2026 · further extended UC-5 Opus · 26 Aug 2026):**
 Denomination hierarchy is contextual. Stewardship Mode: sats-first (returning owner).
 Distress Mode: GBP-first (frightened newcomer). Recipient / Verification context:
 GBP-first (professional counterparty). Watch Recipient View: GBP-first (institutional
-counterparty). Unifying principle: denomination follows the reader's relationship to
-the holding, not a user setting. All are correct in their context.
+counterparty). Civic Treasury View / Federation Settlement View: BTC-first (declared
+institutional reserve — fourth contextual rule; extends rather than contradicts the
+unifying principle). Unifying principle: denomination follows the reader's relationship
+to the holding, not a user setting. All are correct in their context.
 
 | String | Surface | Element | Section |
 |---|---|---|---|
@@ -197,6 +211,22 @@ the holding, not a user setting. All are correct in their context.
 | `All four Legend canaries are current — what this means →` | Watch Recipient View | Canary summary (current) | UC-4 |
 | `One or more Legend canaries have expired — see status →` | Watch Recipient View | Canary summary (expired) | UC-4 |
 | `This is live only when you open it. Legend does not watch this address on your behalf and sends no alerts — no alert is not evidence of no movement. Legend cannot hold or freeze these funds. Check again on your own schedule.` | Watch Recipient View | Honest-scope footer | UC-4 |
+| `Civic treasury · Prepared with Legend` | Civic Treasury View | Header | UC-5 |
+| `Published by [declared name]. Legend verifies the chain data, not the identity behind it.` | Civic Treasury View | Publisher context (identity caveat) | UC-5 |
+| `[N] outflows and [M] inflows recorded on this declared treasury across [period].` | Civic Treasury View | Activity summary (load-bearing) | UC-5 |
+| `Outflows are paid using Silent Payments. Each recipient receives at a unique address that cannot be linked to them on-chain. You can see that the treasury pays out — how much, and how often. You cannot see who is paid. This is by design.` | Civic Treasury View | SP integrity | UC-5 |
+| `This view shows the addresses this treasury has chosen to declare. It is not a complete audit of everything it holds or spends. Legend renders what was declared and checks it against the chain — nothing more.` | Civic Treasury View | Declared-not-exhaustive footer | UC-5 |
+| `Month · Inflows · Outflows · Net` | Civic Treasury View | Monthly aggregate panel columns | UC-5 |
+| `Publish a treasury view →` | Result view (standard + Stewardship) | Civic Treasury Mode entry CTA (v2) | UC-5 |
+| `Publish a treasury view` | Civic Treasury modal | Title (v2) | UC-5 |
+| `Copy treasury-view link` | Civic Treasury modal | Action (v2) | UC-5 |
+| `Download monthly summary` | Civic Treasury modal | Action (v2) | UC-5 |
+| `Regular settlement cadence detected on this address:` | Result (standard, undeclared address) | Settlement-pattern enhancement header | UC-6 |
+| `Some addresses aggregate many payments into a single periodic on-chain settlement — a Fedimint federation, for example, or a batching service. If that is the case here, the payments behind each settlement are not recorded on-chain, by design. Legend cannot tell you from the chain alone whether this address works that way.` | Result (standard, undeclared address) | Conditional absence note | UC-6 |
+| `Federation settlement · Prepared with Legend` | Federation Settlement View | Header | UC-6 |
+| `Published by [declared name]. Legend verifies the settlements on-chain, not the federation behind them.` | Federation Settlement View | Publisher context | UC-6 |
+| `This address records a regular settlement: most recently [amount] on [date] · block [height].` | Federation Settlement View | Load-bearing (cadence, declared) | UC-6 |
+| `The individual payments inside each settlement are handled by the federation off-chain and are not visible here. That is how the federation works — it is not missing data.` | Federation Settlement View | Absence note (declared) | UC-6 |
 
 ---
 

@@ -515,42 +515,111 @@ Do not conflate Article 17 (UTXO consolidation) with Article 24 (Mt. Gox / Recov
 ### Article UC-5 — The Florentine Protocol
 
 **Slug:** `the-florentine-protocol`
-**Status:** Outline in `legend-use-cases.md` UC-5. Full outline to be produced in UC-5 Opus session.
-**Audience:** Bitcoin-native jurisdictions, policy makers, talent-attracting institutions, technically curious Bitcoiners.
-**Dependency:** Legend civic treasury mode live (v1 or v2). Outline can draft earlier.
+**Status:** Full outline locked — UC-5 Opus · Multi-14 · 26 Aug 2026.
+**Audience:** Bitcoin-native jurisdictions, policy makers, talent-attracting institutions,
+cryptographers and engineers evaluating institutional offers, technically curious Bitcoiners.
+**Dependency:** Legend Civic Treasury View live (v1). Full Civic Treasury Mode live (v2).
+Outline can be drafted now; publish once Civic Treasury View ships.
 
-**The argument:**
-The Medici didn't just hold gold — they attracted the people who made gold worth holding.
-Jurisdictions that can credibly demonstrate a Bitcoin treasury and pay in Bitcoin will
-attract talent that compounds in value. Silent Payments is the cryptographic equivalent
-of a Medici stipend envelope — you know money went out; you don't know who received it.
-Legend is the tool that makes the treasury verifiable without making the recipients visible.
-
-**Opening line (provisional):**
+**Opening line (locked):**
 "Florence in 1450 was the most valuable square mile in Europe. It didn't get there by taxing more. It got there by paying better."
 
-**CTA:** View a civic treasury on Legend. (Once feature live.)
+**The argument:**
+Value accrues to the jurisdiction that earns the right people, not the one that extracts the
+most from them. A credibly-demonstrated Bitcoin treasury paying stipends in Bitcoin is the
+modern Medici pull — not extraction, attraction. Silent Payments is the cryptographic
+equivalent of the Medici stipend envelope: you can see that money went out, and how much,
+and how often. You cannot see who received it. Legend makes the treasury verifiable without
+making the recipients visible. That is not a limitation. That is the architecture.
+
+**Beats:**
+- The Medici model: attraction, not extraction. Brunelleschi, Leonardo, Botticelli — the
+  city-state that attracted talent compounded in value faster than any that merely taxed it.
+- The 2033 civic-treasury declaration: canton, city-state, special economic zone — whoever
+  first credibly demonstrates a Bitcoin reserve paying talent in Bitcoin wins the talent.
+- What a treasury should be able to prove publicly: that it exists, that it is funded, that
+  it pays out consistently. Not who it pays.
+- Silent Payments as the stipend envelope: pattern visible, recipient unlinkable. The
+  cryptographer in Edinburgh can verify that 47 outflows left this treasury in 12 months.
+  She cannot see that she is one of the prospective recipients — and neither can anyone else.
+- What Legend refuses to do: vouch for the identity behind a declared name; imply that a
+  declared set is the complete institutional footprint; call a voluntary disclosure an audit.
+- The honest scope: declared, not audited; self-verifiable; the institution names itself and
+  Legend checks the chain — the reader verifies both independently.
+- Why "verifiable but private" is the only civic model that attracts rather than surveils.
+  A treasury that reveals its recipients is a surveillance list. A treasury that hides its
+  activity is unverifiable. Legend occupies the only honest middle: provable without exposure.
+
+**Closing:**
+The city-state is back. It can prove its treasury without exposing its people. The Medici
+would have recognised the architecture immediately — even if they'd never heard of a block.
+
+**CTA:** View a civic treasury on Legend. (Link once Civic Treasury View live.)
+**Note:** Do not deploy "Chainalysis works for the observer. Legend works for the owner."
+here — locked phrase for Articles 14/15 and presentations only.
 
 ---
 
 ### Article UC-6 — The Hanseatic Protocol
 
 **Slug:** `the-hanseatic-protocol`
-**Status:** Outline in `legend-use-cases.md` UC-6. Full outline to be produced in UC-6 Opus session.
-**Audience:** Bitcoin merchants, Fedimint operators, Lightning network builders, economic historians with a sense of humour.
-**Dependency:** Legend federation settlement display live. Outline can draft earlier.
+**Status:** Full outline locked — UC-6 Opus · Multi-14 · 26 Aug 2026.
+**Audience:** Bitcoin merchants, Fedimint operators, Lightning network builders,
+economic historians with a sense of humour, anyone who thinks the word "federation"
+sounds better than "bank."
+**Dependency:** Legend Federation Settlement View live (v1). Declared Fedimint-attestation
+rendering (v2). Outline can be drafted now; publish once settlement-pattern display ships.
 
-**The argument:**
-The Hanseatic League ran without a central bank for 300 years. It collapsed when
-nation-states got powerful enough to override it. The Bitcoin version — Fedimint
-federations settling weekly on-chain — is resistant to that. Legend's role is the
-port ledger: what arrived, what departed, what the aggregate represents.
-Not surveillance. Literacy.
-
-**Opening line (provisional):**
+**Opening line (locked):**
 "The Hanseatic League ran for 300 years without a central bank. Here is what its Bitcoin successor looks like, and how Legend reads its ledger."
 
-**CTA:** View federation settlement on Legend.
+**The argument:**
+Merchant federations settling in Bitcoin are rediscovering the Hanseatic model — mutual
+credit, shared commercial law, no sovereign anchor. Legend is the port ledger: what
+arrived, what departed, what the aggregate represents. Not surveillance. Literacy.
+The absence of individual-transaction visibility inside each settlement is the feature,
+not the gap. The League ran on trust and shared record-keeping. The Bitcoin version
+runs on cryptography and on-chain settlement. Legend reads the ledger honestly — for
+the federation, not the revenue authority.
+
+**Beats:**
+- The Hanseatic League: Hamburg to Riga, wool to spice, three centuries without a
+  central issuer. What made it work was shared record-keeping and mutual credit — a
+  port ledger that every member could read and no single city could falsify.
+- The Custom House, Lower Thames Street, London: the most legible port ledger in
+  northern Europe, and one of the most surveilled buildings in the City. Customs
+  officials were routinely compromised — merchants, smugglers, and foreign intelligence
+  services alike occupied the ledger. The record was public; the *reading* of it was
+  not safe. Legend's port ledger is readable by anyone and logged by no one. The
+  spies who occupied Custom House would have found nothing to sell.
+- The 2031 Fedimint version: Hamburg leather to Bruges linen to Valletta spice,
+  Lightning routing inside federations, weekly on-chain settlement in a single
+  aggregated UTXO. The customer in Riga never appears in the settlement record.
+  Neither does the merchant's individual sale.
+- What Legend shows: the settlement UTXO — amount, block height, date. The cadence
+  that makes the aggregate legible: most recently this amount, on this date, at this
+  height. Pattern is the information.
+- What Legend cannot tell you from the chain alone: whether this UTXO is a Fedimint
+  settlement, a batching service, or something else entirely. Legend describes what
+  it can see and nothing more. When a federation has declared its address, Legend
+  renders that declaration assertively. When it has not, the conditional absence
+  note is all that is honest.
+- Why the absence of individual-transaction visibility is correct: the payments are
+  inside the Fedimint. The Fedimint handled them. The on-chain UTXO is the settlement,
+  not the ledger of every trade. The League's port ledger recorded ships and cargo,
+  not every handshake in the counting house.
+- Why Bitcoin settlement is resistant to what killed the original League: nation-states
+  eventually got powerful enough to override the League's shared commercial law. They
+  cannot override a confirmed on-chain UTXO. The settlement is final regardless of
+  who objected.
+
+**Closing:**
+The League collapsed when nation-states got strong enough to override it. On-chain
+settlement doesn't have that problem. And a ledger that reads itself honestly —
+open to anyone, logged for no one — doesn't need a Custom House full of compromised
+officials to keep it.
+
+**CTA:** View federation settlement on Legend. (Link once Federation Settlement View live.)
 
 ---
 
@@ -613,8 +682,8 @@ Articles publish in this order, each unlocking when its dependency is met:
 | 18 | Silent Payments and why no explorer supports them | Legend SP scanning live |
 | 21 | The family office problem | Legend live |
 | 22 | The jurisdiction problem | Legend live |
-| UC-5 | The Florentine Protocol | Legend civic treasury mode live |
-| UC-6 | The Hanseatic Protocol | Legend federation settlement display live |
+| UC-5 | The Florentine Protocol | Legend Civic Treasury View live (v1) — outline locked Multi-14 |
+| UC-6 | The Hanseatic Protocol | Legend Federation Settlement View live (v1) — outline locked Multi-14 |
 | UC-7 | Who Gets Priced Out | Legend human cost calculator live |
 | 19 | ZK balance proofs for Bitcoin holders | Legend v2 live |
 | 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
@@ -634,4 +703,5 @@ Phase 2 sovereign/Recovery Coordination Layer beats at v3 unlock.
 
 *Next article session: Articles A, B, C draft block. 2–3 weeks redraft time. No publish pressure.*
 *Article 24 full outline complete — UC-9 Opus session 23 Aug 2026.*
+*Articles UC-5 and UC-6 full outlines complete — UC-5/UC-6 Opus · Multi-14 · 26 Aug 2026.*
 *"Nothing stops this train."*

@@ -583,4 +583,276 @@ honest statement of what the watch is, in the same register as everything above 
 
 ---
 
+## Civic Treasury View — spec
+
+**Locked: UC-5 Opus · Multi-14 · 26 Aug 2026**
+**Source scenario:** UC-5 — The Florentine District
+**Base surface:** Recipient View (UC-3). New family member — *not* a Watch Recipient View variant.
+**Reused by:** UC-6 Federation Settlement View (variant of this surface).
+**Recipient-View family (all four members):** Lender View (UC-3) · Watch Recipient View (UC-4) · Civic Treasury View (UC-5) · Federation Settlement View (UC-6). One substrate; four load-bearing elements. Changes to the substrate must be checked against all four.
+
+### What the Civic Treasury View is
+
+The read-only, chrome-less surface for a declared public institutional Bitcoin treasury.
+It answers one question for the public observer: is this treasury real, funded, and paying
+out consistently? It does not answer who the recipients are (Silent Payments design),
+whether the declared set is complete (it may not be), or who controls the treasury
+(Legend attests no identity — only chain data).
+
+This is the Recipient-View substrate applied to voluntary *public* institutional disclosure
+to an unbounded audience. The failure mode is the inverse of the Lender View: not a reader
+relying on a stale snapshot, but a reader mistaking a declared, partial disclosure for a
+complete audit — and mistaking Legend's rendering for an identity endorsement.
+
+### Three-reads stillness constraint
+
+Applies. A cryptographer evaluating an offer from a canton reads this screen more than
+once before deciding. No motion, no collapsing state, no timed elements, no auto-refresh.
+The view resolves once on open and holds still.
+
+### Denomination
+
+BTC-first. Sats secondary. Fiat-at-time available via toggle.
+
+This is the fourth contextual denomination rule (locked UC-5 Opus): a declared
+institutional reserve states itself in BTC, not fiat. Leading in pounds undercuts
+the declaration the institution is making. The unifying principle ("denomination
+follows the reader's relationship to the holding") holds — the *institution's*
+relationship to its own reserve is in BTC; the public observer reads it the same way.
+
+### Theme
+
+Respects `rs-theme` cookie if present; cold link → Paper. `dataset.theme === 'carbon'`
+detection only. Never `classList.contains`.
+
+### Information hierarchy — top to bottom
+
+**1. Header**
+`Civic treasury · Prepared with Legend`
+DM Sans 500. `--text-primary`.
+
+**2. Publisher context — the identity caveat (load-bearing honesty)**
+`Published by [declared name]. Legend verifies the chain data, not the identity behind it.`
+DM Sans 300. `--text-tertiary`. One line. This is the first sentence. It sets the
+epistemic limit before the reader draws any conclusion. Never omitted, never collapsed.
+
+**3. Declared balance**
+`[X] BTC` — large, IBM Plex Mono, `--text-primary`.
+`[Y] sats` secondary — one line below. IBM Plex Mono. `--text-secondary`.
+`~[fiat] at [date]` — tertiary. DM Sans 300. `--text-tertiary`.
+
+**4. Activity summary — the load-bearing element**
+`[N] outflows and [M] inflows recorded on this declared treasury across [period].`
+DM Sans 500. `--text-primary`. Prominent, front and centre.
+
+This is the consistency signal — what the cryptographer came to read. A raw address
+balance tells her the treasury exists. This sentence tells her whether it operates.
+No other explorer surfaces declared treasury cadence as a plain-language front-and-centre claim.
+
+Followed immediately by the monthly aggregate panel:
+
+| Month | Inflows | Outflows | Net |
+|---|---|---|---|
+| [month] | [amount] BTC | [amount] BTC | [net] BTC |
+
+IBM Plex Mono values throughout. BTC denomination. One row per month, most recent first.
+No colour coding. No bar chart. Plain table, equally weighted columns — per the
+editorial convention from `legend-articles-list.md` applied here: if it's in the table,
+it has the same authority as the rest of the table.
+
+This is the one genuinely new v1 build component on this surface.
+
+**5. Silent Payments integrity**
+`Outflows are paid using Silent Payments. Each recipient receives at a unique address
+that cannot be linked to them on-chain. You can see that the treasury pays out — how
+much, and how often. You cannot see who is paid. This is by design.`
+DM Sans 400. `--text-secondary`. Always present on a declared treasury that uses
+Silent Payments. Never replaced with "outflows are hidden" — the recipients are
+unlinkable, not the outflow amounts.
+
+**6. Verification anchor (live)**
+`Checked against the Bitcoin network at block [height] · [date], in your browser.`
+IBM Plex Mono 400. `--text-secondary`. Reuses UC-3 string verbatim.
+
+**7. Legend canary summary**
+Reuses UC-4 strings and four-node canary state verbatim. No new machinery.
+Current: `All four Legend canaries are current — what this means →`
+Expired: `One or more Legend canaries have expired — see status →`
+
+**8. Independent verification affordance**
+`Verify this yourself →`
+Reuses UC-3/UC-4 string and mechanism verbatim.
+
+**9. Per-address table**
+Full untruncated addresses. IBM Plex Mono throughout. One row per address: address,
+verified balance (sats), last activity. Same chain-of-custody logic as UC-2 print.
+
+**10. Declared-not-exhaustive footer — the load-bearing copy discipline for this surface**
+`This view shows the addresses this treasury has chosen to declare. It is not a
+complete audit of everything it holds or spends. Legend renders what was declared
+and checks it against the chain — nothing more.`
+DM Sans 300. `--text-tertiary`. Always visible. Never hidden or collapsed.
+
+This footer is the single most important discipline on the Civic Treasury View. It
+prevents a voluntary, partial, self-declared disclosure being read as a complete
+institutional audit. It is not fine print; it is an honest statement of what the
+view is, in the same register as everything above it.
+
+### Design note — what is deliberately absent
+
+- **No "verified organisation" badge.** Legend verifies chain data; it attests no identity.
+  Any badge implying "this is the Canton of X" would be a claim Legend cannot make.
+- **No "complete holdings" representation.** The declared set may omit addresses.
+  The footer says so. The interface does not imply otherwise.
+- **No "audit" or "certified" language anywhere.** This is a self-declared public view,
+  rendered honestly. It is not a financial audit. The word "audit" never appears on this surface.
+
+---
+
+## Civic Treasury Mode — generation spec (v2)
+
+**Locked: UC-5 Opus · Multi-14 · 26 Aug 2026**
+**Source scenario:** UC-5 — The Florentine District
+**Note:** This is the specification for the parked "Public-body transparency module"
+from `legend-scope.md` §v2. UC-5 gives that module its shape. The two are the same feature.
+
+### What Civic Treasury Mode is
+
+Legend's **third explicitly-invoked mode** (after Verification Mode and Treasury Watch Mode),
+arriving at v2. The first two explicitly-invoked modes produce documents or links for a
+known recipient. Civic Treasury Mode produces a public link for an unbounded audience —
+the institution declares its treasury to the world, not to a counterparty.
+
+### Entry point
+
+`Publish a treasury view →` — on standard and Stewardship results. Never in Distress Mode.
+
+### Publication modal
+
+**Title:** `Publish a treasury view`
+
+**Body — in order:**
+1. What it publishes (a permanent public link; the Civic Treasury View; anyone with the link
+   can read the declared treasury and verify it against the chain)
+2. How it differs from a verification or watch (no single recipient; public; indefinite;
+   the declared set is fixed at publication, though the chain data it renders is always live)
+3. What Legend attests (chain data on each open — *not* the identity of the institution;
+   the name is shown as provided by the publisher, not verified by Legend)
+4. What it does and does not reveal (Silent Payments recipient addresses stay unlinkable;
+   every declared address and its full transaction history becomes publicly visible via this link)
+
+**Actions (v2):**
+`Copy treasury-view link` — URL fragment mechanism (address set + reference block in `#`
+only; never transmitted to any Legend server; same mechanism as UC-3/UC-4).
+`Download monthly summary` — plain CSV export of the monthly aggregate panel.
+
+**⚠ Parked — v2 decision item:**
+An optional `Download signed civic attestation` would make the Civic Treasury View a
+fifth consumer of the canonical FROST-signed artefact (currently four: UC-2/3/4/9).
+Field-format check across all four consumers required before this is added. Do not
+implement without that check. Logged as v2 decision; not in scope for this patch.
+
+**v1 note:** At v1, the treasury officer shares the declared address directly — she
+queries it in Legend, and the resulting Civic Treasury View URL (address set in the
+fragment) is what she copies and distributes. No Civic Treasury Mode modal at v1;
+that publication flow arrives at v2. The read surface (the Civic Treasury View itself)
+ships at v1.
+
+**v2 planning note — Share × Legend integration:**
+At v2, Share may provide the *transport* layer (encrypted file transfer to a specific
+recipient or group) where Legend provides the *view*. This is the one place Share and
+Legend touch without Share becoming a Legend dependency. Requires a dedicated planning
+session before v2 build begins on either product's side. Do not bake into v1 or v2
+spec without that session.
+
+---
+
+## Federation Settlement View — spec
+
+**Locked: UC-6 Opus · Multi-14 · 26 Aug 2026**
+**Source scenario:** UC-6 — The Hanseatic Federation
+**Base surface:** Civic Treasury View (UC-5). Variant of that surface — shares the
+substrate, differs in load-bearing element and absence note.
+**Recipient-View family position:** fourth member (Lender View · Watch Recipient View
+· Civic Treasury View · Federation Settlement View).
+
+### What the Federation Settlement View is
+
+The Civic Treasury View applied to a declared merchant federation — a network settling
+aggregated Lightning payments in periodic on-chain UTXOs. The load-bearing element
+shifts from outflow *pattern over time* (UC-5) to settlement *cadence and amount*
+(most recent first). The key absence shifts from SP recipient unlinkability to
+inside-federation payment invisibility.
+
+The view is assertive (names the federation, explains the underlying absence plainly)
+only when the address is *declared* by the federation. On an undeclared address,
+Legend describes cadence and offers the conditional absence note — it does not assert provenance.
+
+### Provenance-agnosticism rule
+
+See `legend-ux-language.md` §1. Legend states on-chain facts and observable patterns.
+It never asserts provenance or cause. "Regular settlement cadence detected" is
+descriptive and permitted. "This UTXO is a Fedimint federation settlement" is a
+provenance assertion and forbidden unless the address is *declared* by the federation.
+This rule generalises the batch-result decision ("Activity detected", never "Compromised").
+
+### Three-reads stillness, theme, denomination
+
+All identical to Civic Treasury View. BTC-first (same institutional-reserve rule).
+
+### Information hierarchy — top to bottom
+
+**Declared federation view (address declared by the federation):**
+
+**1. Header**
+`Federation settlement · Prepared with Legend`
+DM Sans 500. `--text-primary`.
+
+**2. Publisher context**
+`Published by [declared name]. Legend verifies the settlements on-chain, not the
+federation behind them.`
+DM Sans 300. `--text-tertiary`. Identity caveat applied.
+
+**3. Load-bearing element — settlement cadence**
+`This address records a regular settlement: most recently [amount] on [date] · block [height].`
+DM Sans 500. `--text-primary`. The treasurer's confirmation sentence: amount, date, height.
+
+**4. Settlement history**
+Plain list, most recent first:
+`[amount] BTC · [date] · block [height]`
+IBM Plex Mono. Three to six rows visible; older entries collapsed on click.
+Pattern is the information. Single entries are not.
+
+**5. Absence note (assertive — declared address)**
+`The individual payments inside each settlement are handled by the federation
+off-chain and are not visible here. That is how the federation works — it is not
+missing data.`
+DM Sans 400. `--text-secondary`.
+
+**6. Verification anchor, canary summary, independent verification, per-address table,
+declared-not-exhaustive footer:** reuse Civic Treasury View verbatim.
+
+---
+
+**Undeclared address — settlement-pattern display enhancement on the standard result:**
+
+This is a descriptive enhancement only. It fires when a regular high-value,
+low-frequency outbound cadence is detected. It does not name the pattern's cause.
+
+Cadence header: `Regular settlement cadence detected on this address:`
+Cadence list: `[amount] BTC · [date] · block [height]` — most recent three rows,
+IBM Plex Mono.
+
+Conditional absence note (always present when cadence header is shown):
+`Some addresses aggregate many payments into a single periodic on-chain settlement
+— a Fedimint federation, for example, or a batching service. If that is the case
+here, the payments behind each settlement are not recorded on-chain, by design.
+Legend cannot tell you from the chain alone whether this address works that way.`
+DM Sans 300. `--text-tertiary`.
+
+Nothing in this enhancement names provenance. The conditional absence note is
+accurate, helpful, and non-classificatory.
+
+---
+
 *"Nothing stops this train."*

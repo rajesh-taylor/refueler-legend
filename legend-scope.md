@@ -177,13 +177,19 @@ Sats / BTC / USD (at time of transaction) / GBP (at time of transaction). Sessio
 Resets on new session. No localStorage. GBP added UC-2 Opus. Denomination defaults vary by mode
 — see `legend-copy-index.md` §8.
 
-**UI modes (locked UC-1/UC-2/UC-3/UC-4 Opus):**
+**UI modes (locked UC-1/UC-2/UC-3/UC-4/UC-5/UC-6 Opus):**
 Distress Mode (mobile, first query, single address) — inferred, never named.
 Stewardship Mode (desktop, 1–2 addresses, no outbound activity) — inferred, never named.
 Verification Mode (explicitly invoked via `Create a verification →` on standard/Stewardship
 results) — Legend's first explicitly-invoked mode.
 Treasury Watch Mode (explicitly invoked via `Create a watch →`) — Legend's second
 explicitly-invoked mode. Never appears in Distress Mode.
+Civic Treasury View (v1 read surface, declared address-set; v2: Civic Treasury Mode,
+explicitly invoked via `Publish a treasury view →`) — Legend's third explicitly-invoked
+mode at v2. Specifies the parked public-body transparency module.
+Federation Settlement View (v1: settlement-pattern display enhancement on standard result +
+declared read surface reusing Civic Treasury View; v2: Fedimint-attestation rendering).
+No new explicitly-invoked mode — variant of Civic Treasury View.
 
 **Legacy print layout (locked UC-2 Opus):**
 `@media print` stylesheet. Paper theme only on print. Full untruncated addresses.
@@ -291,10 +297,16 @@ Query input: mint public key + block height. Output: channel open/close history,
 reserve consistency check. Does not query token state — mint blindness is preserved.
 The mint does not know it was checked.
 
-**Public-body transparency module (v2 — parked):**
-A publicly-funded body uses Legend to publish declared holdings and transaction history
-to the public. Requires no new query infrastructure; requires a public-disclosure module.
-Not a v1 consideration. Scoping session required before any v2 build begins on this feature.
+**Public-body transparency module (v2 — specified as Civic Treasury Mode, UC-5 Opus · Multi-14):**
+A publicly-funded body or civic institution uses Legend to publish declared Bitcoin
+holdings and transaction history to the public. Scoping session requirement met:
+Civic Treasury Mode is the specification for this module. Full spec in `legend-ui-modes.md`.
+Requires no new query infrastructure beyond the Civic Treasury View (v1) and the
+UC-3/UC-4 URL-fragment publication mechanism. v2 adds the Civic Treasury Mode modal
+(publication flow) and monthly summary export. ⚠ Optional signed civic attestation
+parked as a v2 decision item — would be the fifth consumer of the canonical
+FROST-signed artefact; field-format check across all four current consumers (UC-2/3/4/9)
+required before implementation.
 
 **Article pipeline unlocks at v2:**
 - Article 19: `zk-balance-proofs-bitcoin`
@@ -399,7 +411,7 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Lightning node correlation | — | Own node, private | — |
 | Cashu mint health | — | Reserve check, blind | — |
 | Estate planning tooling | — | — | Probate verification, time-lock monitoring |
-| Public-body transparency module | — | Parked — scoping session required | — |
+| Public-body transparency module | — | **Specified as Civic Treasury Mode (UC-5).** Scoping session requirement met. See Civic Treasury Mode spec in `legend-ui-modes.md`. | — |
 | /legend/verify endpoint | — | Stub (estate/loan) | Full verification flow |
 | Merkle proof | Cross-node SPV v1 | Export artefact (4 consumers: UC-2/3/4/9) | Estate PI methodology |
 | Script rendering | Type label only | Plain-language quorum | — |
@@ -408,7 +420,9 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Stewardship Mode + Legacy print | Yes | Yes | Yes |
 | Verification Mode + Recipient View | Yes | + Signed artefact + BIP-322 control | + ZK address-hiding |
 | Treasury Watch Mode + Watch Recipient View | Yes (live link, canary summary, no-alert footer) | + Signed watch attestation + BIP-322 control | + Blind-channel alerting (Pass) + Council API + Multi-signatory watch |
-| Denomination toggle | Sats / BTC / USD / GBP | — | — |
+| Civic Treasury View (UC-5) | Read surface: aggregate display, SP-integrity, declared-not-exhaustive footer, live anchor, canary | Civic Treasury Mode (publication flow, = public-body module) + monthly export; ⚠ optional signed civic attestation parked (would be 5th artefact consumer — field-format check required) | Multi-signatory treasury (council + auditor) + ZK aggregate proofs |
+| Federation Settlement View (UC-6) | Settlement-pattern enhancement (descriptive, undeclared) + conditional absence note + declared federation read surface (reuses Civic Treasury View) | Declared Fedimint-attestation rendering + weekly export (reuses UC-5 flow) | Multi-federation aggregation — declared/attested provenance only, never inferred |
+| Denomination toggle | Sats / BTC / USD / GBP (contextual defaults: sats · GBP · GBP · GBP · BTC by mode — see `legend-ux-language.md` §4) | — | — |
 | Proof of control | — | BIP-322, UC-3 and UC-4 | — |
 
 ---
