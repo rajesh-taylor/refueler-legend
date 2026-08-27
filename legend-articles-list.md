@@ -1,5 +1,5 @@
 # legend-articles-list.md — refueler-multi-core /notes/ pipeline
-> **Version:** 1.4 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** UC-9 Opus · 23 Aug 2026
+> **Version:** 1.5 | **Created:** Multi-3 · 3 Aug 2026 | **Updated:** Multi-15 · 26 Aug 2026
 > Editorial planning document. Lives in `refueler-multi-core/` alongside CLAUDE.md and SESSIONS.md.
 > Load when in an editorial planning or article build session. Not by default.
 > Publishing platform: `refueler.io/notes/` (main domain, not subdomain).
@@ -284,7 +284,7 @@ If you want to prove to a lender, solicitor, or counterparty that you control a 
 amount of Bitcoin, you currently have two options: show them your addresses (permanent
 privacy loss) or use a custodian (defeats self-custody). ZK balance proofs give you a
 third option: cryptographic proof that you control at least X BTC, without revealing
-which addresses. Legend generates the proof. The verifier checks it. No addresses exchanged.
+which addresses.
 
 **Beats:**
 - The problem: proving reserves without disclosure
@@ -626,29 +626,71 @@ officials to keep it.
 ### Article UC-7 — Who Gets Priced Out
 
 **Slug:** `who-gets-priced-out`
-**Status:** Outline in `legend-use-cases.md` UC-7. Full outline to be produced in UC-7 Opus session.
-**Audience:** Every Bitcoiner. Global south advocates. Anyone who cares whether Bitcoin's
-financial inclusion promise survives fee spikes.
-**Dependency:** Legend human cost calculator live (v1). Historical fee context layer (v2).
+**Status:** Full outline locked — UC-7 Opus · Multi-15 · 26 Aug 2026.
+**Audience:** Every Bitcoiner. Global south holders and advocates. Anyone who cares
+whether Bitcoin's financial inclusion promise survives fee spikes.
+**Dependency:** Legend Fee Context Layer live (v1) — human cost calculator, economic-dust
+flag, comparable-spike history. No feature dependency before drafting; publish after
+Fee Context Layer ships.
+
+**⚠ Citation note:** This article will need real fee-history anchors (2017 spike, 2023
+Ordinals congestion, 2024 Runes/halving spike). Do not publish specific event dates,
+peak fee rates, or duration figures without verifying against a primary source. Any
+figures in this file are placeholders until verified.
+
+**Opening line (locked):**
+"The Bitcoin network has no concept of fairness. The mempool doesn't know where you live or how much you have. Here's what a fee spike looks like from Lagos."
 
 **The argument:**
-When fees hit 800 sat/vbyte, Bitcoin works fine for whales. For everyone else it is
-arithmetic: the fee exceeds the transaction value. Block space is a commons. When it
-is weaponised — deliberately or incidentally — the smallest users pay the highest
-relative cost. Legend shows this not as a political statement but as arithmetic.
-The chain doesn't lie.
+High fee events are not neutral in effect, even if the protocol is indifferent in intent.
+They price out small holders in high-inflation, low-income contexts first — the fee to
+spend an output can exceed the output's value, and that threshold lands on the smallest
+holders soonest. Legend shows this not as a political statement but as arithmetic,
+computed privately against the user's own holdings in their own browser. The fee rate
+is a number. The human cost is a fraction of someone's savings.
 
-**Opening line (provisional):**
-"When fees hit 800 sat/vbyte, Bitcoin works fine for whales. Here is what it looks like for everyone else."
+The point is not that Bitcoin is broken. The point is that the tools we build around
+it decide who can afford to use it.
 
-**CTA:** Check current fee impact on Legend.
+**Beats:**
+- Lagos, 2029. An 800 sat/vB mempool. A 0.003 BTC holding. A smallest output worth
+  less to spend than it costs in fees. The arithmetic is not political; it is just
+  arithmetic.
+- The economic-dust line: when a UTXO's fee cost exceeds its value, the UTXO is
+  economically unspendable at the current fee rate. Every other explorer shows this
+  in sat/vB tables. Legend shows it in the holder's own holdings, computed in the
+  browser, privately.
+- Who hits this line first: the smallest holders. Not proportionally — absolutely.
+  A 50,000-sat output hits economic dust before a 500,000-sat output. The threshold
+  is indifferent to income as a fraction of savings.
+- What the chain cannot tell you and what Legend refuses to claim: whether this spike
+  is a nation-state attack, miner coordination, or organic demand. The chain records
+  the fee rate. It does not record the cause. Legend shows the pattern; it never
+  diagnoses the politics.
+- Historical context without false comfort: comparable spikes in [verify years] lasted
+  [verify durations]. This is history, not a forecast. The spike may clear in hours;
+  it may not. Legend hands the arithmetic and leaves the decision to the holder.
+- Wait or act — the honest pair: waiting may cost less if the fee rate falls; it may
+  cost more if it rises. Legend shows both. It advises neither.
+- The privacy point that makes the personal number possible: Legend can show you the
+  cost against your specific holdings because the result was already assembled in your
+  browser, privately. A public explorer would need your address on its server to
+  compute the same figure. Legend already has it client-side — and keeps it there.
+- Lightning as a note, not a recommendation: if this address has Lightning channel
+  activity on-chain, Legend notes it. It does not know whether the channel is funded
+  or open. The note is a fact; the inference is the holder's.
+
+**Closing (locked):**
+"The chain doesn't care who gets priced out. The tools we build around it can."
+
+**CTA:** Check current fee impact on Legend. (Link to Fee Context Layer once live.)
 
 ---
 
 ### Article UC-8 — The UTXO Lottery
 
 **Slug:** `the-utxo-lottery`
-**Status:** Outline in `legend-use-cases.md` UC-8. Full cryptographic design in UC-8 Opus session.
+**Status:** Outline in `legend-use-cases-2.md` UC-8. Full cryptographic design in UC-8 Opus session.
 **Audience:** Bitcoin developers, cryptography enthusiasts, anyone interested in on-chain
 coordination mechanisms that require no operator.
 **Dependency:** Legend movement count display live (v1). Full lottery eligibility (v2).
@@ -684,7 +726,7 @@ Articles publish in this order, each unlocking when its dependency is met:
 | 22 | The jurisdiction problem | Legend live |
 | UC-5 | The Florentine Protocol | Legend Civic Treasury View live (v1) — outline locked Multi-14 |
 | UC-6 | The Hanseatic Protocol | Legend Federation Settlement View live (v1) — outline locked Multi-14 |
-| UC-7 | Who Gets Priced Out | Legend human cost calculator live |
+| UC-7 | Who Gets Priced Out | Legend Fee Context Layer live (v1) — outline locked Multi-15 |
 | 19 | ZK balance proofs for Bitcoin holders | Legend v2 live |
 | 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
 | UC-8 | The UTXO Lottery | Legend movement eligibility display live (v2) |
@@ -704,4 +746,5 @@ Phase 2 sovereign/Recovery Coordination Layer beats at v3 unlock.
 *Next article session: Articles A, B, C draft block. 2–3 weeks redraft time. No publish pressure.*
 *Article 24 full outline complete — UC-9 Opus session 23 Aug 2026.*
 *Articles UC-5 and UC-6 full outlines complete — UC-5/UC-6 Opus · Multi-14 · 26 Aug 2026.*
+*Article UC-7 full outline complete — UC-7 Opus · Multi-15 · 26 Aug 2026.*
 *"Nothing stops this train."*
