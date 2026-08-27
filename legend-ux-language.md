@@ -1,5 +1,5 @@
 # legend-ux-language.md — refueler-legend
-> **Version:** 1.4 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** Multi-[n] restructure · 25 Aug 2026
+> **Version:** 1.5 | **Created:** Legend-3B · 6 Aug 2026 | **Updated:** Multi-15 · 26 Aug 2026
 > Canonical UX copy and information hierarchy reference for Legend — Sections 1–5.
 > Honest-scope statements (§6), degraded mode notices (§7), and locked copy index (§8)
 > are in `legend-copy-index.md`.
@@ -49,6 +49,8 @@ All three are the same reader at different moments. The copy must work for all t
 - Uses the phrase "Chainalysis works for the observer. Legend works for the owner." in UI copy — this phrase is locked for article and presentation use only (coined Multi-5)
 - Implies that using Tor makes a free-tier query fully private — Tor hides IP; the query architecture is separate
 - Claims "no logs" without the structural qualifier — the correct form is "no query logs exist. Not because we chose not to keep them. Because the architecture makes them impossible to create."
+- Forecasts how long a fee spike will last — comparable-spike history is history, not a prediction
+- Asserts that a mempool event is an attack — cause is provenance Legend cannot establish from the chain alone
 
 ### What Legend copy always does
 
@@ -67,6 +69,8 @@ All three are the same reader at different moments. The copy must work for all t
 
 This register applies when the inferred context is bereavement or estate lookup. It is not a named mode. The copy adapts to the detected context (mobile, first visit, single address) without naming the adaptation.
 
+*Note: bereavement is one of two Distress-context registers. The other is the Affordability register (UC-7). Distress Mode is not inherently bereavement — the two registers sit alongside each other under the same inferred mode.*
+
 **Register rules:**
 
 - Lead with the fact, not the instruction. The user has arrived in distress. They need the answer first, the explanation second.
@@ -83,8 +87,9 @@ This register applies when the inferred context is bereavement or estate lookup.
 - Underplays funds that have moved — plain language, no euphemism: "Funds were moved on [date]"
 
 **Denomination rule for bereavement / Distress Mode:**
-GBP-first. Sats visible but secondary. The user is in Bradford. She thinks in pounds.
+GBP-first for holdings. Sats visible but secondary. The user is in Bradford. She thinks in pounds.
 This overrides the sats-default rule for this mode only. The denomination rule is contextual, not global.
+Network-cost figures (if the Fee Context Layer is active) are USD-first regardless — see §4.
 
 ### Stewardship register
 
@@ -252,6 +257,58 @@ third-party-analytics line: descriptive cadence display applied to an address th
 themselves queries is not surveillance. Offering the same as an API for classifying
 *other people's* addresses is — and remains permanently out of scope.
 
+**Temporal extension (locked UC-7 Opus):** The provenance-agnosticism rule applies to
+time as well as cause. Legend may state the historical duration of comparable fee spikes
+as fact. It may not forecast when the current spike will end, nor assert a causal
+explanation ("nation-state attack", "miner coordination") from on-chain data alone.
+Cause-detection at v3 produces descriptive anomaly heuristics only — never causal accusation.
+
+### Affordability register — locked UC-7 Opus · Multi-15
+
+**Context:** UC-7 — The Block War. Fee-shock distress. Distress Mode fires (mobile, first
+visit, single address), but the distress is economic — a fee spike that may price the
+user out of moving their own funds — not bereavement.
+
+*Distress Mode is not inherently bereavement.* The bereavement and affordability registers
+are two distinct registers that both activate under Distress Mode inference. A Lagos
+smallholder during a 800 sat/vB spike is in distress. The copy must meet her where she is,
+without the bereavement framing, and without catastrophising a fee she may choose to wait out.
+
+**Register rules:**
+
+- State the personal cost plainly and calmly. "Moving these funds now costs about [X]"
+  is a fact. It is delivered without softening and without alarm. Neither minimise the cost
+  nor dramatise it.
+- "You may not be able to afford to spend this output right now" is an honest fact, not a
+  failure to protect the user. State it where it is true (per-UTXO economic-dust flag).
+- Never forecast relief. Comparable-spike history is history, never a prediction.
+  "Comparable spikes lasted N–M hours" is a fact. "This one will clear soon" is not.
+- Never recommend wait or act. Show both costs — waiting and acting — and advise neither.
+  The decision is the user's. Legend hands her the arithmetic.
+- Network-cost figures are USD-first. USD is the global network-cost reference; GBP is
+  a UK-parochial default that fails a Lagos user. Holding figures in Distress Mode remain
+  GBP-first for the bereavement context; the fee cost is a separate number with a separate
+  denomination rule. See §4.
+- No fee chart. A plain-language percentile sentence is the correct form. Every other
+  explorer gives a fee chart built for a trader. Legend gives a sentence built for a
+  person deciding whether she can afford to act.
+- Do not assert a cause for the spike. Describe the pattern; refuse the diagnosis.
+
+**What affordability register copy never does:**
+- Minimises the cost — the number is the number, stated plainly
+- Recommends an action (wait or act)
+- Forecasts the spike clearing
+- Asserts the cause is a nation-state attack or miner coordination
+- Uses a fee chart, sat/vB table, or mempool-goo visualisation in primary display
+- Uses technical fee jargon (sat/vB, feerate, RBF) in the headline cost figure
+
+**Denomination rule for affordability / network-cost figures:**
+USD-first. Network-cost figures are denominated in USD regardless of the active holding
+denomination. USD is the near-universal global reference for Bitcoin network costs. This
+does not contradict the unifying holding-denomination principle: a *cost* is not a
+*holding*; the reader's relationship to a fee is as a cost-payer, and the global reference
+for that cost is USD. GBP is not the default for a global product. See §4 for the full rule.
+
 ---
 
 ## Section 2 — Landing page hierarchy
@@ -319,75 +376,41 @@ All strings are exact. Nothing in this section is approximate. Build sessions pu
 
 Input placeholder: `Address, transaction ID, or block height`
 
-Tertiary line: `Private query. No logs. No tracking.`
+Tertiary line beneath input: `Private query. No logs. No tracking.`
 
-### Focused state
+### Progress states (query in flight)
 
-Batch icon appears. No copy change. Tertiary line remains.
+Four strings, exact, displayed in sequence. IBM Plex Mono. No animation beyond the string change.
 
-### Submitting — PIR progress text
+```
+Querying node 1 of 4…
+Querying node 2 of 4…
+Querying node 3 of 4…
+Querying node 4 of 4…
+Assembling result.
+```
 
-The tertiary line beneath the input is replaced by progress text. Five discrete states, updated as each stage completes:
-
-`Querying node 1 of 4…`
-`Querying node 2 of 4…`
-`Querying node 3 of 4…`
-`Querying node 4 of 4…`
-`Assembling result.`
-
-No spinner. Text updates only. The three states are shown in sequence, each replacing the last. They do not stack.
+The final string ("Assembling result.") does not include an ellipsis. The query is complete; the assembly is local.
 
 ### Result states
 
-**Intact (no outbound activity):**
-
-Status line: `[N] UTXOs · [balance] sats · Last checked: [relative time]`
-
-No additional copy on a clean result. The absence of alarm is the information.
-
-**Funds moved (outbound transaction detected):**
-
-Status line: `[N] UTXOs · [balance] sats · Last outbound: [amount] sats on [date] at block [height]`
-
-Below the status line, one plain sentence:
-`Last outbound: [amount] sats on [date] at block [height].`
-
-No red. No alarm copy. Precision is the signal.
-
-**Not found — standard address:**
-
+**Not found — address:**
 Primary: `No activity found for this address.`
+Secondary: `This address has not appeared on-chain. If you're expecting a payment, it may not have confirmed yet.`
 
-Secondary (DM Sans 300, tertiary colour): `This address has not appeared on-chain. If you're expecting a payment, it may not have confirmed yet.`
-
-**Not found — Silent Payments address (BIP-352):**
-
+**Not found — Silent Payments:**
 Primary: `This is a Silent Payments static address (BIP-352).`
-
 Secondary: `Outputs derived from this address do not appear on-chain as this address. Legend scans every block for derived outputs.`
+Tertiary: `No derived outputs found yet.`
 
-Then either:
-
-`No derived outputs found yet.`
-
-Or the derived outputs table (block height, value, confirmation count).
-
-**Error state:**
-
-One sentence. Written from the reader's side of the screen.
-
+**Error states:**
 Generic: `Something went wrong retrieving that result. Try again, or check that the address or transaction ID is correct.`
-
 Timeout: `The query took too long to complete. The nodes may be under load. Try again in a moment.`
-
 Invalid input: `That doesn't look like a Bitcoin address, transaction ID, or block height.`
 
----
+### Result display
 
-## Section 4 — Result anatomy copy
-
-### Status line format
-
+**Primary balance line (IBM Plex Mono):**
 `[N] UTXOs · [balance] sats · [activity line]`
 
 Activity line variants:
@@ -416,20 +439,21 @@ Toggle label (accessible): `Display denomination`
 
 The third and fourth options are exact — "USD at time of transaction" / "GBP at time of transaction" not "USD" / "GBP" — because the fiat value at the time of a historical transaction is not the current fiat value and the distinction matters to an accountant.
 
-**Contextual denomination rule (locked UC-2 Opus · extended UC-3/UC-4/UC-5 Opus):**
+**Contextual denomination rule (locked UC-2 Opus · extended UC-3/UC-4/UC-5/UC-7 Opus):**
 
 Denomination hierarchy is contextual, not global. The toggle persists within a session, but the default denomination displayed varies by inferred context:
 
 - **Stewardship Mode (returning owner, desktop, 1–2 addresses):** Sats-first. Arthur is the owner. He thinks in sats. GBP and BTC are visible but secondary.
-- **Distress Mode (mobile, first visit, single address):** GBP-first. The user is in distress. They think in pounds. Sats remain visible but secondary.
+- **Distress Mode (mobile, first visit, single address) — holdings:** GBP-first (bereavement register). The user is in distress. They think in pounds. Sats remain visible but secondary.
+- **Distress Mode — network-cost figures (Fee Context Layer):** USD-first, regardless of the active holding denomination. A fee is a cost, not a holding. USD is the global network-cost reference. GBP is a UK-parochial default that fails a Lagos user as surely as it fails anyone outside the UK. This is the fifth contextual denomination rule (locked UC-7 Opus).
 - **Recipient View / Verification context (UC-3):** GBP-first. The professional counterparty — lender, solicitor — thinks in pounds.
 - **Watch Recipient View (UC-4):** GBP-first. The institutional counterparty — council officer — thinks in pounds.
 - **Civic Treasury View / Federation Settlement View (UC-5/UC-6):** BTC-first. A declared institutional Bitcoin reserve states itself in BTC. Leading in fiat undercuts the declaration the institution is making. Sats secondary; fiat-at-time available via toggle. This is the fourth contextual rule — it *extends* the unifying principle rather than applying it: the institution's relationship to its own reserve is in BTC, and the public observer reads it the same way.
 - **Standard / all other contexts:** Sats-first per the global default.
 
-All hierarchies are correct for their context. The rule is not "show the denomination the user finds comforting" — it is "show the denomination that matches how this user thinks about this holding in this moment." The chain data is identical in all cases.
+All hierarchies are correct for their context. The rule is not "show the denomination the user finds comforting" — it is "show the denomination that matches how this user thinks about this holding or cost in this moment." The chain data is identical in all cases.
 
-**Unifying principle (locked UC-3 Opus · extended UC-5 Opus):** Denomination follows the reader's relationship to the holding. The owner reads in sats. The non-owner professional counterparty reads in fiat. The declared institutional reserve reads in BTC — the fourth rule extends, not contradicts, the unifying principle.
+**Unifying principle (locked UC-3 Opus · extended UC-5/UC-7 Opus):** Denomination follows the reader's relationship to the holding or cost. The owner reads holdings in sats. The non-owner professional counterparty reads holdings in fiat. The declared institutional reserve reads in BTC. Network costs read in USD — the reader's relationship to a fee is as a cost-payer, and the global reference for that cost is USD, not any single national currency.
 
 ### Silent Payments section
 
