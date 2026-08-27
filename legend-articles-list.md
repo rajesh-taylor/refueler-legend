@@ -689,22 +689,10 @@ it decide who can afford to use it.
 
 ### Article UC-8 — The UTXO Lottery
 
-**Slug:** `the-utxo-lottery`
-**Status:** Outline in `legend-use-cases-2.md` UC-8. Full cryptographic design in UC-8 Opus session.
-**Audience:** Bitcoin developers, cryptography enthusiasts, anyone interested in on-chain
-coordination mechanisms that require no operator.
-**Dependency:** Legend movement count display live (v1). Full lottery eligibility (v2).
-
-**The argument:**
-Bitcoin's longest debate is whether it is money or gold. Here is a lottery that only
-works if it is money. Movement velocity is a monetary property. A UTXO that has moved
-ten times in a year is being used as money. The lottery rewards that — trustlessly,
-with the block hash as the entropy source and no operator able to manipulate the draw.
-
-**Opening line (provisional):**
-"Bitcoin's longest debate is whether it is money or gold. Here is a lottery that only works if it is money."
-
-**CTA:** Check your UTXO's lottery eligibility on Legend.
+**⚠ RETIRED — Multi-16 · 27 Aug 2026**
+Retired alongside UC-8. The cryptographic argument (block-hash entropy as a
+manipulable-but-bounded beacon) may surface in a future CryptoRoadmap or Article 15
+discussion. No slug. No article.
 
 ---
 
@@ -729,7 +717,7 @@ Articles publish in this order, each unlocking when its dependency is met:
 | UC-7 | Who Gets Priced Out | Legend Fee Context Layer live (v1) — outline locked Multi-15 |
 | 19 | ZK balance proofs for Bitcoin holders | Legend v2 live |
 | 20 | Spiral PIR and Bitcoin privacy | Legend v2 PIR live |
-| UC-8 | The UTXO Lottery | Legend movement eligibility display live (v2) |
+| UC-8 | ~~The UTXO Lottery~~ | **Retired Multi-16.** |
 | 23 | Bitcoin and your estate | Legend v2 live, /legend/verify live |
 | 24 | What the Mt. Gox victims needed | Phase 1: Distress Mode v1 + Chain Trace v2. Phase 2: v3 unlock. |
 
@@ -737,7 +725,7 @@ Articles A, B, C can publish before Legend is live — no infrastructure depende
 Articles 14, 15, 16, 21, 22 publish in close succession at Legend launch.
 Articles 17, 18 follow as features confirm stable.
 UC-5, UC-6, UC-7 slot in alongside v1/v2 feature rollout.
-Articles 19, 20, UC-8, 23 are v2 unlocks — no timeline pressure.
+Articles 19, 20, 23 are v2 unlocks — no timeline pressure.
 Article 24 publishes in two phases: Phase 1 at Distress Mode + Chain Trace launch;
 Phase 2 sovereign/Recovery Coordination Layer beats at v3 unlock.
 
@@ -746,5 +734,6 @@ Phase 2 sovereign/Recovery Coordination Layer beats at v3 unlock.
 *Next article session: Articles A, B, C draft block. 2–3 weeks redraft time. No publish pressure.*
 *Article 24 full outline complete — UC-9 Opus session 23 Aug 2026.*
 *Articles UC-5 and UC-6 full outlines complete — UC-5/UC-6 Opus · Multi-14 · 26 Aug 2026.*
-*Article UC-7 full outline complete — UC-7 Opus · Multi-15 · 26 Aug 2026.*
+*Article UC-7 outline complete — UC-7 Opus · Multi-15 · 26 Aug 2026.*
+*Article UC-8 retired — Multi-16 · 27 Aug 2026.*
 *"Nothing stops this train."*
