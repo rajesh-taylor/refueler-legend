@@ -230,68 +230,25 @@ it can.
 
 ## Scenario 8 — The UTXO Lottery
 
-**UC-8. Opus session: one scenario, one human moment.**
-**Hybrid: UX design session + cryptographic design session. Article candidate.**
+**⚠ RETIRED — Multi-16 · 27 Aug 2026**
 
-### The moment
+UC-8 was scoped in Multi-16 and immediately retired. The scenario was found to be outside
+Legend's mission scope on two grounds:
 
-A community fund in a small town in El Salvador runs a monthly UTXO lottery.
-Every sat that moved through the town's Bitcoin circular economy in the past month
-is eligible. The winner is determined by a deterministic function applied to the
-current block hash — provably random, publicly verifiable, impossible to rig.
+1. **Product clarity.** Legend is a privacy-first block explorer for Bitcoin owners and
+   professionals. A lottery-verification surface muddies that positioning and attracts
+   a use-case class (on-chain gambling/coordination mechanisms) inconsistent with the
+   product's identity.
+2. **Gambling-law gate.** The surface could not ship without a UK solicitor review of
+   Gambling Act 2005 promotion-of-a-lottery exposure — a gate that confirms the feature
+   belongs elsewhere.
 
-The lottery organiser opens Legend. She needs to prove to every participant that
-the draw was fair.
+The cryptographic kernel (block-hash entropy as a manipulable-but-bounded beacon;
+value-weighted Sybil-resistant eligibility; forward-from-declared-receipt lineage) may
+surface as a *primitive* discussion in a future CryptoRoadmap session or Article 15,
+not as a product feature.
 
-### What Legend must do
-
-Provide a trustless, independently verifiable draw function. No trusted third party.
-No organiser can influence the result. Anyone with Legend can verify it.
-
-- Block hash as entropy source — the lottery closes at a specified block, the
-  winning output is determined by `SHA256(block_hash || lottery_seed)` modulo
-  the eligible UTXO count. Organiser cannot predict the block hash.
-- Eligible UTXO set — verifiable by anyone. The set is defined by the organiser
-  (address set + date range) and independently reconstructable from the chain.
-- Merkle lineage proof — the winning UTXO's inclusion in the eligible set is
-  Merkle-provable. The proof is downloadable.
-- Miner manipulation economics — the prize must be small enough that no rational
-  miner would withhold a block to influence the result. Legend calculates and
-  displays this threshold. Honest scope.
-
-### Design implications
-
-- **Lottery eligibility view** — a new query type: "eligible UTXOs at block [N]
-  within address set [S] and date range [D]." Returns the eligible set and the
-  draw result.
-- **Verifier interface** — anyone can paste the lottery parameters and verify the
-  draw independently. Legend is not the authority. The chain is.
-- **Miner manipulation threshold** — plain-language display. "At current block
-  rewards, a miner would need to withhold [N] blocks to guarantee a win. The
-  expected lottery prize must exceed [X] BTC for this to be rational. The current
-  prize is [Y] BTC."
-
-### Article: "The UTXO Lottery"
-
-*Opening:* The oldest objection to Bitcoin lotteries is that the organiser could
-cheat. Here's how the chain makes that impossible.
-
-*Argument:* A deterministic function applied to a future block hash, applied to
-a publicly verifiable UTXO set, produces a lottery that no participant or
-organiser can influence. Legend is the tool that makes this verifiable to anyone.
-The catch: the prize must be small enough that no miner would bother.
-
-*Closing:* A lottery that anyone can verify is not a lottery. It's an institution.
-
-### Version assignment (preliminary)
-
-- v1: eligible UTXO set query, deterministic draw function, block hash entropy
-- v2: Merkle lineage proof download, verifier interface
-- v3: miner manipulation threshold calculator, multi-round lottery coordination
-
-*Note: Samourai Whirlpool flagged for UC-8 session — 5,651 BTC unspent capacity,
-86,844 UTXOs.*
-
+Article UC-8 ("The UTXO Lottery") retired with the use case. No article stub kept.
 ---
 
 ## Scenario 9 — The Recovery Coordination Layer
