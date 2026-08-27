@@ -4,6 +4,56 @@
 
 ---
 
+## Session Multi-15 · 26 Aug 2026
+
+**Phase:** Use case scoping — UC-7 The Block War (Opus session)
+**Status:** Complete. Fee Context Layer locked. Affordability register locked. Fifth contextual denomination rule (USD-first for network costs) locked. Article UC-7 outline locked. Eight questions answered. Five files patched.
+
+### Key decisions
+
+- **No new mode** — confirmed. The Fee Context Layer is a conditional display layer, not a mode. Architectural sibling to the N-1/N-2 degraded-mode banner (network-state-triggered), not to the Recipient-View family. Future network-state features check against this class.
+
+- **Fee Context Layer locked** — two fidelities:
+  - *Network-context* (no address queried): percentile sentence + comparable-spike history. Text only. No chart.
+  - *Personalised* (address queried): human-cost calculator + per-UTXO economic-dust flags, computed in-browser against the already-returned UTXO set. No additional server query; no address leaves the browser.
+  Trigger: current fee rate > 90th percentile of trailing-12-month daily-median fee rate. Collapsible; not non-dismissible (distinct from the privacy banner). Active register governs composition.
+
+- **Fee-rate history index locked as v1 build prerequisite** — percentile claim and comparable-spike history require a 12-month per-block fee-rate record precomputed at ingestion. Directly analogous to the SP tweak index. Without it, Fee Context Layer cannot ship.
+
+- **Affordability register locked** — sibling to the bereavement register under the Distress context. *Distress Mode is not inherently bereavement.* Two registers now sit under Distress Mode: bereavement (UC-1, Bradford) and affordability (UC-7, Lagos). Both are distress; neither is the other.
+
+- **Fifth contextual denomination rule locked** — network-cost figures are USD-first, regardless of the active holding denomination. A fee is a cost, not a holding. USD is the global network-cost reference. GBP is a UK-parochial default that fails a Lagos user and anyone outside the UK. The unifying principle (denomination follows the reader's relationship to the holding or cost) now has five applications.
+
+- **Non-forecast discipline locked** — temporal extension of the UC-6 provenance-agnosticism rule. Legend states comparable-spike history as fact; it never forecasts when the current spike will clear. Cause-attribution ("nation-state attack", "miner coordination") is permanently out of scope at v1/v2; descriptive anomaly heuristics at v3 only, stated explicitly as such.
+
+- **Wallet-line boundary logged** — Legend prices a hypothetical consolidation from the user's own returned UTXO set; never constructs, signs, or broadcasts. Pricing a hypothetical is not wallet behaviour.
+
+- **Economic-dust flag locked** — new sibling to the UTXO consolidation advisor. Per-UTXO, tertiary, below the UTXO table. Same no-recommendation, factual treatment.
+
+- **Lightning note (v1)** — factual on-chain note only: address has appeared in Lightning channel transactions. No capability inference. V2 extends to "you may have off-chain options" framing with honest scope.
+
+- **Article UC-7 ("Who Gets Priced Out") outline locked** — opening line and closing line locked. Full beats logged.
+
+### Files changed
+
+- `legend-ux-language.md` v1.4 → v1.5 — Affordability register added (§1); temporal extension of provenance-agnosticism rule added (§1); §4 extended with fifth contextual denomination rule (USD-first for network costs) and updated unifying principle; bereavement register note clarifying Distress Mode ≠ bereavement
+- `legend-copy-index.md` v1.0 → v1.1 — §6 new honest-scope statement (non-forecast / no-diagnosis, locked UC-7); §8 denomination rule note extended (fifth rule); 10 new locked strings appended (UC-7)
+- `legend-scope.md` v1.8 → v1.9 — Fee-rate history index added as v1 build prerequisite; Fee Context Layer added to professional use cases (v1); mempool-anomaly cause detection added (v3, descriptive only); v1 query scope note amended (basic fee display → Fee Context Layer); Distress Mode note updated (two registers); version summary table: new Fee Context Layer row, fee-rate history index row, denomination toggle row updated; permanent out-of-scope table: fee-spike cause attribution added; v2: UTXO consolidation cost projection and Lightning framing added
+- `legend-articles-list.md` v1.4 → v1.5 — UC-7 provisional stub replaced with full outline; publishing sequence table UC-7 dependency updated to Fee Context Layer (v1)
+- `SESSIONS.md` — this entry
+
+### Carry-forward
+
+- **UC-8 next** — The UTXO Lottery (single scenario + cryptographic design session). Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-scope.md`.
+- **Recipient-View family — four consumers.** Changes to the substrate must be checked against all four: Lender View · Watch Recipient View · Civic Treasury View · Federation Settlement View.
+- **Fee Context Layer = new layer class.** Future network-state conditional display features check against this class before speccing as a mode.
+- **Provenance-agnosticism rule now has a temporal dimension** — check future features that involve historical pattern display (fee history, settlement cadence) against the no-forecast extension.
+- **⚠ Fee-rate history index = v1 data prerequisite** — must be built before Fee Context Layer ships. Flag at Legend-6+ build planning alongside SP tweak index.
+- **Denomination rule update** — §4 and §8 now have five contextual rules. Any future context that introduces a new denomination default must be checked against all five before adding a sixth.
+- **All prior carry-forwards remain open** — Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony; provider quote replies; two-operator milestone; stale figures in `legend-economics.md`, `legend-enterprise-pricing.md`, `legend-node-plan.md` header; Share × Legend v2 planning session; ⚠ fifth-consumer flag on optional signed civic attestation (parked v2 decision).
+
+---
+
 ## Session Multi-14 · 26 Aug 2026
 
 **Phase:** Use case scoping — UC-5 The Florentine District + UC-6 The Hanseatic Federation (paired Opus session)
@@ -87,7 +137,7 @@
 ### Carry-forward
 
 - **UC-7 (The Block War) next** — single scenario; human cost calculator, fee context layer,
-  Lightning correlation panel. Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md`.
+  Lightning correlation panel. Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md`. ✅ Complete · 26 Aug 2026
 - **Recipient-View family — four consumers.** Changes to the substrate (chrome-less, three-reads
   stillness, canary summary, verification anchor, per-address table, declared-not-exhaustive footer)
   must be checked against all four: Lender View · Watch Recipient View · Civic Treasury View ·
@@ -144,193 +194,13 @@
 
 - **All prior carry-forwards remain open:** Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony; provider quote replies; two-operator milestone; stale figures in `legend-economics.md`, `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
 - **`legend-ux-language.md` §2 infrastructure cost** — "roughly €360 a month" → "roughly €673 a month" patched in this restructure. Verify the below-the-fold body copy on the live holding page does not also carry the old figure.
-- **UC-5 + UC-6 Opus next** — paired session, Florentine District + Hanseatic Federation. Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-copy-index.md`.
-
----
-
-## Session UC-4 Opus · 25 Aug 2026
-
-**Phase:** Use case scoping — UC-4 The Council and the Whale
-**Status:** Complete. Verification/watch boundary locked. Treasury Watch Mode and Watch Recipient View locked. Institutional register + no-alert honest-scope statement locked. 15 new locked strings. Four honesty corrections to the prior brief. Automated alerts confirmed v3 (not v2). Canonical artefact now four consumers.
-
-### Completed
-
-- **Verification/watch boundary locked.** Same machinery (fragment-encoded address
-  set, in-browser cross-node SPV, nothing stored on Legend). They differ only in
-  temporal purpose. A verification supports one decision and warns "may be stale,
-  re-check." A watch supports a standing covenant and warns "Legend does not watch
-  for you — no alert is not no movement." The honesty burden inverts.
-  Locked principle: *a verification is a snapshot, a watch is a live link,
-  neither is an alarm.*
-
-- **Honest "future detection" constrained.** Push movement alerting is v3-only,
-  blind-channel-only (Pass Access-class, per UC-9), reactive (post-confirmation),
-  never preventive. Any non-blind channel (e.g. email) would let Legend join the
-  council's identity to the address — prohibited. Constraint is architectural,
-  not a policy decision.
-
-- **Treasury Watch Mode locked** — Legend's second explicitly-invoked mode.
-  `Create a watch →` on standard/Stewardship results; never in Distress Mode.
-  Reuses the verification/batch modal chrome. v1: `Copy watch link`. v2:
-  `Download signed watch attestation` + `Add proof of control` (BIP-322, at
-  watch creation time only). Full anatomy fed to `legend-ui-modes.md`.
-
-- **Watch Recipient View locked** — live variant of the UC-3 Recipient View
-  with institutional register applied. Movement status is the load-bearing
-  element (replaces holding period). First canary summary inside a recipient
-  surface — reuses four-node canary state from the status page; no new machinery
-  beyond the existing `--canary-expired` token. No-alert footer inverts the UC-3
-  honest-scope footer. GBP-first denomination. Three-reads stillness constraint
-  applies. Full anatomy fed to `legend-ui-modes.md`.
-
-- **Four corrections to the prior brief:**
-  1. Canary string "…has not been legally compromised" rejected — overclaims
-     against CLAUDE.md canary honesty note (3-of-4 does not catch single-operator
-     IPA compulsion). Replaced with factual "all four canaries are current" face-line
-     plus honest explainer link.
-  2. "Date of next scheduled check" deleted — Legend schedules nothing in a pull
-     model; implies monitoring Legend does not do.
-  3. "Movement alert" (v1 language) → "movement status" — `alert` reserved
-     strictly for v3 push notification.
-  4. "Automated movement alerts" moved v2 → v3; "session-based/persistent"
-     reframed — nothing persists on Legend; durability is in the link, not
-     the server.
-
-- **Canonical v2 artefact now shared across FOUR consumers — UC-2/UC-3/UC-4/UC-9.**
-  Watch attestation variant adds `watch created at block [height]` line. Single
-  locked field format; changes checked against all four.
-
-- **UC-9 Elena dependency confirmed.** Watch Recipient View + Treasury Watch Mode
-  are the upstream components Elena (sovereign treasury officer) reuses. Changes to
-  these surfaces must be checked against the UC-9 Elena track.
-
-- **Institutional register locked (§1) and no-alert honest-scope statement
-  locked (§6).** 15 new locked strings drafted for §8, all fed to
-  `legend-copy-index.md`.
-
-### Files changed
-
-- `legend-use-cases.md` v1.3 → v1.4 (UC-4 full spec replaces brief — applied by hand)
-- `legend-ui-modes.md` (new in restructure — Treasury Watch Mode + Watch Recipient View sections)
-- `legend-copy-index.md` (new in restructure — UC-2 + UC-3 + UC-4 additions: institutional register §1, denomination defaults §4, no-alert statement §6, all outstanding locked strings §8)
-- `legend-scope.md` v1.4 → v1.7 (UC-2 + UC-3 + UC-4 additions: watch version rows, four-consumer artefact note, v3 blind-channel constraint, version summary rows)
-- `SESSIONS.md` (this entry)
-
-### Carry-forward
-
-- **UC-5 + UC-6 Opus next** (paired) — Florentine District + Hanseatic Federation.
-  Both civic/institutional, both article candidates, both use the "absence is
-  correct" display pattern. UC-4's Watch Recipient View may inform the civic
-  treasury public view — check for surface reuse before speccing a new mode.
-- **Canonical v2 artefact — four consumers (UC-2/UC-3/UC-4/UC-9).** Single locked
-  spec; any change checked against all four.
-- **v3 alerting is a locked architectural constraint** — blind-channel (Pass)
-  delivery only; cross-reference UC-9 Pass Access-class credential (NUT-12 DLEQ;
-  no redemption-linkable address binding). Not to be re-derived.
-- **Canary summary now appears in a recipient surface** — Watch Recipient View
-  canary line must draw from the same four-node canary state as the status page.
-  Flag for Legend-6+ build: one canary state source, two surfaces.
-- **Build recommendation stands** — run remaining UC sessions in parallel with
-  Legend-6 build; UC-4 does not block Phase 1 build work.
-- **All prior carry-forwards remain open** — Legend-6 build; Opus-C solicitor (IPA + insolvency); FROST ceremony; provider quotes; two-operator milestone; stale figures in `legend-economics.md`, `legend-enterprise-pricing.md`, `legend-node-plan.md` header.
-
----
-
-## Session UC-3 Opus · 23 Aug 2026
-
-**Phase:** Use case scoping — UC-3 The Bitcoin-Backed Loan
-**Status:** Complete. Shared-artefact commissioning distinction locked. Verification Mode and Lender/Recipient View locked. Verification/disclosure register locked. 17 new locked strings. One substantive version change (proof-of-control → v2).
-
-### Completed
-
-- **Shared v2 artefact confirmed and commissioning distinction locked.** UC-2 estate
-  and UC-3 loan consume one canonical Merkle-anchored, FROST-signed verified-holdings
-  statement. Estate = verifier-commissioned, no proof-of-control (subject absent).
-  Loan = subject-commissioned, proof-of-control attached (subject present). Format
-  identical. Same substrate also underlies UC-9's Chain Trace Report. Its field format
-  is a single locked spec; changes must be checked against all three consumers (UC-2,
-  UC-3, UC-9).
-
-- **Verification Mode locked** — Legend's first explicitly-invoked mode (vs inferred
-  Distress/Stewardship). Triggered by `Create a verification →` on standard and
-  Stewardship results; never in Distress Mode. Generation modal reuses batch-modal
-  chrome. v1 action: `Copy shareable link` (URL fragment only). v2 actions:
-  `Download signed verification` + `Add proof of control`.
-
-- **v1 share-link mechanism locked** — address + reference block in URL fragment
-  only; never sent to server; no server-side record; recipient's browser runs
-  in-browser cross-node SPV to verify. Log-free and storage-free, consistent with
-  the no-logs guarantee.
-
-- **Recipient View / Lender View locked** — read-only, chrome-less surface a share
-  link opens into. Stripped of all Legend nav, query box, onboarding, chrome. Keeps:
-  wordmark, verified data, holding-period statement (prominent, front and centre),
-  verification anchor, proof-of-control state, independent-verification affordance,
-  per-address table (full untruncated), honest-scope footer. Three-reads stillness
-  constraint applies. GBP-first. Full anatomy fed to `legend-ui-modes.md`.
-
-- **Verification/disclosure register locked** — sibling to bereavement/stewardship
-  registers; governs the one moment Legend helps a user disclose, not conceal.
-  Inverted failure mode (letting a user believe a chosen disclosure is still private)
-  is what the copy guards against. Register anchor string 18 in §8 and §6 statement.
-
-- **Contextual denomination rule extended** — Recipient / Verification context =
-  GBP-first (professional counterparty). Unifying principle stated: denomination
-  follows the reader's relationship to the holding (owner→sats; non-owner→fiat).
-
-- **Proof-of-control moved to v2.** BIP-322 signed-message verification; Legend
-  never handles keys. BIP-322 only — BIP-137 (legacy, P2WPKH-only, not Taproot-
-  compatible, not multi-sig-compatible) never used for this purpose.
-
-- **Sales argument sequencing locked.** v1 and v2 stated plainly to prospects as
-  current capability. v3 address-hiding ZK proof (prove threshold balance without
-  revealing address) offered as explicit roadmap only — never implied as current.
-  The privacy gradient across three versions is itself the sales argument for v3.
-
-- **17 new locked strings drafted** for `legend-copy-index.md` §8.
-
-### Files changed
-
-- `legend-use-cases.md` v1.2 → v1.3 (UC-3 full spec replaces brief)
-- `legend-ui-modes.md` (new in restructure — Verification Mode + Recipient/Lender View sections)
-- `legend-copy-index.md` (new in restructure — verification/disclosure register + §6 statement + 17 strings + denomination rule extension)
-- `legend-scope.md` v1.5 → v1.6 (proof-of-control v2 line + BIP-322 note + version-summary rows)
-- `SESSIONS.md` (this entry)
-
-### Carry-forward
-
-- **UC-4 Opus next** — The Council and the Whale. ✅ Complete · 25 Aug 2026
-- **Canonical v2 artefact field format now shared across UC-2 / UC-3 / UC-9** —
-  treat as a single locked spec; changes must be checked against all three consumers.
-  (Updated to four consumers at UC-4.)
-- **Build recommendation** — start Legend-6 Eleventy shell build session now; run
-  remaining UC sessions (UC-4 through UC-9) in parallel with build sessions.
-- **BIP-322 implementation note** — multisig proof-of-control signing quorum UX
-  deferred to a v2 build session; not a lock.
-- **Article 23** — `/legend/verify` + lending use case; UC-3 is its upstream.
-  Draft at v3 approach.
-- **All prior carry-forwards remain open** — Legend-6 build; Opus-C solicitor; FROST ceremony; provider quotes; two-operator milestone; stale figures in `legend-economics.md` and `legend-enterprise-pricing.md`.
+- **UC-5 + UC-6 Opus next** — paired session, Florentine District + Hanseatic Federation. Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-copy-index.md`. ✅ Complete · 26 Aug 2026
 
 ---
 
 ## Session queue
 
-### Next: UC-5 + UC-6 (Opus, paired) — The Florentine District + The Hanseatic Federation
-
-Two scenarios, thematically paired — both civic/institutional, both article candidates,
-both use the "absence is correct" display pattern.
-Outputs: civic treasury UI mode spec, federation settlement UI mode spec,
-two article outlines ("The Florentine Protocol", "The Hanseatic Protocol").
-Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md` + `legend-copy-index.md`
-
-### UC-7 (Opus) — The Block War
-
-Single scenario. Fee spike, global south, nation-state mempool attack.
-Human cost calculator, historical fee context layer, Lightning correlation panel.
-Article outline: "Who Gets Priced Out."
-Load: `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md`
-
-### UC-8 (Opus) — The UTXO Lottery
+### Next: UC-8 (Opus) — The UTXO Lottery
 
 Single scenario + cryptographic design session. Merkle lineage proof, block hash
 entropy, deterministic winner function. Stress-test miner manipulation economics.
