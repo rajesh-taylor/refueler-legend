@@ -1,5 +1,5 @@
 # legend-scope.md — refueler-legend
-> **Version:** 1.8 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Multi-[n] restructure · 25 Aug 2026
+> **Version:** 1.9 | **Created:** Multi-5 · 3 Aug 2026 | **Updated:** Multi-15 · 26 Aug 2026
 > Locked product scope document for Legend. Defines what is in scope, out of scope,
 > and deferred by version (v1, v2, v3) across chains, protocols, query types,
 > privacy primitives, and professional use cases.
@@ -71,6 +71,13 @@ With the tweak index:
 
 The tweak index build must be complete before Silent Payments is declared v1-ready. Bounded-range scans (user specifies start block) are the default UX; full-range scan is available but documented as compute-intensive.
 
+### Fee-rate history index — v1 build requirement
+
+**Precomputed 12-month per-block fee-rate history index is a prerequisite for the Fee Context Layer, not an optimisation.**
+The percentile sentence ("higher than [P]% of days in the past 12 months") and the comparable-spike history require a complete 12-month per-block fee-rate record indexed at ingestion. Without it, no honest percentile figure can be stated and the Fee Context Layer cannot ship.
+
+Analogous in architecture to the SP tweak index: precomputed at block ingestion, shared across sessions, no per-query computation required once built.
+
 ### Query types in scope (v1)
 
 - Bitcoin address → UTXOs, balance, transaction history
@@ -85,7 +92,6 @@ The tweak index build must be complete before Silent Payments is declared v1-rea
 - xpub / HD wallet scanning — deferred (significant privacy complexity)
 - Lightning node pubkey → channel history — deferred to Phase 4
 - Liquid confidential transaction queries — deferred to Phase 4
-- Mempool fee estimation (full) — basic fee rate display only in v1
 
 ### Privacy architecture in scope (v1)
 
@@ -172,13 +178,37 @@ Single informational flag when an address has 5+ UTXOs:
 `Consolidating these UTXOs will permanently record co-ownership on-chain.`
 Plain statement. No score. No recommendation. Honest scope — the flag is qualitative in v1.
 
+**Fee Context Layer (locked UC-7 Opus):**
+A conditional display layer that activates when the current fee rate exceeds the 90th
+percentile of the trailing-12-month daily-median fee rate. Not a mode — a network-state-
+triggered layer. Architectural sibling to the degraded-privacy banner (N-1/N-2), not
+to the Recipient-View family.
+
+Two fidelities:
+- *Network-context* (no address queried): percentile sentence + comparable-spike duration
+  history. Text only. No chart.
+- *Personalised* (address queried): adds the human-cost calculator and per-UTXO economic-
+  dust flags, computed in-browser against the already-returned UTXO set. No additional
+  server query required; no address leaves the browser.
+
+The layer obeys the active register. Distress/Affordability: personal-cost first, network
+context secondary. Stewardship: sats, network-first, calm. Standard: network-first.
+Network-cost figures are USD-first (fifth contextual denomination rule, locked UC-7 Opus).
+
+**Wallet-line boundary:** Legend computes the cost of a hypothetical consolidation from
+the user's own returned UTXO set and script types, under a stated assumption (one output,
+current script types). It never constructs, signs, or broadcasts a transaction. Pricing
+a hypothetical is not wallet behaviour.
+
 **Denomination toggle:**
 Sats / BTC / USD (at time of transaction) / GBP (at time of transaction). Session-persisted.
-Resets on new session. No localStorage. GBP added UC-2 Opus. Denomination defaults vary by mode
-— see `legend-copy-index.md` §8.
+Resets on new session. No localStorage. GBP added UC-2 Opus. Denomination defaults vary by
+context — see `legend-copy-index.md` §8. Fifth contextual rule (network-cost = USD-first)
+locked UC-7 Opus.
 
-**UI modes (locked UC-1/UC-2/UC-3/UC-4/UC-5/UC-6 Opus):**
-Distress Mode (mobile, first query, single address) — inferred, never named.
+**UI modes and layers (locked UC-1/UC-2/UC-3/UC-4/UC-5/UC-6/UC-7 Opus):**
+Distress Mode (mobile, first query, single address) — inferred, never named. Two registers:
+  bereavement (UC-1) and affordability (UC-7). Distress Mode is not inherently bereavement.
 Stewardship Mode (desktop, 1–2 addresses, no outbound activity) — inferred, never named.
 Verification Mode (explicitly invoked via `Create a verification →` on standard/Stewardship
 results) — Legend's first explicitly-invoked mode.
@@ -190,6 +220,8 @@ mode at v2. Specifies the parked public-body transparency module.
 Federation Settlement View (v1: settlement-pattern display enhancement on standard result +
 declared read surface reusing Civic Treasury View; v2: Fedimint-attestation rendering).
 No new explicitly-invoked mode — variant of Civic Treasury View.
+Fee Context Layer (UC-7) — conditional display layer, network-state-triggered. Not a mode.
+Sibling to the N-1/N-2 degraded-mode banner in trigger architecture.
 
 **Legacy print layout (locked UC-2 Opus):**
 `@media print` stylesheet. Paper theme only on print. Full untruncated addresses.
@@ -216,6 +248,7 @@ canary summary line, no-alert honest-scope footer.
 - Formal estate/solicitor verification endpoint (`/legend/verify`) — v3 or beyond
 - Bitcoin-backed lending formal integrations (Ledn, Unchained, Lava) — v3 or beyond
 - Movement alerting (watch push notification) — v3 only, blind channel, see below
+- Mempool-anomaly cause detection (attack attribution heuristics) — v3; descriptive anomaly only, never causal accusation
 
 ### What ships at v1 launch alongside the explorer
 
@@ -227,6 +260,7 @@ canary summary line, no-alert honest-scope footer.
 - Distress Mode, Stewardship Mode
 - Verification Mode + Recipient/Lender View
 - Treasury Watch Mode + Watch Recipient View
+- Fee Context Layer (network-context + personalised fidelities)
 - Credential status icon (confirms: private queries active)
 - Paper/Carbon theme toggle (rs-theme cookie)
 - Open source repo with MIT licence
@@ -297,6 +331,16 @@ Query input: mint public key + block height. Output: channel open/close history,
 reserve consistency check. Does not query token state — mint blindness is preserved.
 The mint does not know it was checked.
 
+**UTXO consolidation cost projection (v2 — UC-7):**
+Extends the v1 Fee Context Layer's in-browser consolidation estimate with a fuller
+projection tool: per-UTXO spending cost at multiple fee levels, break-even analysis,
+historical fee context. Not a wallet; no transaction construction.
+
+**Lightning "you may have off-chain options" framing (v2 — UC-7):**
+Where the v1 Fee Context Layer shows a factual Lightning channel-activity note, v2
+adds a brief framing for users who may have Lightning-capable options available,
+with honest scope (Legend cannot tell whether Lightning channels are currently funded).
+
 **Public-body transparency module (v2 — specified as Civic Treasury Mode, UC-5 Opus · Multi-14):**
 A publicly-funded body or civic institution uses Legend to publish declared Bitcoin
 holdings and transaction history to the public. Scoping session requirement met:
@@ -352,6 +396,13 @@ mandatory. No redemption-linkable address binding.
 Council + developer + solicitor multi-party watch. Requires two-operator milestone
 and v3 credential architecture. Part of the council API tier.
 
+**Mempool-anomaly heuristics (v3 — UC-7):**
+Descriptive anomaly detection only. Legend may flag that a fee event is statistically
+anomalous against a multi-year baseline. It never asserts cause (nation-state actor,
+miner coordination) from chain data alone. Named-event historical comparison (e.g.
+"comparable to the [period] congestion event") ships at v3 once a verified historical
+index justifies the comparison.
+
 **Academic and regulatory contribution:**
 External cryptographic audit of PIR and ZK implementations. Co-authored academic
 paper on privacy-preserving chain analytics. Engagement with regulatory working
@@ -373,6 +424,7 @@ These are never in scope. Not deferred. Not reconsidered without a full session.
 | Advertising or data monetisation | Legend's business model is Enterprise contracts. Not data. Not advertising. The data is not ours to monetise — structurally impossible by design. |
 | Account creation for free tier | No account. No email. No identity. Free tier is anonymous by default. This is the only honest position for a privacy product. |
 | Claiming "anonymous" for Lightning payments | Lightning payments are pseudonymous. Blink internal correlation possible. Documented honestly. Never claimed as anonymous. |
+| Fee-spike cause attribution | Never assert "nation-state attack" or "miner coordination" from on-chain data. Descriptive anomaly heuristics at v3 only, stated as such. |
 
 ---
 
@@ -416,13 +468,15 @@ If 1 is no, or if 2–4 are yes: the answer is no. Bring it to a planning sessio
 | Merkle proof | Cross-node SPV v1 | Export artefact (4 consumers: UC-2/3/4/9) | Estate PI methodology |
 | Script rendering | Type label only | Plain-language quorum | — |
 | SP tweak index | Build prerequisite (v1) | — | — |
-| Distress Mode | Yes | Yes | Yes |
+| Fee-rate history index (12-mo per-block) | **Build prerequisite (v1)** — Fee Context Layer percentile claim requires it | — | — |
+| Distress Mode | Yes (two registers: bereavement + affordability) | Yes | Yes |
 | Stewardship Mode + Legacy print | Yes | Yes | Yes |
 | Verification Mode + Recipient View | Yes | + Signed artefact + BIP-322 control | + ZK address-hiding |
 | Treasury Watch Mode + Watch Recipient View | Yes (live link, canary summary, no-alert footer) | + Signed watch attestation + BIP-322 control | + Blind-channel alerting (Pass) + Council API + Multi-signatory watch |
 | Civic Treasury View (UC-5) | Read surface: aggregate display, SP-integrity, declared-not-exhaustive footer, live anchor, canary | Civic Treasury Mode (publication flow, = public-body module) + monthly export; ⚠ optional signed civic attestation parked (would be 5th artefact consumer — field-format check required) | Multi-signatory treasury (council + auditor) + ZK aggregate proofs |
 | Federation Settlement View (UC-6) | Settlement-pattern enhancement (descriptive, undeclared) + conditional absence note + declared federation read surface (reuses Civic Treasury View) | Declared Fedimint-attestation rendering + weekly export (reuses UC-5 flow) | Multi-federation aggregation — declared/attested provenance only, never inferred |
-| Denomination toggle | Sats / BTC / USD / GBP (contextual defaults: sats · GBP · GBP · GBP · BTC by mode — see `legend-ux-language.md` §4) | — | — |
+| Fee Context Layer (UC-7) | Network-context (percentile + comparable-spike history, text only) + personalised human-cost calculator (in-browser, economic-dust per-UTXO, USD-cost) | UTXO consolidation cost projection; Lightning "you may have off-chain options" framing | Descriptive mempool-anomaly heuristics (never causal); named-event historical comparison |
+| Denomination toggle | Sats / BTC / USD / GBP (contextual defaults: sats · GBP-holdings · USD-cost · GBP · GBP · BTC by mode/context — see `legend-ux-language.md` §4) | — | — |
 | Proof of control | — | BIP-322, UC-3 and UC-4 | — |
 
 ---
