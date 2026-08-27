@@ -1,5 +1,5 @@
 # legend-copy-index.md — refueler-legend
-> **Version:** 1.0 | **Created:** Multi-[n] restructure · 25 Aug 2026
+> **Version:** 1.1 | **Created:** Multi-[n] restructure · 25 Aug 2026 | **Updated:** Multi-15 · 26 Aug 2026
 > **Extracted from:** `legend-ux-language.md` v1.3 (Sections 6–8)
 > Honest-scope statements, degraded mode notices, and the locked copy index.
 > Load in any session producing new locked strings or patching §8.
@@ -64,6 +64,14 @@ This appears as the declared-not-exhaustive footer on the Civic Treasury View an
 
 This is the user-facing counterpart to the provenance-agnosticism rule in `legend-ux-language.md` §1. It appears in the privacy explainer modal section covering settlement-pattern display, if queried.
 
+### Fee context — no forecast, no diagnosis (locked UC-7 Opus)
+
+`Legend does not predict how long this will last or whether it is an attack. It shows what the chain records: how high the fee rate is now, and how long comparable spikes lasted before.`
+
+`Waiting may cost less if the fee rate falls. It may cost more if it rises. Legend does not predict which, and does not advise you either way.`
+
+This appears in the Fee Context Layer below the comparable-spike history. It is the temporal counterpart to the provenance-agnosticism honest-scope statement: cause and future state are both beyond what the chain can establish. The copy refuses both. Non-dismissible while the Fee Context Layer is active.
+
 ### UK operator caveat (user-facing register)
 
 `All five Legend nodes are operated by one person in London. The UK Investigatory Powers Act 2016 permits compelled disclosure and non-disclosure orders served on the operator personally, regardless of where the hardware is located.`
@@ -106,14 +114,16 @@ The status page URL is not embedded in the banner. If the user wants the status 
 
 Every finalised string in this document with its location. Build sessions pull from this table. If a string is not here, it is not finalised.
 
-**Denomination rule (extended UC-3 Opus · 23 Aug 2026 · further extended UC-5 Opus · 26 Aug 2026):**
+**Denomination rule (extended UC-3 Opus · 23 Aug 2026 · extended UC-5 Opus · 26 Aug 2026 · extended UC-7 Opus · 26 Aug 2026):**
 Denomination hierarchy is contextual. Stewardship Mode: sats-first (returning owner).
-Distress Mode: GBP-first (frightened newcomer). Recipient / Verification context:
-GBP-first (professional counterparty). Watch Recipient View: GBP-first (institutional
+Distress Mode holdings: GBP-first (bereavement register / UK user). Distress Mode
+network-cost figures: USD-first — a fee is a cost not a holding; USD is the global
+network-cost reference (fifth contextual rule, locked UC-7 Opus). Recipient / Verification
+context: GBP-first (professional counterparty). Watch Recipient View: GBP-first (institutional
 counterparty). Civic Treasury View / Federation Settlement View: BTC-first (declared
 institutional reserve — fourth contextual rule; extends rather than contradicts the
 unifying principle). Unifying principle: denomination follows the reader's relationship
-to the holding, not a user setting. All are correct in their context.
+to the holding or cost, not a user setting. All are correct in their context.
 
 | String | Surface | Element | Section |
 |---|---|---|---|
@@ -227,6 +237,16 @@ to the holding, not a user setting. All are correct in their context.
 | `Published by [declared name]. Legend verifies the settlements on-chain, not the federation behind them.` | Federation Settlement View | Publisher context | UC-6 |
 | `This address records a regular settlement: most recently [amount] on [date] · block [height].` | Federation Settlement View | Load-bearing (cadence, declared) | UC-6 |
 | `The individual payments inside each settlement are handled by the federation off-chain and are not visible here. That is how the federation works — it is not missing data.` | Federation Settlement View | Absence note (declared) | UC-6 |
+| `Fee rates are unusually high right now — higher than [P]% of days in the past 12 months.` | Fee Context Layer | Collapsed summary / network-context primary line | UC-7 |
+| `Current fee rate: [R] sat/vB · 30-day median: [M] sat/vB.` | Fee Context Layer | Factual anchor (IBM Plex Mono) | UC-7 |
+| `Comparable spikes in the past 12 months lasted between [min] and [max] hours. This is history, not a forecast — Legend cannot predict how long this one will last.` | Fee Context Layer | Comparable-spike history + non-forecast statement | UC-7 |
+| `Moving these funds now costs about [F] sats (about $[X] USD) at the current fee rate — roughly [pct]% of what they are worth.` | Fee Context Layer | Human-cost calculator primary (personalised, Distress/Affordability register) | UC-7 |
+| `Estimated for consolidating your [N] outputs into one, at current script types.` | Fee Context Layer | Calculator assumption disclosure (tertiary) | UC-7 |
+| `This buys a place in the queue to confirm within about [target]. During a fee spike, confirmation is not guaranteed at any fee rate.` | Fee Context Layer | Confirmation-target honesty | UC-7 |
+| `At the current fee rate, spending this output would cost more in fees than it holds.` | Result | Economic-dust flag (per-UTXO, tertiary, below UTXO table) | UC-7 |
+| `Waiting may cost less if the fee rate falls. It may cost more if it rises. Legend does not predict which, and does not advise you either way.` | Fee Context Layer | Wait-or-act honest pair | UC-7 |
+| `Legend does not predict how long this will last or whether it is an attack. It shows what the chain records: how high the fee rate is now, and how long comparable spikes lasted before.` | Fee Context Layer | Non-forecast / no-diagnosis honest-scope statement | UC-7 |
+| `This address has appeared in Lightning channel transactions on-chain.` | Fee Context Layer | Lightning on-chain note (conditional, v1) | UC-7 |
 
 ---
 
