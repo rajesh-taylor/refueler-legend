@@ -3,6 +3,62 @@
 *Session naming: Multi-[n] for planning. Legend-[n] for build. UC-[n] Opus for use-case scoping.*
 
 ---
+## Session Multi-16 · 27 Aug 2026
+
+**Phase:** Use case scoping — UC-8 The UTXO Lottery (Opus session) → immediate retirement
+**Status:** Complete. UC-8 retired. No files added. Three files patched.
+
+### Key decisions
+
+- **UC-8 retired in session.** The UTXO Lottery use case was scoped and retired on the
+  same call. Two grounds: (1) outside Legend's mission scope — a lottery-verification
+  surface muddies the "privacy-first block explorer for Bitcoin owners" positioning and
+  is inconsistent with the product's identity; (2) the surface could not ship without a
+  UK Gambling Act 2005 solicitor gate, which confirms it belongs elsewhere.
+
+- **Cryptographic kernel noted, not lost.** Block-hash entropy as a manipulable-but-bounded
+  beacon; value-weighted (per-sat) Sybil-resistant eligibility; forward-from-declared-receipt
+  lineage. These may surface in a CryptoRoadmap session or Article 15 as primitive discussions,
+  not product features.
+
+- **Article UC-8 retired.** No slug. No draft. No carry-forward.
+
+- **Whirlpool figure remained unconfirmed.** 5,651 BTC / 86,844 UTXOs not verified. Left
+  out of all output. Coordinator seized April 2024 — "legacy set" not "capacity" is the
+  correct framing if the figure ever surfaces elsewhere.
+
+- **UC-9 parked, not cancelled.** Fully scoped (UC-9 Opus · 23 Aug 2026). Awaiting FROST
+  ceremony — which itself awaits provider confirmation and the two-operator milestone. No
+  timeline pressure; the spec is complete and will hold.
+
+- **Recipient-View family confirmed at four members.** No fifth member added. Lender View ·
+  Watch Recipient View · Civic Treasury View · Federation Settlement View.
+
+### Files changed
+
+- `legend-use-cases-2.md` — UC-8 scenario block replaced with retirement notice
+- `legend-articles-list.md` — UC-8 article entry replaced with retirement notice; publishing-sequence row struck; closing note updated
+- `SESSIONS.md` — this entry
+
+### Carry-forward
+
+- **UC-9 parked pending FROST ceremony.** Load `CLAUDE.md` + `SESSIONS.md` + `legend-use-cases-2.md`
+  when FROST ceremony is complete and the two-operator milestone is approaching.
+- **All prior carry-forwards remain open:** Legend-6 build; Opus-C solicitor (IPA 2016 + insolvency
+  — gambling-law question now moot); FROST ceremony (after provider quotes + provider selection
+  finalised); two-operator milestone; stale figures in `legend-economics.md`,
+  `legend-enterprise-pricing.md`, `legend-node-plan.md` header; Share × Legend v2 planning session;
+  ⚠ fifth-consumer flag on optional signed civic attestation (parked v2 decision, UC-5).
+- **Recipient-View family — four consumers.** Substrate changes check against all four.
+- **Fee Context Layer = conditional display layer class.** Future network-state features
+  check against this class before speccing as a mode.
+- **Denomination rule: five contextual rules.** Any new denomination default checks against
+  all five before a sixth is added.
+- **Provenance-agnosticism rule now has a temporal dimension** — UC-7 extension. Covers
+  fee history, settlement cadence, and any future historical-pattern display.
+- **Pending file fixes still open** — see userMemories for full list.
+
+---
 
 ## Session Multi-15 · 26 Aug 2026
 
