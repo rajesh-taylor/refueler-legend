@@ -1,5 +1,5 @@
 # REFUELER-BRIDGE.md — Refueler cross-project context
-> **Version:** 9.4 | **Created:** 28 July 2026 | **Updated:** B9-Opus · 2026-09-12
+> **Version:** 9.6 | **Created:** 28 July 2026 | **Updated:** Share-6-Opus · 2026-09-16
 > Lives in `refueler-share/` (root), `refueler-io/docs/`, `refueler-legend/` (root), `refueler-pass/` (root), and `numo-fork/` (root).
 > This file is the handshake between Projects — not a substitute for repo-specific context files.
 > Higher MasterContext version number always wins on divergence.
@@ -792,5 +792,33 @@ Sells short-lived WireGuard VPN access for Cashu ecash. Architecturally relevant
 **Not an integration target for Share.** Running Refueler-operated exit infrastructure moves the IP trust problem rather than solving it — Hetzner box would see user real IP AND Share traffic pattern. This is strictly worse than the current model. Correct recommendation remains: Mullvad (multi-hop) in B9 whitepaper. Share users tunnel their own VPN before hitting Share.
 
 **robwoodgate** is the author of PR #371, #421, cashu-vpn, and multiple CDK PRs. South-east England based. The most active contributor to Cashu's cryptographic layer currently. Worth cultivating as an ecosystem contact — potential whitepaper reviewer, Pass architecture feedback, btc++ Berlin.
+
+## B8-Opus decisions — locked 13 Sep 2026
+
+**Full spec: `B8-spec-v1.md` (refueler-share repo root). Cross-product summary retained here; §Locke above is superseded by that file.**
+
+**NUT-11 Mode 2 = keypair-binding (the Locke).** "Only the holder of key K can spend." Shared primitive: Share (upload-credential binding; later receiver-bound Silent Drop collection) + Pass (Harbourmaster login, SD3). Locked once here for both.
+
+- **Deed → Locke: HKDF, not BIP-32.** `HKDF-SHA256(ikm=BIP39_seed, salt="refueler.locke.v1", info="locke_keypair")` → reduce/reject-sample to `1 ≤ d < n`. Consistent with the Deed→HKDF MMR-key pattern (B9-Opus). Auth key, not a spending key.
+- **Worker verify: sig → BDHKE → double-spend.** Both local checks before the Supabase atomic INSERT (spend commit always last). Schnorr BIP-340, x-only key from the 33-byte P2PK `data`; witness `{signatures:[…]}` verbatim; NUT-11 message preimage pinned against cashu-ts/nutshell vectors at B8-1.
+- **§Locke precision refinement (honest storage).** secp256k1 does **not** live in the Apple Secure Enclave (SE is P-256-only). Locke keys: native → Keychain/Keystore (biometric-gated); browser → WebAuthn-PRF-wrapped in IndexedDB, plaintext in memory only; MCP → agent process memory. Never browser plaintext.
+- **Compulsion surface (honest).** Removal from the KV pubkey set = the real surface. Injection is technically possible (Worker holds the KV) but useless (can't decrypt fragment-keyed cargo, can't impersonate, visible in the device list). Do not claim "cannot inject."
+- **`hashSecret()` (Mode 1, bare SHA-256) unchanged and independent.** Mode 1 (manifest) and Mode 2 (proof) coexist; different objects, different checks. MCP adds `deriveLockeFromDeed`/`signCredential`/`verifyCredential` — `hashSecret()` untouched.
+- **CDK pin: stay 0.17.2.** Worker hand-rolls BDHKE; does not import CDK. Review when 0.18+ ships a feature we consume.
+- **Build locus: direct in refueler-share** (B9-style). `refueler-ecash-lab` Mode 2 flag **retired**; lab reserved for ML-KEM (B10).
+- **NUT-22 boundary (restated).** NUT-22 (membership-anonymity, B10) ≠ Mode 2 (keypair-binding, B8) ≠ nutroot v3 (B12+). Orthogonal. Never conflate.
+- **Pass/SD3:** this spec is SD3's sign-off. SD3 consumes §4 (Locke lifecycle) verbatim; any change to the Locke construction re-opens B8-spec-v1.md, not an SD session.
+
+## Share-6-Opus decisions — locked 16 Sep 2026
+
+**Full spec: `Share-6-spec-v1.md` (refueler-share repo root). Cross-product summary retained here.**
+
+**Large uploads move off the Worker edge to R2 direct** — browser encrypts each 32 MiB chunk and PUTs it to a presigned S3 `PutObject` URL (`{uuid}/{iiii}`); the Worker only `initiate`s (Cashu verify+spend, size-cap guard on `resolvedTier`, mint URLs) and `finalise`s (write `merkle_root` + `{uuid}/hashes` sidecar). Removes SHARE-503 (CF-for-SaaS 503 under chunk burst) and the in-RAM `NotReadableError`.
+
+- **Per-object PUT, not S3 multipart.** `CompleteMultipartUpload` → one object, breaking the `{uuid}/{iiii}` per-chunk Merkle leaf (`merkle-spec-v1.md` §1) and the B9-3 download path. Per-object PUT preserves both.
+- **Integrity shift:** Worker upload-time verify is structurally lost (never sees parts); integrity moves entirely to download-time (B9-3). Block front-loads B9-1/B9-2/B9-3; **B9 build resumes at B9-4.** Consumer cutover gated on Share-6-5 green.
+- **No privacy/confidentiality change** for any product: AES in-browser pre-flight, key in fragment only, filename never at Worker, R2 holds keyless ciphertext.
+- **Cross-product:** the `initiate`/`finalise` contract is the surface the **Chartered MCP** adopts for large transfers later (aggregate-quota clients debit the credit pool at initiate); front-loading B9-1…3 also unblocks **B9-5 MMR** (the Legend/Pass collaboration primitive) sooner. Nutroot / NUT-22 / Silent Drop unaffected and out of scope — their boundaries (B8-spec, merkle-spec, PR #421) stand.
+- **CDK pin unchanged (0.17.2).** Presigning is SigV4 maths (aws4fetch, in-Worker); no CDK, no Amazon, no new recurring cost (R2 per-op pennies, zero egress).
 
 *"Nothing stops this train."*
