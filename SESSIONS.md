@@ -3,6 +3,36 @@
 *Session naming: Multi-[n] for planning. Legend-[n] for build. UC-[n] Opus for use-case scoping.*
 
 ---
+## Cross-repo note · 26 Sep 2026 — lessons from Share-Cred-Opus-1 (no Legend code or spec changed)
+
+**Source:** refueler-share security week (Share-Cred-Opus-1, 25–26 Sep 2026). Read-only review of this repo's `CLAUDE.md`, `legend-threat-model.md` and `legend-design-spec.md`.
+
+### Credential lessons (Legend uses "the same blind-signature infrastructure as Share")
+
+1. **Verify the blind signature for real.** Share's credential check turned out to be structural only (point-on-curve + public key match; `k·hash_to_curve(secret) == C` never checked). Legend must send the standard Cashu proof `{id, secret, C}` and verify it. Use reviewed Cashu code (cashu-ts, or a CDK mint — CDK 0.18.1 implements NUT-07/11/12/20/21/22/25), never hand-rolled BDHKE. Pin against NUT-00 test vectors.
+2. **DLEQ (NUT-12) is an anti-tagging defence and matters more for Legend than for Share.** Legend's mint runs on the same nodes that answer queries. A compelled mint could sign each user under a different key and link their queries. DLEQ lets the browser prove its signature used the one published keyset. Mint uses NUT-12's deterministic nonce (reuse leaks the key). Add to CryptoRoadmap-1.
+3. **Batch size leaks (Adversarial-1 §3.2).** Fix with fixed-size credential bundles pre-fetched ahead of need, not issuance sized to the batch.
+
+### Operators
+
+- Current topology = one operator across five providers. That gives provider/MLAT independence, not operator independence. Adversarial-1's central finding (IPA Part 3 prospective logging; the 3-of-4 canary does not signal single-operator compulsion) is fixed only by **independent operators**.
+- Proposal for the two-operator milestone: independent operators hold **FROST shares**, not just hardware, so a compelled operator's silence becomes visible.
+- Incentive model: flat-fee operator contracts funded by Enterprise revenue (~€135/node/month at the €673 estimate + margin). Per-query payments don't fit — the free tier is locked unlimited.
+- Candidates: privacy-aligned hosts and wallet makers ("your customers' panic checks don't leak through us"). Test at btc++ Berlin, 1–3 Oct.
+
+### Pitch wording (v1-honest)
+
+> "When the next wallet company's customer list leaks, frightened bitcoiners rush to check their balances — and every public explorer they use logs the address and the IP. Legend splits your lookup across servers in five countries, so no single server learns which address you checked. Use Tor and they can't tell who you are either."
+
+"None of them can tell" waits for v2 (OHTTP + PIR). Don't name a wallet vendor with "hack" unless the incident is documented.
+
+### Carry-forward
+
+- **Legend-Claims-1 (new, before Legend-6):** sync `legend-design-spec.md` + `legend-copy-index.md` against `legend-threat-model.md`. The review (26 Sep) found live-copy claims that predate or ignore Adversarial-1: "No logs. No tracking." without the structural qualifier; "cannot be linked across sessions" (IP links them); "PIR progress" and "node 1 of 4…4 of 4" (v1 is a two-node role split, not PIR); no in-product Tor notice; batch flow has no size/timing mitigation; canary section counts are inconsistent (three vs four blocks, per-node blocks vs one threshold signature) and imply single-operator compulsion would show; "queries remaining (free)" contradicts unlimited; fiat-at-time-of-transaction must be priced from node-side data, not a third-party price API (that would leak which transactions you viewed).
+- Credential items 1–3 → CryptoRoadmap-1 + Legend mint design.
+- Independent-operator FROST proposal → two-operator milestone planning.
+
+---
 ## Session Multi-16 · 27 Aug 2026
 
 **Phase:** Use case scoping — UC-8 The UTXO Lottery (Opus session) → immediate retirement
