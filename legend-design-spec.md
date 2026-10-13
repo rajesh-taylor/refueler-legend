@@ -359,7 +359,15 @@ Canonical values sourced from `REFUELER-BRIDGE.md` and `global.css`. `legend.css
 **Suite watchmaker palette (Share Design-Theory-Opus-1 · 13 Oct 2026).** Share and Legend share one aesthetic — calm, considered, understated luxury (reference: JLC Polaris). Full reasoning: `refueler-share/docs/design/share-design-theory-v1.md` §4.5–4.6a.
 - **Decided (Rajesh, 13 Oct):** the one accent stays **gold**, not Polaris coral (coral sits next to the abolished orange). Two colours in the whole suite: gold accent + one amber for attention (`--canary-expired` below becomes the shared `--attention`). No red, no green — faults and done states are said in ink, as this spec already requires.
 - **Proposed, pending Rajesh's section review — not yet applied here:** `--fg-subtle` fails WCAG AA in both themes (Carbon `#6A6560` 3.05 : 1, Paper `#9A9590` 2.30 : 1) → `#8F897F` / `#67625C`; Paper `--canary-expired #B8860B` fails as text (2.53 : 1) → `#805E0A`; Paper gold as text → `#7A5F2E`.
-- **Stale here:** Carbon `--fg #E8E2D8` and `--surface #242424` above differ from `global.css` (`#F5F0E8`, `#26282C`); the canary block below uses `.theme-paper` / `.theme-carbon` classes, but theme detection is `dataset.theme` only. Fix both when the suite token change lands.
+- **Stale here:** Carbon `--fg #E8E2D8` and `--surface #242424` above differ from `global.css` (`#F5F0E8`, `#26282C`); the canary block below uses `.theme-paper` / `.theme-carbon` classes, but theme detection is `dataset.theme` only. **Decided (Rajesh, 13 Oct): fix both in one refueler-legend session when the suite contrast fix lands** — not before.
+
+**Suite motion, components, stage chip (Share Design-Theory-Opus-2 · 13 Oct 2026 — proposals; nothing in this spec changed yet).** Full text: `refueler-share/docs/design/share-design-theory-v1.md` §7–§12; each section ends with a "Legend:" paragraph.
+- **Motion (§7):** suite vocabulary = arrive, settle, fade the changed figure, press; one easing. It is a ceiling — **Legend's stricter rules stand** (no animation on result arrival, no pulse, PIR "text updates only", stewardship stillness). Legend uses press and the 0.35 s theme turn only.
+- **Haptics (§8):** none in Legend.
+- **Components (§9):** Legend never truncates an address or TXID (the link-box style without the two-line clamp); results are a ledger on the page, not a slip; short explainers could become in-place disclosures instead of modals — for a Legend design session.
+- **Stage chip (§10):** the same ink-and-hairline chip beside "Legend" when Legend has a public build. Never a coloured badge.
+- **Account indicator (§11) — open for a Legend design session:** the gold credential-status circle (§Credential status icon, filled / outlined) carries state in colour and shape; the proposal is the suite's header text slot instead (e.g. `Private queries` as a text link to the credential modal).
+- **A/B (§12):** only the graded dial and a date-window framing of a figure apply to Legend; stewardship stillness outranks any variant.
 
 **Typography:**
 - `--heading: 'Satoshi', 'DM Sans', sans-serif` — wordmark, product name, key labels (700)
